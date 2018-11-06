@@ -1,0 +1,141 @@
+
+\section{Theory of Heavy Tailed Self Regularization}
+\label{sxn:theory}
+
+
+Let us write the Energy Landscape (or optimization function) for a typical DNN with $L$ layers, with activation functions $h_{l}(\cdot)$, and with weight matrices and b
+iases $\mathbf{W}_{l}$ and $\mathbf{b}_{l}$, as follows:
+\begin{equation}
+E_{DNN}=h_{L}(\mathbf{W}_{L}\times h_{L-1}(\mathbf{W}_{L-1}\times h_{L-2}(\cdots)+\mathbf{b}_{L-1})+\mathbf{b}_{L})  .
+\label{eqn:dnn_energy}
+\end{equation}
+%WLOG,
+We imagine training this model on some labeled data $\{d_{i},y_{i}\}\in\mathcal{D}$, using Backprop, by minimizing the loss $\mathcal{L}$
+For simplicity, we do not indicate the structural details of the layers (e.g., Dense or not, Convolutions or not, Residual/Skip Connections, etc.). 
+Each layer is defined by one or more weight matrices $\mathbf{W}_{L}$, or tensors.
+
+In this study, we only need to  consider Linear and 2D Convolutional (Conv2D) layers. 
+For the Linear layers, each $\mathbf{W}_{L}$ is a single $(N\times M)$ (real valued) 2D matrix, where $N\ge M$.
+These include Dense or Fully Connected (FC) layers, as well as 1D Convolutional (Conv1D) layers, Attention matrices, etc.
+For the Conv2D layers, with a $c\times d$ kernel, $\mathbf{W}_{L}$ is a 4-index Tensor, of the form $(N\times M \times c\times d)$, consisting
+of $c\times d$ 2D feature maps of shape $(N\times M)$.   So each Linear layer $l$ gives $n=1$ 2D matrix $\mathbf{W}_{l}$, and each Conv2D layer $l$ gives $n=c\times d$ 2D matrices $\mathbf{W}_{l,i}$. A typical modern DNN may have anywhere between 5 and 500 2D $\mathbf{W}_{l,i}$ layer matrices.
+
+\paragraph{Heavy Tailed Universality}
+
+For any layer weight matrix $\mathbf{W}$, we construct the associated $M\times M$ (uncentered) correlation matrix
+\begin{equation}
+\mathbf{X} = \dfrac{1}{N}\mathbf{W}^{T}\mathbf{W}  ,
+\label{eqn:unc_corr_mat}
+\end{equation}
+and form the eigenvalue spectrum of $\mathbf{X}$, 
+$$
+\mathbf{X}\mathbf{v}_{i}=\lambda_{i}\mathbf{v}_{i}
+$$
+(where we have dropped the $l,i$ indices).
+
+We call the density of eigenvalues $\rho(\lambda)$ the Empirical Spectral Density (ESD).  
+
+Small Neural Networks \charlesX{complete}
+
+The layer matrices in all large, modern DNNs, do not have a scale cut-off, and, instead display scale-invariance.  
+For any modern DNN, the ESD of nearly every \ $\mathbf{W}$ layer matrix can be fit to a power law,
+
+$$\rho(\lambda)\sim\lambda^{-\alpha}$$
+
+The power law exponent $\alpha$ lies, $80-90\%$ of the time, in a Universal range between 2 and 4, $\alpha\in[2,4]$.
+We have verified this empirical Universality on empirical result on over 10,000 layer matrices $\mathbf{W}$ spanning over 50 pre-trained DNNs.
+Of course, there are exceptions, and in any real DNN,  $\alpha$ may range anywhere from $\sim1.5$ to $10$ or higher.  
+
+The power law exponent $\alpha$ is a complexity metric for a weight matrix; it describes how well that matrix encodes the complex correlations in the training data.
+So a natural complexity metric for a DNN is to take a weighted average of the power law exponents $\alpha_{l,i}$ for each layer weight matrix $\mathbf{W}_{l,i}$.
+
+$$\hat{\alpha}:=\dfrac{1}{n}\sum_{l,i}b_{l,i}\alpha_{l,i}$$
+
+The smaller $\hat{\alpha}$, the better we expect the DNN to represent the training data. And, presumably, the better the DNN will generalize.
+The only question is, what are good weights $b_{l,i}$ ?
+
+It turns out, we can derive the weighted average $\hat{\alpha}$ directly from the more familiar Product Norm.
+
+\paragraph{Product Norm Measures of Complexity}
+
+Recently it has been suggested that the complexity of a DNN, $\mathcal{C}$,  can be defined by something akin to a data dependent VC complexity, the product of norms of the layer weight matrices
+
+$$\mathcal{C}\sim\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert$$
+
+where $\Vert\mathbf{W}\Vert$ may be the Frobenius norm or even the L1-norm.
+\michael{what more should we say here?}
+
+
+ To that end, we consider a log complexity
+
+$$\log\mathcal{C}\sim\log\bigg[\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert\bigg]$$
+
+$$\sim\bigg[\log\Vert\mathbf{W}_{1}\Vert+\log\Vert\mathbf{W}_{2}\Vert\cdots\log\Vert\mathbf{W}_{L}\Vert\bigg]$$
+
+We define the average log norm of the weight matrices as
+
+$$\langle\log\Vert\mathbf{W}\Vert\rangle=\dfrac{1}{N}\sum_{i=1}^{N}\log_{10}\Vert\mathbf{W}_{i}\Vert$$
+
+which we explicitly define in terms of the base-10 log.
+
+\paragraph{Relation to Heavy Tailed Universality}
+
+The Frobenius norm is related to the integral of the ESD, over the range the power law is a good fit. 
+
+$$\Vert\mathbf{W}_{l,i}\Vert^{2}\sim\int_{x_{min}}^{x_{max}}\lambda\rho_{l,i}(\lambda)d\lambda$$
+
+Technically, the power only describes the tail of the ESD,  for the range $\lambda\in[\lambda_{min},\lambda_{max}]$.
+  But for most DNN layer matrices, this range covers most the ESD.  So this should be a pretty good approximation.
+
+If we take the log matrix norm (and dropping the $l,i$ subscripts) we get
+
+$$\log\Vert\mathbf{W}\Vert^{2}\sim\log\int_{\lambda_{min}}^{\lambda_{max}}\lambda\rho(\lambda)d\lambda$$
+$$=\log\int_{\lambda_{min}}^{\lambda_{max}}\lambda^{1-\alpha}d\lambda$$
+$$=\int_{\lambda_{min}}^{\lambda_{max}}\log\lambda^{1-\alpha}d\lambda$$
+$$=(1-\alpha)\int_{\lambda_{min}}^{\lambda_{max}}\log\lambda d\lambda$$
+
+Notice that since the power law exponents mostly display Universality empirically, the range $[\lambda_{min},\lambda_{max}]$ is also roughly the same for all matrices, with the minimum eigenvalue is near zero, $\lambda_{min}\sim 0$, and the maximum eigenvalue is  empirically bounded, roughly $\lambda_{max}\sim\mathcal{O}(10^{2}-10^{4})$.  
+
+Let us now write the analytic form of the integrand $\int_{\lambda_{min}}^{\lambda_{max}}\log\lambda d\lambda$:
+
+$$\int_{\lambda_{min}}^{\lambda_{max}}\log\lambda d\lambda=\lambda_{max}(\log \lambda_{max} - 1)-\lambda_{min}(\log \lambda_{min} - 1)$$
+
+Since $\lambda_{min}\sim 0$, we have
+$$\int_{\lambda_{min}}^{\lambda_{max}}\log\lambda d\lambda=\lambda_{max}(\log \lambda_{max} - 1)$$
+
+
+%So for our purposes here, we can assume $\int_{x_{min}}^{x_{max}}\log\lambda d\lambda$ is roughly the same order across DNNs, and will factor out of our complexity metric.=
+
+%Generally we find $x_{max}\sim\mathcal{O}(10^{2})$, so  $x_{max}(\log x_{max} - 1)\sim x_{max}(2-1)\sim\lambda_{max}$.  Similarly $x_{min}\sim 0$. 
+
+%$$\int_{x_{min}}^{x_{max}}\log\lambda d\lambda\sim\lambda_{max}$$
+
+\charles{FINISH WRITEUP AND and numerical results}
+
+
+$$\log\Vert\mathbf{W}\Vert\rightarrow\sqrt{\alpha-1}$$
+
+
+$$\log\Vert\mathbf{W}\Vert\rightarrow\sqrt{(\alpha-1)\lambda_{max}}$$
+
+
+For a simple Linear layer, we will directly replace the log matrix norm $\log\Vert\mathbf{W}_{l}\Vert$ with the corresponding power law exponent $\alpha_{l}$.  
+
+$$\text{Linear Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert\rightarrow\sqrt{\alpha_{l}-1}$$
+
+For the Conv2D layers, we relate the 'Norm' of the 4-index Tensor $\mathbf{W}_{l}$ to the sum of the integrals of the $n=c\times d$ ESDs for each feature map, giving 
+
+$$\text{Conv2D Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert\rightarrow-\sum_{i}\sqrt{\alpha_{i,l}-1}$$
+
+So in the expression for the product norm for $\log\mathcal{C}$, let us replace each $\log\Vert\mathbf{W}_{l}\Vert$ for layer $l$ with the sum of the power law exponents $\alpha_{l,i}$ for the $n{_l}$ $\mathbf{W}_{l,i}$ layer matrices, and take the average over all $N_{\alpha}$  matrices.  This gives a new, albeit rather crude complexity metric for the entire DNN
+
+\charles{what i have been doing so far...}
+
+$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}(1-\alpha_{i,l})$$
+
+
+
+We can now use $\hat{\alpha}$ to analyze numerous pre-trained DNNs...and the results are indeed surprising.
+
+
+

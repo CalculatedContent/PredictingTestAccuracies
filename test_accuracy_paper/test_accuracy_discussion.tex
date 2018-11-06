@@ -1,0 +1,1058 @@
+\vspace{-4mm}
+\section{Discussion and Conclusion}
+\label{sxn:discussion}
+\vspace{-3mm}
+
+%% We conclude by discussing several aspects of our results in a broader context.
+%% 
+%% 
+%% \subsection{Some immediate implications}
+%% 
+%% 
+%% 
+%% \paragraph{Large-batch generalization gap.}
+%% XXX.
+%% 
+%% \charlesX{section 7 is very light...move some of this there ?}
+%% \charles{
+%% The \emph{Generalization Gap} refers to the peculiar phenomena that DNNs generalize significantly less well when trained with larger mini-batches (of order $10^{3}-10^{4}$)~\cite{leCun98, HHS17_TR, KMNST16_TR, one_hour17_TR}. 
+%% Practically, this is of interest since smaller batch sizes makes training large DNNs on modern GPUs much less efficient. 
+%% The Generalization Gap phenomena contradicts simplistic theory from convex stochastic optimiation which suggest that larger batches should allow better estimates with smaller variance and therefore should improve the SGD optimization process and increase, not decrease, the generalization performance.
+%% 
+%% It has been suggested that the slow training phase arises because the DNN optimization landscape resembles a glassy system (in the statistical physics sense), meaning the dynamics of the stochastic gradient solver is characterized by Heavy-Tailed or PL behavior. \cite{KMNST16_TR} and \cite{HHS17_TR}.
+%% \michael{Check, refs.}
+%% Using the glass analogy, however, it is also shown that very large batch sizes can, in fact, be used if one adjusts the learning rate cleverly.
+%% \cite{XXX-XXX,XXX-XXX,XXX-XXX,XXX-XXX}.
+%% \michael{Give refs, theory and practice.}
+%% }
+%% 
+%% XXX.
+%% \michael{Still to do this par.  But this par probably belongs in the conclusion/discussion.}
+%% Also, as expected by the \emph{generalization gap} phenomena, the training and test accuracies are significantly worse for large batch sizes, and systematically improve as batch size decreases, with $b=2$ yielding the best results. 
+%% %
+%% Selecting a very small batch size of $b=2$, the results for both the eigenvalues and eigenvectors become less consistent with the random matrix hypothesis, and they exhibit non-trivial structure suggestive on long-range correlations.
+%% \michael{Say something about why this suggests that larger batch size will have a gap.}
+%% \charles{ok, will think on this}
+%% \michael{This suggests follow up to fiddle with learning rate and and other things.}
+%% 
+%% In particular, \emph{what is the mechanism responsible for the drop in generalization in models trained with stochastic gradient methods in the large-batch regime?}
+%% 
+%% 
+%% \paragraph{Energy landscapes and rugged convexity.}
+%% 
+%% Our observation of the onset of Heavy-Tailed or scale-free behavior suggests that simple (Gaussian) Spin-Glass models, used by some researchers \cite{LeCun2015, SG-RMT, XXX-XXX, XXX-XXX, XXX-XXX} may lead to misleading results for realistic systems.
+%% In particular, we expect that well trained DNNs may exhibit a ruggedly convex global energy landscape, as opposed to a globally flat landscape with a large number degenerate local minima.  
+%% \michael{Construct paragraph, and give few pointers to physics papers on this point.}
+%% 
+%% 
+%% \paragraph{Phases of learning.}
+%% 
+%% Most work chases the last little bit on training/test quality, but our results suggest that doing so will not necessarily answer the \emph{why} question.
+%% The SMTOG considers load-like parameters and temperature-like parameters, in which case get phase diagrams.  
+%% Our results are considtent with this.  
+%% But, in practice, since there are so many temperature-like knobs it can be hard to tell what is going on.
+%% Our RMT-based approach suggests ways to operationalize the SMTOG, going beyond traditional ML metrics to control generalization, as we predicted~\cite{MM17_TR}.
+%% XXX.  COMMENTS ON CONNECTION WITH PREVIOUS PAPER.
+%% 
+%% \charles{DISCUSS: Our previous paper}:
+%% \cite{MM17_TR}
+%% \michael{XXX.  TO DO.}
+%% 
+%% %%\textbf{Knobs and switches.}
+%% %%In asking these questions, we make an informal distinction between knobs and switches.
+%% %%By \emph{knobs}, we informally mean the various parameters, hyperparameters, and hyperhyper parameters (e.g. batch size, learning rate, momentum and adaptivity parameters, etc.) that can be fiddled with during the trianing process to lead to better or worse results.
+%% %%By \emph{switches}, we informally mean various things (e.g., dropout, XXX, and XXX) that have over the years been proposed, used, become standard, and that can be turned on and off at will.
+%% %%Both of these are control parameters (in the sense that the word was used in, e.g.,~\cite{MM17_TR}), i.e., a practitioner can in practice use to help control the ML process, but they are used in very different ways than the traditional control parameter $\lambda$ that us used to trade off solution quality and model capacity when regularization is implemented explicitly.
+%% 
+%% 
+%% \paragraph{Caveats.}
+%% 
+%% Our theory uses RMT to make qualitative and quantitative statements about global bulk properties and local edge statistics and also quantitative statements about either MP fits for $\lambda^{+}$ or PL fits for $\alpha$.
+%% A complete and still more practical theory would describe the variety of real-world situations we encounter. 
+%% For example, in some cases, such as FC2 in AlexNet, the ESD is clearly Heavy-Tailed, and this is well-described by a PL fit.
+%% In other cases, such as the ESDs for Layers L226 and L302 in InceptionV3, the distributions themselves are bimodel and perhaps do not easily fit into theoretical Universality classes of Heavy-Tailed distributions---but the support of the distributions and certain edge properties appears Heavy-Tailed. 
+%% In (many) other cases, we may have some intermediate case between \textsc{Bulk+Spikes} and \textsc{Heavy-Tailed}. 
+%% For example, for FC1 of AlexNet, we might think we can fit part of the bulk ESD with the MP theory, but instead of just having outlying spikes, the MP bulk edge is not crisp (and does not follow TW statistics), and, instead, \emph{decays} smoothly into the heavy tail. 
+%% In all of these cases, however, we still observe the signatures of Heavy-Tailed behavior and Heavy-Tailed Self-Regularization.  
+%% 
+%% 
+%% \paragraph{Information bottleneck.}
+%% 
+%% Recent empirical work on modern DNNs showed two phases of training: an initial ``fast'' phase and a second ``slower'' phase.
+%% To explain this, Tishby et al.~\cite{TZ15,ST17_TR} have suggested using the Information Bottleneck Theory for DNNs.
+%% While this theory remains controversial, the central concept still embodies the old thinking that DNNs implicitly lose some capacity (or information / entropy) during training.
+%% Curiously, this 2-phase structure have also been related to another peculiar property of DNNs...\michael{What is this?}
+%% \michael{More connections with Tishby, and something about supervised or unsupervised.}
+%% We are consistent with these results, and our results suggest that one can use unsupervised methods to analyze trained models to determine whether, e.g., they have been trained well in an information bottleneck sense.
+%% 
+%% 
+%% \paragraph{Failures of VC and optimization theory.}
+%% 
+%% This is very puzzling since VC theory states that regularization is a fundamental property of all learning models, independent of the structure of the model and the~data.
+%% 
+%% \textbf{VC versus not.}
+%% In VC theory, there is no notion of Self-Regularization.
+%% The reason is that it is assumed that one never looks at the data.
+%% Instead, the model capacity is fixed, independent of the data, and then one does stuff.
+%% Of course, people peek at the data, but it is hoped that this is a perturbative approximation of not looking at the data.
+%% For DNNs, the solver interact with the data to give a feedback loop.
+%% Thus, one looks at the data many times.
+%% It is this feedback that leads to models that implicitly self-regularize.
+%% 
+%% \textbf{General NN learning.}
+%% The obvious conjecture is that what we have observed is characteristic of general NN/DNN learning systems, due to the feedback that is provided by backprop, after looking at the data.
+%% Importantly, there is nothing like this in VC theory.
+%% 
+%% 
+%% \textbf{Training and overtraining NNs.}
+%% Say something about: the ease with which NNs overtrain, since they peek at the data a lot.
+%% XXX.  WHAT ARE WE SAYING HERE.
+%% 
+%% 
+%% \paragraph{Relation to Tikhonov Regularization.}
+%% 
+%% The implicit Self-Regularization in the \textsc{Bulk+Spikes} phase resembles explicit Tikhonov regularization.%
+%% \footnote{%
+%% Imagine we want to solve the linear system
+%% $
+%% \mathbf{\hat{W}}\mathbf{x}=\mathbf{y}  ,
+%% $
+%% where $\mathbf{\hat{W}}$ is ill-conditioned or rank-deficient.
+%% Tikhonov (or ridge) regularization involves computing:
+%% $
+%% \mathbf{x}=(\mathbf{\hat{X}+\alpha\mathbf{I}})^{-1}\mathbf{\hat{W}}^{T}\mathbf{y}  ,
+%% $
+%% where $\mathbf{\hat{X}}=\mathbf{\hat{W}}^{T}\mathbf{\hat{W}}$, and where $\alpha$ is a regularization parameter. 
+%% This is equivalent to solving the explicitly-regularized problem
+%% $
+%% \underset{W_{i,j}}{\min}\;\Vert\mathbf{\hat{W}}\mathbf{x}-\mathbf{y}\Vert^{2}_{2}+\alpha\Vert{\mathbf{\hat{W}}}\Vert^{2}_{2}  .
+%% $
+%% }
+%% In particular, the $\mathbf{W}$ matrices exhibit the following empirical properties seen in a Tikhonov-regularized matrix.
+%% \begin{itemize}
+%% \item
+%% There is a decrease in the Stable Rank.
+%% In typical DNNs, the matrices $\mathbf{W}_{l}$ do \emph{not} lose Hard Rank.
+%% Since the Frobenius norm mass is roughly fixed during training, however, as spikes pull out from the bulk, the Frobenius mass moves from the bulk into the spikes.
+%% Thus, the Stable Rank and MP Soft Rank of the matrices $\mathbf{W}_{l}$ decrease, and this decrease is stable to minor perturbations to the smaller eigen/singular values.
+%% \item
+%% There is a ``size scale,'' given by $\lambda^{+}$, in the eigenvalue spectrum.
+%% For eigenvalues smaller this size scale, the ESD is consistent with noise; and for eigenvalues larger this size scale, there is relatively strong signal.
+%% In theory, RMT predicts that information begins to concentrate in the few ($K$) high lying spike eigendirections (of $\mathbf{X}$, singular directions of $\mathbf{W}$).
+%% In practice, the $K$ eigendirections in the spike either contain most of the ``information'' or they are the $K$ directions that contain more ``information'' than any other $K$ directions.%
+%% \footnote{%
+%% These two statements are \emph{not} the same---especially if the ESD starts to exhibit Heavy-Tailed behavior.
+%% However, even for DNNs in the \textsc{Bulk+Spikes} phase, unpublished results indicate that if we replace $\mathbf{W}$ with a low-rank approximation based on just the spike eigendirections, then the prediction quality of our DNN suffers considerably, but it is still considerably better than if we replace $\mathbf{W}$ with a random matrix.
+%% }
+%% \end{itemize}
+%% 
+%% \noindent
+%% For the \textsc{Bulk+Spikes} phase, we can associate the MP bulk edge $\lambda^{+}$ with the Tikhonov regularization parameter $\alpha$, and the DNN is effectively implementing a form of Tikhonov~regularization.
+%% 
+%% \michael{MM to do: Make a comment that, that being said, these results are also consistent with this phase being consistent with very moderately Heavy-Tailed data and this may be a fruitful direction going forward.}
+%% 
+%% %% 
+%% %% MM: I combined more smoothly the following into the paragraphs above.
+%% %% 
+%% %% The $k$ spikes have $k$ associated eigenvectors; we expect that the spike eigenvectors
+%% %% will contain most of the relevant information in the weight correlation matrix $\mathbf{X}$, 
+%% %% and that the associated bulk eigenvectors are not very informative. 
+%% %%  
+%% %% In the same way, if we consider the ESD of $\mathbf{\hat{X}}$, we would find that $\alpha$ sets the scale 
+%% %% for the relevant $K$ eigenvalues and eigenvectors $e, \mathbf{\hat{e}}$ of $\mathbf{\hat{X}}$. 
+%% %% For the $k$ eigenvalues $e>\alpha$, we expect the eigenvectors $\mathbf{\hat{e}}$ to be the most informative. 
+%% %% Since Frobenius mass moves into the spikes, 
+%% %%  the regularized $\mathbf{\hat{X}}$ will lose $k$ amount of Stable Rank.
+%% %%  \fix{explain that stable rank applies to both W and X, above}
+%% %% In fact, Stable Rank such because it is mostly unaffected by , or stable to, perturbations to the smaller eigen/singular values.
+%% %% It allows us to interpret a full rank matrix as effectively having a \emph{softer} rank, corresponding to being more structured/regularized.
+%% %% 
+%% %% 
+%% %% \paragraph{Soft Rank Regularization.}
+%% %% 
+%% %% Tikhonov Regularization is a kind of \emph{Soft Rank Regularization}, relevant for the early phases of training.
+%% %% 
+%% %% 
+%% %% Moreover, RMT tells use that the information begins to concentrate in a few (i.e. $K$) high lying spikes
+%% %% (i.e. singular vectors of $\mathbf{W}$, eigenvectors of $\mathbf{X}$). 
+%% %% These $K$ spikes lie above a certain scale, $\lambda_{spike}>\lambda^{+}$ and the rest of the spectral density decays rapidly.
+%% %% So we can associate the MP bulk edge $\lambda^{+}$ with the Tikhonov regularization parameter $\alpha$. 
+%% %% When \emph{Self-Regularization} is in the \textsc{Bulk+Spikes} phase, it is effectively implementing Tikhonov Regularization.
+%% 
+%% 
+%% \paragraph{Self-Organization in Natural (and Engineered) Phenomena.}
+%% 
+%% Of course, typical implementations of Tikhonov regularization require setting a specific regularization scale or regularization parameter, whereas \emph{Self-Regularization} just arises as part of the DNN training process. 
+%% In fact, this behavior has been predicted by Sornette to more generally arise in natural
+%% \emph{Self-Organizing} systems, without needing to tune specific parameters \cite{SornetteBook}. Moreover, self-organization can manifest
+%% itself as \textsc{Bulk+Spikes} \cite{sornette2002}, as true (infinite order) Power Laws, or, as we shall see, as a finite-size Heavy-Tailed phenomena.
+%% \michael{MM to do.  Modify this paragraph, in light of what we say in the Heavy-Tailed phase.}
+%% \charlesX{Notice Sornette is discussing the  spiked covariance model; what we have is very new and even Sornette himself has not discussed it, from what I can tell so far}
+%% 
+%% 
+%% 
+%% 
+%% \subsection{Theoretical niceties, or Why RMT makes good sense here}
+%% \label{sxb:Theoretical-Niceties}
+%% 
+%% %There are several subtle but important issues that make RMT particularly appropriate for analyzing DNN weight matrices.
+%% There are subtle issues that make RMT particularly appropriate for analyzing weight~matrices.
+%% %We briefly discuss them here.
+%% 
+%% 
+%% \paragraph{Taking the right limit.}
+%% 
+%% The matrix $\mathbf{X}$ is an empirical correlation matrix of the weight layer matrix $\mathbf{W}_{l}$,
+%% %% MM: I removed the word Pearson since I don't know what a Pearson estimator is.
+%% %%akin to Pearson estimator of the true covariance $\mathbb{C}$ of the weights.
+%% %%But the Pearson estimator is not very good unless the aspect ration us very large $Q=N/M\gg1$.
+%% %%ICHM:  t is discussed this way in Bouchaud
+%% akin to an estimator of the true covariance of the weights.
+%% It is known, however, that this estimator is not good, unless the aspect ratio is very large (i.e., unless $Q=N/M\gg1$, in which case $\mathbf{X}_{l}$ is \emph{very} tall and thin).  %%~\cite{XXX-XXX,XXX-XXX}.
+%% The limit $Q\rightarrow \infty$ (e.g., $N\rightarrow\infty$ for fixed $M$) is the case usually considered in mathematical statistics and traditional VC theory.  
+%% For DNNs, however, $M\sim N$, and so $Q = \mathcal{O}(1)$; and so a more appropriate limit to consider is $(M\rightarrow\infty,N\rightarrow\infty)$ such that $Q$ is a fixed constant~\cite{MM17_TR}.
+%% This is the regime of MP theory, and this is why deviations from the limiting MP distribution provides the most significant insights here.
+%% 
+%% \paragraph{Relation to the SMTOG.}
+%% 
+%% In recent work~\cite{MM17_TR}, Martin and Mahoney examined DNNs using the Statistical Mechanics Theory of Generalization (SMTOG)~\cite{SST92,WRB93,DKST96,EB01_BOOK}.
+%% As with RMT, the STMOG also applies in the limit $(M\rightarrow\infty,N\rightarrow\infty)$ such that $Q=1$ or $Q = \mathcal{O}(1)$, i.e., in the so-called Thermodynamic Limit. 
+%% Of course, RMT has a long history in theoretical physics, and, in particular, the statistical mechanics of the energy landscape of strongly-correlated disordered systems such as polymers.  %%~\cite{XXX-XXX,XXX-XXX}.
+%% For this reason, we believe RMT will be very useful to study broader questions about the energy landscape of DNNs.
+%% %
+%% Martin and Mahoney also suggested that overtrained DNNs---such as those trained on random labelings---may effectively be in a finite size analogue of the (mean field) spin glass phase of a neural network, as suggested by the SMTOG \cite{MM17_TR}. 
+%% We should note that, in this phase, self-averaging may (or may not) break down. 
+%% 
+%% \paragraph{The importance of Self-Averaging.}
+%% 
+%% Early RMT made use of replica-style analysis from statistical physics~\cite{SST92,WRB93,DKST96,EB01_BOOK}, and this assumes that the statistical ensemble of interest is \emph{Self-Averaging}.
+%% This property implies that the theoretical ESD $\rho(\lambda)$ is independent of the specific realization of the matrix $\mathbf{W}$, provided $\mathbf{W}$ is a \emph{typical} sample from the true ensemble.
+%% In this case, RMT makes statements about the empirical ESD $\rho_N(\lambda)$ of a large random matrix like $\mathbf{X}$, which itself is drawn from this ensemble. 
+%% To apply RMT, we would like to be able inspect a single realization of $\mathbf{W}$, from one training run or even one epoch of our DNN.
+%% If our DNNs are indeed self-averaging, then we may confidently interpret the ESDs of the layer weight matrices of a single training run.
+%% 
+%% As discussed by Martin and Mahoney, this may \emph{not} be the case in certain situations, such as \emph{severe overtraining}~\cite{MM17_TR}.
+%% From the SMTOG perspective, NN overfitting,%
+%% \footnote{Overfitting is due to a small load parameter, e.g., due to insufficient reasonable-quality data for the model~class.}
+%% which results in NN overtraining,%
+%% \footnote{Overtraining occurs when, once it has been trained with the data, the NN does not generalize well.}
+%% is an example of non-self-averaging.
+%% When a NN generalizes well, it can presumably be trainined, using the same architecture and parameters, on any large random subset of the training data, and it will still perform well on any test/holdout example. 
+%% In this sense, the trained NN is a typical random draw from the implicit model class.
+%% In contrast, an overtrained model is when this random draw from this implicit model class is \emph{atypical}, in the sense that it describes well the training data, but it describes poorly test data.
+%% A model can enter the spin glass phase when there is not enough training data and/or the model is too complicated~\cite{SST92,WRB93,DKST96,EB01_BOOK}.
+%% The spin glass phase is (frequently) non-self-averaging, and this is why overtraining was traditionally explained using spin glass models from statistical mechanics.%
+%% \footnote{Thus, overfitting leads to non-self-averaging, which results in overtraining (but it is not necessarily the case that overtraining implies overfitting).}
+%% For this reason, it is not obvious that RMT can be applied to DNNs that are overtrained; we leave this important subtly for future~work.
+%% 
+%% 
+%% \subsection{Other practical implications}
+
+Clearly, our theory opens the door to address numerous very practical questions.  %%, among them the following.
+%%What are design principles for good models? 
+%%Our approach might help to incorporate domain knowledge into the DNN structure as well as to provide finer metrics (beyond simply depth, width, etc.) to evaluate network quality and make more parsimonious use of labeled data.
+%%What are ways in which adversarial training/learning or training/learning in new environments affects the weight matrices and thus the loss surface?
+%%Our approach might help characterize robust versus non-robust and interpretable versus non-interpretable models.
+%%When should training be discontinued?
+%%%This is a very challenging practical issue.
+%%Our approach might help to identify empirical properties of the trained models, e.g., of the weight matrices---\emph{without} explicitly looking at labels---that will help to determine when to \emph{stop} training.
+%%Finally, one might wonder 
+%%
+One of the most obvious is whether our RMT-based theory is applicable to other types of layers such as convolutional layers.
+Initial results suggest yes, but the situation is more complex than the relatively simple picture we have described here.
+These and related directions are promising avenues to explore.
+
+
+%% \subsection{Placeholder section for miscellaneous text of Michael}
+%% 
+%% 
+%% Here are several other things that are relevant for our approach.
+%% \begin{itemize}
+%% \item
+%% \textbf{Weight matrices.}
+%% First, recent theoretical work~\cite{XXX-XXX,XXX-XXX,XXX-XXX,XXX-XXX,XXX-XXX} has posited that the weight matrices of realistic network are random, and we will be able to test this hypothesis, before, during, and after training.  We show that it is not a good model.
+%% \item
+%% \textbf{Initialization.}
+%% Second, weight matrices are often initialized to be random~\cite{XXX-XXX,XXX-XXX}, and thus we can analyze how this changes as training proceeds, i.e., how signal appears on top of noise.
+%% \item
+%% \textbf{Hessians.}
+%% Importantly, since we are intrested in the properties on NN models, we consider the properties of learned weight matrices rather than, e.g., Hessians during or after training.
+%% Here are some papers that looked at the Hessian:~\cite{XXX-XXX,XXX-XXX,XXX-XXX}.
+%% Hessians give very local information.
+%% Instead, we are looking are large-scale properties of the entire energy landscape.
+%% \item
+%% \textbf{RMT.}
+%% RMT has a long history and continues to be of very practical use~\cite{Kar05_recent,TW09,PA14,ER05,TV04,EW13}.%
+%% \footnote{It was developed by Wigner to model the nuclear eigenvalue spectrum of heavy atoms \cite{wigner}; it is widely-used in statistical physics of disordered systems (e.g., mean field spin glasses, molecular spectroscopy, polymer theory, etc.); and key results are readily proven using techniques from statistical field theory~\cite{RMTreplica}.}
+%% Our approach---both our empirical results and our theory---\emph{uses} RMT to characterize properties of weight matrices of both pre-trained DNNs as well as DNNs during the training process.
+%% This is similar to how RMT is used, e.g., in quantitative finance~\cite{bouchaud1999,bouchaud2009,bun2017,PBL05_TR}, but it is quite different than how RMT has been used recently in the DNN area~\cite{
+%% SWMG15_TR,
+%% GSB16,
+%% PLRx16,
+%% SGGS16_TR,
+%% PB17_ICML,
+%% SWC17_TR,
+%% RPKGx17,
+%% LBNx17_TR,
+%% PSG17_TR}.
+%% \michael{Clarify which of those focus on Jacobians versus weight matrices, e.g., to gain insight into the optimization landscape, and point to discussion section.}
+%% \end{itemize}
+%% 
+%% 
+%% \subsection{Related Work To Cite or Remove}
+%% 
+%% 
+%% \noindent
+%% \textbf{Large-batch learning and the generalization gap}:
+%% \begin{itemize}
+%% \item
+%% \cite{KMNST16_TR}: ``On large-batch training for deep learning: generalization gap and sharp minima'':
+%% \\ (generalization gap paper;)
+%% \item
+%% \cite{HHS17_TR}: ``Train longer, generalize better: closing the generalization gap in large batch training of neural networks'':
+%% \\ (generalization gap; glass; analysis of generalization gap using glass theory;)
+%% \item
+%% \cite{one_hour17_TR}: ``Accurate, Large Minibatch {SGD}: Training {ImageNet} in 1 Hour'':
+%% \\ ()
+%% \item
+%% \cite{WMbatch03}: ``The general inefficiency of batch training for gradient descent learning'':
+%% \\ (older paper showing large batch has problems; related to generalization gap)
+%% \item
+%% \cite{LZCS14}: ``Efficient mini-batch training for stochastic optimization'':
+%% \\ (larger batches slow convergence, so regularize something)
+%% \item
+%% \cite{CG18_TR}: ``Closing the generalization gap of adaptive gradient methods in training deep neural networks'':
+%% \\ (adaptive gradient methods and generalization gap;)
+%% \item
+%% \cite{JKAx17_TR}: ``Three factors influencing minima in {SGD}'':
+%% \\ (batch size; generalization gap;)
+%% \item
+%% \cite{ML18_TR}: ``Revisiting small batch training for deep neural networks'':
+%% \\ (small batch; generalization gap;)
+%% \item
+%% \cite{XATB18_TR}: ``A walk with {SGD}'':
+%% \\ (relationship between learning rate and batch size;)
+%% \item
+%% \cite{YGLKM18_TR}: ``Hessian-based Analysis of Large Batch Training and Robustness to Adversaries''
+%% \\ (Hessian; large batch;)
+%% \item
+%% \cite{DPBB17_TR}: ``Sharp minima can generalize for deep nets'':
+%% \\ (stupid counterpoint as follow-up to Nocedal; cite for generalization gap)
+%% \item
+%% \cite{SKYL17_TR}: ``Don't decay the learning rate, increase the batch size''
+%% \\ (knob fiddling; generalization gap;)
+%% \item
+%% \cite{WPLx18_TR}: ``Batch {K}alman Normalization: Towards Training Deep Networks with Micro-batches''
+%% \\ (micro-batch;)
+%% \item
+%% \cite{Iof17_TR}: ``Batch renormalization: Towards reducing Minibatch dependence in batch-normalized models''
+%% \\ (normalization less good when batches very small;)
+%% \item
+%% Inefficiency of stochastic gradient descent with larger mini-batches (and more learners):
+%% \\ (problems with large batch; related to generalization gap;)
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% \textbf{Information bottleneck}:
+%% \begin{itemize}
+%% \item
+%% \cite{TPB00_TR}: ``The information bottleneck method''
+%% \\ (older infomration bottleneck paper;)
+%% \item
+%% \cite{SST14}: ``Learning and generalization with the information bottleneck''
+%% \\ (older infomration bottleneck paper;)
+%% \item
+%% \cite{SBDx18}: ``On the information bottleneck theory of deep learning''
+%% \\ (the information plane trajectory is mostly determined by the non-linearity employed; no connection between compression and generalization; full-batch versus small-batch;)
+%% \item
+%% \cite{YJP18_TR}: ``Understanding convolutional neural network training with information theory'':
+%% \\ (use entropy; follow on Tishby)
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% \textbf{Energy landscapes}:
+%% \begin{itemize}
+%% \item
+%% \cite{GW17_TR}: ``The energy landscape of a simple neural network'':
+%% \\ ()
+%% \item
+%% \cite{CHMAx14_TR}: ``The Loss Surfaces of Multilayer Networks'':
+%% \\ (original paper; Gaussian spin glass; energy landscape)
+%% \item
+%% \cite{LFLY18_TR}: ``Measuring the intrinsic dimension of objective landscapes'':
+%% \\ (energy landscape; not number of parameters but random projection;)
+%% \item
+%% \cite{CS15_v5_TR}: ``On the energy landscape of deep networks'':
+%% \\ ()
+%% \item
+%% \cite{CCSLx16_TR}: ``Entropy {SGD}: Biasing Gradient Descent into Wide Valleys'':
+%% \\ (energy langscape; modify landscape to get wide/flat valleys; connect to Langevin dynamics)
+%% \item
+%% \cite{ITB16_TR}: ``An empirical analysis of Deep network loss surfaces'':
+%% \\ (geometry of loss surface; how knobs and switches interact with loss surface)
+%% \item
+%% \cite{SGAL14_TR}: ``Explorations on high dimensional landscapes'':
+%% \\ (energy surface; most critical points in a narrow band; spin glasses;)
+%% \item
+%% \cite{SN14}: ``Rugged Landscapes and Timescale Distributions in Complex Systems'':
+%% \\ ()
+%% \item
+%% \cite{MMN18}: ``A mean field view of the landscape of two-layer neural networks''
+%% \\ ()
+%% \item
+%% \cite{Won97}: ``Microscopic equations in rough energy landscape for neural networks''
+%% \\ (rugged landscape to cite;)
+%% \item
+%% \cite{NH17}: ``The loss surface of deep and wide neural networks''
+%% \\ (energy lanscapes; local minima are globally optimal;)
+%% \item
+%% \cite{WZE17_TR}: ``Towards understanding generalization of deep learning: perspective of loss landscapes''
+%% \\ (look at global energy surface;)
+%% \item
+%% \cite{FB16_TR}: ``Topology and geometry of deep rectified network optimization landscapes''
+%% \\ (theory to formalize some folklore facts;)
+%% \item
+%% \cite{BBCx16}: ``Unreasonable effectiveness of learning neural networks: From accessible states and robust ensembles to basic algorithmic schemes''
+%% \\ (nonequilibrium statistical mechanics; energy landscapes;)
+%% \item
+%% \cite{EBCx10}: ``Why Does Unsupervised Pre-training Help Deep Learning?'':
+%% \\ (energy landscape formation)
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% \textbf{Hessians versus weight matrices and local versus global}:
+%% \begin{itemize}
+%% \item
+%%    Hessian stuff:
+%%    \begin{itemize}
+%%    \item
+%%    \cite{KLS91}: ``Second order properties of error surfaces: learning time and generalization'':
+%%    \\ (look at eigenvalue of Hessian; suggest ways to accelerate learning;)
+%%    \item
+%%    \cite{SBL16_TR}: ``Singularity of the {H}essian in Deep Learning'':
+%%    \\ (low-quality that looked at Hessian)
+%%    \item
+%%    \cite{SEGx17_TR}: ``Empirical analysis of the Hessian of over-parameterized neural networks'':
+%%    \\ (overparameterization; Hessian;)
+%%    \item
+%%    \cite{PW16_NIPS}: ``Nonlinear random matrix theory for deep learning'':
+%%    \\ (RMT study of the Hessian of DNN.)
+%%    \item
+%%    \cite{PB17_ICML}: ``Geometry of Neural Network Loss Surfaces via Random Matrix Theory'':
+%%    \\ (RMT study of the Hessian of DNN.)
+%%    \item
+%%    \cite{YGLKM18_TR}: ``Hessian-based Analysis of Large Batch Training and Robustness to Adversaries''
+%%    \\ (Hessian; large batch;)
+%%    \end{itemize}
+%% \item
+%%    Using weight matrices, or properties of weight matrices:
+%%    \begin{itemize}
+%%    \item
+%%    \cite{Bar97}: ``For valid generalization, the size of the weights is more important than the size of the network'':
+%%    \\ (old result on weight matrices)
+%%    \item
+%%    \cite{AGNZ18_TR}: ``Stronger generalization bounds for deep nets via a compression approach'':
+%%    \\ (bound generalization in terms of weight matrix norms)
+%%    \item
+%%    \cite{LC18spectrum_TR}: ``On the spectrum of random feature maps of high dimensional data'':
+%%    \\ (look at Gram matrix of feature maps, showing spiked covariance)
+%%    \item
+%%    \cite{MAV18_TR}: ``On the implicit bias of {D}ropout'':
+%%    \\ (implicit regularization; Dropout tends to uniformize weights in single layer linear NN;)
+%%    \item
+%%    \cite{YM17_TR}: ``Spectral norm regularization for improving the generalizability of deep learning'':
+%%    \\ (propose to regularize by constraining spectral norm of weight matrices;)
+%%    \item
+%%    \cite{NTS14_TR}: ``In search of the real inductive bias: on the role of implicit regularization in deep learning'':
+%%    \\ (trace norm normalization of weight matrices a la Srebro's old stuff;)
+%%    \item
+%%    \cite{NTS15}: ``Norm-Based Capacity Control in Neural Network'':
+%%    \\ ()
+%%    \item
+%%    \cite{BFT17_TR}: ``Spectrally-normalized margin bounds for neural networks'':
+%%    \\ (Bartlett paper;)
+%%    \end{itemize}
+%% \item
+%% \cite{NBMS17_TR}: ``Exploring generalization in deep learning''
+%% \\ (norm-based capacity control metrics, and sharpness and robustness metrics, can help with generalization;)
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% \textbf{Different Heavy-Tailed universality classes}:
+%% \begin{itemize}
+%% \item
+%% \cite{DPS14}: ``Limit theory for the largest eigenvalues of sample covariance matrices with heavy-tails''
+%% \\ (good history;)
+%% \item
+%% \cite{peche_edge}: ``The edge of the spectrum of random matrices'' 
+%% \\ (very good outline of issues;)
+%% \item
+%% \cite{AAP09}: ``Poisson convergence for the largest eigenvalues of heavy tailed random matrices''
+%% \\ (Auffinger;)
+%% \item
+%% \cite{PS12}: ``Limiting spectral distribution of a new random matrix model with dependence across rows and columns''
+%% \\ ()
+%% \item
+%% \cite{BDG09}: ``Spectral measure of heavy tailed band and covariance random matrices''
+%% \\ ()
+%% \item
+%% \cite{AG08}: ``The spectrum of heavy tailed random matrices''
+%% \\ (theory paper on what the title says;)
+%% \item
+%% \cite{heavytails2007}: ``On the top eigenvalue of heavy-tailed random matrices''
+%% (Biroli)
+%% \item
+%% \cite{PB94}: ``Theory of {L}{\'e}vy matrices''
+%% \\ (levy random matrices---properties of characteristic function;)
+%% \item
+%% \cite{MW17_TR}: ``Estimation of the covariance structure of heavy-tailed distributions''
+%% \\ ()
+%% \item
+%% \cite{AT16}: ``Extreme eigenvalues of sparse, heavy tailed random matrices''
+%% \\ (Auffinger;)
+%% \item
+%% \cite{DMP16}: ``Asymptotic theory for the sample covariance matrix of a heavy-tailed multivariate time series''
+%% \\ ()
+%% \item
+%% \cite{For93}: ``The spectrum edge of random matrix ensembles''
+%% \\ ()
+%% \item
+%% \cite{BG14}: ``Central limit theorem for eigenvectors of heavy tailed matrices''
+%% \\ ()
+%% \item
+%% \cite{BC06}: ``Generalized extreme value statistics and sum of correlated variables''
+%% \\ ()
+%% \item
+%% \cite{MP14_TR}: ``Extreme value statistics of correlated random variables''
+%% \\ ()
+%% \item
+%% \cite{BGW06}: ``Spectral properties of empirical covariance matrices for data with power law tails''
+%% \\ (Burda; RMT and HT data;)
+%% \item
+%% \cite{HM17}: ``Eigenvalues and eigenvectors of heavy-tailed sample covariance matrices with general growth rates: the iid case''
+%% \\ ()
+%% \item
+%% \cite{MS14_third}: ``Top eigenvalue of a random matrix: large deviations and third order phase transition''
+%% \\ (probably dont cite;)
+%% \item
+%% \cite{disordered2007}: ``Extreme value problems in Random Matrix Theory and other disordered systems''
+%% \\ (Biroli; not cited before)
+%% \item
+%% \cite{BJ09_TR}: ``Heavy-tailed random matrices''
+%% \\ (Burda; not cited before)
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% \textbf{Fitting Heavy-Tailed and PL distributions}:
+%% \begin{itemize}
+%% \item
+%% \cite{HCLT17}: ``Fitting power-laws in empirical data with estimators that work for all exponents''
+%% \\ (Thurner works for broader range of exponents;)
+%% \item
+%% \cite{VC14}: ``Power-law distributions in binned empirical data''
+%% \\ (Clauset binned theory)
+%% \item
+%% \cite{DC13}: ``Fitting and goodness-of-fit test of non-truncated and truncated power-law distributions''
+%% \\ ()
+%% \item
+%% \cite{GMY04}: ``Problems with Fitting to the Power-law distribution''
+%% \\ ()
+%% \item
+%% \cite{Bau07}: ``Parameter estimation for power-law distributions by maximum likelihood methods''
+%% \\ ()
+%% \item
+%% \cite{CSN09_powerlaw}: ``Power-law distributions in empirical data''
+%% \\ (SIREV; PL or not)
+%% \item
+%% \cite{KYP11}: ``Statistical Analyses Support Power Law Distributions Found in Neuronal Avalanches''
+%% \\ ()
+%% \item
+%% \cite{ABP14}: ``powerlaw: A Python Package for Analysis of Heavy-Tailed Distributions''
+%% \\ ()
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% \textbf{Various RMT stuff.}
+%% \begin{itemize}
+%%    \item
+%%    Here are some things we use from finance:
+%%    \begin{itemize}
+%%    \item
+%%    \cite{bouchaud1999}: ``Noise Dressing of Financial Correlation Matrices'':
+%%    \\ ()
+%%    \item
+%%    \cite{bouchaud2005}: ``Random Matrix Theory and Financial Correlations'':
+%%    \\ ()
+%%    \item
+%%    \cite{bouchaud2009}: ``Financial Applications of Random Matrix Theory: a short review'':
+%%    \\ ()
+%%    \item
+%%    \cite{bun2017}: ``Cleaning large Correlation Matrices: tools from Random Matrix Theory'': 
+%%    \\ ()
+%%    \item
+%%    \cite{PBL05_TR}: ``Financial applications of random matrix theory: old laces and new pieces'':
+%%    \\ ()
+%%    \end{itemize}
+%%    \item
+%%    Misc RMT stuff:
+%%    \begin{itemize}
+%%    \item
+%%    \cite{LLC17_TR}: ``A Random Matrix Approach to Neural Networks'':
+%%    \\ (This is mostly math, but it has a spiked covariance figure.)
+%%    \item
+%%    \cite{LBNx17_TR}: ``Deep Neural Networks as {G}aussian Processes'':
+%%    \\ (correspondence to do covariance computations better;)
+%%    \item
+%%    \cite{RA06}: ``Eigenvalue spectra of random matrices for neural networks'':
+%%    \\ (RMT applied to NNs)
+%%    \item
+%%    \cite{SCSS88}: ``Spectra of large random asymmetric matrices'':
+%%    \\ (RMT applied to NNs, get Wigner)
+%%    \item
+%%    \cite{LC18dynamics_TR}: ``The dynamics of learning: a random matrix approach'':
+%%    \\ (use RMT to go to some limit to describe dynamics of gradient descent)
+%%    \item
+%%    \cite{LLC17_TR}: ``A random matrix approach to neural networks'':
+%%    \\ (theory, but has spiked covariance plots;)
+%%    \item
+%%    \cite{SWC17_TR}: ``Spectral Ergodicity in Deep Learning Architectures via Surrogate Random Matrices'':
+%%    \\ (different random matrix ensembles; say DNNs depend on spectral ergodicity;)
+%%    \item
+%%    \cite{AB13}: ``Complexity of random smooth functions on the high dimensional sphere'':
+%%    \\ (Auffinger;)
+%%    \item
+%%    \cite{SF18_TR}: ``How robust are deep neural networks?'':
+%%    \\ (robustness of NNs and eigenvalue spectra)
+%%    \end{itemize}
+%%    \item
+%%    Here are some reviews:
+%%    \begin{itemize}
+%%    \item
+%%    \cite{Kar05_recent}: ``Recent results about the largest eigenvalue of random covariance matrices and statistical applications'':
+%%    \item
+%%    \cite{TW09}: ``The distributions of random matrix theory and their applications'':
+%%    \item
+%%    \cite{PA14}: ``Random matrix theory in statistics: a review'':
+%%    \item
+%%    \cite{ER05}: ``Random matrix theory'':
+%%    \item
+%%    \cite{TV04}: ``Random Matrix Theory and Wireless Communications'':
+%%    \item
+%%    \cite{EW13}: ``Random Matrix Theory and Its Innovative Applications'':
+%%    \end{itemize}
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% \textbf{Spiked covariance stuff}:
+%% \begin{itemize}
+%%    \item
+%%    Spiked covariance stuff:
+%%    \begin{itemize}
+%%    \item
+%%    \cite{paul2007}: ``Asymptotics of sample eigenstructure for a large dimensional spiked covariance model'':
+%%    \item
+%%    \cite{johnstone2009}: ``On the distribution of the largest eigenvalue in principal components analysis'':
+%%    \item
+%%    \cite{BS06}: ``Eigenvalues of large sample covariance matrices of spiked population models'':
+%%    \item
+%%    \cite{WF17}: ``Asymptotics of empirical eigenstructure for high dimensional spiked covariance'':
+%%    \item
+%%    \cite{BY08}: ``Central limit theorems for eigenvalues in a spiked population model'':
+%%    \item
+%%    \cite{JL09}: ``On consistency and sparsity for principal components analysis in high dimensions'':
+%%    \end{itemize}
+%%    \item
+%%    Determining the number of factors:
+%%    \begin{itemize}
+%%    \item
+%%    \cite{BN02}: ``Determining the number of factors in approximate factor models'':
+%%    \item
+%%    \cite{BLMP07}: ``Large dimensional forecasting models and random singular value spectra'':
+%%    \item
+%%    \cite{Har08}: ``Explaining the single factor bias of arbitrage pricing models in finite samples'':
+%%    \item
+%%    \cite{KN09}: ``Non-parametric detection of the number of signals: hypothesis testing and random matrix theory'':
+%%    \item
+%%    \cite{KN08}: ``Determining the number of components in a factor model from limited noisy data'':
+%%    \item
+%%    \cite{LY18}: ``On structural testing for component covariance matrices of a high-dimensional mixture'':
+%%    \item
+%%    \cite{Nad08}: ``Finite sample approximation results for principal component analysis: a matrix perturbation approach'':
+%%    \item
+%%    \cite{Ona09}: ``Testing hypotheses about the number of factors in large factor models'':
+%%    \item
+%%    \cite{PY12}: ``On determining the number of spikes in a high-dimensional spiked population model'':
+%%    \item
+%%    \cite{PPR06}: ``Population Structure and Eigenanalysis'':
+%%    \end{itemize}
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% \textbf{Statistical Physics}:
+%% \begin{itemize}
+%% \item
+%% RTFM: \cite{SST92,WRB93,DKST96,EB01_BOOK}
+%% \item
+%% MM17: \cite{MM17_TR}
+%% \item
+%% SG stuff:
+%%    \begin{itemize}
+%%    \item
+%%    \cite{SWMG15_TR}: ``Deep unsupervised learning using nonequilibrium thermodynamics'':
+%%    \\ (SG Paper.)
+%%    \item
+%%    \cite{GSB16}: ``Deep neural networks with random {G}aussian weights: a universal classification strategy?'':
+%%    \\ ()
+%%    \item
+%%    \cite{PLRx16}: ``Exponential expressivity in deep neural networks through transient chaos'':
+%%    \\ (SG Paper.)
+%%    \item
+%%    \cite{SGGS16_TR}: ``Deep Information Propagation'':
+%%    \\ (SG Paper.)
+%%    \item
+%%    \cite{SWC17_TR}: ``Spectral Ergodicity in Deep Learning Architectures via Surrogate Random Matrices'':
+%%    \\ ()
+%%    \item
+%%    \cite{RPKGx17}: ``On the expressive power of deep neural networks'':
+%%    \\ (SG Paper.)
+%%    \item
+%%    \cite{PSG17_TR}: ``Resurrecting the sigmoid in deep learning through dynamical isometry: theory and practice'':
+%%    \\ (SG Paper.)
+%%    \item
+%%    \cite{PW16_NIPS}: ``Nonlinear random matrix theory for deep learning''
+%%    \\ (Pennington)
+%%    \item
+%%    \cite{PB17_ICML}: ``Geometry of Neural Network Loss Surfaces via Random Matrix Theory''
+%%    \\ (Pennington)
+%%    \end{itemize}
+%% \item
+%% \cite{GAZ17_TR}: ``Interpretation of neural networks is fragile'':
+%% \\ (interpretation is fragile, consistent with Nishimori and SOC)
+%% \item
+%% \cite{HS18_TR}: ``Doing the impossible: why neural networks can be trained at all'':
+%% \\ (connections to strongly correlated systems;)
+%% \item
+%% \cite{CMPx17_TR}: ``Statistical physics and representations in real and artificial neural networks''
+%% \\ (maybe a few expositional things to take;)
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% \textbf{Cite these, but where is best}:
+%% \begin{itemize}
+%% \item
+%% \cite{AS17dynamics_TR}: ``High-dimensional dynamics of generalization error in neural networks'':
+%% \\ (good thing to cite that we need to make several connections to;)
+%% \item
+%% \cite{Hil09}: ``Central limit theorems for correlated variables: some critical remarks'': 
+%% \\ (Correlated/heavy-tailed random variables; Mentions CLT for correlated r.v., mabye cite only this and not others;)
+%% \item
+%% Universality classes for extreme-value statistics:
+%% ()
+%% \item
+%% \cite{LMBx18_TR}: ``A surprising linear relationship predicts test performance in deep networks'': 
+%% \\ (Poggio theory; overparameterization; they do something and get a linear relationship; follow-up on their theory that says look at products of Frobenius norms of weight matrices;)
+%% \item
+%% \cite{CS15_v4_TR}: ``The Effect of Gradient Noise on the Energy Landscape of Deep Networks'':
+%% \\ (regulariation properties of additive gradient noise; spin glass; trivialization of energy landscape;)
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% \textbf{SGD does other stuff and fiddling with algs.}
+%% \begin{itemize}
+%% \item
+%% \cite{CS17_TR}: ``Stochastic gradient descent performs variational inference, converges to limit cycles for deep networks'':
+%% \\ (implicit regularization; SGD optimize effective potential with entropic loss; and does not converge in usual way;)
+%% \item
+%% \cite{CBZx17_TR}: ``{PARLE}: Parallelizing stochastic gradient descent''
+%% \\ (exploit flat minima to improve SGD;)
+%% \item
+%% \cite{NVLSx15_TR}: ``Adding gradient noise improves learning for very deep networks''
+%% \\ (add noise to gradients;)
+%% \item
+%% \cite{SSS17_TR}: ``Failures of gradient-based deep learning''
+%% \\ (good thing to know and maybe cite;)
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% \textbf{VC is stupid}:
+%% \begin{itemize}
+%% \item
+%% \cite{DR17_TR}: ``Entropy-{SGD} optimizes the prior of a {PAC}-{B}ayes bound: generalization properties of {E}ntropy-{SGD} and data-dependent priors'':
+%% \\ (Prob dont cite.)
+%% \item
+%% \cite{BFT17_TR}: ``Spectrally-normalized margin bounds for neural networks'':
+%% \\ (Recent Bartlett paper;)
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% \textbf{Glass connections}:
+%% \begin{itemize}
+%% \item
+%% \cite{BGGT12}: ``How glassy are neural networks?'':
+%% \\ ()
+%% \item
+%% \cite{BSGx18_TR}: ``Comparing dynamics: deep neural networks versus glassy systems'':
+%% \\ (recent work on glass perspective;)
+%% \item
+%% \cite{HHS17_TR}: ``Train longer, generalize better: closing the generalization gap in large batch training of neural networks'':
+%% \\ (generalization gap; glass; analysis of generalization gap using glass theory;)
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% \textbf{Fitting to signal versus noise}:
+%% \begin{itemize}
+%% \item
+%% \cite{KBJx17}: ``Deep nets don't learn via memorization''
+%% \\ (describes some differences between training on noise versus signal; cite this;)
+%% \item
+%% \cite{RVBS17_TR}: ``Deep Learning is Robust to Massive Label Noise'':
+%% \\ (example where noisy labels do not affect accuracy;)
+%% \item
+%% \cite{SBPBF14_TR}: ``Training Convolutional Networks with Noisy Labels'':
+%% \\ (something about noisy labels;)
+%% \item
+%% \cite{AJBKx17_TR}: ``A Closer Look at Memorization in Deep Networks'': 
+%% \\ (with noisy labels, DNNs fit to signal first)
+%% \item
+%% \cite{PP95}: ``Mean-field equations for spin models with orthogonal interaction matrices''
+%% \\ (derive number of solutions of optimization problem, averages over random matrix ensemble; does this give number of solutions as function of above minimum;)
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% \textbf{Important, but maybe for next time and probably not now}:
+%% \begin{itemize}
+%% \item
+%% \cite{CHMAx14_TR}: ``The Loss Surfaces of Multilayer Networks'':
+%% \\ (original paper; Gaussian spin glass; energy landscape)
+%% \item
+%% \cite{galluccio1998}: ``Rational decisions, random matrices and spin glasses'':
+%% \\ (spin glass of Levy-like spin gasses is not exponentially-degenerate;)
+%% \item
+%% \cite{GabKon99}: ``Portfolios with nonlinear constraints and spin glasses'':
+%% \\ (geometric arguments similar to \cite{galluccio1998};)
+%% \item
+%% \cite{IZ80}: ``The planar approximation. {II}''
+%% \\ (generating function used to compute number of solutions of optimization problem;)
+%% \item
+%% \cite{CB93}: ``Mean field theory of dilute spin-glasses with power-law interactions''
+%% \\ (conjecture that spin glasses with broad range of couplings cannot sustain too many ground states;)
+%% \item
+%% \cite{SCP16_TR}: ``Local minima in training of deep networks'':
+%% \\ (some vague suggestions about being ruggedly convex)
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% Saddles versus local min:
+%% \begin{itemize}
+%% \item
+%% \cite{GVS14_TR}: ``Qualitatively characterizing Neural network optimization problems'':
+%% \\ (analysis method to show local optima are not a problem;)
+%% \item
+%% \cite{GMDB16_TR}: ``Noisy activation functions'':
+%% \\ (add noise to gradients helps with different things; sculpt penalty surface;)
+%% \item
+%% \cite{SH17_TR}: ``Exponentially vanishing sub-optimal local minima in multilayer nerual networks'':
+%% \\ (local minima unlikely)
+%% \item
+%% \cite{PDGB14_TR}: ``On the saddle point problem for non-convex optimization''
+%% \\ (saddle points, not minima, are the real problem for energy landscapes)
+%% \item
+%% \cite{DPGCx14}: ``Identifying and attacking the saddle point problem in high-dimensional non-convex optimization'':
+%% \\ (saddle points, not minima, are the real problem for energy landscapes; extension of \cite{PDGB14_TR})
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% And here are some other things to include or not:
+%% \begin{itemize}
+%% \item
+%% \cite{RT18_TR}: ``Intriguing properties of randomly weighted networks: generalizing while learning next to nothing''
+%% \\ (fix almost all weights and learn only a few, and train and do almost as well;
+%% \item
+%% \cite{ALM15_TR}: ``Why are deep nets reversible: A simple theory, with implications for training'':
+%% \\ ()
+%% \item
+%% \cite{ABC10_TR}: ``Random Matrices and complexity of Spin Glasses'':
+%% \\ (Auffinger;)
+%% \item
+%% \cite{BKH16_TR}: ``Layer Normalization'':
+%% \\ ()
+%% \item
+%% \cite{GVS14_TR}: ``Qualitatively characterizing neural network optimization problems'':
+%% \\ ()
+%% \item
+%% \cite{HMM92_memorization}: ``Memorization Without Generalization in a Multilayered Neural Network'':
+%% \\ ()
+%% \item
+%% \cite{Kaw16}: ``Deep Learning without Poor Local Minima'':
+%% \\ ()
+%% \item
+%% \cite{KKB17_TR}: ``Generalization in Deep Learning'':
+%% \\ (they say they do everything; relate to their claims; a little silly)
+%% \item
+%% \cite{MP16_TR}: ``Deep vs. shallow networks: An approximation theory perspective'':
+%% \\ (Poggio theory.)
+%% \item
+%% \cite{PMRML16_TR}: ``Why and when can deep---but not shallow---networks avoid the curse of dimensionality: a review'':
+%% \\ (Poggio theory.)
+%% \item
+%% \cite{PL17_TR}: ``Theory {II}: Landscape of the empirical risk in deep learning'':
+%% \\ (Poggio theory.)
+%% \item
+%% \cite{ZLRSx17_TR}: ``Theory of deep learning {III}: Generalization properties of {SGD}'':
+%% \\ (Poggio theory.)
+%% \item
+%% \cite{PKLSx18_TR}: ``Theory of deep learning {III}: explaining the non-overfitting puzzle'':
+%% \\ (Poggio theory.)
+%% \item
+%% \cite{ZLRx18_TR}: ``Theory of Deep Learning {IIb}: Optimization Properties of SGD'':
+%% \\ (Poggio theory.)
+%% \item
+%% \cite{MP18_TR}: ``An analysis of training and generalization errors in shallow and deep networks'':
+%% \\ (Poggio theory.)
+%% \item
+%% \cite{PLMx18_TR}: ``Theory IIIb: Generalization in Deep Networks'':
+%% \\ (Poggio theory.)
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% Here are some more from the most recent round of bib refs:
+%% \begin{itemize}
+%% \item
+%% \cite{Laa17_TR}: ``L2 regularization versus batch and weight normalization''
+%% \\ (different forms of regularization are coupled in complex ways;)
+%% \item
+%% \cite{HN17}: ``Localization of {L}aplacian eigenvectors on random networks''
+%% \\ (eigenvector localization;)
+%% \item
+%% \cite{MNB10}: ``Localization transition in symmetric random matrices''
+%% \\ (eigenvalue localization;)
+%% \item
+%% \cite{DL18_TR}: ``On the power of over-parameterization in neural networks with quadratic activations''
+%% \\ (overparameterization enables local search finds global solution;)
+%% \item
+%% \cite{DR17_nonvacuous_TR}: ``Computing nonvacuous generalization bounds for deep (stochastic) neural networks with many more parameters than training data''
+%% \\ (theory result; overparameterization; maybe to point to;)
+%% \item
+%% \cite{MBM16_TR}: ``The Landscape of Empirical Risk for Non-convex Losses'':
+%% \\ ()
+%% \item
+%% \cite{HP18}: ``Optimization by self-organized criticality''
+%% \\ ()
+%% \item
+%% \cite{BDHS17_TR}: ``Universality for critical heavy-tailed network models: metric structure of maximal components''
+%% \\ ()
+%% \item
+%% \cite{BJNx06_TR}: ``Random {L}{\'e}vy matrices revisited''
+%% \\ (Burda;)
+%% \item
+%% \cite{COO17_TR}: ``Deep relaxation: Partial differential equations for optimizing deep neural networks''
+%% \\ (PDE; energy landscape;)
+%% \item
+%% \cite{DHLS16_TR}: ``Heavy-tailed configuration models at criticality''
+%% \\ ()
+%% \item
+%% \cite{FC18_TR}: ``The lottery ticket hypothesis: training pruned neural networks''
+%% \\ (successful training depends on lucky details of initialization and/or subnetworks;)
+%% \item
+%% \cite{LK17_TR}: ``Depth creates no bad local minima''
+%% \\ (some theory result, maybe to point to;)
+%% \item
+%% \cite{MT17_TR}: ``Mixing complexity and its application to neural networks''
+%% \\ (theory about space constraints for NNs;)
+%% \item
+%% \cite{AS17emergence_TR}: ``Emergence of invariance and disentanglement in deep representations'':
+%% \\ ()
+%% \item
+%% \cite{AFM13_TR}: ``Properties of networks with partially structured and partially random connectivity'':
+%% \\ (model that includes both structure and noise;)
+%% \item
+%% \cite{SYN15_TR}: ``Understanding adversarial training: increasing local stability of neural nets through robust optimization'':
+%% \\ (more like amir)
+%% \item
+%% \cite{SL17_TR}: ``A {B}ayesian perspective on generalization and stochastic gradient descent'':
+%% \\ (show Zhang results happen in linear networks; Bayesian penalization of shart minima;)
+%% \item
+%% \cite{ZVAx18_TR}: ``Compressibility and generalization in large-scale deep learning'':
+%% \\ (connection between compression of NNs and generalization; and compressibility of models that overfit is limited;)
+%% \item
+%% \cite{BG90}: ``Anomalous diffusion in disordered media: Statistical mechanisms, models and physical applications'':
+%% \\ (our approach uses disordered systems, etc., which suggests that this is underlying approach that is promising;)
+%% \end{itemize}
+%% 
+%% 
+%% \noindent
+%% Probably don't cite at this point:
+%% \begin{itemize}
+%% \item
+%% \cite{AGP16}: ``Beyond universality in random matrix theory''
+%% \\ (about minimum singular value at $N<\infty$;)
+%% \item
+%% \cite{CD13}: ``Signal processing in large systems: A new paradigm''
+%% \\ (RMT review for signal processing in thermodynamic-like limit;)
+%% \item
+%% \cite{SM99}: ``Distributions of singular values for some random matrices''
+%% \\ (extend vanilla to heterogeneous correlated noise;)
+%% \item
+%% \cite{BFMY12}: ``The correspondence between long-range and short-range spin glasses''
+%% \\ (dont need to cite at this point;)
+%% \item
+%% \cite{YYFA17_TR}: ``On the importance of consistency in training deep neural networks''
+%% \\ (inconsistence between different layers, etc.;)
+%% \item
+%% \cite{IS15}: ``Batch normalization: accelerating deep network training by reducing internal covariate shift''
+%% \\ (normalization;)
+%% \item
+%% \cite{Smi18_TR}: ``A disciplined approach to neural network hyper-parameters: Part {I} - learning rate, batch size, momentum, and weight decay'':
+%% \\ ()
+%% \item
+%% \cite{SHNx17_TR}: ``The implicit bias of gradient descent on separable data'':
+%% \\ ()
+%% \item
+%% \cite{ImageNet15}: ``{ImageNet} Large Scale Visual Recognition Challenge'':
+%% \\ ()
+%% \item
+%% \cite{UVL17_TR}: ``Deep Image Prior''
+%% \\ (structure of the generator network is important and provides inductive bias;)
+%% \item
+%% \cite{MS14_TR}: ``An exact mapping between the Variational Renormalization Group and Deep Learning'':
+%% \\ (Prob dont cite.)
+%% \item
+%% \cite{MFFF16_TR}: ``Universal adversarial perturbations'':
+%% \\ (Prob dont cite.)
+%% \item
+%% \cite{GAN2014}: ``Generative Adversarial Nets'':
+%% \\ (Prob dont cite.)
+%% \item
+%% \cite{GSS14_TR}: ``Explaining and harnessing adversarial examples'':
+%% \\ (Prob dont cite.)
+%% \item
+%% \cite{SZSBx13_TR}: ``Intriguing properties of neural networks'':
+%% \\ (Can do minor adversarial perturbations.)
+%% \end{itemize}
+%% 
+%% 
+%% 
+%% %%\subsection{Placeholder section for miscellaneous text of Charles}
+%% %%
+%% %%\charles{
+%% %%XXX.  CHARLES, 	HERE IS A PLACE TO PUT MISCELLANEOUS TEXT AS YOU MOVE THINGS AROUND.
+%% %%}
+%% 
+%% 
