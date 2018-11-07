@@ -129,17 +129,27 @@ For the Conv2D layers, we relate the 'Norm' of the 4-index Tensor $\mathbf{W}_{l
 
 $$\text{Conv2D Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert\rightarrow-\sum_{i}\sqrt{b_{l,j}(\alpha_{i,l})}$$
 
-So in the expression for the product norm for $\log\mathcal{C}$, let us replace each $\log\Vert\mathbf{W}_{l}\Vert$ for layer $l$ with the sum of the power law exponents $\alpha_{l,i}$ for the $n{_l}$ $\mathbf{W}_{l,i}$ layer matrices, and take the average over all $N_{\alpha}$  matrices.  This gives a new, albeit rather crude complexity metric for the entire DNN
+So in the expression for the product norm for $\log\mathcal{C}$, let us replace each $\log\Vert\mathbf{W}_{l}\Vert$ for layer $l$ with the sum of the power law exponents $\alpha_{l,i}$ for the $n{_l}$ $\mathbf{W}_{l,i}$ layer matrices, and take the average over all $N_{\alpha}$  matrices.  This lets us relate the product norm complexity metric to the weighted average of power law exponents
 
-\charles{We don't really use this, but we could:}
+$$\langle\log\Vert\mathbf{W}\Vert\rangle\rightarrow\hat{\alpha}$$
 
-$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}b_{i,j}\alpha_{i,l}$$
-
-\charles{Or we could use}
+where
 
 $$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}\sqrt{b_{i,j}\alpha_{i,l}}$$
 
-\charles{The main complication is if we use log norms or we use a sum of $\alpha$.  Plus we can drop the $-1$ but we have to deal with the sign change, which I have to work out}
+\charles{Or we could just use the square of the Frobenius norm as the VC complexity metric :
+
+$$\mathcal{C}\sim\Vert\mathbf{W}^{2}_{1}\Vert\times\Vert\mathbf{W}^{2}_{2}\Vert\cdots\Vert\mathbf{W}^{2}_{L}\Vert$$
+
+which gives
+
+$$\langle\log\Vert\mathbf{W}\Vert^{2}\rangle\rightarrow\hat{\alpha}$$
+
+where
+
+$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}b_{i,j}\alpha_{i,l}$$
+
+which would make the presentation easier, but may have some theoretical complications.  .I have not decided yet the best way top write this up}
 
 We can now use $\hat{\alpha}$ ,  or, equivalently, $\langle\log\Vert\mathbf{W}\Vert\rangle$ to analyze numerous pre-trained DNNs...and the results are indeed surprising.
 
