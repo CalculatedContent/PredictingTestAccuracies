@@ -121,23 +121,14 @@ $$\log\Vert\mathbf{W}\Vert\rightarrow \sqrt{b\alpha}$$
 
 where the weight factor is $b$ is 
 
-$$b=\log\lambda_{max}$$
-
-Notice that the maximum eigenvalue is of order $10^{2}-10^{3}$ for  most DNNs we have observed so far, giving $b\sim(1-2)\times\lambda_{max}$
-
-\charlesX{just a crude estimate}
-$$\log\Vert\mathbf{W}\Vert\sim(1-2)\times\sqrt{(\alpha-1)\lambda_{max}}$$
-
-\charlesX{
-Notice this is negative..which means there is a normalization issue or something else off
-}
+$$b=\log\lambda_{max}\sim(1-2)$$
 
 
-$$\text{Linear Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert\rightarrow\sqrt{b_{l}(\alpha_{l}-1)}$$
+$$\text{Linear Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert\rightarrow\sqrt{b_{l}(\alpha_{l})}$$
 
 For the Conv2D layers, we relate the 'Norm' of the 4-index Tensor $\mathbf{W}_{l}$ to the sum of the integrals of the $n=c\times d$ ESDs for each feature map, giving 
 
-$$\text{Conv2D Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert\rightarrow-\sum_{i}\sqrt{b_{l,j}(\alpha_{i,l}-1)}$$
+$$\text{Conv2D Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert\rightarrow-\sum_{i}\sqrt{b_{l,j}(\alpha_{i,l})}$$
 
 So in the expression for the product norm for $\log\mathcal{C}$, let us replace each $\log\Vert\mathbf{W}_{l}\Vert$ for layer $l$ with the sum of the power law exponents $\alpha_{l,i}$ for the $n{_l}$ $\mathbf{W}_{l,i}$ layer matrices, and take the average over all $N_{\alpha}$  matrices.  This gives a new, albeit rather crude complexity metric for the entire DNN
 
