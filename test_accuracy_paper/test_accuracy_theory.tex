@@ -111,31 +111,50 @@ $$\int_{\lambda_{min}}^{\lambda_{max}}\log\lambda d\lambda=\lambda_{max}(\log \l
 %$$\int_{x_{min}}^{x_{max}}\log\lambda d\lambda\sim\lambda_{max}$$
 
 \charles{FINISH WRITEUP AND and numerical results}
+\charlesX{This could all be presented as a theorem--building on work by Hidary and Poggio}
+
+\charles{We need to clean up the math.  I think we could use $\vert\mathbf{W}_{F}\vert$ or $\Vert\mathbf{W}\Vert$  or $\vert\mathbf{W}_{F}\vert^{2}$ and could form the complexity metrix in terms of the produt norm of W, the product norm squared of W, or even the product norm of X.   }.  
+
+$$\log\Vert\mathbf{W}\Vert\rightarrow \sqrt{b(\alpha-1)}$$
+
+where the weight factor is $b$ is 
+
+$$b=\lambda_{max}(\log \lambda_{max} - 1)$$
+
+Notice that the maximum eigenvalue is of order $10^{2}-10^{3}$ for  most DNNs we have observed so far, giving $b\sim(1-2)\times\lambda_{max}$
+
+\charlesX{just a crude estimate}
+$$\log\Vert\mathbf{W}\Vert\sim(1-2)\times\sqrt{(\alpha-1)\lambda_{max}}$$
 
 
-$$\log\Vert\mathbf{W}\Vert\rightarrow\sqrt{\alpha-1}$$
 
-
-$$\log\Vert\mathbf{W}\Vert\rightarrow\sqrt{(\alpha-1)\lambda_{max}}$$
-
-
-For a simple Linear layer, we will directly replace the log matrix norm $\log\Vert\mathbf{W}_{l}\Vert$ with the corresponding power law exponent $\alpha_{l}$.  
-
-$$\text{Linear Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert\rightarrow\sqrt{\alpha_{l}-1}$$
+$$\text{Linear Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert\rightarrow\sqrt{b_{l}(\alpha_{l}-1)}$$
 
 For the Conv2D layers, we relate the 'Norm' of the 4-index Tensor $\mathbf{W}_{l}$ to the sum of the integrals of the $n=c\times d$ ESDs for each feature map, giving 
 
-$$\text{Conv2D Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert\rightarrow-\sum_{i}\sqrt{\alpha_{i,l}-1}$$
+$$\text{Conv2D Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert\rightarrow-\sum_{i}\sqrt{b_{l,j}(\alpha_{i,l}-1)}$$
 
 So in the expression for the product norm for $\log\mathcal{C}$, let us replace each $\log\Vert\mathbf{W}_{l}\Vert$ for layer $l$ with the sum of the power law exponents $\alpha_{l,i}$ for the $n{_l}$ $\mathbf{W}_{l,i}$ layer matrices, and take the average over all $N_{\alpha}$  matrices.  This gives a new, albeit rather crude complexity metric for the entire DNN
 
-\charles{what i have been doing so far...}
+\charles{We don't really use this, but we could:}
 
-$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}(1-\alpha_{i,l})$$
+$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}b_{i,j}(1-\alpha_{i,l})$$
 
+\charles{Or we could use}
 
+$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}\sqrt{b_{i,j}(1-\alpha_{i,l})}$$
+
+\charles{The main complication is if we use log norms or we use a sum of $\alpha$.  Plus we can drop the $-1$ but we have to deal with the sign change, which I have to work out}
 
 We can now use $\hat{\alpha}$ to analyze numerous pre-trained DNNs...and the results are indeed surprising.
 
+\paragraph{Numerical Example of Power Law / Norm Relation}
+
+But first, some numerical examples of the relation between $log\Vert\mathbf{W}\Vert$ and $\alpha$
+BLAH
+
+BLAH
+
+BLAH
 
 
