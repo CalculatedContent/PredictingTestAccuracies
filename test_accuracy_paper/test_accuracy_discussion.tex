@@ -3,15 +3,15 @@
 \label{sxn:discussion}
 \vspace{-3mm}
 
-We have presented a \emph{Unsupervised} metric which  predicts the trends in the test accuracies of a trained deep neural network without peeking at the test data. This complexity metic $\hat{\alpha}$ is a weighted average of the power law exponents for each layer weight matrix. We prove that this new complexity metic  is equivalent to the the average log of the Frobenius norm of the layer weight matrices, $\langle\Vert\mathbf{W}\Vert\rangle$, which is much easier to compute.
+We have presented a \emph{Unsupervised} metric which  predicts the trends in the test accuracies of a trained deep neural network without peeking at the test data. This complexity metic $\hat{\alpha}$ is a weighted average of the power law exponents for each layer weight matrix. We prove that this new complexity metic  is equivalent to the the average log of the Frobenius norm of the layer weight matrices, $\langle\Vert\log\mathbf{W}\Vert\rangle$, which is much easier to compute.
 
-We examine several  commonly available, production quality, pretrained DNNs  by plotting  the average complexity metric $\langle\Vert\mathbf{W}\Vert\rangle$ vs the reported (Top1) test accuracies. This covers classes of DNN architectures including the VGG models, ResNet, Inception (not shown yet), etc.  In nearly every class, the smaller average. complexity, the better the test accuracy.
+We examine several  commonly available, production quality, pretrained DNNs  by plotting  the average complexity metric $\langle\Vert\log\mathbf{W}\Vert\rangle$ vs the reported (Top1) test accuracies. This covers classes of DNN architectures including the VGG models, ResNet, DenseNet, etc.  In nearly every class, the smaller average complexity, the better the test accuracy.
 
-The method is consistent with both recent theoretical results by Hidary and Poggio, but the the approach and the intent is a bit different. 
+The method is consistent with both recent theoretical results by Hidary and Poggio, but the approach and the intent is a bit different. 
 Unlike their result, our approach does not require modifying the loss function.
-Moreover, they seek a \emph{worst case} complexity bound.  We seek to provide \emph{average case} metrics that. can be used in production
+Moreover, they seek a \emph{worst case} complexity bound.  We seek to provide \emph{average case} metrics that can be used in production
 to guide the development of better DNNs.
 
 We believe this result will have large applications in hyperparameter fine tuning DNNs.  Because we do not need to peek at the test data, it may prevent information from leaking from the test set into the model, thereby helping to prevent overtraining and making fined tuned DNNs more robust.
 
-This work also leads to a much harder theoretical question; is it possible to determine if a DNN is overtrained without peeking at the test data.
+This work also leads to a much harder theoretical question; is it possible to determine if a DNN is overtrained without peeking at the test data ?  
