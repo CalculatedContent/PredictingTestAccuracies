@@ -97,37 +97,31 @@ Technically, the power only describes the tail of the ESD,  for the range $\lamb
 
 If we take the log matrix norm (and dropping the $l,i$ subscripts) we get
 
-$$\log\Vert\mathbf{W}\Vert^{2}\sim\log\int_{\lambda_{min}}^{\lambda_{max}}\lambda\rho(\lambda)d\lambda$$
+$$\log\Vert\mathbf{W}\Vert^{2}\approx\log\int_{\lambda_{min}}^{\lambda_{max}}\lambda\rho(\lambda)d\lambda$$
 $$=\log\int_{\lambda_{min}}^{\lambda_{max}}\lambda^{1-\alpha}d\lambda$$
-$$=\int_{\lambda_{min}}^{\lambda_{max}}\log\lambda^{1-\alpha}d\lambda$$
-$$=(1-\alpha)\int_{\lambda_{min}}^{\lambda_{max}}\log\lambda d\lambda$$
+$$=\log\left[\dfrac{\lambda^{\alpha}}{\alpha}\right]^{\lambda_{max}}_{\lambda_{min}}$$
 
-Notice that since the power law exponents mostly display Universality empirically, the range $[\lambda_{min},\lambda_{max}]$ is also roughly the same for all matrices, with the minimum eigenvalue is near zero, $\lambda_{min}\sim 0$, and the maximum eigenvalue is  empirically bounded, roughly $\lambda_{max}\sim\mathcal{O}(10^{2}-10^{4})$.  
+Since $\lambda_{min}\sim 0$, we have \charles{check this}
 
-Let us now write the analytic form of the integrand $\int_{\lambda_{min}}^{\lambda_{max}}\log\lambda d\lambda$:
+$$\log\Vert\mathbf{W}\Vert^{2}\approx\alpha\log\lambda_{max}$$
 
-$$\int_{\lambda_{min}}^{\lambda_{max}}\log\lambda d\lambda=\lambda_{max}(\log \lambda_{max} - 1)-\lambda_{min}(\log \lambda_{min} - 1)$$
+Notice that since the power law exponents mostly display Universality empirically, the range $[\lambda_{min},\lambda_{max}]$ is also roughly the same for all matrices, with the minimum eigenvalue is near zero, $\lambda_{min}\sim 0$, and the maximum eigenvalue is  empirically bounded, roughly $\lambda_{max}\sim\mathcal{O}(10^{1}-10^{2})$.  
 
-Since $\lambda_{min}\sim 0$, we have
-$$\int_{\lambda_{min}}^{\lambda_{max}}\log\lambda d\lambda=\lambda_{max}(\log \lambda_{max} - 1)$$
+This gives 
+
+$$\log_{10}\Vert\mathbf{W}\Vert^{2}\approx(1-2)\times\alpha$$
 
 
-%So for our purposes here, we can assume $\int_{x_{min}}^{x_{max}}\log\lambda d\lambda$ is roughly the same order across DNNs, and will factor out of our complexity metric.=
-
-%Generally we find $x_{max}\sim\mathcal{O}(10^{2})$, so  $x_{max}(\log x_{max} - 1)\sim x_{max}(2-1)\sim\lambda_{max}$.  Similarly $x_{min}\sim 0$. 
-
-%$$\int_{x_{min}}^{x_{max}}\log\lambda d\lambda\sim\lambda_{max}$$
-
-\charles{FINISH WRITEUP AND and numerical results}
+\charles{FINISH WRITEUP AND and numerical results. In particular, we may be off by some scaling factor in $\rho(\lambda)$}
 \charlesX{This could all be presented as a theorem--building on work by Hidary and Poggio}
 
 \charles{We need to clean up the math.  I think we could use $\vert\mathbf{W}_{F}\vert$ or $\Vert\mathbf{W}\Vert$  or $\vert\mathbf{W}_{F}\vert^{2}$ and could form the complexity metrix in terms of the produt norm of W, the product norm squared of W, or even the product norm of X.   }.  
 
-$$\log\Vert\mathbf{W}\Vert\rightarrow \sqrt{b(\alpha-1)}$$
+$$\log\Vert\mathbf{W}\Vert\rightarrow \sqrt{b\alpha}$$
 
 where the weight factor is $b$ is 
 
-$$b=\lambda_{max}(\log \lambda_{max} - 1)$$
+$$b=\log\lambda_{max}$$
 
 Notice that the maximum eigenvalue is of order $10^{2}-10^{3}$ for  most DNNs we have observed so far, giving $b\sim(1-2)\times\lambda_{max}$
 
@@ -149,11 +143,11 @@ So in the expression for the product norm for $\log\mathcal{C}$, let us replace 
 
 \charles{We don't really use this, but we could:}
 
-$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}b_{i,j}(1-\alpha_{i,l})$$
+$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}b_{i,j}\alpha_{i,l}$$
 
 \charles{Or we could use}
 
-$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}\sqrt{b_{i,j}(1-\alpha_{i,l})}$$
+$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}\sqrt{b_{i,j}\alpha_{i,l}}$$
 
 \charles{The main complication is if we use log norms or we use a sum of $\alpha$.  Plus we can drop the $-1$ but we have to deal with the sign change, which I have to work out}
 
