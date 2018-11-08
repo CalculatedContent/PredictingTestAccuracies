@@ -94,7 +94,12 @@ $$\Vert\mathbf{W}_{l,i}\Vert^{2}\sim\int_{x_{min}}^{x_{max}}\lambda\rho_{l,i}(\l
 Technically, the power only describes the tail of the ESD,  for the range $\lambda\in[\lambda_{min},\lambda_{max}]$.
   But for most DNN layer matrices, this range covers most the ESD.  So this should be a pretty good approximation.
 
-If we take the log matrix norm (and dropping the $l,i$ subscripts) we get
+We note the  log matrix norm squared (and dropping the $l,i$ subscripts) is just twice the log norm
+
+$$\log\Vert\mathbf{W}\Vert^{2}=2\log\Vert\mathbf{W}\Vert$$
+
+which makes the following analysis much simpler.  We now have
+
 
 $$\log\Vert\mathbf{W}\Vert^{2}\approx\log\int_{\lambda_{min}}^{\lambda_{max}}\lambda\rho(\lambda)d\lambda$$
 $$=\log\int_{\lambda_{min}}^{\lambda_{max}}\lambda^{1-\alpha}d\lambda$$
@@ -102,60 +107,37 @@ $$=\log\left[\dfrac{\lambda^{\alpha}}{\alpha}\right]^{\lambda_{max}}_{\lambda_{m
 
 Since $\lambda_{min}\sim 0$, we have \charles{check this}
 
-$$\log\Vert\mathbf{W}\Vert^{2}\approx\alpha\log\lambda_{max}$$
+$$\log\Vert\mathbf{W}\Vert^{2}=2\log\Vert\mathbf{W}\Vert\approx\alpha\log\lambda_{max}$$
 
 Notice that since the power law exponents mostly display Universality empirically, the range $[\lambda_{min},\lambda_{max}]$ is also roughly the same for all matrices, with the minimum eigenvalue is near zero, $\lambda_{min}\sim 0$, and the maximum eigenvalue is  empirically bounded, roughly $\lambda_{max}\sim\mathcal{O}(10^{1}-10^{2})$.  
 
 This gives 
 
-$$\log_{10}\Vert\mathbf{W}\Vert^{2}\approx(1-2)\times\alpha$$
+$$2\log_{10}\Vert\mathbf{W}\Vert\approx(1-2)\times\alpha$$
 
 
 \charles{FINISH WRITEUP AND and numerical results. In particular, we may be off by some scaling factor in $\rho(\lambda)$}
 \charlesX{This could all be presented as a theorem--building on work by Hidary and Poggio}
 
-\charles{We need to clean up the math.  I think we could use $\vert\mathbf{W}_{F}\vert$ or $\Vert\mathbf{W}\Vert$  or $\vert\mathbf{W}_{F}\vert^{2}$ and could form the complexity metrix in terms of the produt norm of W, the product norm squared of W, or even the product norm of X.   }.  
 
-$$\log\Vert\mathbf{W}\Vert\rightarrow \sqrt{b\alpha}$$
-
-where the weight factor is $b$ is 
-
-$$b=\log\lambda_{max}\sim(1-2)$$
-
-
-$$\text{Linear Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert\rightarrow\sqrt{b_{l}(\alpha_{l})}$$
+$$\text{Linear Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert^{2}\rightarrow b_{l}\alpha_{l}$$
 
 For the Conv2D layers, we relate the 'Norm' of the 4-index Tensor $\mathbf{W}_{l}$ to the sum of the integrals of the $n=c\times d$ ESDs for each feature map, giving 
 
-$$\text{Conv2D Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert\rightarrow-\sum_{i}\sqrt{b_{l,j}(\alpha_{i,l})}$$
+$$\text{Conv2D Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert^{2}\rightarrow \sum_{i}b_{i,l}\alpha_{i,l}$$
 
 So in the expression for the product norm for $\log\mathcal{C}$, let us replace each $\log\Vert\mathbf{W}_{l}\Vert$ for layer $l$ with the sum of the power law exponents $\alpha_{l,i}$ for the $n{_l}$ $\mathbf{W}_{l,i}$ layer matrices, and take the average over all $N_{\alpha}$  matrices.  This lets us relate the product norm complexity metric to the weighted average of power law exponents
-
-$$\langle\log\Vert\mathbf{W}\Vert\rangle\rightarrow\hat{\alpha}$$
-
-where
-
-$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}\sqrt{b_{i,j}\alpha_{i,l}}$$
-
-\charles{Or we could just use the square of the Frobenius norm as the VC complexity metric :
-
-$$\mathcal{C}\sim\Vert\mathbf{W}^{2}_{1}\Vert\times\Vert\mathbf{W}^{2}_{2}\Vert\cdots\Vert\mathbf{W}^{2}_{L}\Vert$$
-
-which gives
-
-$$\langle\log\Vert\mathbf{W}\Vert^{2}\rangle\rightarrow\hat{\alpha}$$
 
 where
 
 $$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}b_{i,j}\alpha_{i,l}$$
 
-which would make the presentation easier, but may have some theoretical complications.  .I have not decided yet the best way top write this up}
 
-We can now use $\hat{\alpha}$ ,  or, equivalently, $\langle\log\Vert\mathbf{W}\Vert\rangle$ to analyze numerous pre-trained DNNs...and the results are indeed surprising.
+We can now use $\hat{\alpha}$ ,  or, equivalently, $2\langle\log\Vert\mathbf{W}\Vert\rangle$ to analyze numerous pre-trained DNNs...and the results are indeed surprising.
 
 \paragraph{Numerical Example of Power Law / Norm Relation}
 
-But first, some numerical examples of the relation between $log\Vert\mathbf{W}\Vert$ and $\alpha$
+But first, some numerical examples of the relation between $\langle\log\Vert\mathbf{W}\Vert\rangle$ and $\alpha$
 
 
 BLAH
