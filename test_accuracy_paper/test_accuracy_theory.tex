@@ -87,18 +87,21 @@ which we explicitly define in terms of the base-10 log.
 
 \paragraph{Relation to Heavy Tailed Universality}
 
-The Frobenius norm is related to the integral of the ESD, over the range the power law is a good fit. 
+We note the  log matrix norm squared (and dropping the $l,i$ subscripts) is just twice the log norm
+
+$$\log\Vert\mathbf{W}\Vert^{2}=2\log\Vert\mathbf{W}\Vert$$
+
+which makes the following analysis much simpler.
+
+  We now note that 
+the Frobenius norm is related to the integral of the ESD, over the range the power law is a good fit. 
 
 $$\Vert\mathbf{W}_{l,i}\Vert^{2}\sim\int_{x_{min}}^{x_{max}}\lambda\rho_{l,i}(\lambda)d\lambda$$
 
 Technically, the power only describes the tail of the ESD,  for the range $\lambda\in[\lambda_{min},\lambda_{max}]$.
   But for most DNN layer matrices, this range covers most the ESD.  So this should be a pretty good approximation.
 
-We note the  log matrix norm squared (and dropping the $l,i$ subscripts) is just twice the log norm
 
-$$\log\Vert\mathbf{W}\Vert^{2}=2\log\Vert\mathbf{W}\Vert$$
-
-which makes the following analysis much simpler.  We now have
 
 
 $$\log\Vert\mathbf{W}\Vert^{2}\approx\log\int_{\lambda_{min}}^{\lambda_{max}}\lambda\rho(\lambda)d\lambda$$
