@@ -100,13 +100,27 @@ $$\Vert\mathbf{W}_{l,i}\Vert^{2}\sim\int_{x_{min}}^{x_{max}}\lambda\rho_{l,i}(\l
 
 Technically, the power only describes the tail of the ESD,  for the range $\lambda\in[\lambda_{min},\lambda_{max}]$.
   But for most DNN layer matrices, this range covers most the ESD.  So this should be a pretty good approximation.
-
-
-
-
-$$\log\Vert\mathbf{W}\Vert^{2}\approx\log\int_{\lambda_{min}}^{\lambda_{max}}\lambda\rho(\lambda)d\lambda$$
+  
+  So far we have
+  $$\log\Vert\mathbf{W}\Vert^{2}\approx\log\int_{\lambda_{min}}^{\lambda_{max}}\lambda\rho(\lambda)d\lambda$$
 $$=\log\int_{\lambda_{min}}^{\lambda_{max}}\lambda^{1-\alpha}d\lambda$$
-$$=\log\left[\dfrac{\lambda^{\alpha}}{\alpha}\right]^{\lambda_{max}}_{\lambda_{min}}$$
+
+But this integral is difficult to evaluate.  To get an expression we can work with, we will use a trick from statistical mechanics.
+
+\paragraph{The Annealed Approximation} lets us interchange the log and the integrand when computing the expected value 
+
+$$ \log\mathbb{E}[x]\leftrightarrow\mathbb{E}[\log(x)] $$
+
+So when evaluating our power law integral, we have
+
+$$\log\int\lambda^{1-\alpha}d\lambda\approx\int\log\lambda^{1-\alpha}d\lambda$$
+$$=\int\log\dfrac{1}{\lambda^{\alpha-1}}d\lambda$$
+$$=-\int\log\lambda^{\alpha-1}d\lambda$$
+$$\approx-\log\int\lambda^{\alpha-1}d\lambda$$
+
+This lets us now write
+
+$$\log\Vert\mathbf{W}\Vert^{2}\approx\log\left[\dfrac{\lambda^{\alpha}}{\alpha}\right]^{\lambda_{max}}_{\lambda_{min}}$$
 
 Since $\lambda_{min}\sim 0$, we have \charles{check this}
 
