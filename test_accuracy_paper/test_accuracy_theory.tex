@@ -108,7 +108,7 @@ Technically, the power only describes the tail of the ESD,  for the range $\lamb
   
 Of course,  we need to normalize the ESD $\rho(\lambda)$. For now, we simply take
 
-$$\rho(\lambda):=(1-\alpha)\lambda^{-\alpha}$$
+$$\rho(\lambda):=(\alpha-1)\lambda^{-\alpha}$$
 
 so that
 
@@ -119,20 +119,20 @@ Of course, eventually we need to consider this since we have a finite $\lambda_{
 
 For now let us just evaluate the integral
 
-$$\Vert\mathbf{W}\Vert^{2}=(1-\alpha)\int_{\lambda_{min}}^{\lambda_{max}}\lambda\rho(\lambda)d\lambda$$
-$$=(1-\alpha)\int_{\lambda_{min}}^{\lambda_{max}}\lambda^{1-\alpha}d\lambda$$
+$$\Vert\mathbf{W}\Vert^{2}=(\alpha-1)\int_{\lambda_{min}}^{\lambda_{max}}\lambda\rho(\lambda)d\lambda$$
+$$=(\alpha-1)\int_{\lambda_{min}}^{\lambda_{max}}\lambda^{\alpha-1}d\lambda$$
 
-$$=\dfrac{1-\alpha}{2-\alpha}\left[\lambda^{2-\alpha}\right]^{\lambda_{max}}_{\lambda_{min}}$$
+$$=\dfrac{\alpha-1}{2-\alpha}\left[\lambda^{2-\alpha}\right]^{\lambda_{max}}_{\lambda_{min}}$$
 
 Since $\lambda_{min}\sim 0$, we have 
 
-$$\Vert\mathbf{W}\Vert_{F}^{2}\approx\dfrac{1-\alpha}{2-\alpha}\lambda^{2-\alpha}_{max}$$
+$$\Vert\mathbf{W}\Vert_{F}^{2}\approx\dfrac{\alpha-1}{2-\alpha}\lambda^{2-\alpha}_{max}$$
 
 Taking the log of both sides now gives an expression for the log Norm (squared) 
 
-$$2\log\Vert\mathbf{W}\Vert_{F}\approx(2-\alpha)\log\lambda_{max}+log\;K_{\alpha}$$
+$$\log\Vert\mathbf{W}\Vert^{2}_{F}\approx(2-\alpha)\log\lambda_{max}+log\;K_{\alpha}$$
 
-where $K_{a}={\dfrac{1-\alpha}{2-\alpha}}$ is a normalization term that does not  depend on $\lambda_{max}$.
+where $K_{a}={\dfrac{\alpha-1}{2-\alpha}}$ is a normalization term that does not  depend on $\lambda_{max}$.
 
 \paragraph{Power Law - Norm Relation}
 
@@ -140,35 +140,51 @@ where $K_{a}={\dfrac{1-\alpha}{2-\alpha}}$ is a normalization term that does not
 
 Let us first write
 
-$$2\log\Vert\mathbf{W}\Vert\approx(-\alpha)\log\lambda_{max}+2\log\lambda_{max}+\log\;K_{\alpha}$$
+$$\log\Vert\mathbf{W}\Vert^{2}_{F}\approx(-\alpha)\log\lambda_{max}+2\log\lambda_{max}+\log\;K_{\alpha}$$
 
-We now test this relation between the Power Law exponent and the Log Frobenius Norm numerically.
-We generate a large number of random Heavy Tailed random matrices $\mathbf{W}^{rand}(\mu,Q)$, 
-with different aspect ratios $Q$, and drawn from a Pareto distributions with exponents $\mu\in[0.5, 5]$
+Notice that if we divide the log Norm by the log max eigenvalue, we get the the \emph{Stable Rank}, but with
+the numerator and denominator in log units.  We define this ratio as the
+
+\emph{Log-Units Stable Rank:  } 
+$$\mathcal{S}^{log}_{R}:=\dfrac{\log\Vert\mathbf{W}\Vert_{F}}{\log\lambda_{max}}$$
+
+Our simple derivation suggests that this ratio is linear in $\alpha$:
+
+$$\mathcal{S}^{log}_{R}\sim B\alpha+2+\cdots$$
+
+
+Notice that when $\alpha<2$, then $\lambda_{max}^{2-\alpha}$ is large, and the relation is dominated by $\alpha$.
+But when $\alpha<2$, then $\lambda_{max}^{2-\alpha}$ is small, and the Log-Units Stable Rank is $\mathcal{S}^{log}_{R}\sim 2$.
+
+\michael{combine into 1 equation...and why is $B>0$ ?}
+$$\mathcal{S}^{log}_{R}\approx B\alpha\;\;\alpha<2$$
+$$\mathcal{S}^{log}_{R}\approx 2.x\;\;\alpha>2$$
+
+
+We can test this relation between the Power Law exponent and the Log Frobenius Norm numerically.
+We generate a large number of random Heavy Tailed random matrices $\mathbf{W}^{rand}(\mu,M)$, 
+with different number of eigenvalues $M$ (with aspect ratio $Q=1$), 
+and drawn from a Pareto distributions with exponents $\mu\in[0.5, 5]$
 
 $$\Pr[{W}^{rand}_{i,j}]\sim\dfrac{1}{x^{1+\mu}}$$
 
 We fit the ESD of each $\mathbf{W}^{rand}$ to a power law using the method of Clauset et. al.
-to obtain the exponent $\alpha$.  We then study the empirical relation
+to obtain the exponent $\alpha$.  We then examinea the empirical relation between  the Log-Units Stable Rank 
+$\mathcal{S}^{log}_{R}$ and the ESD Power Law exponent $\alpha$
 
-$$\dfrac{\log\Vert\mathbf{W}^{rand}\Vert_{F}}{\log\lambda_{max}}\;\;vs.\;\;(2-\alpha)$$
+$$\mathcal{S}^{log}_{R}\;\;vs.\;\;\alpha$$
 
-\charlesX{other stuff
+\michael{or is this better:
+$$\dfrac{\log\Vert\mathbf{W}\Vert_{F}}{\log\lambda_{max}}\;\;vs.\;\;(\alpha)$$
 
-\emph{Stable Rank, in Log Units}
-$$\dfrac{\log\Vert\mathbf{W}^{rand}\Vert_{F}}{\log\lambda_{max}}$$
-
-
-$$\dfrac{\log\Vert\mathbf{W}^{rand}\Vert_{F}}{\log\lambda_{max}}\;\;vs.\;\;\alpha$$
-
-The key here is that the slope changes so the plot is flipped
 }
+
 
 Figure~\cite{randW} plots the data for the \emph{Power Law-Norm} relation
 
 \begin{figure}[!htb]
  \centering
-   \includegraphics[scale=0.40]{img/Alpha-LogNorm-Relations-2ma.png}
+   \includegraphics[scale=0.40]{img/Alpha-LogNorm-Relations.png}
    \caption{
 Numerical test of the  Power Law - Norm Relation for random Heavy Tailed matrices
 }
@@ -177,7 +193,9 @@ Numerical test of the  Power Law - Norm Relation for random Heavy Tailed matrice
 
 \charlesX{Describe here.
 
-The numerical results show 3 interesting features. The Power Law-Norm relation
+The numerical results for the the Power Law-Norm relation shows several interesting features: 
+
+First, as $\alpha$ increases, the Log-units Stable Rank increases.  Then it
 
 \begin{itemize}
 \item
@@ -189,6 +207,9 @@ extends beyond $\alpha>2$  because of finite size effects
 \end{itemize}
 
 }
+
+\charlesX{I am not sure why the slope is not negative...the eigenvalues are VERY LARGE, and $\log\lambda_{max}~3-5$ so this just is OFF.
+Are we missing something in the derivation, like the fact that the norm squared has to be positive ?  HELP}
 
 
 \paragraph{Defining the Layer Weight Matrices}
