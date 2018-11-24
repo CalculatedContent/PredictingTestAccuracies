@@ -8,11 +8,17 @@ $\alpha$ is defined in our Theory of Heavy Tailed Implicit Regularization.   We 
 
 We examine several  commonly available, production quality, pretrained DNNs  by plotting  the average complexity metric $\langle\log\Vert\mathbf{W}\Vert\rangle$ vs the reported (Top1) test accuracies. This covers classes of DNN architectures including the VGG models, ResNet, DenseNet, etc.  In nearly every class, the smaller average complexity, the better the test accuracy.
 
+\charlesX{We can do BOTH log Norm and Weighted Alpha...which ?  }
+
 The method is consistent with both recent theoretical results by Hidary and Poggio, but the approach and the intent is a bit different. 
 Unlike their result, our approach does not require modifying the loss function.
 Moreover, they seek a \emph{worst case} complexity bound.  We seek \emph{average case} metrics that can be used in production
 to guide the development of better DNNs.
 
+But most importantly, we can apply these complexity metrics \emph{across related DNN architectures}. This is in stark contrast to the standard practice in machine learning.  The equivalent notion would be to compare margins across SVMs  applied to the same data, but with different Kernels.  One loose interpretation is that a set of related of DNN models
+(i.e. VGG11, VGG13, ...) is analogous to a single, very complicated Kernel, and that the hierarchy of architectures is analogous to the hierarchy of hypothesis spaces in VC theory. \charlesX{more here ?  like this ?}
+
 We believe this result will have large applications in hyperparameter fine tuning DNNs.  Because we do not need to peek at the test data, it may prevent information from leaking from the test set into the model, thereby helping to prevent overtraining and making fined tuned DNNs more robust.
 
 This work also leads to a much harder theoretical question; is it possible to determine if a DNN is overtrained without peeking at the test data ?  
+
