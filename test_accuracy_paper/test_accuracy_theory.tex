@@ -122,36 +122,15 @@ so that
 $$\int_{0}^{\infty}\rho(\lambda)d\lambda=1$$
 }
  
-\michael{something like this ?  Trying to figure out how to get rid of the - sign on alpha
+\michael{something like this ?  Trying to figure out how to get rid of the - sign on alpha .. see end of paper
 
 $$\int_{0}^{\infty}\rho(\lambda)d\lambda=N$$
 
 but we really want
 
-$$C\int_{0}^{\lambda_{max}}\rho(\lambda)d\lambda=N$$
+$$K\int_{0}^{\lambda_{max}}\rho(\lambda)d\lambda=N$$
 
-$$\dfrac{C}{(1-\alpha)}\lambda_{max}^{1-\alpha}=N$$
-
-
-What is C ?  Let $C=(\alpha-1)K$ and solve for K
-
-
-$$K\lambda_{max}^{1-\alpha}=N$$
-
-$$K=N\lambda_{max}^{\alpha-1}$$
-
-This means we need to evaluate
-
-$$(\alpha-1)N\lambda_{max}^{\alpha-1}\int_{0}^{\lambda_{\max}}\lambda^{1-\alpha}d\lambda$$
-
-which gives a crazier expression for the Norm that is missing the alpha dependence ?
-
-$$Norm^{2}=\dfrac{(\alpha-1)}{2-\alpha}N\lambda_{max}^{\alpha-1}\lambda_{max}^{2-\alpha}$$
-
-$$Norm^{2}=\dfrac{(\alpha-1)}{2-\alpha}N\lambda_{max}$$
-
-
-
+See the end of this section for ideas
 }
 
 
@@ -274,4 +253,53 @@ We can now use $\hat{\alpha}$ ,  or, equivalently, $2\langle\log\Vert\mathbf{W}\
 I HAVE PLOTS FOR BOTH !
 Which should we display ?  
 
+
+\michael{How to resolve normalization issue ?
+
+We need a normalizer $K$ that 
+
+$$K\int_{0}^{\lambda_{max}}\rho(\lambda)d\lambda=1$$
+
+and we know that our final expression is off by a sign in alpha
+
+So we need a normalizer that has
+
+ $$K\sim\lambda^{2\alpha}_{max}$$
+ 
+ or maybe 
+ 
+  $$K\sim\lambda^{2\alpha-2}_{max}$$
+
+But also know that 
+ 
+ $$\int_{0}^{\lambda_{max}}\rho(\lambda)d\lambda=\dfrac{1}{1-\alpha}\lambda_{max}^{1-\alpha}$$
+which suggests that
+
+$$K\dfrac{1}{1-\alpha}\lambda_{max}^{1-\alpha}=1$$
+
+and that we might write K 
+$$K=(\alpha-1)\lambda_{max}^{1-\alpha}$$
+
+notice we use $(\alpha-1)$ and not $(1-\alpha)$ since $\alpha>1$...but I think we need something like
+
+$$K[\dfrac{1}{1-\alpha}\lambda_{max}^{1-\alpha}]^{2}=1$$
+
+giving
+
+$$K=(1-\alpha)^{2}\lambda_{max}^{2\alpha-2}$$
+
+But this gives the wrong expression for the integral
+
+$$K\int_{0}^{\lambda_{max}}\rho(\lambda)d\lambda=1$$
+
+and only works for
+
+$$K[\int_{0}^{\lambda_{max}}\rho(\lambda)d\lambda]^{2}=1$$
+
+and I don't know how to stick it back into the formula for the Trace to get right result
+
+
+
+
+}
 
