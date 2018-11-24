@@ -42,6 +42,8 @@ For any modern DNN, the ESD of nearly every \ $\mathbf{W}$ layer matrix can be f
 
 $$\rho(\lambda)\sim\lambda^{-\alpha}$$
 
+which is valid within a bounded range of eigenvalues $\lambda\in[\lambda_{min},\lambda_{max}]$.
+
 The power law exponent $\alpha$ lies, $80-90\%$ of the time, in a Universal range between 2 and 4, $\alpha\in[2,4]$.
 We have verified this empirical Universality on empirical result on over 10,000 layer matrices $\mathbf{W}$ spanning over 50 pre-trained DNNs.
 Of course, there are exceptions, and in any real DNN,  $\alpha$ may range anywhere from $\sim1.5$ to $10$ or higher.  
@@ -81,7 +83,7 @@ $$\sim\bigg[\log\Vert\mathbf{W}_{1}\Vert+\log\Vert\mathbf{W}_{2}\Vert\cdots\log\
 
 We define the average log norm of the weight matrices as
 
-$$\langle\log\Vert\mathbf{W}\Vert\rangle=\dfrac{1}{L}\sum_{i=1}^{L}\log_{10}\Vert\mathbf{W}_{i}\Vert$$
+$$\langle\log\Vert\mathbf{W}\Vert_{F}\rangle=\dfrac{1}{L}\sum_{i=1}^{L}\log_{10}\Vert\mathbf{W}_{i}\Vert$$
 
 which we explicitly define in terms of the base-10 log.
 
@@ -89,55 +91,106 @@ which we explicitly define in terms of the base-10 log.
 
 We note the  log matrix norm squared (and dropping the $l,i$ subscripts) is just twice the log norm
 
-$$\log\Vert\mathbf{W}\Vert^{2}=2\log\Vert\mathbf{W}\Vert$$
+$$\log\Vert\mathbf{W}\Vert_{F}^{2}=2\log\Vert\mathbf{W}\Vert$$
 
 which makes the following analysis much simpler.
 
-  We now note that 
-the Frobenius norm is related to the integral of the ESD, over the range the power law is a good fit. 
+the squared Frobenius norm is just the Trace of $\mathbf{W}$:
 
-$$\Vert\mathbf{W}_{l,i}\Vert^{2}\sim\int_{x_{min}}^{x_{max}}\lambda\rho_{l,i}(\lambda)d\lambda$$
+$$\Vert\mathbf{W}\Vert_{F}^{2}=Tr[\mathbf{W}]$$
+
+For very large matrices, with many eigenvalues, we can approximate the Trace as an integral over the empirical density
+
+$$\Vert\mathbf{W}_{l,i}\Vert_{F}^{2}\sim\int_{x_{min}}^{x_{max}}\lambda\rho_{l,i}(\lambda)d\lambda$$
 
 Technically, the power only describes the tail of the ESD,  for the range $\lambda\in[\lambda_{min},\lambda_{max}]$.
-  But for most DNN layer matrices, this range covers most the ESD.  So this should be a pretty good approximation.
+  But for most DNN layer matrices, this range covers most the ESD.  So this should also be a pretty good approximation.
   
-  So far we have
-  $$\log\Vert\mathbf{W}\Vert^{2}\approx\log\int_{\lambda_{min}}^{\lambda_{max}}\lambda\rho(\lambda)d\lambda$$
-$$=\log\int_{\lambda_{min}}^{\lambda_{max}}\lambda^{1-\alpha}d\lambda$$
+Of course,  we need to normalize the ESD $\rho(\lambda)$. For now, we simply take
 
-But this integral is difficult to evaluate.  To get an expression we can work with, we will use a trick from statistical mechanics.
+$$\rho(\lambda):=(1-\alpha)\lambda^{-\alpha}$$
 
-\paragraph{The Annealed Approximation} lets us interchange the log and the integrand when computing the expected value 
+so that
 
-$$ \log\mathbb{E}[x]\leftrightarrow\mathbb{E}[\log(x)] $$
+$$\int_{0}^{\infty}\rho(\lambda)d\lambda=1$$
 
-So when evaluating our power law integral, we have
+Notice we ignore that we actually want to normalize only the bounded support  $\int_{\lambda_{min}}^{\lambda^{max}}\circ d\lambda$.
+Of course, eventually we need to consider this since we have a finite $\lambda_{max}\ll\infty$.  
 
-$$\log\int\lambda^{1-\alpha}d\lambda\approx\int\log\lambda^{1-\alpha}d\lambda$$
-$$=\int\log\dfrac{1}{\lambda^{\alpha-1}}d\lambda$$
-$$=-\int\log\lambda^{\alpha-1}d\lambda$$
-$$\approx-\log\int\lambda^{\alpha-1}d\lambda$$
+For now let us just evaluate the integral
 
-This lets us now write
+$$\Vert\mathbf{W}\Vert^{2}=(1-\alpha)\int_{\lambda_{min}}^{\lambda_{max}}\lambda\rho(\lambda)d\lambda$$
+$$=(1-\alpha)\int_{\lambda_{min}}^{\lambda_{max}}\lambda^{1-\alpha}d\lambda$$
 
-\charles{Somehow I lost a minus sign. Something is off...because the norm can not be negative, and $\alpha>1$}
+$$=\dfrac{1-\alpha}{2-\alpha}\left[\lambda^{2-\alpha}\right]^{\lambda_{max}}_{\lambda_{min}}$$
 
-$$\log\Vert\mathbf{W}\Vert^{2}\approx\log\left[\dfrac{\lambda^{\alpha}}{\alpha}\right]^{\lambda_{max}}_{\lambda_{min}}$$
+Since $\lambda_{min}\sim 0$, we have 
 
-Since $\lambda_{min}\sim 0$, we have \charles{check this}
+$$\Vert\mathbf{W}\Vert_{F}^{2}\approx\dfrac{1-\alpha}{2-\alpha}\lambda^{2-\alpha}_{max}$$
 
-$$\log\Vert\mathbf{W}\Vert^{2}=2\log\Vert\mathbf{W}\Vert\approx\alpha\log\lambda_{max}$$
+Taking the log of both sides now gives an expression for the log Norm (squared) 
 
-Notice that since the power law exponents mostly display Universality empirically, the range $[\lambda_{min},\lambda_{max}]$ is also roughly the same for all matrices, with the minimum eigenvalue is near zero, $\lambda_{min}\sim 0$, and the maximum eigenvalue is  empirically bounded, roughly $\lambda_{max}\sim\mathcal{O}(10^{1}-10^{2})$.  
+$$2\log\Vert\mathbf{W}\Vert_{F}\approx(2-\alpha)\log\lambda_{max}+log\;K_{\alpha}$$
 
-This gives 
+where $K_{a}={\dfrac{1-\alpha}{2-\alpha}}$ is a normalization term that does not  depend on $\lambda_{max}$.
 
-$$2\log_{10}\Vert\mathbf{W}\Vert\approx(1-2)\times\alpha$$
+\paragraph{Power Law - Norm Relation}
+
+Let us first write
+
+$$2\log\Vert\mathbf{W}\Vert\approx(-\alpha)\log\lambda_{max}+2\log\lambda_{max}+\log\;K_{\alpha}$$
+
+We now test this relation between the Power Law exponent and the Log Frobenius Norm numerically.
+We generate a large number of random Heavy Tailed random matrices $\mathbf{W}^{rand}(\mu,Q)$, 
+with different aspect ratios $Q$, and drawn from a Pareto distributions with exponents $\mu\in[0.5, 5]$
+
+$$\Pr[{W}^{rand}_{i,j}]\sim\dfrac{1}{x^{1+\mu}}$$
+
+We fit the ESD of each $\mathbf{W}^{rand}$ to a power law using the method of Clauset et. al.
+to obtain the exponent $\alpha$.  We then study the empirical relation
+
+$$\dfrac{\log\Vert\mathbf{W}^{rand}\Vert_{F}}{\log\lambda_{max}}\;\;vs.\;\;(2-\alpha)$$
+
+\charlesX{other stuff
+
+\emph{Stable Rank, in Log Units}
+$$\dfrac{\log\Vert\mathbf{W}^{rand}\Vert_{F}}{\log\lambda_{max}}$$
 
 
-\charles{FINISH WRITEUP AND and numerical results. In particular, we may be off by some scaling factor in $\rho(\lambda)$}
-\charlesX{This could all be presented as a theorem--building on work by Hidary and Poggio}
+$$\dfrac{\log\Vert\mathbf{W}^{rand}\Vert_{F}}{\log\lambda_{max}}\;\;vs.\;\;\alpha$$
 
+The key here is that the slope changes so the plot is flipped
+}
+
+Figure~\cite{randW} plots the data for the \emph{Power Law-Norm} relation
+
+\begin{figure}[!htb]
+ \centering
+   \includegraphics[scale=0.40]{img/Alpha-LogNorm-Relations-2ma.png}
+   \caption{
+Numerical test of the  Power Law - Norm Relation for random Heavy Tailed matrices
+}
+  \label{fig:randW}
+\end{figure}
+
+\charlesX{Describe here.
+
+The numerical results show 3 interesting features. The Power Law-Norm relation
+
+\begin{itemize}
+\item
+is very clear for $\alpha<2$ 
+\item
+saturates for $\alpha>2$  for large M
+\item
+extends beyond $\alpha>2$  because of finite size effects
+\end{itemize}
+
+}
+
+
+\paragraph{Defining the Layer Weight Matrices}
+\charles{Here we describe how we exact the matrices.  We have not done this yet for convolutional layers--thats \emph{another} paper}
 
 $$\text{Linear Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert^{2}\rightarrow b_{l}\alpha_{l}$$
 
@@ -154,18 +207,7 @@ $$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}b_{i,j}\alpha_{i,l}$$
 
 We can now use $\hat{\alpha}$ ,  or, equivalently, $2\langle\log\Vert\mathbf{W}\Vert\rangle$ to analyze numerous pre-trained DNNs...and the results are indeed surprising.
 
-\paragraph{Numerical Example of Power Law / Norm Relation}
-
-But first, some numerical examples of the relation between $\langle\log\Vert\mathbf{W}\Vert\rangle$ and $\alpha$
-
-
-BLAH
-
-BLAH
-
-BLAH
-
-this is in the PowerLawExample notebook in the repo
-
+I HAVE PLOTS FOR BOTH !
+Which should we display ?  
 
 
