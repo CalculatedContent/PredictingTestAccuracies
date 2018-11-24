@@ -297,9 +297,26 @@ and only works for
 $$K[\int_{0}^{\lambda_{max}}\rho(\lambda)d\lambda]^{2}=1$$
 
 and I don't know how to stick it back into the formula for the Trace to get right result
+}
+\charles{
+I actually think most of this is wrong and that we need to be more clever
+For example, see
+http://www-personal.umich.edu/~mejn/courses/2006/cmplxsys899/powerlaws.pdf
 
+where they derive  an expression for the expected max eigenvalue $\langle\lambda_{max}\rangle$
+in terns of M, for an non-truncated power law
 
+$$\langle\lambda_{max}\rangle\sim M^{1/(\alpha-1)}$$
 
+So we would have  ($\alpha>1$)
+
+$$\log\langle\lambda_{max}\rangle\sim\dfrac{1}{\alpha-1}\log\;M$$
+
+or
+$$(\alpha-1)\log\langle\lambda_{max}\rangle\sim\log\;M$$
+
+Now maybe in our case there is some way to add in information about the norm of W
+on the R.H.S. where the log M term arises   ?
 
 }
 
