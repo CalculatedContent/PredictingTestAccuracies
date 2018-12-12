@@ -10,43 +10,114 @@ E_{DNN}=h_{L}(\mathbf{W}_{L}\times h_{L-1}(\mathbf{W}_{L-1}\times h_{L-2}(\cdots
 \label{eqn:dnn_energy}
 \end{equation}
 %WLOG,
-We imagine training this model on some labeled data $\{d_{i},y_{i}\}\in\mathcal{D}$, using Backprop, by minimizing the loss $\mathcal{L}$
+The model would be trained on some labeled data $\{d_{i},y_{i}\}\in\mathcal{D}$, using Backprop, by minimizing the loss $\mathcal{L}$
 For simplicity, we do not indicate the structural details of the layers (e.g., Dense or not, Convolutions or not, Residual/Skip Connections, etc.). 
-Each layer is defined by one or more weight matrices $\mathbf{W}_{L}$, or tensors.
+Each layer is defined by one or more layer 2D weight matrices $\mathbf{W}_{L}$, and/or the 2D feature maps $\mathbf{W}_{i,L}$ 
+extracted from 2D Convolutional layers.
 
-In this study, we only need to  consider Linear and 2D Convolutional (Conv2D) layers. 
-For the Linear layers, each $\mathbf{W}_{L}$ is a single $(N\times M)$ (real valued) 2D matrix, where $N\ge M$.
-These include Dense or Fully Connected (FC) layers, as well as 1D Convolutional (Conv1D) layers, Attention matrices, etc.
-For the Conv2D layers, with a $c\times d$ kernel, $\mathbf{W}_{L}$ is a 4-index Tensor, of the form $(N\times M \times c\times d)$, consisting
-of $c\times d$ 2D feature maps of shape $(N\times M)$.   So each Linear layer $l$ gives $n=1$ 2D matrix $\mathbf{W}_{l}$, and each Conv2D layer $l$ gives $n=c\times d$ 2D matrices $\mathbf{W}_{l,i}$. A typical modern DNN may have anywhere between 5 and 500 2D $\mathbf{W}_{l,i}$ layer matrices.
+\charles{
+In this study, we only need to consider Linear and 2D Convolutional (Conv2D) layers because we will only examine series of commonly
+available, open source, pre-trained DNNs with these kinds of layers.  We describe these pre-trained models in detail below;
+briefly examine the VGG series (VGG11, VGG13, VGG1, VGG19), with and without BatchNorm, the complete set of
+available ResNet models ranging from ResNet10 to ResNet152(b), and a wide range of other models.  All models have
+been trained on ImageNet, and reported test accuracies are available.  For our analysis, we do not needs to retrain these
+models, and we do not even need access to the test data.  }
 
-\paragraph{Heavy Tailed Universality}
+\paragraph{Random matrix models} 
 
-For any layer weight matrix $\mathbf{W}$, we construct the associated $M\times M$ (uncentered) correlation matrix
+We apply our new Theory of Heavy Tailed Self Regularization to analyze these large, pretrained DNNs.  
+We model a typical DNN  weight matrix $\mathbf{W}$ as ($N\times M$) random matrix, and characterize it by the eigenvalue density $\rho(\lambda)$ of its normalized
+correlation matrix $\mathbf{X}$, and by fitting this to a power law , $\rho(\lambda)\sim\lambda^{-\alpha}$.  
+
+%  Of course, the weight matrices are not actually random because they have been trained on very large, high quality data sets.
+%However, our previous analysis shows that the 
+
+First, some notational conventions.
+For each Linear layer, we get a  single, $(N\times M)$ (real valued) 2D matrix, layer weight matrix, denoted $\mathbf{W}_{L}$, for layer $L$.  
+This also includes Dense or Fully Connected (FC) layers, as well as 1D Convolutional (Conv1D) layers, Attention matrices, etc.
+We ignore the bias here terms in this analysis.  Let the aspect ratio be $Q=\frac{N}{M}$, with $Q\ge 1$.
+For the 2-D Convolutional Conv2D) layers, we have a 4-index Tensor, of the form $(N\times M \times c\times d)$, consisting
+of $c\times d$ 2D feature maps of shape $(N\times M)$.    
+We  extract $n_{L}=c\times d$  2D  weight matrices $\mathbf{W}_{L,i}$, one for each feature map $i=[1\dots n_{L}]$ for layer $L$.
+We have not yet analyzed LSTM or other complicated Layers. 
+A typical modern DNN may have anywhere between 5 and 5000 2D $\mathbf{W}_{L,i}$ layer matrices.
+   
+We imagine the matrix elements of $\mathbf{W}$  are drawn from some probability distribution, such as a Normal $N(0,\sigma)$ distribution
+
+$$Pr(W_{i,j})\sim N(0,\sigma)$$
+
+with zero mean and variance $\sigma$.  These Gaussian models arise in the well known Marchenko-Pastur (MP) Random Matrix Theory (RMT),
+as well as the Spiked-Covariance model. Gaussian model are useful for understanding older, smallish Neural Networks, such as LeNet5.
+But more modern DNNs display more exotic behavior.  
+
+\paragraph{Heavy Tailed Universality} All large, modern DNNs show statistically significant, and Universal, Heavy Tailed signatures.  
+To model this, we use a heavy tailed variant of the MP RMT.  Let 
+
+$$Pr(W_{i,j})\sim\dfrac{W_{0}^{\mu}}{|W_{i,j}|^{1+\mu}}$$
+
+where $W_{0}$ is the typical order of magnitude of $W_{i,j}$, and $\mu>0$. The Heavy Tailed matrix models were first introduced
+in the theoretical physics literature, where they are called \'L\'evy Matrices when $0<\mu<2$\cite{bouchaud1994}.
+More generally, there are at least 3 different Universality classes of Heavy Tailed random matrices, defined by the range $\mu$ takes on:
+
+\begin{itemize}
+\item $0<\mu<2$ very Heavy Tailed, L\'evy matrices
+\item $2<\mu<4$ moderately Heavy Tailed, or Fat Tailed, matrices
+\item $\mu>4$ weakly Heavy Tailed matrices
+\end{itemize}
+
+We can identify these different Universality classes by analyzing the eigenvalue spectrum of the associated correlation matrices. For any layer weight matrix $\mathbf{W}$, we construct the associated $M\times M$ (uncentered) correlation matrix.  Dropping the $l,i$ indices, we have
 \begin{equation}
-\mathbf{X} = \dfrac{1}{N}\mathbf{W}^{T}\mathbf{W}  ,
+\mathbf{X} = \dfrac{1}{N^{\gamma}}\mathbf{W}^{T}\mathbf{W}  ,
 \label{eqn:unc_corr_mat}
 \end{equation}
-and form the eigenvalue spectrum of $\mathbf{X}$, 
+
+where we normalize by $1/N^{\gamma}$.  For our empirical analysis, $\gamma=1$.  In theoretical treatments, $\gamma$ depends on the form of $Pr(W_{i,j})$
+in order to prove the existence of the limiting forms of the ESD. For the MP theory and Gaussian Universality class, we can $\gamma=1$,
+ but for the Heavy tailed Universality class, we would need to set $\gamma=2/\mu$
+Of course, in any empirical study, we do not know the Universality class or the power law exponent $\mu$ \emph{a priori}, and this will be very important
+below \michael{(more here?)}
+
+We now form $\mathbf{X}= \dfrac{1}{N}\mathbf{W}^{T}\mathbf{W}$, normalized using $\gamma=1$, and compute the eigenvalue spectrum of $\mathbf{X}$, 
 $$
 \mathbf{X}\mathbf{v}_{i}=\lambda_{i}\mathbf{v}_{i}
 $$
-(where we have dropped the $l,i$ indices).
 
-We call the density of eigenvalues $\rho(\lambda)$ the Empirical Spectral Density (ESD).  
+We call the density of eigenvalues $\rho(\lambda)$ the Empirical Spectral Density (ESD).  This is just a histogram of the eigenvalues, formally written as
 
-Small Neural Networks \charlesX{complete}
+$$\rho(\lambda)=\sum\limits_{i=1}^{M}\delta(\lambda-\lambda_{i})$$
 
-The layer matrices in all large, modern DNNs, do not have a scale cut-off, and, instead display scale-invariance.  
-For any modern DNN, the ESD of nearly every \ $\mathbf{W}$ layer matrix can be fit to a power law,
+The heavy tailed RMT theory tells us that ESD  $\rho(\lambda)$ of any heavy tailed matrix will have a heavy tail, and take the form
 
 $$\rho(\lambda)\sim\lambda^{-\alpha}$$
 
-which is valid within a bounded range of eigenvalues $\lambda\in[\lambda_{min},\lambda_{max}]$.
+which is (at least) valid within a bounded range of eigenvalues $\lambda\in[\lambda_{min},\lambda_{max}]$.  
+\charles{Discuss fact the power law tails are Frechet at finite size so only need to fit the bulk}
 
-The power law exponent $\alpha$ lies, $80-90\%$ of the time, in a Universal range between 2 and 4, $\alpha\in[2,4]$.
-We have verified this empirical Universality on empirical result on over 10,000 layer matrices $\mathbf{W}$ spanning over 50 pre-trained DNNs.
+We then fit the bulk of the ESD to a power law using the commonly accepted Maximum Likelihood (MLE) method of Clauset et. al..
+This method works very well for exponents in the moderately (fat tailed) Universality class, where $\alpha\in[2,4]$,
+and is sufficient, although imprecise for smaller and larger $\alpha$.  The fitting method is robust in that it is  reasonably
+insensitive to the the choice of normalization $\gamma=1$.
+
+For the very heavy tailed Universality class, this power law tail persists in the infinite limit $N\rightarrow\infty$, $Q$ fixed.
+And we have the linear relation between our observed exponent $\alpha$ and the theoretical $\mu$,  $\alpha=1+\mu/2$,
+which works very well even for very small matrices $(M\sim100)$.
+For the fat tailed Universality class, however, the power law tail vanishes in the limit, but persists at all finite sizes, and
+follows a Frechet distribution (i.e. an exponentially truncated power law).  We find empirically that $\alpha$ is still
+linear in $\mu$, but displays very strong finite size effects, giving $\alpha=a+b\mu$, where $a,b$ depend strongly on $M,N$.
+These strong finite size effects characterize these so-called fat tailed distributions; they are also well known in the physics
+literature\cite{sornette}. And it is these finite size effects that we will exploit to develop our theory.
+
+In modern, pre-trained DNN, we find that the ESD of nearly every \ $\mathbf{W}$ layer matrix can be fit to a power law,
+%The layer matrices in all large, modern DNNs, do not have a scale cut-off, and, instead display scale-invariance.  
+We have examined nearly 10,000 layer weight matrices $\mathbf{W}_{l,i}$ across over 50 different modern. pre-trained DNN architectures.  
+ $70-80\%$ of the time, the power law exponent lies in the range of the fat tailed Universality class, $\alpha\in[2,4-5]$.
+And for $10-20\%$ of the time, the ESDs display very Heavy Tailed signatures.
 Of course, there are exceptions, and in any real DNN,  $\alpha$ may range anywhere from $\sim1.5$ to $10$ or higher.  
+
+This kind of Universality of exponents is very special in theoretical physics and indicates the presence of a deeper, 
+underlying mechanism driving the system.  Indeed, it is this Universality that has motivated this study.
+
+\paragraph{A Universal DNN Complexity Metric}
 
 The power law exponent $\alpha$ is a complexity metric for a weight matrix; it describes how well that matrix encodes the complex correlations in the training data.
 So a natural complexity metric for a DNN is to take a weighted average of the power law exponents $\alpha_{l,i}$ for each layer weight matrix $\mathbf{W}_{l,i}$.
@@ -56,15 +127,11 @@ $$\hat{\alpha}:=\dfrac{1}{n}\sum_{l,i}b_{l,i}\alpha_{l,i}$$
 The smaller $\hat{\alpha}$, the better we expect the DNN to represent the training data. And, presumably, the better the DNN will generalize.
 The only question is, what are good weights $b_{l,i}$ ?
 
-It turns out, we can derive the weighted average $\hat{\alpha}$ directly from the more familiar Product Norm.
+It turns out, we can extract the weighted average $\hat{\alpha}$ directly from the more familiar Product Norm, and exploiting the finite size effects of our fat tailed weight matrices.
 
-\charlesX{THE REST OF THIS SECTION is to justify this complexity metric, using the product norm for DNNs.  I have sketeched out some of the math,.  It just needs to be presented clearly AND TO JUSTIFY computing the average log Norm (which is much faster, much simpler)}
+%\paragraph{THEOREM:} \emph{The data dependent VC-like complexity of a Deep Neural Network can be expressed a weighted average the of power law exponents describing the empirical spectral density of the layer weight matrices}
 
-\charles{Maybe should can state a theorem and prove it.}
-
-\paragraph{THEOREM:} \emph{The data dependent VC-like complexity of a Deep Neural Network can be expressed a weighted average the of power law exponents describing the empirical spectral density of the layer weight matrices}
-
-\charles{\paragraph{PROOF:...}}
+%\charles{\paragraph{PROOF:...}}
 
 \paragraph{Product Norm Measures of Complexity}
 
@@ -74,8 +141,7 @@ $$\mathcal{C}\sim\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Ve
 
 where $\Vert\mathbf{W}\Vert$ may be the Frobenius norm or even the L1-norm.  (Here we can use either  $\Vert\mathbf{W}\Vert$ or $\Vert\mathbf{W}\Vert^{2}$ for our complexity metric, which will make more sense below.
 
-
- To that end, we consider a log complexity
+To that end, we consider a log complexity
 
 $$\log\mathcal{C}\sim\log\bigg[\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert\bigg]$$
 
@@ -83,124 +149,90 @@ $$\sim\bigg[\log\Vert\mathbf{W}_{1}\Vert+\log\Vert\mathbf{W}_{2}\Vert\cdots\log\
 
 We define the average log norm of the weight matrices as
 
-$$\langle\log\Vert\mathbf{W}\Vert_{F}\rangle=\dfrac{1}{L}\sum_{i=1}^{L}\log_{10}\Vert\mathbf{W}_{i}\Vert$$
+$$\langle\log\Vert\mathbf{W}\Vert_{F}\rangle=\dfrac{1}{L}\sum_{i=1}^{L}\log\Vert\mathbf{W}_{i}\Vert$$
 
-which we explicitly define in terms of the base-10 log.
+This is actually a pretty good complexity metric for comparing the test accuracies of different, pre-trained DNNs in the same series.
+Figure~ref{fig:vgg} plots $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$ vs the reported (Top1) test accuracy for the series of pre-trained
+VGG models (available in the pyTorch package\cite{pyTorch})/.  Notice we did not need to peek at the test data to make this plot.  I
+In fact, we did not need the ImageNet training data either.  Amazingly, the average log norm is well correlated with the reported test accuracies.
+
+\begin{figure}[!htb]
+ \centering
+   \includegraphics[scale=0.40]{img/vgg-lognorms.png}
+   \caption{
+Pretrained VGG and VGG BN Architectures and DNNs.  Test Accuracy and average log Frobenius norm $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$ for
+ VGG11 vs VGG11\_BN ({\color{blue}{blue}}),
+VGG13 vs VGG13\_BN ({\color{orange}{orange}}),
+VGG16 vs VGG16\_BN ({\color{green}{green}}),  and
+VGG19 vs VGG19\_BN ({\color{red}{red}}). 
+}
+  \label{fig:vgg}
+\end{figure}
+
+We believe this is the first time this theoretical complexity metric has been reported to predict (trends in) the test accuracy for production
+DNNs.  This in itself is remarkable.  But we can do even better than this -- by exploiting Heavy Tail Universality.
 
 \paragraph{Relation to Heavy Tailed Universality}
 
-We note the  log matrix norm squared (and dropping the $l,i$ subscripts) is just twice the log norm
+We would like to relate the empirical Frobenius norm to the empirical power law exponent $\alpha$, and we would like this for all Universality classes,
+and for the strongly correlated,  non-random, finite size empirical DNN layer weight matrices.  To do this, we rely upon the known theoretical
+results for Heavy tailed random matrices, but we also need to be careful about the normalization we use.
 
-$$\log\Vert\mathbf{W}\Vert_{F}^{2}=2\log\Vert\mathbf{W}\Vert$$
-
-which makes the following analysis much simpler.
-
-the squared Frobenius norm is just the Trace of $\mathbf{W}^{T}\mathbf{W}$:
-
-$$\Vert\mathbf{W}\Vert_{F}^{2}=Tr[\mathbf{W}^{T}\mathbf{W}]$$
-
-or $N$ times the Trace of $\mathbf{X}$
-
-$$=Tr[N\mathbf{X}]=N\sum_{i=1}^{M}\lambda_{i}$$
-
-
-For very large matrices, with many eigenvalues, we can approximate the Trace as an integral over the empirical density
-
-\charles{We may be missing the N term here:
-
-$$\Vert\mathbf{W}_{l,i}\Vert_{F}^{2}\sim\int_{x_{min}}^{x_{max}}\lambda\rho_{l,i}(\lambda)d\lambda$$
-
-Technically, the power only describes the tail of the ESD,  for the range $\lambda\in[\lambda_{min},\lambda_{max}]$.
-  But for most DNN layer matrices, this range covers most the ESD.  So this should also be a pretty good approximation.
-  
-Of course,  we need to normalize the ESD $\rho(\lambda)$. For now, we simply take
-
-$$\rho(\lambda):=(\alpha-1)\lambda^{-\alpha}$$
-
-so that
-
-$$\int_{0}^{\infty}\rho(\lambda)d\lambda=1$$
-}
- 
-\michael{something like this ?  Trying to figure out how to get rid of the - sign on alpha .. see end of paper
-
-$$\int_{0}^{\infty}\rho(\lambda)d\lambda=N$$
-
-but we really want
-
-$$K\int_{0}^{\lambda_{max}}\rho(\lambda)d\lambda=N$$
-
-See the end of this section for ideas
-}
-
-
-Notice we ignore that we actually want to normalize only the bounded support  $\int_{\lambda_{min}}^{\lambda^{max}}\circ d\lambda$.
-Of course, eventually we need to consider this since we have a finite $\lambda_{max}\ll\infty$.  
-
-For now let us just evaluate the integral
-
-$$\Vert\mathbf{W}\Vert^{2}=(\alpha-1)\int_{\lambda_{min}}^{\lambda_{max}}\lambda\rho(\lambda)d\lambda$$
-$$=(\alpha-1)\int_{\lambda_{min}}^{\lambda_{max}}\lambda^{\alpha-1}d\lambda$$
-
-$$=\dfrac{\alpha-1}{2-\alpha}\left[\lambda^{2-\alpha}\right]^{\lambda_{max}}_{\lambda_{min}}$$
-
-Since $\lambda_{min}\sim 0$, we have 
-
-$$\Vert\mathbf{W}\Vert_{F}^{2}\approx\dfrac{\alpha-1}{2-\alpha}\lambda^{2-\alpha}_{max}$$
-
-Taking the log of both sides now gives an expression for the log Norm (squared) 
-
-$$\log\Vert\mathbf{W}\Vert^{2}_{F}\approx(2-\alpha)\log\lambda_{max}+log\;K_{\alpha}$$
-
-where $K_{a}={\dfrac{\alpha-1}{2-\alpha}}$ is a normalization term that does not  depend on $\lambda_{max}$.
-
-\paragraph{Power Law - Norm Relation}
-
-\michael{Why is the sign wrong ?!}
-
-Let us first write
-
-$$\log\Vert\mathbf{W}\Vert^{2}_{F}\approx(-\alpha)\log\lambda_{max}+2\log\lambda_{max}+\log\;K_{\alpha}$$
-
-Notice that if we divide the log Norm by the log max eigenvalue, we get the the \emph{Stable Rank}, but with
-the numerator and denominator in log units.  We define this ratio as the
-
-\emph{Log-Units Stable Rank:  } 
-$$\mathcal{S}^{log}_{R}:=\dfrac{\log\Vert\mathbf{W}\Vert_{F}}{\log\lambda_{max}}$$
-
-Our simple derivation suggests that this ratio is linear in $\alpha$:
-
-$$\mathcal{S}^{log}_{R}\sim B\alpha+2+\cdots$$
-
-
-Notice that when $\alpha<2$, then $\lambda_{max}^{2-\alpha}$ is large, and the relation is dominated by $\alpha$.
-But when $\alpha<2$, then $\lambda_{max}^{2-\alpha}$ is small, and the Log-Units Stable Rank is $\mathcal{S}^{log}_{R}\sim 2$.
-
-\michael{combine into 1 equation...and why is $B>0$ ?}
-$$\mathcal{S}^{log}_{R}\approx B\alpha\;\;\alpha<2$$
-$$\mathcal{S}^{log}_{R}\approx 2.x\;\;\alpha>2$$
-
-
-We can test this relation between the Power Law exponent and the Log Frobenius Norm numerically.
+More-so, to demonstrate the effectiveness of the approach, we will test these relations with numerical simulations of Heavy tailed Pareto matrices.
+\charles{describe, give pesudocode}.We can test this relation between the Power Law exponent and the Log Frobenius Norm numerically.
 We generate a large number of random Heavy Tailed random matrices $\mathbf{W}^{rand}(\mu,M)$, 
 with different number of eigenvalues $M$ (with aspect ratio $Q=1$), 
 and drawn from a Pareto distributions with exponents $\mu\in[0.5, 5]$
 
 $$\Pr[{W}^{rand}_{i,j}]\sim\dfrac{1}{x^{1+\mu}}$$
 
-We fit the ESD of each $\mathbf{W}^{rand}$ to a power law using the method of Clauset et. al.
-to obtain the exponent $\alpha$.  We then examinea the empirical relation between  the Log-Units Stable Rank 
-$\mathcal{S}^{log}_{R}$ and the ESD Power Law exponent $\alpha$
-
-$$\mathcal{S}^{log}_{R}\;\;vs.\;\;\alpha$$
-
-\michael{or is this better:
-$$\dfrac{\log\Vert\mathbf{W}\Vert_{F}}{\log\lambda_{max}}\;\;vs.\;\;(\alpha)$$
-
-}
+We fit the ESD of each $\mathbf{W}^{rand}(\mu)$ to a power law using the method of Clauset et. al. to obtain the empirical exponent $\alpha$.  
 
 
-Figure~\cite{randW} plots the data for the \emph{Power Law-Norm} relation
+For the Universality class of very Heavy Tailed L\'evy matrices ($1<\mu<2$), in order to form the limiting eigenvalue distribution $\rho_{\infty}(\lambda)$,
+we require that the sum of any row of $\mathbf{W}$ converges as $N\rightarrow\infty$. This means a largest  element of any row
+must be of order $\mathcal{O}(1)$.  By eqn (x) above, this implies that a typical element  (i.e the variance) scales as $\mathbf{W}^{0}\sim N^{-1/\mu}$, where $1<\mu<2$.
+Of course, we do not known $\mu$, and most matrices are only moderately Heavy Tailed, not very Heavy Tailed.
+Indeed, we are using RMT to model a strongly correlated system, so the scaling parameter
+we have is the power law exponent $\alpha$ from our empirical fit.
+Moreover, in a practical setting, we normalize $\mathbf{X}$ by $1/N$, but the empirical variance is not $1/N$, it is determined by the Frobenius norm squared
+$\Vert\mathbf{W}\Vert^{2}_{F}$.   
+
+We note that squared Frobenius norm is just the Trace of $\mathbf{W}^{T}\mathbf{W}$:
+
+$$\Vert\mathbf{W}\Vert_{F}^{2}=Tr[\mathbf{W}^{T}\mathbf{W}]$$
+
+If we normalize the correlation matrix $\mathbf{X}$ by $N^{2/\mu}$, we have
+
+$$\tilde{\mathbf{X}}=\dfrac{1}{N^{2/\mu}}\mathbf{W}^{T}\mathbf{W}$$
+
+Call $\tilde{\lambda}$ the \emph{scale-free} eigenvalue(s) of $\tilde{\mathbf{X}}$.
+
+$$\tilde{\mathbf{X}}\mathbf{v}=\tilde{\mathbf{X}}\tilde{\lambda}$$
+
+If compute the scale-free eigenvalues, and fit them to a power law exponent $\tilde{\alpha}$, we find that the Frobenius norm 
+is dominated by the maximum (scaled) eigenvalue $\tilde{\lambda}$ of $\tilde{\mathbf{X}}$.  This is depicted in Figure X for our simulated
+ Pareto matrices  $\mathbf{W}^{rand}(\mu)$ which shows
+the log Frobenius norm squared $\log_{10}\Vert\mathbf{W}\Vert^{2}_{F}$ divided by the log of the maximum scale-free eigenvalue $\tilde{\lambda}$,
+for all for all ranges of $\mu$
+
+\begin{figure}[!htb]
+ \centering
+   \includegraphics[scale=0.40]{img/LogNorm-Lmax-Scaled.png}
+   \caption{R }
+  \label{fig:logNormHat}
+\end{figure}
+
+Notice that this linear relations holds quite well, albeit with a large error bar, for $1<\mu<2$, even for small matrices, but starts to degrade for $mu>2$.
+This simple linear relation characterizes the scale invariant properties of the very Heavy Tailed Levy matrices; they are dominated by the largest eigenvalue.
+
+$$\Vert\mathbf{W^{rand}(\mu)}\Vert_{F}\approx\tilde{\lambda}_{max},\;\;1<\mu<2$$
+
+If, however, we use the scale-dependent $1/N$ normalization to compute the correlations $\mathbf{X}$, we get very different behavior.
+Figure~\cite{randW} displays the same as above, as a function of the fitted power law exponent
+
+$$\dfrac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda_{max}}\;\;vs.\;\;(\alpha)$$
+
 
 \begin{figure}[!htb]
  \centering
@@ -211,112 +243,62 @@ Numerical test of the  Power Law - Norm Relation for random Heavy Tailed matrice
   \label{fig:randW}
 \end{figure}
 
-\charlesX{Describe here.
 
 The numerical results for the the Power Law-Norm relation shows several interesting features: 
 
-First, as $\alpha$ increases, the Log-units Stable Rank increases.  Then it
+First, as $\alpha$ increases, we see the relation for
 
 \begin{itemize}
-\item
-is very clear for $\alpha<2$ 
-\item
-saturates for $\alpha>2$  for large M
-\item
-extends beyond $\alpha>2$  because of finite size effects
+\item  $\alpha<2$ , a near linear relation 
+\item  $\alpha>2$ for $N,M$ large, the relation saturates, becoming constant
+\item   $\alpha>2$  for smaller $N,M$,  a nearly linear relation, but with strong finite size effects
 \end{itemize}
 
-}
+This leads to a novel linear relation between the Frobenius norm and the power law exponent for our Heavy tailed matrices:
+
+$$log\Vert\mathbf{W}\Vert^{2}_{F}\approx\alpha\log\lambda_{max}$$
+
+which works very well for very Heavy Tailed Levy matrices, $\alpha<2$, and is a good approximation
+for moderately Heavy (Fat) and even some Weakly Heavy matrices.  And we believe this is the first
+time this relation has been noted in the literature.
+
+\charlesX{Explain Log Stable Rank}
+
+We then examine a the empirical relation between  the Log-Units Stable Rank 
+$\mathcal{S}^{log}_{Rank}$ and the ESD Power Law exponent $\alpha$
+
+\emph{Log-Units Stable Rank:  } 
+$$\mathcal{S}^{log}_{Rank}:=\dfrac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda_{max}}$$
+
 
 \charlesX{I am not sure why the slope is not negative...the eigenvalues are VERY LARGE, and $\log\lambda_{max}~3-5$ so this just is OFF.
 Are we missing something in the derivation, like the fact that the norm squared has to be positive ?  HELP}
 
 
 \paragraph{Defining the Layer Weight Matrices}
-\charles{Here we describe how we exact the matrices.  We have not done this yet for convolutional layers--thats \emph{another} paper}
+\charles{Here we describe how we exact the matrices. Kinda did this above already. We have not done this yet for convolutional layers--thats \emph{another} paper}
 
-$$\text{Linear Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert^{2}\rightarrow b_{l}\alpha_{l}$$
+$$\text{Linear Layer:}\;\;\log\Vert\mathbf{W}_{L}\Vert^{2}\rightarrow\lambda^{max}_{L}\alpha_{L}$$
 
-For the Conv2D layers, we relate the 'Norm' of the 4-index Tensor $\mathbf{W}_{l}$ to the sum of the integrals of the $n=c\times d$ ESDs for each feature map, giving 
+For the Conv2D layers, we relate the 'Norm' of the 4-index Tensor $\mathbf{W}_{l}$ to the sum of the $n_{L}=c\times d$ terms for each feature map, giving 
 
-$$\text{Conv2D Layer:}\;\;\log\Vert\mathbf{W}_{l}\Vert^{2}\rightarrow \sum_{i}b_{i,l}\alpha_{i,l}$$
+$$\text{Conv2D Layer:}\;\;\log\Vert\mathbf{W}_{L}\Vert^{2}\rightarrow \sum_{i=1}^{n_{L}}\lambda^{max}_{i,L}\alpha_{L,i}$$
 
-So in the expression for the product norm for $\log\mathcal{C}$, let us replace each $\log\Vert\mathbf{W}_{l}\Vert$ for layer $l$ with the sum of the power law exponents $\alpha_{l,i}$ for the $n{_l}$ $\mathbf{W}_{l,i}$ layer matrices, and take the average over all $N_{\alpha}$  matrices.  This lets us relate the product norm complexity metric to the weighted average of power law exponents
+So in the expression for the product norm for $\log\mathcal{C}$, let us replace each $\log\Vert\mathbf{W}_{L}\Vert$ for layer $L$ with corresponding above expressions, and take the average over all $N_{\alpha}$  matrices.  This lets us relate the product norm complexity metric to the weighted average of power law exponents, giving
+
+$$\langle\log\Vert\mathbf{W}\Vert\rangle\rightarrow\hat{\alpha}:$$ 
 
 where
 
-$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}b_{i,j}\alpha_{i,l}$$
+$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}\lambda^{max}_{i,j}\alpha_{i,l}$$
 
+This expression resembles the more familiar product norm, but accounts for finite size effects that the product norm relation over estimates.
+% move below?
+Our approach improves on the loose bound provided by the product norm, giving a more accurate expression for predicting trends
+in the average case test accuracy for real world production quality DNNs.
 
-We can now use $\hat{\alpha}$ ,  or, equivalently, $2\langle\log\Vert\mathbf{W}\Vert\rangle$ to analyze numerous pre-trained DNNs...and the results are indeed surprising.
+We can now use $\hat{\alpha}$ to analyze numerous pre-trained DNNs...and the results are indeed surprising.
 
 I HAVE PLOTS FOR BOTH !
 Which should we display ?  
-
-
-\michael{How to resolve normalization issue ?
-
-We need a normalizer $K$ that 
-
-$$K\int_{0}^{\lambda_{max}}\rho(\lambda)d\lambda=1$$
-
-and we know that our final expression is off by a sign in alpha
-
-So we need a normalizer that has
-
- $$K\sim\lambda^{2\alpha}_{max}$$
- 
- or maybe 
- 
-  $$K\sim\lambda^{2\alpha-2}_{max}$$
-
-But also know that 
- 
- $$\int_{0}^{\lambda_{max}}\rho(\lambda)d\lambda=\dfrac{1}{1-\alpha}\lambda_{max}^{1-\alpha}$$
-which suggests that
-
-$$K\dfrac{1}{1-\alpha}\lambda_{max}^{1-\alpha}=1$$
-
-and that we might write K 
-$$K=(\alpha-1)\lambda_{max}^{1-\alpha}$$
-
-notice we use $(\alpha-1)$ and not $(1-\alpha)$ since $\alpha>1$...but I think we need something like
-
-$$K[\dfrac{1}{1-\alpha}\lambda_{max}^{1-\alpha}]^{2}=1$$
-
-giving
-
-$$K=(1-\alpha)^{2}\lambda_{max}^{2\alpha-2}$$
-
-But this gives the wrong expression for the integral
-
-$$K\int_{0}^{\lambda_{max}}\rho(\lambda)d\lambda=1$$
-
-and only works for
-
-$$K[\int_{0}^{\lambda_{max}}\rho(\lambda)d\lambda]^{2}=1$$
-
-and I don't know how to stick it back into the formula for the Trace to get right result
-}
-\charles{
-I actually think most of this is wrong and that we need to be more clever
-For example, see
-http://www-personal.umich.edu/~mejn/courses/2006/cmplxsys899/powerlaws.pdf
-
-where they derive  an expression for the expected max eigenvalue $\langle\lambda_{max}\rangle$
-in terns of M, for an non-truncated power law
-
-$$\langle\lambda_{max}\rangle\sim M^{1/(\alpha-1)}$$
-
-So we would have  ($\alpha>1$)
-
-$$\log\langle\lambda_{max}\rangle\sim\dfrac{1}{\alpha-1}\log\;M$$
-
-or
-$$(\alpha-1)\log\langle\lambda_{max}\rangle\sim\log\;M$$
-
-Now maybe in our case there is some way to add in information about the norm of W
-on the R.H.S. where the log M term arises   ?
-
-}
 
