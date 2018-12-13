@@ -145,11 +145,11 @@ To that end, we consider a log complexity
 
 $$\log\mathcal{C}\sim\log\bigg[\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert\bigg]$$
 
-$$\sim\bigg[\log\Vert\mathbf{W}_{1}\Vert+\log\Vert\mathbf{W}_{2}\Vert\cdots\log\Vert\mathbf{W}_{L}\Vert\bigg]$$
+$$\log\mathcal{C}\sim\bigg[\log\Vert\mathbf{W}_{1}\Vert+\log\Vert\mathbf{W}_{2}\Vert\cdots\log\Vert\mathbf{W}_{L}\Vert\bigg]$$
 
 We define the average log norm of the weight matrices as
 
-$$\langle\log\Vert\mathbf{W}\Vert_{F}\rangle=\dfrac{1}{L}\sum_{i=1}^{L}\log\Vert\mathbf{W}_{i}\Vert$$
+$$\langle\log\Vert\mathbf{W}\Vert_{F}\rangle=\dfrac{1}{N_{L}}\sum_{L}\log\Vert\mathbf{W}_{L}\Vert$$
 
 This is actually a pretty good complexity metric for comparing the test accuracies of different, pre-trained DNNs in the same series.
 Figure~ref{fig:vgg} plots $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$ vs the reported (Top1) test accuracy for the series of pre-trained
@@ -270,7 +270,6 @@ $\mathcal{S}^{log}_{Rank}$ and the ESD Power Law exponent $\alpha$
 \emph{Log-Units Stable Rank:  } 
 $$\mathcal{S}^{log}_{Rank}:=\dfrac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda_{max}}$$
 
-
 \charlesX{I am not sure why the slope is not negative...the eigenvalues are VERY LARGE, and $\log\lambda_{max}~3-5$ so this just is OFF.
 Are we missing something in the derivation, like the fact that the norm squared has to be positive ?  HELP}
 
@@ -278,19 +277,21 @@ Are we missing something in the derivation, like the fact that the norm squared 
 \paragraph{Defining the Layer Weight Matrices}
 \charles{Here we describe how we exact the matrices. Kinda did this above already. We have not done this yet for convolutional layers--thats \emph{another} paper}
 
-$$\text{Linear Layer:}\;\;\log\Vert\mathbf{W}_{L}\Vert^{2}\rightarrow\lambda^{max}_{L}\alpha_{L}$$
+$$\text{Linear Layer:}\;\;\log\Vert\mathbf{W}_{L}\Vert^{2}_{F}\rightarrow\log\lambda^{max}_{L}\alpha_{L}$$
 
 For the Conv2D layers, we relate the 'Norm' of the 4-index Tensor $\mathbf{W}_{l}$ to the sum of the $n_{L}=c\times d$ terms for each feature map, giving 
 
-$$\text{Conv2D Layer:}\;\;\log\Vert\mathbf{W}_{L}\Vert^{2}\rightarrow \sum_{i=1}^{n_{L}}\lambda^{max}_{i,L}\alpha_{L,i}$$
+$$\text{Conv2D Layer:}\;\;\log\Vert\mathbf{W}_{L}\Vert^{2}_{F}\rightarrow \sum_{i=1}^{n_{L}}\log\lambda^{max}_{i,L}\alpha_{L,i}$$
 
-So in the expression for the product norm for $\log\mathcal{C}$, let us replace each $\log\Vert\mathbf{W}_{L}\Vert$ for layer $L$ with corresponding above expressions, and take the average over all $N_{\alpha}$  matrices.  This lets us relate the product norm complexity metric to the weighted average of power law exponents, giving
+We also note that $\log\Vert\mathbf{W}_{L}\Vert^{2}_{F}=2\log\Vert\mathbf{W}_{L}\Vert_{F}$ 
 
-$$\langle\log\Vert\mathbf{W}\Vert\rangle\rightarrow\hat{\alpha}:$$ 
+So in the expression for the product norm for $\log\mathcal{C}$, we can replace each $\log\Vert\mathbf{W}_{L}\Vert$ term for layer $L$ with the corresponding above expressions, and take the average over all $N_{\alpha}$  matrices.  This lets us relate the product norm complexity metric to the weighted average of power law exponents, giving
+
+$$2\log\mathcal{C}=\langle\log\Vert\mathbf{W}\Vert^{2}_{F}\rangle\rightarrow\hat{\alpha}$$ 
 
 where
 
-$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}\lambda^{max}_{i,j}\alpha_{i,l}$$
+$$\hat{\alpha}:=\dfrac{1}{N_{\alpha}}\sum_{i,l}\log\lambda^{max}_{i,j}\alpha_{i,l}$$
 
 This expression resembles the more familiar product norm, but accounts for finite size effects that the product norm relation over estimates.
 % move below?

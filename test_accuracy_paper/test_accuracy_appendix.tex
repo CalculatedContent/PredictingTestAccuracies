@@ -62,12 +62,12 @@ ShuffleNet & shufflenetv2\_wd2 & 41.48 & \\
 
 \begin{figure}[!htb]
     \centering
-    \subfigure[DenseNet]{
-        \includegraphics[scale=0.25]{img/DenseNet_top1-lognorms.png} 
+    \subfigure[CondenseNet]{
+        \includegraphics[scale=0.25]{img/CondenseNet-w_alphas.png} 
         \label{fig:densenet-small}
     }
     \subfigure[DPN]{
-        \includegraphics[scale=0.25]{img/DPN_top1-lognorms.png} 
+        \includegraphics[scale=0.25]{img/DPN-w_alphas.png} 
         \label{fig:dpn-net}
     }
            \caption{DenseNet, DPN}
@@ -78,12 +78,12 @@ ShuffleNet & shufflenetv2\_wd2 & 41.48 & \\
 \begin{figure}[!htb]
     \centering
       \subfigure[ShuffleNet]{
-        \includegraphics[scale=0.25]{img/ShuffleNet_top1-lognorms.png} 
+        \includegraphics[scale=0.25]{img/ShuffleNet-w_alphas.png}
         \label{fig:shufflenet-small}
     }
-    \subfigure[MeNet]{
-        \includegraphics[scale=0.25]{img/MeNet_top1-lognorms.png} 
-        \label{fig:menet-net}
+   \subfigure[MobileNet]{
+        \includegraphics[scale=0.25]{img/MobileNet-w_alphas.png} 
+        \label{fig:resnet-small}
     }
         \caption{ShuffleNet, MeNet}
     \label{fig:more-examples1}
@@ -92,57 +92,42 @@ ShuffleNet & shufflenetv2\_wd2 & 41.48 & \\
 
 
 
-
-
 \begin{figure}[!htb]
- \centering
-   \includegraphics[scale=0.30]{img/ResNet_top1-lognorms.png}
-   \caption{
-Pretrained ResNet models available in OSMR package}
-  \label{fig:resnet}
+    \centering
+      \subfigure[SeResNet]{
+        \includegraphics[scale=0.25]{img/SeResNet-w_alphas.png}
+        \label{fig:shufflenet-small}
+    }
+         \subfigure[SeResNeXt]{
+        \includegraphics[scale=0.25]{img/SeResNeXt-w_alphas.png}
+        \label{fig:shufflenet-small}
+    }
+
+        \caption{SeResNet, SeResNeXt}
+    \label{fig:more-examples1}
 \end{figure}
 
 
 
 
 
-\begin{table}[t]
-\small
-\begin{center}
-\begin{tabular}{|p{1in}|c|c|c|c|c|c|c|}
-\hline
-Architecture 
- & Model
- & Top 1 Error & $\hat{\alpha}$ \\
-\hline
-ResNet (small)  & resnet10 & 37.46 & \\
-& resnet12 & 36.18 & \\
-& resnet14 & 33.17 & \\
-& resnet16 & 30.9 & \\
-& resnet18 & 29.52 & \\
-& resnet34 & 25.66 & \\
-& resnet50 & 23.79 & \\
-\hline
-CondenseNet & condensenet74\_c4\_g4 & 26.25 & \\
-& condensenet74\_c8\_g8 & 28.93 & \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Counter Examples}
-\label{table:models}
-\end{table}
+
 
 
 
 \begin{figure}[!htb]
     \centering
-    \subfigure[MobileNet]{
-        \includegraphics[scale=0.25]{img/MobileNet_top1-lognorms.png} 
+    \subfigure[ResNeXt]{
+        \includegraphics[scale=0.25]{img/ResNeXt-w_alphas.png} 
         \label{fig:resnet-small}
     }
-    \subfigure[CondenseNet]{
-        \includegraphics[scale=0.25]{img/CondenseNet_top1-lognorms.png} 
-        \label{fig:condense-net}
+   \subfigure[MeNet]{
+        \includegraphics[scale=0.25]{img/MeNet-w_alphas.png} 
+        \label{fig:menet-net}
+    }
+    '   \subfigure[FDMobileNet]{
+        \includegraphics[scale=0.25]{img/FDMobileNet-w_alphas.png} 
+        \label{fig:resnet-small}
     }
         \caption{CounterExamples}
     \label{fig:counter-examples}

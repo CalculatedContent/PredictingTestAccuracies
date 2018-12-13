@@ -15,30 +15,30 @@ VGG11\_BN, VGG13\_BN, VGG16\_BN and VGG19\_BN.  Figure~\ref{fig:vgg}
 \hline
 Architecture 
  & Model &Top1 
- & Top5 & $L$ & $N_{\alpha}$ & $\hat{\alpha}$ & $\hat{\alpha}*$ \\
+ & Top5 & $L$ & $N_{\alpha}$ & $\hat{\alpha}$ \\
 \hline
-VGG11 & VGG11 &  & & & & \\
-  & VGG11 BN & & \\
+VGG11 & VGG11 & & & & & \\
+  & VGG11 BN & & & & & \\
 \hline
-VGG13 & VGG13 & & \\
-  & VGG13 BN & &\\
+VGG13 & VGG13 & & & & & \\
+  & VGG13 BN & & & & & \\
 \hline
-VGG16 & VGG16 & & \\
-  & VGG16 BN & & \\
+VGG16 & VGG16 & & & & & \\
+  & VGG16 BN & & & & & \\
 \hline
-VGG19 & VGG19 & \\
-  & VGG19 BN & & \\
+VGG19 & VGG19 & & & & & \\
+  & VGG19 BN & & & & & \\
 \hline
 \end{tabular}
 \end{center}
-\caption{VGG Architectures and DNN Models}
+\caption{VGG Series of Architectures and DNN Models}
 \label{table:models}
 \end{table}
 
 
 \begin{figure}[!htb]
  \centering
-   \includegraphics[scale=0.40]{img/vgg-lognorms.png}
+   \includegraphics[scale=0.40]{img/vgg-w_alphas.png}
    \caption{
 Pretrained VGG and VGG BN Architectures and DNNs.  Test Accuracy and average log norm $\hat{\alpha*}$ for
  VGG11 vs VGG11\_BN ({\color{blue}{blue}}),
@@ -51,23 +51,6 @@ Note that $\hat{\alpha}*$ does not include the last layer, connecting the model 
 \end{figure}
 
 
-\paragraph{ResNet PyTorch Models}
-
-\begin{figure}[!htb]
- \centering
-   \includegraphics[scale=0.40]{img/resnet-pytorch.png}
-   \caption{
-Pretrained ResNet models available in PyTorch
-}
-  \label{fig:resnet}
-\end{figure}
-
-
-
-\paragraph{More PreTrained Models}
-
-More Pretrained Models
-
 
 \begin{table}[t]
 \small
@@ -76,13 +59,15 @@ More Pretrained Models
 \hline
 Architecture 
  & Model
- & Test Accuracy \\
+ & Top 1 Error & $\hat{\alpha}$ \\
 \hline
-ResNet (larger) & & \\
-\hline
-ResNet (extended) & & \\
-\hline
-ResNet (b) & & \\
+ResNet  & resnet10 & 37.46 & \\
+& resnet12 & 36.18 & \\
+& resnet14 & 33.17 & \\
+& resnet16 & 30.9 & \\
+& resnet18 & 29.52 & \\
+& resnet34 & 25.66 & \\
+& resnet50 & 23.79 & \\
 \hline
 \end{tabular}
 \end{center}
@@ -91,6 +76,22 @@ ResNet (b) & & \\
 \end{table}
 
 
+\begin{figure}[!htb]
+ \centering
+   \includegraphics[scale=0.30]{img/ResNet-w_alphas.png}
+   \caption{
+Pretrained ResNet Series of Architectures}
+  \label{fig:resnet}
+\end{figure}
+
+
+
+
+
+
+\paragraph{More PreTrained Models}
+
+More Pretrained Models
 
 
 \begin{table}[t]
@@ -120,11 +121,11 @@ SqueezeNet & & \\
 \begin{figure}[!htb]
     \centering
     \subfigure[DenseNet] {
-        \includegraphics[scale=0.3]{img/densenet-lognorms.png} 
+        \includegraphics[scale=0.3]{img/densenet-pytorch-w_alphas.png} 
         \label{fig:densenet}
     }
     \subfigure[SqueezeNet]{
-        \includegraphics[scale=0.3]{img/squeezenet-lognorms.png} 
+        \includegraphics[scale=0.3]{img/squeezenet-pytorch-w_alphas.png} 
         \label{fig:squeezenet}
     }
         \caption{Densenet and SqueezeNet PyTorch Models}
