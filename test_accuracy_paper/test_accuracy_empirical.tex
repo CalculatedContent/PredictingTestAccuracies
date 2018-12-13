@@ -40,12 +40,11 @@ VGG19 & VGG19 & & & & & \\
  \centering
    \includegraphics[scale=0.40]{img/vgg-w_alphas.png}
    \caption{
-Pretrained VGG and VGG BN Architectures and DNNs.  Test Accuracy and average log norm $\hat{\alpha*}$ for
+Pretrained VGG and VGG BN Architectures and DNNs.  Test Accuracy and weighted average $\hat{\alpha}$ for
  VGG11 vs VGG11\_BN ({\color{blue}{blue}}),
 VGG13 vs VGG13\_BN ({\color{orange}{orange}}),
 VGG16 vs VGG16\_BN ({\color{green}{green}}),  and
 VGG19 vs VGG19\_BN ({\color{red}{red}}). 
-Note that $\hat{\alpha}*$ does not include the last layer, connecting the model to the labels.
 }
   \label{fig:vgg}
 \end{figure}
@@ -61,13 +60,28 @@ Architecture
  & Model
  & Top 1 Error & $\hat{\alpha}$ \\
 \hline
-ResNet  & resnet10 & 37.46 & \\
+ResNet (small)  & resnet10 & 37.46 & \\
 & resnet12 & 36.18 & \\
 & resnet14 & 33.17 & \\
 & resnet16 & 30.9 & \\
-& resnet18 & 29.52 & \\
-& resnet34 & 25.66 & \\
-& resnet50 & 23.79 & \\
+\hline
+ResNet18 & resnet18\_wd4 & XX & \\
+& resnet18\_wd2 & XX & \\
+& resnet18 \_wd3d4& XX & \\
+& resnet18 & XX & \\
+
+\hline
+ResNet34 & resnet34 & 25.66 & \\
+\hline
+ResNet50 & resnet50 & 23.79 & \\
+& resnet50b &  & \\
+
+\hline
+ResNet101 & resnet101 & XX.XX & \\
+& resnet101b & XX.XX & \\
+\hline
+ResNet152 & resnet152 & XX,XX & \\
+& resnet152b & XX,XX & \\
 \hline
 \end{tabular}
 \end{center}
