@@ -1,0 +1,150 @@
+%-----------------------------------------------------------------------
+\documentclass[11pt]{article}
+%-----------------------------------------------------------------------
+%%%\usepackage{amsfonts,amsmath,amsthm}
+%%%\usepackage{algorithm2e,framed,algorithmic}
+%%%\usepackage{enumerate,bm}
+%%%\input{newcmds}
+%%%\input{macros_short.tex}
+%-----------------------------------------------------------------------
+\addtolength{\textwidth}{1.4in}
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+%\addtolength{\topmargin}{-0.5in}
+\addtolength{\topmargin}{-1.0in}
+\addtolength{\textheight}{1.7in}
+\newlength{\defbaselineskip}
+\setlength{\defbaselineskip}{\baselineskip}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{framed}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+%%% \usepackage{verbatim}
+\usepackage{graphicx}
+%\usepackage{caption}
+%%\DeclareCaptionType{copyrightbox}
+%\usepackage{subcaption}
+\usepackage{url}
+\usepackage{rotating}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{xcolor}
+%%\usepackage{enumitem}
+\usepackage{paralist}
+
+%\usepackage{subfig}
+\usepackage{subfigure}
+
+\usepackage{longtable} 
+\usepackage{makecell}
+
+%\usepackage[multiple]{footmisc}
+
+%% \addtolength{\textwidth}{1.5in}
+%% \addtolength{\oddsidemargin}{-0.75in}
+%% \addtolength{\evensidemargin}{-0.75in}
+%% %\addtolength{\topmargin}{-0.25in}
+%% \addtolength{\topmargin}{-0.5in}
+%% %\addtolength{\topmargin}{-1.0in}
+%% \addtolength{\textheight}{1.25in}
+\definecolor{darkgreen}{rgb}{0,0.6,0}
+
+\usepackage[multiple]{footmisc}
+\usepackage[section]{placeins}
+
+\usepackage{hyperref}
+\hypersetup{
+     colorlinks   = true,
+     linkcolor    = blue,
+     citecolor    = green
+}
+
+
+%-----------------------------------------------------------------------
+
+%\newlength{\defbaselineskip}
+%\setlength{\defbaselineskip}{\baselineskip}
+%
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+
+\newtheorem{observation}{Observation}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+
+%% \newenvironment{proof}{\noindent {\em Proof:}}{\\\hspace*{\fill}\mbox{$\diamond$}}
+%% \newcommand{\argmin}{\text{argmin}}
+
+\newcommand{\fix}[1]{\textcolor{red}{#1}}
+\newcommand{\comment}[1]{\textcolor{blue}{#1}}
+\newcommand{\awk}[1]{\textcolor{darkgreen}{#1}}
+
+\newcommand{\argmin}{\text{argmin}}
+\newcommand{\Probab}[1]{\mbox{}{\bf{Pr}}\left[#1\right]}
+\newcommand{\Expect}[1]{\mbox{}{\bf{E}}\left[#1\right]}
+\newcommand{\ExpectBracket}[1]{\mbox{}\left<#1\right>}
+
+% Here are two macros for comments.
+\newcommand {\michael}[1]{{\color{red}\sf{[michael: #1]}}}
+\newcommand {\charles}[1]{{\color{blue}\sf{[charles: #1]}}}
+\newcommand {\charlesX}[1]{{\color{violet}\sf{[charlesG: #1]}}}
+
+\usepackage[normalem]{ulem}
+
+
+%-----------------------------------------------------------------------
+\begin{document}
+
+
+\title{%
+A Surprising Power Law Relationship Predicts Trends in the Test Accuracy for Very Deep Neural Networks
+ OR A HTRMT REF
+}
+
+\author{%
+Charles H. Martin\thanks{Calculation Consulting, 8 Locksley Ave, 6B, San Francisco, CA 94122, \texttt{charles@CalculationConsulting.com}.} 
+\and 
+Michael W. Mahoney\thanks{ICSI and Department of Statistics, University of California at Berkeley, Berkeley, CA 94720, \texttt{mmahoney@stat.berkeley.edu}.}
+}
+
+
+\date{}
+\maketitle
+
+%{\bf
+%%   \vspace{5mm}
+%   \emph{
+%      \begin{center}
+%         Note:  This is still a rough draft - from \today. \\
+%         Please do NOT distribute.
+%      \end{center}
+%   }
+%%   \vspace{5mm}
+%}
+
+\input{test_accuracy_abstract}
+\input{test_accuracy_intro}
+\input{test_accuracy_theory}
+\input{test_accuracy_empirical}
+\input{test_accuracy_discussion}
+\appendix
+\input{test_accuracy_appendix}
+
+
+%\bibliographystyle{unsrt}
+\bibliographystyle{plain}
+
+{\small
+%\bibliography{gen_gap}
+%\bibliography{dnns}
+\bibliography{dnns,gen_gap}
+}
+
+\end{document}
+
+
