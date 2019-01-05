@@ -5,8 +5,8 @@
 
 \paragraph{VGG and VGG BN Models}
 
-We start by looking at the VGG class of models, including VGG11, VGG13, VGG16, and VGG19, and their counterparts with Batch Normalization, 
-VGG11\_BN, VGG13\_BN, VGG16\_BN and VGG19\_BN.  Figure~\ref{fig:vgg}
+We start by looking at the VGG class of models, including VGG11, VGG13, VGG16, and VGG19, and their counterparts with Batch Normalization, VGG11\_BN, VGG13\_BN, VGG16\_BN and VGG19\_BN.  
+See Figures~\ref{fig:vgg_lognorms} and~\ref{fig:vgg_alphahat} and Table~\ref{table:models_VGG} for details.
 
 \begin{table}[t]
 \small
@@ -32,22 +32,8 @@ VGG19 & VGG19 & & & & & \\
 \end{tabular}
 \end{center}
 \caption{VGG Series of Architectures and DNN Models}
-\label{table:models}
+\label{table:models_VGG}
 \end{table}
-
-
-\begin{figure}[!htb]
- \centering
-   \includegraphics[scale=0.40]{img/vgg-w_alphas.png}
-   \caption{
-Pretrained VGG and VGG BN Architectures and DNNs.  Test Accuracy and weighted average $\hat{\alpha}$ for
- VGG11 vs VGG11\_BN ({\color{blue}{blue}}),
-VGG13 vs VGG13\_BN ({\color{orange}{orange}}),
-VGG16 vs VGG16\_BN ({\color{green}{green}}),  and
-VGG19 vs VGG19\_BN ({\color{red}{red}}). 
-}
-  \label{fig:vgg}
-\end{figure}
 
 
 

@@ -3,216 +3,54 @@
 \section{Introduction}
 \label{sxn:intro}
 
-\subsection{Refs}
+XXX.  INTRO
 
-\michael{XXX.  INTRO.}
+Figure~\ref{fig:vgg_lognorms} plots $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$ vs the reported (Top1) test accuracy for the series of pre-trained VGG models (available in the pyTorch package~\cite{pyTorch}). 
 
-Our theory of Implicit Self Regularization used Heavy Tailed Random Matrix Theory (HT RMT), and here we use HT RMT also~\cite{MM18_TR}.
-See also our prior results on \cite{MM17_TR}.
+Notice we did not need to peek at the test data to make this plot.  
+In fact, we did not need the ImageNet training data either.  
+Amazingly, the average log norm is well correlated with the reported test accuracies.
 
-\cite{NTS14_TR} is 
-Neyshabur et al. on :
-``In search of the real inductive bias: on the role of implicit regularization in deep learning''
+\begin{figure}[!htb]
+ \centering
+   \includegraphics[scale=0.40]{img/vgg-lognorms.png}
+   \caption{
+Pretrained VGG and VGG BN Architectures and DNNs.  Test Accuracy and average log Frobenius norm $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$ for
+ VGG11 vs VGG11\_BN ({\color{blue}{blue}}),
+VGG13 vs VGG13\_BN ({\color{orange}{orange}}),
+VGG16 vs VGG16\_BN ({\color{green}{green}}),  and
+VGG19 vs VGG19\_BN ({\color{red}{red}}). 
+}
+  \label{fig:vgg_lognorms}
+\end{figure}
 
-
-\cite{NTS15} is
-Neyshabur et al. on:
-``Norm-Based Capacity Control in Neural Network''
-
-\cite{NBMS17_TR} is 
-Neyshabur et al. on:
-``Exploring generalization in deep learning''
-
-\cite{AGNZ18_TR} is 
-Arora et al. on:
-``Stronger generalization bounds for deep nets via a compression approach''
-
-\cite{ACH18_TR} is 
-Arora et al. on:
-``On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization''
-
-\cite{Bar97} is
-Bartlett on:
-``For valid generalization, the size of the weights is more important than the size of the network''
-
-\cite{BFT17_TR} is 
-Bartlett et al. on:
-``Spectrally-normalized margin bounds for neural networks''
-
-\cite{NTS14_TR} is
-Neyshabur et al. on: 
-``In search of the real inductive bias: on the role of implicit regularization in deep learning''
-
-\cite{SHNx17_TR} is 
-Soudry et al. on: 
-``The implicit bias of gradient descent on separable data''
-
-\cite{YM17_TR} is 
-Yoshida and Miyato on:
-``Spectral norm regularization for improving the generalizability of deep learning''
-
-\cite{LMBx18_TR} is 
-Liao et al. on:
-``A surprising linear relationship predicts test performance in deep networks''
-
-\cite{PLMx18_TR}
-is Poggio el at. on: 
-``Theory {IIIb}: Generalization in Deep Networks''
-
-\cite{KKB17_TR} is 
-Kawaguchi et al. on:
-``Generalization in Deep Learning''
-
-\cite{NBS17_TR} is:
-Neyshabur et al. on: 
-``A {PAC}-{B}ayesian Approach to Spectrally-Normalized Margin Bounds for Neural Networks''
-
-\cite{ZF18_TR} is
-Zhou and Feng on:
-``Understanding Generalization and Optimization Performance of Deep {CNN}s''
-
-\cite{BJNx01_TR} is
-Burda et al. on:
-``{L}{\'e}vy Matrices and Financial Covariances''
-
-\cite{MN09_TR} is
-Mahoney and Narayanan on:
-``Learning with Spectral Kernels and Heavy-Tailed Data''
+We believe this is the first time this theoretical complexity metric has been reported to predict (trends in) the test accuracy for production
+DNNs.  This in itself is remarkable.  But we can do even better than this -- by exploiting Heavy Tail Universality.
 
 
-\subsection{Michael's Derivation}
+Next, see Figure \ref{fig:vgg_alphahat} for our improvements, using the method we introduce below.
 
-Here, we derive an expression for the ratio of the log of the Frobenius norm of $W$ to the log of the spectral norm of $W$.
-Once we settle on presentation, with normaliation, etc., this will probably be a ``subroutine'' in our analysis.
-To simplify things, we will be interested in the matrix $W$, and in particular the Frobenius norm $\|W\|_F$ and spectral norm $\|W\|_2$ of this matrix.
-Then, given these expressions, we will derive other things, e.g., norms of correlation matrices with different normalizations, etc., by using different normalizations.  
+\begin{figure}[!htb]
+ \centering
+   \includegraphics[scale=0.40]{img/vgg-w_alphas.png}
+   \caption{
+Pretrained VGG and VGG BN Architectures and DNNs.  Test Accuracy and weighted average $\hat{\alpha}$ for
+ VGG11 vs VGG11\_BN ({\color{blue}{blue}}),
+VGG13 vs VGG13\_BN ({\color{orange}{orange}}),
+VGG16 vs VGG16\_BN ({\color{green}{green}}),  and
+VGG19 vs VGG19\_BN ({\color{red}{red}}). 
+}
+  \label{fig:vgg_alphahat}
+\end{figure}
 
-Recall that we are modeling the matrix $W$ as a random matrix with heavy-tailed entries.
-XXX.  WE MIGHT WANT A FIGURE SHOWING THE REAL DATA LOOKS LIKE THIS, LIKE THE BURDA PAPER.
-Thus, the Frobenius norm is going to be related to the second moment of the entries, and the spectral norm is going to be related to the largest entry.
-XXX.  CITE AUFFINGER PAPER FOR EXACTLY THE RANGE OF VALIDITY OF THIS.
-An important issue will be the power law exponent, since---depending on it---familiar results will hold or will fail to hold.
-For the moment, let's ignore that we are dealing with matrices, and let's focus on drawing elements from a heavy-tailed distribution, and computing various moments and extreme values of empirical draws.
-
-Consider the extreme case of a heavy-tailed distribution, namely a power law distribution.
-XXX.  INCLUDE SOMETHING ABOUT SLOWLY VARYING FUNCTION AS WELL AS XMIN VALUE.
-Up to a slowly-varying function, the general form of the probability distribution function is
-$$
-p(x) = \frac{C}{x^{1+\mu}}  = C x^{-1-\mu} , 
-$$
-where $\mu > -1$, and where $x \in [x_{min},\infty)$.
-The cdf 
-XXX ACTUALLY ONE MINUS THAT 
-is then
-$$
-P_{\ge}(x) = \int_x^{\infty} p(x^{\prime}) dx^{\prime} 
-           = \frac{C}{\mu} \frac{1}{x^{\mu}}  
-           = \frac{C}{\mu} x^{-\mu}  .
-$$
-In order to compute $C$ and normalize these expressions, let
-\begin{eqnarray*}
-1 = \int_{x_{min}}^{\infty} p(x) dx 
-  = C \int_{x_{min}}^{\infty} x^{-1-\mu} dx 
-  = \frac{C}{-\mu} x^{-\mu} |_{x_{min}}^{\infty}  
-  = \frac{C}{\mu} x_{min}^{-\mu}   ,
-\end{eqnarray*}
-which is valid (i.e., the integral converges and exists) if $\mu > 0$.
-From this, is follows that the normalization constant is
-\begin{equation}
-C = \mu x_{min}^{\mu}  .
-\label{eqn:pl_normalization}
-\end{equation}
-Thus, if $\mu > 0$, then the probability distribution function is 
-\begin{equation}
-p(x) 
-%     = \frac{\mu}{x_{min}}\left( \frac{x_{min}}{x}\right)^{1+\mu}  
-     = \frac{\mu}{x_{min}}\left( \frac{x}{x_{min}}\right)^{-1-\mu}  ,
-\label{eqn:pl_pdf}
-\end{equation}
-and the cdf 
-XXX ACTUALLY ONE MINUS THAT
-is 
-\begin{equation}
-P_{\ge}(x) 
-%           = \left( \frac{x_{min}}{x} \right)^{\mu}  
-           = \left( \frac{x}{x_{min}} \right)^{-\mu}  .
-\label{eqn:pl_one_minus_cdf}
-\end{equation}
-XXX.  MENTION SLOWLY VARYING THING, MAYBE AS CLAUSET DID.
-
-An important aspect of heavy-tailed probability distributions is that extreme values, i.e., values very far from the mean (when the mean is even defined) are not extremely uncommon (as they are for distributions in the Gaussian universality class).
-Of particular relevance for us is the largest value $x_{max}$ obtained when sampling from Eqn.~(\ref{eqn:pl_pdf}) in $n$ i.i.d. trials.
-It is known, see e.g.~\cite{SornetteBook,BOUCHAUD_POTTERS_BOOK,NEWMAN_PAPER}, that the expectation of $x_{max}$ for $\mu\in(1,2)$ 
-XXX IS THIS TRUE FOR MORE GENERAL PL PARAMETERS
-is given~by:
-$$
-\ExpectBracket{x_{max}} \approx x_{min} n^{1/\mu}  .
-$$
-
-Let's return to the expression given in Eqn.~(\ref{eqn:pl_pdf}) and compute the first few moments of this distribution.
-The first moment is
-\begin{eqnarray*}
-\ExpectBracket{x} = \int_{x_{min}}^{\infty} x p(x) dx  
-                  = C \int_{x_{min}}^{\infty} x^{-\mu} dx 
-                  = \frac{C}{1-\mu} x^{1-\mu} |_{x_{min}}^{\infty} 
-                  = \frac{\mu}{\mu-1} x_{min}    ,
-\end{eqnarray*}
-which is valid if $\mu > 1$.
-Similarly, the second moment is
-\begin{eqnarray*}
-\ExpectBracket{x^2} = \int_{x_{min}}^{\infty} x^2 p(x) dx  
-                    = C \int_{x_{min}}^{\infty} x^{1-\mu} dx 
-                    = \frac{C}{2-\mu} x^{2-\mu} |_{x_{min}}^{\infty} 
-                    = \frac{\mu}{\mu-2} x_{min}^2  ,  
-\end{eqnarray*}
-which is valid if $\mu > 2$.
-While this second moment expression is valid for $\mu > 2$, we are going to want a similar expression for $\mu \in (1,2)$.
-For this we can integrate up to $x_{max}$, rather than up to $\infty$.
-In more detail, for $\mu \in (1,2)$, the empirical second moment is
-\begin{eqnarray*}
-\ExpectBracket{x^2} &=&       \int_{x_{min}}^{x_{max}} x^2 p(x) dx  \\
-                    &=&       \frac{C}{2-\mu} x^{2-\mu} |_{x_{min}}^{x_{max}}  \\
-                    &\approx& \frac{\mu}{2-\mu} x_{min}^{\mu} \left( x_{min}^{2-\mu} n^{(2-\mu)/\mu} - x_{min}^{2-\mu} \right) \\
-                    &\approx& \frac{\mu}{2-\mu} x_{min}^{2} n^{(2-\mu)/\mu}   ,
-\end{eqnarray*}
-which is valid for $\mu\in(1,2)$.
-Note that in these expressions and the expressions below, we follow previous work \cite{MM18_TR} and don't compute expressions for $\mu=2$ precisely.
-(They are known to lie in yet another universality class~\cite{SornetteBook,BOUCHAUD_POTTERS_BOOK}, and we don't expect to resolve the difference numerically.)
-
-Finally, consider an $N \times N$ matrix $W$. 
-Then, 
-$\|W\|_2 = w_{min} N^{2/\mu}$ (for $\mu\in(1,2)$) and
-$\|W\|_2 = w_{min} N^{1/2}$ (for $\mu>2$).
-XXX.  CHECK THAT I AM NOT OFF By A FACTOR OF N.
-Thus, for the spectral norm, we have that: 
-\begin{equation}
-\|W\|_2^2 = \left\{ \begin{array}{ll}
-                       w_{min}^2 N^{4/\mu} & \mbox{if $\mu\in(1,2)$} \\
-                       w_{min}^2 N & \mbox{if $\mu > 2$} (XXX CHECK)
-                    \end{array}
-            \right.
-\end{equation}
-Similarly, for the Frobenius norm, we have that:
-\begin{equation}
-\|W\|_F^2 = \left\{ \begin{array}{ll}
-                      \frac{\mu}{2-\mu} w_{min}^2 N^{(4-2\mu)/\mu} & \mbox{if $\mu\in(1,2)$} \\
-                      \frac{\mu}{\mu-2} w_{min}^2 N^2 & \mbox{if $\mu > 2$} 
-                    \end{array}
-            \right.
-\end{equation}
-
-We are interested in the function of $\mu$ defined as:
-$$
-f = f(\mu) = \frac{\log \|W\|_F^2}{\log \|W\|_2^2}  .
-$$
-From the above, if we take logs, then for $\mu\in(1,0)$, we get:
-$$
-f(\mu) = \frac{ \log\left(\frac{\mu}{2-\mu}\right) + \log(w_{min}^2) + \frac{4}{\mu}\log N - 2 \log N }{ \log(w_{min}^2) + \frac{4}{\mu}\log N }
-$$
-and for $\mu > 2$, we get:
-$$
-f(\mu) = \frac{ \log\left(\frac{\mu}{\mu-2}\right) + \log(w_{min}^2) + 2 \log N }{ \log(w_{min}^2) + \log N }
-$$
-
-
+In summary, our main results are the following:
+\begin{itemize}
+\item
+We apply the product norm regularization metric to the VGG series of models, illusrtating that it performs moderately well.
+\item
+We use HT-RMT and the recently-developed theory of implicit self-regularization to develop a novel capacity metric.
+This metric is a linear combination of PL exponents, where the coefficients are the spectral norm of something; and this metric may be viewed as a refinement of the product norm metric to account for finite-size effects.
+\item
+We apply this novel metric to the VGG series, showing that it does better than the product norm metric; and we apply it to a wide range of other pre-trained models, including XXX, XXX, and XXX.
+\end{itemize}
 
