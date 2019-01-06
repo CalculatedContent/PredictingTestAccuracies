@@ -25,16 +25,18 @@ models, and we do not even need access to the test data.  }
 
 \paragraph{Random matrix models.} 
 
+\charlesX{
 We apply our new Theory of Heavy-Tailed Self Regularization (HT-SR) to analyze these large, pretrained DNNs.  
-We model \emph{the correlations} arising in the DNN layers by forming the normalized correlation matrices $\mathbf{X}=(1/N)\mathbf{W}^{T}\mathbf{W}$ 
-for each of the individual  the layer weight matrices $\mathbf{W}$ and then studying the eigenvalue density   $\rho(\lambda)$.
+We model \emph{the correlations} arising in the DNN layers by forming the normalized correlation matrices $\mathbf{X}=(1/N)\mathbf{W}_{L}^{T}\mathbf{W}_{L}$ 
+for each of the individual  the layer weight matrices $\mathbf{W}_{L}$ and then studying the eigenvalue density of each $\mathbf{X}$,  $\rho(\lambda)$.
 The HT-SR Theory lets us characterize the densities because they almost always display heavy tailed signatures,
  and can be fit to a Power Law, $\rho(\lambda)\sim\lambda^{-\alpha}$, with exponent $\alpha$.   And , on average,
- the smaller the $\alpha$, the more Self Regularization is present in the DNN.  Of course, the
-  pretrained weight matrices themselves are not at all random because they have been trained on very large, high quality data sets,
+ the smaller the $\alpha$, the more Self Regularization is in the DNN.  Of course, the
+  pretrained weight matrices  $\mathbf{W}_{L}$  themselves are not at all random because they have been trained 
+  on very large, high quality data sets,
   and they behave quite differently from a random heavy tailed (i.e. Pareto) matrix.  And it is these differences we can exploit
-  to predict trends in the generalization accuracy associated with HT-SR.
-
+  to predict trends in the generalization accuracy.}
+  
 First, some notational conventions.
 For each Linear layer, we get a  single, $(N\times M)$ (real valued) 2D matrix, layer weight matrix, denoted $\mathbf{W}_{L}$, for layer $L$.  
 This also includes Dense or Fully Connected (FC) layers, as well as 1D Convolutional (Conv1D) layers, Attention matrices, etc.
@@ -49,10 +51,11 @@ We imagine the matrix elements of $\mathbf{W}$  are drawn from some probability 
 $$
 Pr(W_{i,j})\sim N(0,\sigma)
 $$
-with zero mean and variance $\sigma$. 
+with zero mean and variance $\sigma$.   \charlesX{Our imagination here lets us derive seemingly \emph{Universal} expressions for how the correlations should behave, 
+even though $\mathbf{W}$  itself is not at all random. }
 These Gaussian models arise in the well known Marchenko-Pastur (MP) Random Matrix Theory (RMT), as well as the Spiked-Covariance model. 
 Gaussian model are useful for understanding older, smallish Neural Networks, such as LeNet5.
-But more modern DNNs display more exotic behavior.  
+But more modern DNNs display more exotic Universal behavior.  
 
 
 \paragraph{Heavy-Tailed Universality.} 
