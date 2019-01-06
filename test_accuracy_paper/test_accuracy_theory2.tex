@@ -26,17 +26,14 @@ models, and we do not even need access to the test data.  }
 \paragraph{Random matrix models.} 
 
 We apply our new Theory of Heavy-Tailed Self Regularization (HT-SR) to analyze these large, pretrained DNNs.  
-We model \emph{the correlations} arising in the DNN layers by studying the eigenvalue density   $\rho(\lambda)$ of the
-the normalized correlation matrices $\mathbf{X}=(1/N)\mathbf{W}^{T}\mathbf{W}$ formed from the layer weight matrices $\mathbf{W}$ 
-Of course, the weight matrices themselves are not  random because they have been trained on very large, high quality data sets.
-In fact, while the correlations display heavy tailed signatures, and can be fit to a Power Law, $\rho(\lambda)\sim\lambda^{-\alpha}$,
- the pretrained weight matrices themselves behave quite differently from a random heavy tailed (Pareto) matrix.
-
-as (and characterize it by the eigenvalue density $\rho(\lambda)$ of its normalized
-correlation matrix $\mathbf{X}=(1/N)\mathbf{W}^{T}\mathbf{W}$, and by fitting this to a power law ,
-
-
-
+We model \emph{the correlations} arising in the DNN layers by forming the normalized correlation matrices $\mathbf{X}=(1/N)\mathbf{W}^{T}\mathbf{W}$ 
+for each of the individual  the layer weight matrices $\mathbf{W}$ and then studying the eigenvalue density   $\rho(\lambda)$.
+The HT-SR Theory lets us characterize the densities because they almost always display heavy tailed signatures,
+ and can be fit to a Power Law, $\rho(\lambda)\sim\lambda^{-\alpha}$, with exponent $\alpha$.   And , on average,
+ the smaller the $\alpha$, the more Self Regularization is present in the DNN.  Of course, the
+  pretrained weight matrices themselves are not at all random because they have been trained on very large, high quality data sets,
+  and they behave quite differently from a random heavy tailed (i.e. Pareto) matrix.  And it is these differences we can exploit
+  to predict trends in the generalization accuracy associated with HT-SR.
 
 First, some notational conventions.
 For each Linear layer, we get a  single, $(N\times M)$ (real valued) 2D matrix, layer weight matrix, denoted $\mathbf{W}_{L}$, for layer $L$.  
