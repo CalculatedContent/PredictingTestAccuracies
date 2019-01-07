@@ -190,8 +190,25 @@ More-so, to demonstrate the effectiveness of the approach, we will test these re
 Frobenius norm behaves very differently from a random Pareto matrix.  Figure XXX displays the direct relation between
  the power law exponents and the Frobenius norm for both randomly generated heavy tailed matrices, and the weight matrices
  from the pre-trained VGG16 DNN.   
- (NEED TO ADD FIGURE)
- For a random Pareto matrix $\mathbf{W}^{rand}(\mu)$,  the Frobenius norm  $\Vert\mathbf{W}\Vert_{F}$ increases with 
+ 
+ 
+ \begin{figure}[!htb]
+    \centering
+    \subfigure[Random Pareto Matrices] {
+        \includegraphics[scale=0.3]{img/fro-rand.png} 
+        \label{fig:fro-rand}
+    }
+    \subfigure[VGG 11 Weight matrices]{
+        \includegraphics[scale=0.3]{img/fro-vgg11.png} 
+        \label{fig:fro-vgg11}
+    }
+        \caption{Dependence of Frobenius Norm on Power Law exponents}
+    \label{fig:fnorm}
+\end{figure}
+
+
+
+ For a random Pareto matrix $\mathbf{W}^{rand}(\mu)$,  the Frobenius norm  $\Vert\mathbf{W}^{rand}(\mu)\Vert_{F}$ increases with 
  decreasing exponent $\mu$;  as the tails of the ESD $\rho(\lambda)$ get heavier, the largest eigenvalue $\lambda_{max}$ of $\mathbf{X}$
   scales with the largest element of  $\mathbf{W}^{rand}(\mu)$.  But for the weight matrices of a pretrained DNN,
   the Frobenius norm $\Vert\mathbf{W}\Vert_{F}$ decreases with decreasing exponent $(\alpha)$.  
