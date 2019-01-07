@@ -209,13 +209,15 @@ Frobenius norm behaves very differently from a random Pareto matrix.  Figure XXX
 
 
  For a random Pareto matrix $\mathbf{W}^{rand}(\mu)$,  the Frobenius norm  $\Vert\mathbf{W}^{rand}(\mu)\Vert_{F}$ increases with 
- decreasing exponent $\mu$;  as the tails of the ESD $\rho(\lambda)$ get heavier, the largest eigenvalue $\lambda_{max}$ of $\mathbf{X}$
+ decreasing exponent $(\mu)$;  as the tails of the ESD $\rho(\lambda)$ get heavier, the largest eigenvalue $\lambda_{max}$ of $\mathbf{X}$
   scales with the largest element of  $\mathbf{W}^{rand}(\mu)$.  But for the weight matrices of a pretrained DNN,
   the Frobenius norm $\Vert\mathbf{W}\Vert_{F}$ increases with \emph{increasing} exponent $(\alpha)$, saturating at $\alpha\approx 3$.
   This happens because the pretrained matrices  $\mathbf{W}$ themselves are highly correlated, not random matrices
-  with a single large, atypical element.   And, yet, the ESD of the correlations matrices $\mathbf{X}$ disoplay
+  with a single large, atypical element.   And, yet, the ESD $\rho(\lambda)$ of the correlations matrices $\mathbf{X}$ display
   Universal Heavy Tailed behavior. This is one of the amazing properties of Universality.
-    So instead of forming a direct relation between $\alpha$ and  $\Vert\mathbf{W}\Vert_{F}$ , we will exploit Universality.  
+  Of course, we expect this behavior from our  HT-SR theory; smaller exponents indicate suggest more regularization
+  and therefor better generalization.  Likewise, smaller matrix norms also suggest this.  
+  So to form a relation between $\alpha$ and  $\Vert\mathbf{W}\Vert_{F}$ , we will exploit Universality.  
 
 We will derive a simple linear relation between the relation the Frobenius norm (squared) $\Vert\mathbf{W}\Vert^{2}_{F}$, the
 power law exponent  $\alpha$ , and the maximum eigenvalue $\lambda_{max}$ of $\mathbf{X}$ (i.e. the Spectral Norm).  
