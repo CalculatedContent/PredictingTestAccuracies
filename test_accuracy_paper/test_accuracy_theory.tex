@@ -251,17 +251,28 @@ for a random matrix, and is linearly correlated for real DNN data. Which is exac
 \end{figure}
 
 
+Note that while linear relation holds over several log scales, 
+the relation does deviate from linearity at the smaller values of $\alpha\;\log_{10}\;\lambda_{max}$.
+This is readily explained below .  }
 
 
-We provide a simple proof below, and more details in the Appendix}.
 
-Will also demonstrate that this relation holds numerically for both Heavy Tailed random matrices and for 
-the weight matrices in pretrained DNNs.
+\paragraph{Proof of the Power Law - Norm Relation}
+We demonstrate that this relation holds numerically for both Heavy Tailed random matrices and for 
+the weight matrices in pretrained DNNs.  (We also provide a simple proof below, and more details in the Appendix.)
 
-\paragraph{Proof of the Power Law - Norm Relation.} 
+We do this by examining  the Power Law - Norm Relation, in terms of what is effectively
+the Soft Rank~\cite{MM18_TR},  expressed in log units as 
 
-%between the Power Law exponent and the Log Frobenius Norm numerically. 
-\nred{Below}  we generate a large number of random Heavy-Tailed random matrices $\mathbf{W}^{rand}(\mu,M)$, 
+$$\alpha\;\sim.\;\dfrac{\log\;\Vert\mathbf{W}\Vert^{2}_{F}}{\log\;\lambda_{max}}$$.
+
+To better understand this relation , and to sketch a proof,
+we will generate the data for a number of a Heavy-Tailed random matrices, 
+with different power law exponents $\mu$. And we compare
+defining correlation matrices $\mathbf{X}$, and therefore $\lambda_{max}$,
+the Spectral Norm (squared) of $\mathbf{W}$, with different normalizations.
+
+\nred{Below}  we generate a large number of  Heavy-Tailed  random matrices $\mathbf{W}^{rand}(\mu,M)$, 
 with different number of eigenvalues $M$ (with aspect ratio $Q=1$), 
 and drawn from a Pareto distributions with exponents $\mu\in[0.5, 5]$
 
