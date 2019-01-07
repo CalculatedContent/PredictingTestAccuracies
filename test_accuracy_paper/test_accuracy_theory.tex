@@ -315,7 +315,7 @@ XXX.  WE MAY WANT TO PUT REAL DATA AS A SUBFIGURE HERE.
 
 Let us approximate the Frobenius Norm (squared) by the maximum eigenvalue of $\mathbf{X}$
 
-$$ \Vert W\Vert^{2}=Tr[\mathbf{W}^{T}\mathbf{W}]=N\\;Tr[\mathbf{X}]\approx N\lambda_{max}$$
+$$ \Vert W\Vert^{2}=Tr[\mathbf{W}^{T}\mathbf{W}]=N\;Tr[\mathbf{X}]\approx N\lambda_{max}$$
 
 which is pretty good for very small $\mu$ because $\lambda_{max}$ is extremely large
 when the tail is very, very long.  (This can made more rigorous, maybe in the Appendix).
@@ -352,11 +352,14 @@ $$ \log\lambda_{max}\approx\log N^{4/\mu-1}=(4/\mu-1)log N$$
 
 $$ \dfrac{log N}{log\lambda_{max}}\approx\dfrac{\log N}{(4/\mu-1)log N}=\dfrac{1}{4/\mu-1}$$
 
-We can now form a Taylor Series for $\dfrac{1}{4/\mu-1}$ around $\mu=1.15\approx 1$, which gives 
+We can now form the Taylor Series for $\dfrac{1}{4/\mu-1}$ around $\mu=1.15\approx 1$, which gives 
 
 $$\dfrac{1}{4/\mu-1}\bigg\rvert_{\mu=1.15}\approx\dfrac{1}{2}\mu-\dfrac{1}{6}+\cdots\approx\dfrac{1}{2}\mu$$
 
-And we have now proved the linear relation we want for $\mu >= 1$ 
+And we have now derived the approximate, and surprising, linear relation we want for $\mu >= 1$ 
+
+This is an asymptotic relation for the Very Heavy Tailed Universality class, but we will extend it 
+into the Fat Tailed Universality class, where it applies for the finite size weight matrices in DNNs.
 }
 
 The numerical results for the the Power Law-Norm relation shows several interesting features: 
