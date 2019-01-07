@@ -5,6 +5,7 @@
 
 XXX.  INTRO
 
+\charlesX{in the Intro, we need to build directly off Hidary and Poggios work}
 Figure~\ref{fig:vgg_lognorms} plots $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$ vs the reported (Top1) test accuracy for the series of pre-trained VGG models (available in the pyTorch package~\cite{pyTorch}). 
 
 Notice we did not need to peek at the test data to make this plot.  
@@ -49,8 +50,11 @@ In summary, our main results are the following:
 We apply the product norm regularization metric to the VGG series of models, illusrtating that it performs moderately well.
 \item
 We use HT-RMT and the recently-developed theory of implicit self-regularization to develop a novel capacity metric.
+\charlesX{THIS:  We use our recently-developed Theory of Heavy Tailed Self-Regularization (HT-SR) to develop a novel capacity metric}
 This metric is a linear combination of PL exponents, where the coefficients are the spectral norm of something; and this metric may be viewed as a refinement of the product norm metric to account for finite-size effects.
 \item
 We apply this novel metric to the VGG series, showing that it does better than the product norm metric; and we apply it to a wide range of other pre-trained models, including XXX, XXX, and XXX.
+\charlesX{THIS: We apply our nee metric to all the available pretrained DNNs, including the VGG series, the numerous ResNet architectures, and numerous other popular models. It generally does as well or better than the  product norm metric}
+
 \end{itemize}
 

@@ -70,9 +70,9 @@ where $W_{0}$ is the typical order of magnitude of $W_{i,j}$, and $\mu>0$.
 The Heavy-Tailed matrix models were first introduced in the theoretical physics literature, where they are called \'L\'evy Matrices when $0<\mu<2$~\cite{PB94}.
 More generally, there are at least 3 different Universality classes of Heavy-Tailed random matrices, defined by the range $\mu$ takes on:
 \begin{itemize}
-\item $0<\mu<2$: Very Heavy-Tailed (sometimes called L\'evy) matrices
-\item $2<\mu<4$: Moderately Heavy-Tailed (sometimes called Fat-Tailed) matrices
-\item $\mu>4$: Weakly Heavy-Tailed matrices
+\item $0<\mu<2$: VHT:  Very Heavy-Tailed (sometimes called L\'evy) matrices
+\item $2<\mu<4$: FT:  Fat-Tailed (or Moderately Heavy Tailed) matrices
+\item $\mu>4$: WHT:  Weakly Heavy-Tailed matrices
 \end{itemize}
 Results for $\mu=2$ and $\mu=4$ are slightly different~\cite{SornetteBook,BouchaudPotters03}, but we don't describe them since we don't expect to be able to resolve the difference numerically.
 
@@ -106,7 +106,7 @@ which is (at least) valid within a bounded range of eigenvalues $\lambda\in[\lam
 \charles{Discuss fact the power law tails are Frechet at finite size so only need to fit the bulk}
 
 We then fit the bulk of the ESD to a power law using the commonly accepted Maximum Likelihood (MLE) method of Clauset et. al..
-This method works very well for exponents in the moderately (fat tailed) Universality class, where $\alpha\in[2,4]$,
+This method works very well for exponents in the  Fat Tailed Universality class, where $\alpha\in[2,4]$,
 and is sufficient, although imprecise for smaller and larger $\alpha$.  The fitting method is robust in that it is  reasonably
 insensitive to the the choice of normalization $\gamma=1$.
 
@@ -115,26 +115,28 @@ insensitive to the the choice of normalization $\gamma=1$.
 In modern, pre-trained DNN, we find that the ESD of nearly every \ $\mathbf{W}$ layer matrix can be fit to a power law,
 %The layer matrices in all large, modern DNNs, do not have a scale cut-off, and, instead display scale-invariance.  
 We have examined nearly 10,000 layer weight matrices $\mathbf{W}_{l,i}$ across over 50 different modern. pre-trained DNN architectures.  
- $70-80\%$ of the time, the power law exponent lies in the range of the fat tailed Universality class, $\alpha\in[2,4-5]$.
-And for $10-20\%$ of the time, the ESDs display very Heavy-Tailed signatures.
+ $70-80\%$ of the time, the power law exponent lies in the range of the Fat Tailed Universality class.
+And for $10-20\%$ of the time, the ESDs display Very Heavy-Tailed signatures.
 Of course, there are exceptions, and in any real DNN,  $\alpha$ may range anywhere from $\sim1.5$ to $10$ or higher.  
 
 This kind of Universality of exponents is very special in theoretical physics and indicates the presence of a deeper, 
 underlying mechanism driving the system.  Indeed, it is this Universality that has motivated this study.
 
-For the Very Heavy-Tailed Universality class, this power law tail persists in the infinite limit $N\rightarrow\infty$, $Q$ fixed.
+\michael{can you please add numbers to these equations:  I use them  in the derivation}
+
+For the VHT Universality class, this power law tail persists in the infinite limit $N\rightarrow\infty$, $Q$ fixed.
 And we have the linear relation between our observed exponent $\alpha$ and the theoretical $\mu$
 
 $$\alpha=\dfrac{1}{2}\mu+1$$
 
 which works very well even for very small matrices $(M\sim100)$.
-For the Moderately Heavy-Tailed Universality class, $\alpha$ is still linear in $\mu$, but displays very strong finite size effects, giving $\alpha=a+b\mu$, where $a,b$ depend strongly on $M,N$. Also,  the power law tail vanishes in the limit, but persists at all finite sizes, and follows a Frechet distribution (i.e. an exponentially truncated power law). \nred{In both cases, we expect the maximum empirical eigenvalue $\lambda_{max}$ will scale with N (with Q=1) according to Extreme Value Theory (EVT)~\cite{MM18_TR,XXX,XXX}
+For the FHT Universality class, $\alpha$ is still linear in $\mu$, but displays very strong finite size effects, giving $\alpha=a+b\mu$, where $a,b$ depend strongly on $M,N$. Also,  the power law tail vanishes in the limit, but persists at all finite sizes, and follows a Frechet distribution (i.e. an exponentially truncated power law). \nred{In both cases, we expect the maximum empirical eigenvalue $\lambda_{max}$ will scale with N (with Q=1) according to Extreme Value Theory (EVT)~\cite{MM18_TR,XXX,XXX}
 
 $$\lambda_{max}\sim N^{4/\mu-1}$$
 
 Amazingly, \emph{due to Universality,} we expect this relation to hold even when the matrix $\mathbf{W}$ is not itself heavy tailed random and therefore not governed by EVT.
 }
-These strong finite size effects characterize these so-called fat tailed distributions; they are also well known in the physics literature\cite{SornetteBook,BouchaudPotters03}. 
+These strong finite size effects characterize these so-called Fat Tailed distributions; they are also well known in the physics literature\cite{SornetteBook,BouchaudPotters03}. 
 And it is these finite size effects that we will exploit to develop our theory.
 
 
@@ -243,7 +245,7 @@ We fit the ESD of each $\mathbf{W}^{rand}(\mu)$ to a power law using the method 
 
 \charles{describe, give pesudocode}.
 
-For the Universality class of very Heavy-Tailed L\'evy matrices ($1<\mu<2$), in order to form the limiting eigenvalue distribution $\rho_{\infty}(\lambda)$,
+For the Universality class of VHT ($1<\mu<2$), in order to form the limiting eigenvalue distribution $\rho_{\infty}(\lambda)$,
 we require that the sum of any row of $\mathbf{W}$ converges as $N\rightarrow\infty$. This means a largest  element of any row
 must be of order $\mathcal{O}(1)$.  By eqn (x) above, this implies that a typical element  (i.e the variance) scales as $\mathbf{W}^{0}\sim N^{-1/\mu}$, where $1<\mu<2$.
 Of course, we do not known $\mu$, and most matrices are only moderately Heavy-Tailed, not very Heavy-Tailed.
@@ -282,7 +284,7 @@ for all for all ranges of $\mu$
 \charlesX{UGH I forgot why this is 2 .. we need to review the data and what was done and check the math carefully}
 
 Notice that this linear relations holds quite well, albeit with a large error bar, for $1<\mu<2$, even for small matrices, but starts to degrade for $\mu>2$.
-This simple linear relation characterizes the scale invariant properties of the very Heavy-Tailed Levy matrices; they are dominated by the largest scale-free eigenvalue.
+This simple linear relation characterizes the scale invariant properties of the VHT Levy matrices; they are dominated by the largest scale-free eigenvalue.
 
 $$\Vert\mathbf{W^{rand}(\mu)}\Vert^{2}_{F}\approx\tilde{\lambda}_{max},\;\;\mu=1$$
 
@@ -334,7 +336,7 @@ $$ \alpha\approx \dfrac{log N}{log\lambda_{max}}+1$$
 
 $$ \alpha-1\approx \dfrac{log N}{log\lambda_{max}}$$
 
-We now apply our relation betweemn $\alpha$ and $\mu$ for the Very Heavy Tailed Universality class
+We now apply our relation betweemn $\alpha$ and $\mu$ for the VHT Universality class
 
 $$ \alpha=\dfrac{1}{2}\mu+1$$
 
@@ -358,8 +360,8 @@ $$\dfrac{1}{4/\mu-1}\bigg\rvert_{\mu=1.15}\approx\dfrac{1}{2}\mu-\dfrac{1}{6}+\c
 
 And we have now derived the approximate, and surprising, linear relation we want for $\mu >= 1$ 
 
-This is an asymptotic relation for the Very Heavy Tailed Universality class, but we will extend it 
-into the Fat Tailed Universality class, where it applies for the finite size weight matrices in DNNs.
+This is an asymptotic relation for theVHT Universality class, but we will extend it 
+into the Fat Tailed (FT) Universality class, where it applies for the finite size weight matrices in DNNs.
 }
 
 The numerical results for the the Power Law-Norm relation shows several interesting features: 
@@ -373,7 +375,7 @@ These observations lead to a novel linear relation between the Frobenius norm an
 $$
 \log\Vert\mathbf{W}\Vert^{2}_{F}\approx\alpha\log\lambda_{max}  ,
 $$
-which works very well for very Heavy-Tailed Levy matrices, $\alpha<2$, and is a good approximation for moderately Heavy (Fat) and even some Weakly Heavy matrices. 
+which works very well for VHT Levy matrices, $\alpha<2$, and is a good approximation for moderately Heavy (Fat) and even some Weakly Heavy matrices. 
 And we believe this is the first time this relation has been noted in the literature.
 
 \charlesX{Explain Log Stable Rank}
