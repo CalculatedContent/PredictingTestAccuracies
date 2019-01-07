@@ -188,8 +188,8 @@ More-so, to demonstrate the effectiveness of the approach, we will test these re
 
 \charlesX{Doing so, however, requires care because the pretrained $\mathbf{W}$ are not heavy tailed random matrices, and the empirical
 Frobenius norm behaves very differently from a random Pareto matrix.  Figure XXX displays the direct relation between
- the power law exponents and the Frobenius norm for both randomly generated heavy tailed matrices, and the weight matrices
- from the pre-trained VGG16 DNN.   
+ the power law exponents and the Frobenius norm (squared) for both randomly generated heavy tailed matrices, and the weight matrices
+(extracted from the Conv2D Feature Maps) from the pre-trained VGG11 DNN.
  
  
  \begin{figure}[!htb]
@@ -211,7 +211,7 @@ Frobenius norm behaves very differently from a random Pareto matrix.  Figure XXX
  For a random Pareto matrix $\mathbf{W}^{rand}(\mu)$,  the Frobenius norm  $\Vert\mathbf{W}^{rand}(\mu)\Vert_{F}$ increases with 
  decreasing exponent $\mu$;  as the tails of the ESD $\rho(\lambda)$ get heavier, the largest eigenvalue $\lambda_{max}$ of $\mathbf{X}$
   scales with the largest element of  $\mathbf{W}^{rand}(\mu)$.  But for the weight matrices of a pretrained DNN,
-  the Frobenius norm $\Vert\mathbf{W}\Vert_{F}$ decreases with decreasing exponent $(\alpha)$.  
+  the Frobenius norm $\Vert\mathbf{W}\Vert_{F}$ increases with \emph{increasing} exponent $(\alpha)$, saturating at $\alpha\approx 3$.
   This happens because the pretrained matrices  $\mathbf{W}$ themselves are highly correlated, not random matrices
   with a single large, atypical element.   And, yet, the ESD of the correlations matrices $\mathbf{X}$ disoplay
   Universal Heavy Tailed behavior. This is one of the amazing properties of Universality.
