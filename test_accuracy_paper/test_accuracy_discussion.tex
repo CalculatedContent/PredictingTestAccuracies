@@ -4,22 +4,29 @@
 \vspace{-3mm}
 
 We have presented an \emph{unsupervised} metric which predicts the trends in the test accuracies of a trained deep neural network---without peeking at the test data. 
-This complexity metic, $\hat{\alpha}$ of Eqn.~(\ref{eqn:alpha_hat_generic}) or Eqn.~(\ref{eqn:alpha_hat_specific}), is a weighted average of the power law exponents $\alpha$ for each layer weight matrix, where 
-$\alpha$ is defined in our Theory of Heavy Tailed Implicit Regularization.   We show that this new complexity metric $\hat{\alpha}$ is roughly equivalent to the the average log of the Frobenius norm of the layer weight matrices, $\langle\log\Vert\mathbf{W}\Vert\rangle$, when accounting for finite size effects.
+This complexity metic, $\hat{\alpha}$ of Eqn.~(\ref{eqn:alpha_hat_specific}), is a weighted average of the PL exponents $\alpha$ for each layer weight matrix, where $\alpha$ is defined in our HT-RMT-based Theory Implicit Self-Regularization.  
+We show that this new complexity metric $\hat{\alpha}$ is roughly equivalent to the the average log of the Frobenius norm of the layer weight matrices, $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$ of Eqn.~(\ref{eqn:av_log_norm}), when accounting for finite size effects.
+\michael{Be careful to be precise there.}
 
-We examine several  commonly available, production quality, pretrained DNNs  by plotting  the weight average complexity metric $\hat{\alpha}$ vs the reported (Top1) test accuracies. This covers classes of DNN architectures including the VGG models, ResNet, DenseNet, etc.  In nearly every class, and except for a few counterexamples, the smaller average complexity, the better the test accuracy.
+We examine several commonly available, production quality, pretrained DNNs by plotting the weight average complexity metric $\hat{\alpha}$ vs the reported (Top1) test accuracies. This covers classes of DNN architectures including the VGG models, ResNet, DenseNet, etc. 
+In nearly every class, and except for a few counterexamples, the smaller average complexity, the better the test accuracy.
 
-The method is consistent with both recent theoretical results by Hidary and Poggio, but the approach and the intent is a bit different. 
+Our method is consistent with recent results Liao et al.~\cite{LMBx18_TR}, who use norm-based capacity control metrics to bound generalization error, but the approach and the intent is a bit different. 
 Unlike their result, our approach does not require modifying the loss function.
-Moreover, they seek a \emph{worst case} complexity bound.  We seek \emph{average case} metrics that can be used in production
-to guide the development of better DNNs.
+Moreover, while they seek a \emph{worst case} complexity bound, we seek \emph{average case} metrics that can be used in production to guide the development of better DNNs.
 
-But most importantly, we can apply these complexity metrics \emph{across related DNN architectures}. This is in stark contrast to the standard practice in machine learning.  The equivalent notion would be to compare margins across SVMs  applied to the same data, but with different Kernels.  One loose interpretation is that a set of related of DNN models
-(i.e. VGG11, VGG13, ...) is analogous to a single, very complicated Kernel, and that the hierarchy of architectures is analogous to the hierarchy of hypothesis spaces in VC theory. \charlesX{more here ?  like this ?}
+Most importantly, we can apply these complexity metrics \emph{across related DNN architectures}. 
+This is in stark contrast to the standard practice in ML.
+The equivalent notion would be to compare margins across SVMs, applied to the same data, but with different Kernels. 
+One loose interpretation is that a set of related of DNN models (i.e., VGG11, VGG13, etc.) is analogous to a single, very complicated Kernel, and that the hierarchy of architectures is analogous to the hierarchy of hypothesis spaces in VC theory.
+\charlesX{more here ?  like this ?}
+\michael{Maybe discuss, to see what we can squeeze, given what is now popular.}
 
-We believe this result will have large applications in hyperparameter fine tuning DNNs.  Because we do not need to peek at the test data, it may prevent information from leaking from the test set into the model, thereby helping to prevent overtraining and making fined tuned DNNs more robust.
+We expect our result will have applications in the fine-tuning of DNN hyperparameters as well as related challenges.
+Moreover, because we do not need to peek at the test data, our approach may prevent information from leaking from the test set into the model, thereby helping to prevent overtraining and making fined-tuned DNNs more robust.
+%
+Finally, our work also leads to a much harder theoretical question: is it possible to characterize properties of realistic DNNs to determine whether a DNN is overtrained---without peeking at the test data?  
 
-This work also leads to a much harder theoretical question; is it possible to determine if a DNN is overtrained without peeking at the test data ?  
 
 \subsection{Refs}
 

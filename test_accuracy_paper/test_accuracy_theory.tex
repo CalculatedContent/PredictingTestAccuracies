@@ -1,19 +1,33 @@
 
-\section{Theory of Heavy-Tailed Self Regularization}
-\label{sxn:theory}
+\section{Review of Heavy-Tailed Universality}
+\label{sxn:theory-review}
 
+In this section, we will briefly review results from Heavy-Tailed Universality that will be relevant for our analylsis.
+See~\cite{SornetteBook,BouchaudPotters03} as well as~\cite{MM18_TR} for additional details.
 
-Let us write the Energy Landscape (or optimization function) for a typical DNN with $L$ layers, with activation functions $h_{l}(\cdot)$, and with $N\times M$)  weight matrices $\mathbf{W}_{l}$, and the biases $\mathbf{b}_{l}$, as follows:
+Let us write the Energy Landscape (or optimization function) for a typical DNN with $L$ layers, with activation functions $h_{l}(\cdot)$, and with $N\times M$ weight matrices $\mathbf{W}_{l}$ and biases $\mathbf{b}_{l}$, as follows:
 \begin{equation}
 E_{DNN}=h_{L}(\mathbf{W}_{L}\times h_{L-1}(\mathbf{W}_{L-1}\times h_{L-2}(\cdots)+\mathbf{b}_{L-1})+\mathbf{b}_{L})  .
 \label{eqn:dnn_energy}
 \end{equation}
 %WLOG,
-The model would be trained on some labeled data $\{d_{i},y_{i}\}\in\mathcal{D}$, using Backprop, by minimizing the loss $\mathcal{L}$
+Typically, this model would be trained on some labeled data $\{d_{i},y_{i}\}\in\mathcal{D}$, using Backprop, by minimizing the loss $\mathcal{L}$.
 For simplicity, we do not indicate the structural details of the layers (e.g., Dense or not, Convolutions or not, Residual/Skip Connections, etc.). 
-Each layer is defined by one or more layer 2D weight matrices $\mathbf{W}_{L}$, and/or the 2D feature maps $\mathbf{W}_{i,L}$ 
-extracted from 2D Convolutional layers.
+Each layer is defined by one or more layer 2D weight matrices $\mathbf{W}_{L}$, and/or the 2D feature maps $\mathbf{W}_{i,L}$ extracted from 2D Convolutional layers.
 
+First, some notational conventions.
+For each Linear layer, we get a  single, $(N\times M)$ (real valued) 2D matrix, layer weight matrix, denoted $\mathbf{W}_{L}$, for layer $L$.  
+This also includes Dense or Fully Connected (FC) layers, as well as 1D Convolutional (Conv1D) layers, Attention matrices, etc.
+We ignore the bias here terms in this analysis. 
+XXX.  WHY, WHAT.
+Let the aspect ratio be $Q=\frac{N}{M}$, with $Q\ge 1$.
+For the 2-D Convolutional Conv2D) layers, we have a 4-index Tensor, of the form $(N\times M \times c\times d)$, consisting
+of $c\times d$ 2D feature maps of shape $(N\times M)$.    
+We  extract $n_{L}=c\times d$  2D  weight matrices $\mathbf{W}_{L,i}$, one for each feature map $i=[1,\dots,n_{L}]$ for layer $L$.
+We have not yet analyzed LSTM or other complicated Layers. 
+A typical modern DNN may have anywhere between 5 and 5000 2D $\mathbf{W}_{L,i}$ layer matrices.
+   
+(((
 \charles{
 In this study, we only need to consider Linear and 2D Convolutional (Conv2D) layers because we will only examine series of commonly
 available, open source, pre-trained DNNs with these kinds of layers.  We describe these pre-trained models in detail below;
@@ -21,32 +35,12 @@ briefly examine the VGG series (VGG11, VGG13, VGG1, VGG19), with and without Bat
 available ResNet models ranging from ResNet10 to ResNet152(b), and a wide range of other models.  All models have
 been trained on ImageNet, and reported test accuracies are available.  For our analysis, we do not needs to retrain these
 models, and we do not even need access to the test data.  }
+\michael{This par below.}
+)))
 
 
 \paragraph{Random matrix models.} 
 
-\charlesX{
-We apply our new Theory of Heavy-Tailed Self Regularization (HT-SR) to analyze these large, pretrained DNNs.  
-We model \emph{the correlations} arising in the DNN layers by forming the normalized correlation matrices $\mathbf{X}=(1/N)\mathbf{W}_{L}^{T}\mathbf{W}_{L}$ 
-for each of the individual  the layer weight matrices $\mathbf{W}_{L}$ and then studying the eigenvalue density of each $\mathbf{X}$,  $\rho(\lambda)$.
-The HT-SR Theory lets us characterize the densities because they almost always display heavy tailed signatures,
- and can be fit to a Power Law, $\rho(\lambda)\sim\lambda^{-\alpha}$, with exponent $\alpha$.   And , on average,
- the smaller the $\alpha$, the more Self Regularization is in the DNN.  Of course, the
-  pretrained weight matrices  $\mathbf{W}_{L}$  themselves are not at all random because they have been trained 
-  on very large, high quality data sets,
-  and they behave quite differently from a random heavy tailed (i.e. Pareto) matrix.  And it is these differences we can exploit
-  to predict trends in the generalization accuracy.}
-  
-First, some notational conventions.
-For each Linear layer, we get a  single, $(N\times M)$ (real valued) 2D matrix, layer weight matrix, denoted $\mathbf{W}_{L}$, for layer $L$.  
-This also includes Dense or Fully Connected (FC) layers, as well as 1D Convolutional (Conv1D) layers, Attention matrices, etc.
-We ignore the bias here terms in this analysis.  Let the aspect ratio be $Q=\frac{N}{M}$, with $Q\ge 1$.
-For the 2-D Convolutional Conv2D) layers, we have a 4-index Tensor, of the form $(N\times M \times c\times d)$, consisting
-of $c\times d$ 2D feature maps of shape $(N\times M)$.    
-We  extract $n_{L}=c\times d$  2D  weight matrices $\mathbf{W}_{L,i}$, one for each feature map $i=[1,\dots,n_{L}]$ for layer $L$.
-We have not yet analyzed LSTM or other complicated Layers. 
-A typical modern DNN may have anywhere between 5 and 5000 2D $\mathbf{W}_{L,i}$ layer matrices.
-   
 We imagine the matrix elements of $\mathbf{W}$  are drawn from some probability distribution, such as a Normal $N(0,\sigma)$ distribution
 $$
 Pr(W_{i,j})\sim N(0,\sigma)
@@ -57,6 +51,21 @@ These Gaussian models arise in the well known Marchenko-Pastur (MP) Random Matri
 Gaussian model are useful for understanding older, smallish Neural Networks, such as LeNet5.
 But more modern DNNs display more exotic Universal behavior.  
 
+(((
+\charlesX{
+We apply our new Theory of Heavy-Tailed Self Regularization (HT-SR) to analyze these large, pre-trained DNNs.  
+We model \emph{the correlations} arising in the DNN layers by forming the normalized correlation matrices $\mathbf{X}=(1/N)\mathbf{W}_{L}^{T}\mathbf{W}_{L}$ 
+for each of the individual  the layer weight matrices $\mathbf{W}_{L}$ and then studying the eigenvalue density of each $\mathbf{X}$,  $\rho(\lambda)$.
+The HT-SR Theory lets us characterize the densities because they almost always display heavy tailed signatures,
+ and can be fit to a Power Law, $\rho(\lambda)\sim\lambda^{-\alpha}$, with exponent $\alpha$.   And , on average,
+ the smaller the $\alpha$, the more Self Regularization is in the DNN.  Of course, the
+  pre-trained weight matrices  $\mathbf{W}_{L}$  themselves are not at all random because they have been trained 
+  on very large, high quality data sets,
+  and they behave quite differently from a random heavy tailed (i.e. Pareto) matrix.  And it is these differences we can exploit
+  to predict trends in the generalization accuracy.}
+\michael{This par below.}
+)))
+  
 
 \paragraph{Heavy-Tailed Universality.} 
 Recent work by Martin and Mahoney~\cite{MM18_TR} 
@@ -70,11 +79,12 @@ where $W_{0}$ is the typical order of magnitude of $W_{i,j}$, and $\mu>0$.
 The Heavy-Tailed matrix models were first introduced in the theoretical physics literature, where they are called \'L\'evy Matrices when $0<\mu<2$~\cite{PB94}.
 More generally, there are at least 3 different Universality classes of Heavy-Tailed random matrices, defined by the range $\mu$ takes on:
 \begin{itemize}
-\item $0<\mu<2$: VHT:  Very Heavy-Tailed (sometimes called L\'evy) matrices
-\item $2<\mu<4$: FT:  Fat-Tailed (or Moderately Heavy Tailed) matrices
-\item $\mu>4$: WHT:  Weakly Heavy-Tailed matrices
+\item $0<\mu<2$: VHT Universality class of Very Heavy-Tailed (or L\'evy) matrices
+\item $2<\mu<4$: MHT Universality class of Moderately Heavy-Tailed (or Fat-Tailed) matrices
+\item $4<\mu$: WHT Universality class of Weakly Heavy-Tailed matrices
 \end{itemize}
-Results for $\mu=2$ and $\mu=4$ are slightly different~\cite{SornetteBook,BouchaudPotters03}, but we don't describe them since we don't expect to be able to resolve the difference numerically.
+(Results for $\mu=2$ and $\mu=4$ are slightly different~\cite{SornetteBook,BouchaudPotters03}, but we don't describe them since we don't expect to be able to resolve the difference numerically.
+Also, sometimes L\'evy matrices are split into VHT for $1<\mu<2$ and EHT or Extremely Heavy-Tailed for $0<\mu<1$, since the properties for these two parameter regimes are somewhat different~\cite{SornetteBook,BouchaudPotters03}.)
 
 We can identify these different Universality classes by analyzing the eigenvalue spectrum of the associated correlation matrices. 
 For any layer weight matrix $\mathbf{W}$, we construct the associated $M\times M$ (uncentered) correlation matrix. 
@@ -93,65 +103,65 @@ We now form $\mathbf{X}= \dfrac{1}{N}\mathbf{W}^{T}\mathbf{W}$, normalized using
 $$
 \mathbf{X}\mathbf{v}_{i}=\lambda_{i}\mathbf{v}_{i}
 $$
-
-We call the density of eigenvalues $\rho(\lambda)$ the Empirical Spectral Density (ESD).  This is just a histogram of the eigenvalues, formally written as
-
-$$\rho(\lambda)=\sum\limits_{i=1}^{M}\delta(\lambda-\lambda_{i})$$
-
-The heavy tailed RMT theory tells us that ESD  $\rho(\lambda)$ of any heavy tailed matrix will have a heavy tail, and take the form
+We call the density of eigenvalues $\rho(\lambda)$ the Empirical Spectral Density (ESD). 
+This is just a histogram of the eigenvalues, formally written as
+$$
+\rho(\lambda)=\sum\limits_{i=1}^{M}\delta(\lambda-\lambda_{i})  .
+$$
+HT-RMT theory tells us that ESD $\rho(\lambda)$ of any heavy-tailed matrix will have a heavy tail, taking the form
 $$
 \rho(\lambda)\sim\lambda^{-\alpha}
 $$
 which is (at least) valid within a bounded range of eigenvalues $\lambda\in[\lambda_{min},\lambda_{max}]$.  
-\charles{Discuss fact the power law tails are Frechet at finite size so only need to fit the bulk}
+\charles{Discuss fact the power law tails are Frechet at finite-size so only need to fit the bulk}
 
-We then fit the bulk of the ESD to a power law using the commonly accepted Maximum Likelihood (MLE) method of Clauset et. al..
-This method works very well for exponents in the  Fat Tailed Universality class, where $\alpha\in[2,4]$,
-and is sufficient, although imprecise for smaller and larger $\alpha$.  The fitting method is robust in that it is  reasonably
-insensitive to the the choice of normalization $\gamma=1$.
+We then fit the bulk of the ESD to a power law using the commonly accepted Maximum Likelihood (MLE) method of Clauset et al.~\cite{CSN09_powerlaw,ABP14}.
+This method works very well for exponents in the  MHT Universality class, i.e., where $\alpha\in(2,4)$, and is adequate, although imprecise, for smaller and larger $\alpha$. 
+The fitting method is robust in that it is reasonably insensitive to the the choice of normalization $\gamma=1$.
 
-\charles{Moved paragraphs around a bit here}
+\charles{Moved paragraphs around a bit here}\michael{To do.}
 
-In modern, pre-trained DNN, we find that the ESD of nearly every \ $\mathbf{W}$ layer matrix can be fit to a power law,
-%The layer matrices in all large, modern DNNs, do not have a scale cut-off, and, instead display scale-invariance.  
-We have examined nearly 10,000 layer weight matrices $\mathbf{W}_{l,i}$ across over 50 different modern. pre-trained DNN architectures.  
- $70-80\%$ of the time, the power law exponent lies in the range of the Fat Tailed Universality class.
-And for $10-20\%$ of the time, the ESDs display Very Heavy-Tailed signatures.
-Of course, there are exceptions, and in any real DNN,  $\alpha$ may range anywhere from $\sim1.5$ to $10$ or higher.  
+\michael{can you please add numbers to these equations:  I use them  in the derivation}\michael{To do.}
 
-This kind of Universality of exponents is very special in theoretical physics and indicates the presence of a deeper, 
-underlying mechanism driving the system.  Indeed, it is this Universality that has motivated this study.
-
-\michael{can you please add numbers to these equations:  I use them  in the derivation}
-
-For the VHT Universality class, this power law tail persists in the infinite limit $N\rightarrow\infty$, $Q$ fixed.
-And we have the linear relation between our observed exponent $\alpha$ and the theoretical $\mu$
-
-$$\alpha=\dfrac{1}{2}\mu+1$$
-
+For the VHT Universality class, this power law tail persists in the infinite limit $N\rightarrow\infty$, for $Q$ fixed.
+In addition, we have the linear relation between our observed exponent $\alpha$ and the theoretical $\mu$:
+$$
+\alpha=\dfrac{1}{2}\mu+1  ,
+$$
 which works very well even for very small matrices $(M\sim100)$.
-For the FHT Universality class, $\alpha$ is still linear in $\mu$, but displays very strong finite size effects, giving $\alpha=a+b\mu$, where $a,b$ depend strongly on $M,N$. Also,  the power law tail vanishes in the limit, but persists at all finite sizes, and follows a Frechet distribution (i.e. an exponentially truncated power law). \nred{In both cases, we expect the maximum empirical eigenvalue $\lambda_{max}$ will scale with N (with Q=1) according to Extreme Value Theory (EVT)~\cite{MM18_TR,XXX,XXX}
-
-$$\lambda_{max}\sim N^{4/\mu-1}$$
-
-Amazingly, \emph{due to Universality,} we expect this relation to hold even when the matrix $\mathbf{W}$ is not itself heavy tailed random and therefore not governed by EVT.
+For the MHT Universality class, $\alpha$ is still linear in $\mu$, but displays very strong finite-size effects, giving $\alpha=a+b\mu$, where $a,b$ depend strongly on $M,N$. 
+(See Table 3 of \cite{MM18_TR}.)
+Also,  the power law tail vanishes in the limit, but persists at all finite sizes, and follows a Frechet distribution (i.e., an exponentially truncated power law). 
+\nred{In both cases, we expect the maximum empirical eigenvalue $\lambda_{max}$ will scale with $N$ (with $Q=1$) according to Extreme Value Theory (EVT)~\cite{MM18_TR,XXX,XXX}:
+$$
+\lambda_{max}\sim N^{4/\mu-1}
+$$
+Amazingly, \emph{due to Universality}, we expect this relation to hold even when the matrix $\mathbf{W}$ is not itself heavy tailed random and therefore not governed by EVT.
 }
-These strong finite size effects characterize these so-called Fat Tailed distributions; they are also well known in the physics literature\cite{SornetteBook,BouchaudPotters03}. 
-And it is these finite size effects that we will exploit to develop our theory.
+These strong finite-size effects characterize these so-called MHT distributions; they are also well known in the physics literature~\cite{SornetteBook,BouchaudPotters03}. 
+And it is these finite-size effects that we will exploit to develop our theory.
 
+
+
+
+%\section{Using Heavy-Tailed Universality}
+\section{Relating Heavy-Tailed Universality to Capacity Metrics}
+\label{sxn:theory-new}
+
+In this section, we will use Heavy-Tailed Universality to justify our main capacity control metric.
 
 \paragraph{A Universal DNN Complexity Metric.} 
 
-The power law exponent $\alpha$ is a complexity metric for a weight matrix; it describes how well that matrix encodes the complex correlations in the training data.
-Thus, a natural class of complexity metrics to consider for a DNN is to take a weighted average of the power law exponents $\alpha_{l,i}$ for each layer weight matrix $\mathbf{W}_{l,i}$, given as follows:
+The fitted PL exponent $\alpha$ is a complexity metric for a single DNN weight matrix; it describes how well that matrix encodes the complex correlations in the training data.
+Thus, a natural class of complexity or capacity metrics to consider for a DNN is to take a weighted average of the PL exponents $\alpha_{l,i}$, for each layer weight matrix $\mathbf{W}_{l,i}$, given as follows:
 \begin{equation}
 \hat{\alpha}:=\dfrac{1}{n}\sum_{l,i}b_{l,i}\alpha_{l,i}  .
 \label{eqn:alpha_hat_generic}
 \end{equation}
 Here, the smaller $\hat{\alpha}$, the better we expect the DNN to represent the training data, and (presumably) the better the DNN will generalize to new data.
-The only question is, what are good weights $b_{l,i}$ ?
+The only question is: what are good weights $b_{l,i}$?
 
-It turns out, we can extract the weighted average $\hat{\alpha}$ directly from the more familiar Product Norm, and exploiting the finite size effects of our Fat Tailed weight matrices.
+As we now show, we can extract the weighted average $\hat{\alpha}$ directly from the more familiar Product Norm, by exploiting Universality and the finite-size effects of our MHT weight matrices.
 
 %%%\paragraph{THEOREM:} \emph{The data dependent VC-like complexity of a Deep Neural Network can be expressed a weighted average the of power law exponents describing the empirical spectral density of the layer weight matrices}
 %%
@@ -163,34 +173,35 @@ Recently it has been suggested that the complexity, $\mathcal{C}$, of a DNN can 
 $$
 \mathcal{C}\sim\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert ,
 $$
-where $\Vert\mathbf{W}\Vert$ may be the Frobenius norm or even the L1-norm. 
+where $\Vert\mathbf{W}\Vert$ may be the Frobenius norm or even the L1-norm~\cite{XXX-XXX,XXX-XXX,XXX-XXX}. 
 (Here we can use either $\Vert\mathbf{W}\Vert$ or $\Vert\mathbf{W}\Vert^{2}$ for our complexity metric, which will make more sense below, and one can view $\mathcal{C}$ as something akin to a data dependent VC complexity.)
-
+%
 To that end, we consider a log complexity
 \begin{eqnarray*}
 \log\mathcal{C} &\sim& \log\bigg[\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert\bigg]  \\
                 &\sim& \bigg[\log\Vert\mathbf{W}_{1}\Vert+\log\Vert\mathbf{W}_{2}\Vert\cdots\log\Vert\mathbf{W}_{L}\Vert\bigg]  ,
 \end{eqnarray*}
 and we define the average log norm of the weight matrices as
-$$
+\begin{equation}
 \langle\log\Vert\mathbf{W}\Vert\rangle=\dfrac{1}{N_{L}}\sum_{L}\log\Vert\mathbf{W}_{L}\Vert  .
-$$
+\label{eqn:av_log_norm}
+\end{equation}
 (As illustrated in Figure~\ref{fig:vgg_lognorms}, this metric is a relatively good complexity metric for comparing the test accuracies of different, pre-trained DNNs in the same series.)
+\michael{Do we use this elsewhere.}
 
 
 \paragraph{Relation to Heavy-Tailed Universality.} 
 
 We would like to relate the empirical Frobenius norm $\Vert\mathbf{W}\Vert_{F}$ to the empirical power law exponent $\alpha$, 
-and we would like this for all \nred{Heavy Tailed} Universality classes, and for the strongly correlated,  non-random, finite size empirical DNN 
+and we would like this for all \nred{Heavy Tailed} Universality classes, and for the strongly correlated,  non-random, finite-size empirical DNN 
 layer weight matrices.  
 
 %{To do this, we rely upon the known theoretical results for Heavy tailed random matrices, but we also need to be careful about the normalization we use.}
 
 More-so, to demonstrate the effectiveness of the approach, we will test these relations with numerical simulations of Heavy tailed Pareto matrices.
 
-\charlesX{Doing so, however, requires care because the pretrained $\mathbf{W}$ are not heavy tailed random matrices, and the empirical
-Frobenius norm behaves very differently from a random Pareto matrix.  Figure XXX displays the direct relation between
- the power law exponents and the Frobenius norm (squared) for both randomly generated heavy tailed matrices, and the weight matrices
+\charlesX{Doing so, however, requires care because the pre-trained $\mathbf{W}$ are not heavy tailed random matrices, and the empirical Frobenius norm behaves very differently from a random Pareto matrix.  
+Figure~\ref{fig:fnorm} displays the direct relation between the power law exponents and the Frobenius norm (squared) for both randomly generated heavy tailed matrices, and the weight matrices
 (extracted from the Conv2D Feature Maps) from the pre-trained VGG11 DNN.
  
  
@@ -212,9 +223,9 @@ Frobenius norm behaves very differently from a random Pareto matrix.  Figure XXX
 
  For a random Pareto matrix $\mathbf{W}^{rand}(\mu)$,  the Frobenius norm  $\Vert\mathbf{W}^{rand}(\mu)\Vert_{F}$ increases with 
  decreasing exponent $(\mu)$;  as the tails of the ESD $\rho(\lambda)$ get heavier, the largest eigenvalue $\lambda_{max}$ of $\mathbf{X}$
-  scales with the largest element of  $\mathbf{W}^{rand}(\mu)$.  But for the weight matrices of a pretrained DNN,
+  scales with the largest element of  $\mathbf{W}^{rand}(\mu)$.  But for the weight matrices of a pre-trained DNN,
   the Frobenius norm $\Vert\mathbf{W}\Vert_{F}$ increases with \emph{increasing} exponent $(\alpha)$, saturating at $\alpha\approx 3$.
-  This happens because the pretrained matrices  $\mathbf{W}$ themselves are highly correlated, not random matrices
+  This happens because the pre-trained matrices  $\mathbf{W}$ themselves are highly correlated, not random matrices
   with a single large, atypical element.   And, yet, the ESD $\rho(\lambda)$ of the correlations matrices $\mathbf{X}$ display
   Universal Heavy Tailed behavior. This is one of the amazing properties of Universality.
   Of course, we expect this behavior from our  HT-SR theory; smaller exponents indicate suggest more regularization
@@ -227,12 +238,12 @@ power law exponent  $\alpha$ , and the maximum eigenvalue $\lambda_{max}$ of $\m
 $$\alpha\log\;\lambda_{max}\sim\log\;\Vert\mathbf{W}\Vert^{2}_{F}$$
 
 This approximate relation formally only hold in the asymptotic limit of very small power law exponents $\alpha\rightarrow 1$ for
-random heavy tailed matrices, but using Universality, we can safely extend it up to the finite size Fat-Tailed class, with
+random heavy tailed matrices, but using Universality, we can safely extend it up to the finite-size MHT class, with
 exponents $\alpha=4$ (and larger).  
 
 TODO:  explain plots
 
-Multiplying $\alpha$ by $log_{10}\lambda_{max}$, we now have a relation that increases nearly linearly with the Frobenius norm
+Multiplying $\alpha$ by $\log_{10}\lambda_{max}$, we now have a relation that increases nearly linearly with the Frobenius norm
 for a random matrix, and is linearly correlated for real DNN data. Which is exactly what we want for our simple complexity metric.
 
 
@@ -258,18 +269,18 @@ This is readily explained below .  }
 
 
 \paragraph{Proof of the Power Law - Norm Relation}
-We demonstrate that this relation holds numerically for both Heavy Tailed random matrices and for 
-the weight matrices in pretrained DNNs.  (We also provide a simple proof below, and more details in the Appendix.)
+We demonstrate that this relation holds numerically for both Heavy Tailed random matrices and for the weight matrices in pre-trained DNNs. 
+(We also provide a simple proof below, and more details in the Appendix.)
 
-We do this by examining  the Power Law - Norm Relation, in terms of what is effectively
-the Soft Rank~\cite{MM18_TR},  expressed in log units as 
+We do this by examining  the Power Law - Norm Relation, in terms of what is effectively the Soft Rank~\cite{MM18_TR}, expressed in log units as 
+$$
+\alpha\;\sim\;\dfrac{\log\;\Vert\mathbf{W}\Vert^{2}_{F}}{\log\;\lambda_{max}}   .
+$$
 
-$$\alpha\;\sim.\;\dfrac{\log\;\Vert\mathbf{W}\Vert^{2}_{F}}{\log\;\lambda_{max}}$$.
-
-To better understand this relation , and to sketch a proof,
+To understand this relation better, and to sketch a proof,
 we will generate the data for a number of a Heavy-Tailed random matrices, 
-with different power law exponents $\mu$. And we compare
-defining correlation matrices $\mathbf{X}$, and therefore $\lambda_{max}$,
+with different power law exponents $\mu$.
+And we compare defining correlation matrices $\mathbf{X}$, and therefore $\lambda_{max}$,
 the Spectral Norm (squared) of $\mathbf{W}$, with different normalizations.
 
 \nred{Below}  we generate a large number of  Heavy-Tailed  random matrices $\mathbf{W}^{rand}(\mu,M)$, 
@@ -278,7 +289,7 @@ and drawn from a Pareto distributions with exponents $\mu\in[0.5, 5]$
 
 $$\Pr[{W}^{rand}_{i,j}]\sim\dfrac{1}{x^{1+\mu}}$$
 
-We fit the ESD of each $\mathbf{W}^{rand}(\mu)$ to a power law using the method of Clauset et. al. to obtain the empirical exponent $\alpha$.  
+We fit the ESD of each $\mathbf{W}^{rand}(\mu)$ to a power law using the method of Clauset et al.~\cite{CSN09_powerlaw,ABP14} to obtain the empirical exponent $\alpha$.  
 
 \charles{describe, give pesudocode}.
 
@@ -314,7 +325,9 @@ for all for all ranges of $\mu$
 \begin{figure}[!htb]
  \centering
    \includegraphics[scale=0.40]{img/LogNorm-Lmax-Scaled.png}
-   \caption{R XXX.  WE MAY WANT THREE SUBFIGURES HERE.}
+   \caption{R XXX.  WE MAY WANT THREE SUBFIGURES HERE.
+   \michael{Charles suggest we don't need this figure and related discussion, decide later as text evolves.}
+   }
   \label{fig:logNormHat}
 \end{figure}
 
@@ -362,17 +375,17 @@ when the tail is very, very long.  (This can made more rigorous, maybe in the Ap
 
 Take the log of both sides and expand
 
-$$ \log\Vert W\Vert^{2}\approx log[N\lambda_{max}]$$
+$$ \log\Vert W\Vert^{2}\approx \log[N\lambda_{max}]$$
 
-$$ 2\log\Vert W\Vert\approx log N+\log\lambda_{max}$$
+$$ 2\log\Vert W\Vert\approx \log N+\log\lambda_{max}$$
 
 With a little rearrangements we find
 
-$$ \dfrac{2\log\Vert W\Vert}{log\lambda_{max}}\approx \dfrac{log N}{log\lambda_{max}}+1$$
+$$ \dfrac{2\log\Vert W\Vert}{\log\lambda_{max}}\approx \dfrac{\log N}{\log\lambda_{max}}+1$$
 
-$$ \alpha\approx \dfrac{log N}{log\lambda_{max}}+1$$
+$$ \alpha\approx \dfrac{\log N}{\log\lambda_{max}}+1$$
 
-$$ \alpha-1\approx \dfrac{log N}{log\lambda_{max}}$$
+$$ \alpha-1\approx \dfrac{\log N}{\log\lambda_{max}}$$
 
 We now apply our relation betweemn $\alpha$ and $\mu$ for the VHT Universality class
 
@@ -382,15 +395,15 @@ $$ \alpha-1=\dfrac{1}{2}\mu$$
 
 Inserting this gives the relation we need to prove
 
-$$ \dfrac{log N}{log\lambda_{max}}\approx\dfrac{1}{2}\mu $$
+$$ \dfrac{\log N}{\log\lambda_{max}}\approx\dfrac{1}{2}\mu $$
 
 Using now the relation for the tail statistic, we have
 
 $$ \lambda_{max}\approx N^{4/\mu-1}$$
 
-$$ \log\lambda_{max}\approx\log N^{4/\mu-1}=(4/\mu-1)log N$$
+$$ \log\lambda_{max}\approx\log N^{4/\mu-1}=(4/\mu-1)\log N$$
 
-$$ \dfrac{log N}{log\lambda_{max}}\approx\dfrac{\log N}{(4/\mu-1)log N}=\dfrac{1}{4/\mu-1}$$
+$$ \dfrac{\log N}{\log\lambda_{max}}\approx\dfrac{\log N}{(4/\mu-1)\log N}=\dfrac{1}{4/\mu-1}$$
 
 We can now form the Taylor Series for $\dfrac{1}{4/\mu-1}$ around $\mu=1.15\approx 1$, which gives 
 
@@ -398,8 +411,7 @@ $$\dfrac{1}{4/\mu-1}\bigg\rvert_{\mu=1.15}\approx\dfrac{1}{2}\mu-\dfrac{1}{6}+\c
 
 And we have now derived the approximate, and surprising, linear relation we want for $\mu >= 1$ 
 
-This is an asymptotic relation for the VHT Universality class for very small exponents--but we will extend 
-to larger exponents, both across the VHT and into the Fat Tailed (FT) Universality class, where it applies for the finite size weight matrices in DNNs.
+This is an asymptotic relation for the VHT Universality class for very small exponents--but we will extend to larger exponents, both across the VHT and into the MHT Universality class, where it applies for the finite-size weight matrices in DNNs.
 }
 
 The numerical results for the the Power Law-Norm relation shows several interesting features: 
@@ -407,13 +419,13 @@ First, as $\alpha$ increases, we see the relation for
 \begin{itemize}
 \item  $\alpha<2$ , a near linear relation 
 \item  $\alpha>2$ for $N,M$ large, the relation saturates, becoming constant
-\item   $\alpha>2$  for smaller $N,M$,  a nearly linear relation, but with strong finite size effects
+\item  $\alpha>2$  for smaller $N,M$,  a nearly linear relation, but with strong finite-size effects
 \end{itemize}
 These observations lead to a novel linear relation between the Frobenius norm and the power law exponent for our Heavy tailed matrices:
 $$
 \log\Vert\mathbf{W}\Vert^{2}_{F}\approx\alpha\log\lambda_{max}  ,
 $$
-which works very well for VHT Levy matrices, $\alpha<2$, and is a good approximation for moderately Heavy (Fat) and even some Weakly Heavy matrices. 
+which works very well for VHT Levy matrices, $\alpha<2$, and is a good approximation for MHT matrices and even some WHT matrices. 
 And we believe this is the first time this relation has been noted in the literature.
 
 \charlesX{Explain Log Stable Rank}
@@ -451,7 +463,7 @@ where
 \label{eqn:alpha_hat_specific}
 \end{equation}
 
-This expression resembles the more familiar product norm, but accounts for finite size effects that the product norm relation over estimates.
+This expression resembles the more familiar product norm, but accounts for finite-size effects that the product norm relation over estimates.
 % move below?
 Our approach improves on the loose bound provided by the product norm, giving a more accurate expression for predicting trends
 in the average case test accuracy for real world production quality DNNs.
