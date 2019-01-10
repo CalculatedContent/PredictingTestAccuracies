@@ -1,5 +1,5 @@
 
-\section{Review of Heavy-Tailed Universality}
+\section{Review of Heavy Tailed Self-Regularization}
 \label{sxn:theory-review}
 
 In this section, we will briefly review results from HT Universality that will be relevant for our analylsis.
@@ -14,37 +14,72 @@ E_{DNN}=h_{L}(\mathbf{W}_{L}\times h_{L-1}(\mathbf{W}_{L-1}\times h_{L-2}(\cdots
 Typically, this model would be trained on some labeled data $\{d_{i},y_{i}\}\in\mathcal{D}$, using Backprop, by minimizing the loss $\mathcal{L}$.
 For simplicity, we do not indicate the structural details of the layers (e.g., Dense or not, Convolutions or not, Residual/Skip Connections, etc.). 
 Each layer is defined by one or more layer 2D weight matrices $\mathbf{W}_{L}$, and/or the 2D feature maps $\mathbf{W}_{i,L}$ extracted from 2D Convolutional layers.
+(We have not yet analyzed LSTM or other complicated Layers.) 
+A typical modern DNN may have anywhere between 5 and 5000 2D $\mathbf{W}_{L,i}$ layer matrices.  
 
-First, some notational conventions.
+%First, some notational conventions.
+\footnote{some notational conventions:
 For each Linear Layer, we get a  single, $(N\times M)$ (real valued) 2D matrix, layer weight matrix, denoted $\mathbf{W}_{L}$, for layer $L$.  
 This also includes Dense or Fully Connected (FC) layers, as well as 1D Convolutional (Conv1D) layers, Attention matrices, etc.
-We ignore the bias here terms in this analysis. 
-XXX.  WHY, WHAT.
+We ignore the bias here terms $\mathbf{b}_{L}$ in this analysis. 
+%XXX.  WHY, WHAT.   
 Let the aspect ratio be $Q=\frac{N}{M}$, with $Q\ge 1$.
 For the 2-D Convolutional (Conv2D) layers, we have a 4-index Tensor, of the form $(N\times M \times c\times d)$, consisting
 of $c\times d$ 2D feature maps of shape $(N\times M)$.    
 We  extract $n_{L}=c\times d$  2D  weight matrices $\mathbf{W}_{L,i}$, one for each feature map $i=[1,\dots,n_{L}]$ for layer $L$.
-(We have not yet analyzed LSTM or other complicated Layers.) 
-A typical modern DNN may have anywhere between 5 and 5000 2D $\mathbf{W}_{L,i}$ layer matrices.
+}
    
+ 
 
-\paragraph{Simple Random Matrix Models.} 
+\nred{removed this: \paragraph{Simple Random Matrix Models.} }
 
-One might imagine that the matrix elements of $\mathbf{W}$ are drawn from some probability distribution, e.g., a Normal $N(0,\sigma)$ distribution
-\begin{equation}
-\Probab{ W_{i,j} } \sim N(0,\sigma)
-\end{equation}
-with mean $0$ and variance $\sigma$.%
-\footnote{At the start of training, DNN weight matrices typically are approximately Normal.  This has been used by some as an analytically-tractable model for trained DNNs, but it is an empirical question whether this is a good model for very non-random matrices that arise at the end of training modern DNNs.  Empirically, it is not~\cite{MM18_TR}.}
+%One might imagine that the matrix elements of $\mathbf{W}$ are drawn from some probability distribution, e.g., a Normal $N(0,\sigma)$ distribution
+%\begin{equation}
+%\Probab{ W_{i,j} } \sim N(0,\sigma)
+%\end{equation}
+%with mean $0$ and variance $\sigma$.%
+%\footnote{At the start of training, DNN weight matrices typically are approximately Normal.  This has been used by some as an analytically-tractable model for trained DNNs, but it is an empirical question whether this is a good model for very non-random matrices that arise at the end of training modern DNNs.  Empirically, it is not~\cite{MM18_TR}.}
 %%MM%% \charlesX{Our imagination here lets us derive seemingly \emph{Universal} expressions for how the correlations should behave, even though $\mathbf{W}$  itself is not at all random. }
-These Gaussian models arise in the well known Marchenko-Pastur (MP) RMT~\cite{XXX-XXX}, as well as the Spiked-Covariance model~\cite{johnstone2009}, which is a perturbative variant of MP-RMT. 
-Empirically, it is know that these Gaussian-based models are useful for understanding older, smallish Neural Networks, such as LeNet5~\cite{MM18_TR}.
-More modern DNNs, however, display very different, more exotic, but still Universal, behavior.  
-
+%These Gaussian models arise in the well known Marchenko-Pastur (MP) RMT~\cite{XXX-XXX}, as well as the Spiked-Covariance model~\cite{johnstone2009}, which is a perturbative variant of MP-RMT. 
+%Empirically, it is know that these Gaussian-based models are useful for understanding older, smallish Neural Networks, such as LeNet5~\cite{MM18_TR}.
+%More modern DNNs, however, display very different, more exotic,  Universal, behavior.  
 
 \paragraph{Heavy-Tailed Universality.} 
-Recent work by Martin and Mahoney~\cite{MM18_TR} has demonstrated that all large, modern DNNs show statistically significant, and Universal, Heavy-Tailed signatures.  
-To understand this this, we use a Heavy-Tailed variant of the MP RMT, where
+
+%Recent work by Martin and Mahoney
+in our previous study of Heavy-Tailed Self Regularization (HT-SR)~\cite{MM18_TR}, we examine the eigenvalue density
+$\rho(\lambda)$, or Empirical Spectral  Density (ESD), of the linear weight matrices of very large number of modern, pre-trained, DNNs,
+such as the AlexNet, the VGG series (VGG11, VGG13, ...) ,  etc.  For nearly every $\mathbf{W}$, the (bulk and tail) of the ESDs can be fit to a power law
+
+$$\rho(\lambda)\sim\lambda^{-\alpha}$$
+
+and the power law exponents $\alpha$ all lie within the range $\alpha\in[2,5]$.
+Moreover, smaller exponents appear to be correlated with more self-regularization, and, correspondingly, 
+better generalization.
+
+\charles{TODO: explain why this is special, in the context of statistical physics / Rg theory, and give
+references to SOC.  But, more importantly,use the figure and tie in discussion below}
+
+
+pre-trained DNNs exhibit Universal, Heavy-Tailed signatures.
+
+\begin{figure}[!htb]
+   \centering
+   \includegraphics[scale=0.30]{img/universality_classes.png} 
+   \caption{}
+   \label{fig:universality}
+\end{figure}
+
+By Universal behavior, we mean that the eigenvalue spectrum of the weight matrices 
+
+
+
+To characterize this behavior, we use a Heavy-Tailed (HT) variant of the MP RMT, where we use
+heavy tailed random matrices $\mathbf{W}(\mu)$ to elucidate the different Universality classes.
+
+Notice that 
+
+
 \begin{equation}
 \Probab{ W_{i,j} } \sim \dfrac{W_{0}^{\mu}}{|W_{i,j}|^{1+\mu}}  ,
 \label{eqn:ht_dstbn}
@@ -59,6 +94,8 @@ of Heavy-Tailed random matrices, defined by the range $\mu$ takes on:
 \item $2<\mu<4$: MHT: Universality class of Moderately Heavy-Tailed (or Fat-Tailed) matrices;
 \item $4<\mu$: WHT: Universality class of Weakly Heavy-Tailed matrices.
 \end{itemize}
+
+
 
 We can identify different Universality classes by analyzing the eigenvalue spectrum of the associated correlation matrices~\cite{MM18_TR}. 
 For a Layer weight matrix, $\mathbf{W}$, construct the associated $M\times M$ (uncentered) correlation matrix. 
