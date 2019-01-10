@@ -30,8 +30,55 @@ We  extract $n_{L}=c\times d$  2D  weight matrices $\mathbf{W}_{L,i}$, one for e
 }
    
  
+%By Universal behavior, we mean that the eigenvalue spectrum associated weight matrices 
+%We can identify different Universality classes 
+In the HT-SR Theory, we analyze the eigenvalue spectrum of the associated correlation matrices~\cite{MM18_TR}. 
+For a Layer weight matrix, $\mathbf{W}$, construct the associated $M\times M$ (uncentered) correlation matrix. 
+Dropping the $l,i$ indices, we have
+$$
+\mathbf{X} = \frac{1}{N}\mathbf{W}^{T}\mathbf{W}.
+$$
+%In theoretical treatments, $\gamma$ depends on the form of $\Probab{W_{i,j}}$, e.g., the value of $\mu$, in order to prove the existence of the limiting forms of the ESD.
+%For MP theory and the Gaussian Universality class, we can set $\gamma=1$, but for the HT Universality classes, we need to set $\gamma=2/\mu$.
+%Of course, empirically, we do not know the PL exponent $\mu$, or the particular Universality class, \emph{a priori}, and the data are of only finite size.
+%This will be very important below. 
+%For our empirical analysis, we set $\gamma=1$ and deal with these issues in an \emph{a posteriori} manner. 
+We compute the eigenvalue spectrum of $\mathbf{X}$, i.e.,
+$$ \mathbf{X}\mathbf{v}_{i}=\lambda_{i}\mathbf{v}_{i} .  $$
+The ESD of eigenvalues, $\rho(\lambda)$, is just a histogram of the eigenvalues, formally written as
+\begin{equation}
+\rho(\lambda)=\sum\limits_{i=1}^{M}\delta(\lambda-\lambda_{i})  .
+\label{eqn:eigenval_hist}
+\end{equation}
+
+%From HT-RMT theory~\cite{XXX-XXX,XXX-XXX,XXX-XXX,XXX-XXX}, the ESD $\rho(\lambda)$ of a HT matrix will have a HT, taking the form
+Using out ST-HT Theory, we can characterize \emph{the correlations} in the weight matrices by examining theirr ESD $\rho(\lambda)$.
+And it turns out, for  typical, well trained DNN weight matrix, the ESD will have a heavy tail when it because it is so strongly correlated.  
+It will then take the form of a power law, given as
+
+\begin{equation}
+\rho(\lambda)\sim\lambda^{-\alpha}  ,
+\label{eqn:eigenval_pl}
+\end{equation}
+which is (at least) valid within a bounded range of eigenvalues $\lambda\in[\lambda_{min},\lambda_{max}]$.  
+\michael{Ques: here, $\alpha$ is theoretical, while below $\alpha$ is fit, so clarify.}
+%
+We can determine $\alpha$ by fitting the   ESD to a PL, using the commonly accepted Maximum Likelihood (MLE) method of Clauset et al.~\cite{CSN09_powerlaw,ABP14}.
+(((
+\charles{Discuss fact the PL tails are Frechet at finite-size so only need to fit the bulk}
+\michael{Ques: clarify.}
+)))
+This method works very well for exponents between $\alpha\in(2,4)$, and is adequate, although imprecise, for smaller and larger $\alpha$. 
+%\michael{Ques: careful, $\alpha$ (thoeretical or fitted) or $\mu$ here.}
+%%MM%% The fitting method is robust in that it is reasonably insensitive to the the choice of normalization $\gamma=1$.
+
+%%MM%%  \charles{Moved paragraphs around a bit here}\michael{To do.}
+%%MM%%  
+%%MM%%  \michael{can you please add numbers to these equations:  I use them  in the derivation}\michael{To do.}
 
 \nred{removed this: \paragraph{Simple Random Matrix Models.} }
+
+\charlesX{lead into new plot and image here}
 
 %One might imagine that the matrix elements of $\mathbf{W}$ are drawn from some probability distribution, e.g., a Normal $N(0,\sigma)$ distribution
 %\begin{equation}
@@ -51,33 +98,38 @@ in our previous study of Heavy-Tailed Self Regularization (HT-SR)~\cite{MM18_TR}
 $\rho(\lambda)$, or Empirical Spectral  Density (ESD), of the linear weight matrices of very large number of modern, pre-trained, DNNs,
 such as the AlexNet, the VGG series (VGG11, VGG13, ...) ,  etc.  For nearly every $\mathbf{W}$, the (bulk and tail) of the ESDs can be fit to a power law
 
-$$\rho(\lambda)\sim\lambda^{-\alpha}$$
+\begin{figure}[!htb]
+   \centering
+   \includegraphics[scale=0.40]{img/power-law-histogram.png} 
+   \caption{}
+   \label{fig:power-law-histogram}
+\end{figure}
 
 and the power law exponents $\alpha$ all lie within the range $\alpha\in[2,5]$.
+
+\charlesX{explain this plot, ref to notebook and check in.  This plot is for ImageNet, includes conv@D feature maps, lots of small alpha, but not as good a fit}
+
 Moreover, smaller exponents appear to be correlated with more self-regularization, and, correspondingly, 
 better generalization.
 
 \charles{TODO: explain why this is special, in the context of statistical physics / Rg theory, and give
-references to SOC.  But, more importantly,use the figure and tie in discussion below}
-
-
-pre-trained DNNs exhibit Universal, Heavy-Tailed signatures.
+references to SOC.  But, more importantly, use the new figure and tie in discussion below}
 
 \begin{figure}[!htb]
    \centering
-   \includegraphics[scale=0.30]{img/universality_classes.png} 
+   \includegraphics[scale=0.40]{img/universality_classes.png} 
    \caption{}
-   \label{fig:universality}
+   \label{fig:universality_diagram}
 \end{figure}
 
-By Universal behavior, we mean that the eigenvalue spectrum of the weight matrices 
 
+\paragraph{Heavy-Tailed Random Matrix Theory.} 
 
+\charlesX{Here:  explain how to interpret a correlated ESD in terms of HT-RMT.  BUT be clear that this is not the whole story}
 
 To characterize this behavior, we use a Heavy-Tailed (HT) variant of the MP RMT, where we use
 heavy tailed random matrices $\mathbf{W}(\mu)$ to elucidate the different Universality classes.
 
-Notice that 
 
 
 \begin{equation}
@@ -95,51 +147,10 @@ of Heavy-Tailed random matrices, defined by the range $\mu$ takes on:
 \item $4<\mu$: WHT: Universality class of Weakly Heavy-Tailed matrices.
 \end{itemize}
 
+\charlesX{\paragraph{Heavy-Tailed, Finite Size Relations} 
 
-
-We can identify different Universality classes by analyzing the eigenvalue spectrum of the associated correlation matrices~\cite{MM18_TR}. 
-For a Layer weight matrix, $\mathbf{W}$, construct the associated $M\times M$ (uncentered) correlation matrix. 
-Dropping the $l,i$ indices, we have
-$
-\mathbf{X} = \frac{1}{N^{\gamma}}\mathbf{W}^{T}\mathbf{W}  ,
-$
-where we normalize by $1/N^{\gamma}$. 
-In theoretical treatments, $\gamma$ depends on the form of $\Probab{W_{i,j}}$, e.g., the value of $\mu$, in order to prove the existence of the limiting forms of the ESD.
-For MP theory and the Gaussian Universality class, we can set $\gamma=1$, but for the HT Universality classes, we need to set $\gamma=2/\mu$.
-Of course, empirically, we do not know the PL exponent $\mu$, or the particular Universality class, \emph{a priori}, and the data are of only finite size.
-This will be very important below. 
-For our empirical analysis, we set $\gamma=1$ and deal with these issues in an \emph{a posteriori} manner. 
-
-Using the $\gamma=1$ normalization,
-we thus form
-$ \mathbf{X}= \frac{1}{N}\mathbf{W}^{T}\mathbf{W} , $
-and we compute the eigenvalue spectrum of $\mathbf{X}$, i.e.,
-$ \mathbf{X}\mathbf{v}_{i}=\lambda_{i}\mathbf{v}_{i} .  $
-The ESD of eigenvalues, $\rho(\lambda)$, is just a histogram of the eigenvalues, formally written as
-\begin{equation}
-\rho(\lambda)=\sum\limits_{i=1}^{M}\delta(\lambda-\lambda_{i})  .
-\label{eqn:eigenval_hist}
-\end{equation}
-From HT-RMT theory~\cite{XXX-XXX,XXX-XXX,XXX-XXX,XXX-XXX}, the ESD $\rho(\lambda)$ of a HT matrix will have a HT, taking the form
-\begin{equation}
-\rho(\lambda)\sim\lambda^{-\alpha}  ,
-\label{eqn:eigenval_pl}
-\end{equation}
-which is (at least) valid within a bounded range of eigenvalues $\lambda\in[\lambda_{min},\lambda_{max}]$.  
-\michael{Ques: here, $\alpha$ is theoretical, while below $\alpha$ is fit, so clarify.}
-%
-We then fit the bulk of the ESD to a PL using the commonly accepted Maximum Likelihood (MLE) method of Clauset et al.~\cite{CSN09_powerlaw,ABP14}.
-(((
-\charles{Discuss fact the PL tails are Frechet at finite-size so only need to fit the bulk}
-\michael{Ques: clarify.}
-)))
-This method works very well for exponents in the  MHT Universality class, i.e., where $\alpha\in(2,4)$, and is adequate, although imprecise, for smaller and larger $\alpha$. 
-\michael{Ques: careful, $\alpha$ (thoeretical or fitted) or $\mu$ here.}
-%%MM%% The fitting method is robust in that it is reasonably insensitive to the the choice of normalization $\gamma=1$.
-
-%%MM%%  \charles{Moved paragraphs around a bit here}\michael{To do.}
-%%MM%%  
-%%MM%%  \michael{can you please add numbers to these equations:  I use them  in the derivation}\michael{To do.}
+Explain: We have simple relations that apply for both Very Heavy Trailed and Finite Size Fat / Moderately Heavy Tails.  }
+\michael{I would derive these 2 relations in the appendix.  To complement our derivation}
 
 For the VHT Universality class, the PL tail of Eqn.~(\ref{eqn:eigenval_pl}) persists in the infinite limit $N\rightarrow\infty$, for $Q$ fixed; and
 we have the linear relation between our observed exponent $\alpha$ and the theoretical~$\mu$:
@@ -240,14 +251,15 @@ We will derive a simple linear relation between the (squared) Frobenius norm $\V
 \label{eqn:basic_relation}
 \end{equation}
 Our justification for using Eqn.~(\ref{eqn:basic_relation}) is three-fold.
-First, we can derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$, for (for simplicity) an $N \times N$ random matrix $\mathbf{W}$.
+\begin{itemize}
+\item First, we can derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$, for (for simplicity) an $N \times N$ random matrix $\mathbf{W}$.
 See Appendix~\ref{sxn:appendix-justify_basic_pl_norm_relation} for this derivation.
-Second, we observe empirically that multiplying the PL exponent $\alpha$ by $\log\lambda_{max}$ leads to a relation that increases nearly linearly with the (log of the) Frobenius norm for a random HT matrix and that is linearly correlated for real DNN data. 
+\item Second, we observe empirically that multiplying the PL exponent $\alpha$ by $\log\lambda_{max}$ leads to a relation that increases nearly linearly with the (log of the) Frobenius norm for a random HT matrix and that is linearly correlated for real DNN data. 
 This is precisely what we want for our simple HT-based complexity metric.
 See Appendix~\ref{sxn:appendix-dnn_versus_random} for these empirical results.
-Third, based on HT Universality, we expect this result to extend to larger exponents, both across the VHT Universality class, $\alpha\in(1,2)$, and into the finite-size MHT Universality class, $\alpha\in(2,4)$, where it applies for the finite-size weight matrices in DNNs.
+\item Third, based on HT Universality, we expect this result to extend to larger exponents, both across the VHT Universality class, $\alpha\in(1,2)$, and into the finite-size MHT Universality class, $\alpha\in(2,4)$, where it applies for the finite-size weight matrices in DNNs.
 See Appendix~\ref{sxn:appendix-universality} for more discussion on this point.
-
+\end{itemize}
 
 %%MM%% This approximate relation formally only hold in the asymptotic limit of very small power law exponents $\alpha\rightarrow 1$ for
 %%MM%% random heavy tailed matrices, but using Universality, we can safely extend it up to the finite-size MHT class, with
