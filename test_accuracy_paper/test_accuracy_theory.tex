@@ -243,11 +243,12 @@ and we define the average log norm of the weight matrices as
 \michael{Ques: is the notation for layers or convolutions or what, be consistent with Eqn.~(\ref{eqn:alpha_hat_generic}).}
 
 
-\paragraph{A Basic PL--Norm Relation.} 
+\paragraph{A Universal, Linear PL--Norm Relation.} 
 
+\charlesX{connects HVT and FT}
 We will derive a simple linear relation between the (squared) Frobenius norm $\Vert\mathbf{W}\Vert^{2}_{F}$ of $\mathbf{W}$, the PL exponent $\alpha$, and the maximum eigenvalue $\lambda_{max}$ of $\mathbf{X}$ (i.e., the Spectral Norm $\Vert\mathbf{X}\Vert_{2}=\frac{1}{N}\Vert\mathbf{W}\Vert^{2}_{2}$):  
 \begin{equation}
-\textbf{Basic PL--Norm Relation:} \quad \alpha\log\;\lambda_{max}\approx\log\;\Vert\mathbf{W}\Vert^{2}_{F}  .
+\textbf{PL--Norm Relation:} \quad \alpha\log\;\lambda_{max}\approx\log\;\Vert\mathbf{W}\Vert^{2}_{F}  .
 \label{eqn:basic_relation}
 \end{equation}
 Our justification for using Eqn.~(\ref{eqn:basic_relation}) is three-fold.
@@ -258,8 +259,21 @@ See Appendix~\ref{sxn:appendix-justify_basic_pl_norm_relation} for this derivati
 This is precisely what we want for our simple HT-based complexity metric.
 See Appendix~\ref{sxn:appendix-dnn_versus_random} for these empirical results.
 \item Third, based on HT Universality, we expect this result to extend to larger exponents, both across the VHT Universality class, $\alpha\in(1,2)$, and into the finite-size MHT Universality class, $\alpha\in(2,4)$, where it applies for the finite-size weight matrices in DNNs.
+\nred{No...need to clean this up}
 See Appendix~\ref{sxn:appendix-universality} for more discussion on this point.
 \end{itemize}
+
+\charlesX{Put Theory Back.  
+
+\paragraph{Appendix C}: Why small exponents contradicts HT RMT
+
+
+\paragraph{Appendix B}: How to derive the relation using what we know
+
+
+}
+
+
 
 %%MM%% This approximate relation formally only hold in the asymptotic limit of very small power law exponents $\alpha\rightarrow 1$ for
 %%MM%% random heavy tailed matrices, but using Universality, we can safely extend it up to the finite-size MHT class, with
@@ -275,7 +289,8 @@ $$
 $$
 
 
-\paragraph{A Proposed Universal DNN Complexity Metric.} 
+\nred{awkward: \paragraph{A Proposed Universal DNN Complexity Metric.} }
+
 
 Given Eqn.~(\ref{eqn:basic_relation}), we define the complexity metrics for Linear and Convolutional Layers as follows.
 For Linear~Layers:
