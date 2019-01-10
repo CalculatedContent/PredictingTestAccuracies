@@ -3,11 +3,12 @@
 \noindent
 Given two or more Deep Neural Networks (DNNs) with  similar architectures, and trained on the same dataset, but trained with different solvers, parameters, hyper-parameters, regularization, etc., can we predict which DNN will have the best test accuracy, and can we do so without peeking at the test data?   
 %Solving this question of generalization would have both theoretical impact and great practical importance. 
-In this paper, we show how to use Heavy-Tailed (HT) Random Matrix Theory (RMT) and a new theory of Implicit (HT) Self-Regularization for modern DNNs to answer this question. 
-We examine over 50 different, pre-trained DNNs, ranging over 15 different architectures, trained on ImagetNet, each of which has been reported to have different test accuracies.
+In this paper, we show how to use the Universality underlying Heavy-Tailed (HT) Random Matrix Theory (RMT) and a new theory of Implicit (HT) Self-Regularization for modern DNNs to answer this question. 
+Rather than considering small toy NNs, we examine over 50 different, pre-trained DNNs, ranging over 15 different architectures, trained on ImagetNet, each of which has been reported to have different test accuracies.
 HT-RMT and its associated HT Universality lead us to a generalization complexity metric that is a weighted average of the fitted layer power law exponents, where the weights depend on the log of the spectral norm of the layer weight matrices.
 We show that, across each architecture (VGG16/VGG19, InceptionV3/V4, etc.), the reported test accuracies for each DNN are very well-correlated with this metric.
-This metric can be approximated by the average of the log of the Frobenius norm of the layer weight matrices, but it leads to better results since it accounts for HT and finite-sized effects. 
+Moreover, this metric can be approximated by the average of the log of the Frobenius norm of the layer weight matrices.
+%%%% but it leads to better results since it accounts for HT and finite-sized effects. 
 Our approach requires no changes to the underlying DNN, it does not require us to train a model (although it can be used to monitor training), and it does not even require access to the ImageNet data.
 %We present and review these empirical results, and compare and contrast our HT-RMT approach with recent approaches to estimate test performance of DNNs using product norms.
 \end{abstract}

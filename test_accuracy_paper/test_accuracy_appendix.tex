@@ -1,139 +1,482 @@
 \newpage
-\section{Appendix}
-\label{sxn:appendix}
+
+\section{Appendix: Deriving the Basic PL--Norm Relation of Eqn.~(\ref{eqn:basic_relation})}
+\label{sxn:appendix-justify_basic_pl_norm_relation}
+
+Here, we will derive our Basic Relation of Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$,
+for (for simplicity) an $N \times N$ random matrix $\mathbf{W}$ with elements drawn from Eqn.~(\ref{eqn:ht_dstbn}).%
+\footnote{We derive our Basic Relation at what is sometimes pejoratively known as ``at a physics level of rigor.''  That is fine, as our justification will be seen in Section~\ref{sxn:emp}.  Recall our goal: to derive a very simple expression relating fitted PL exponents and Frobenius norms that usable by practical engineers working with state-of-the-art models, i.e., not simply small toy models.  There is very little ``rigorous'' work on HT-RMT, less still on understanding finite-sized effects of HT Universality.  Hopefully, our results will lead to more work along these lines.  }
+That is, this is an asymptotic relation for the VHT Universality class for very small exponents.
+
+%The reason to try to extend this result to larger exponents, both across the VHT Universality class, $\alpha\in(1,2)$, and into the MHT Universality class, $\alpha\in(2,4)$, where it applies for the finite-size weight matrices in DNNs, is based on HT Universality; the justification is based on our empirical results in Section~\ref{sxn:emp}.
+
+\michael{Be careful below about $\mu$s and $\alpha$s.}
+To start, recall that $ \Vert \mathbf{W}\Vert_{F}^{2}=\mbox{Trace}[\mathbf{W}^{T}\mathbf{W}]=N\;\mbox{Trace}[\mathbf{X}]$.
+Since, for $\alpha \gtrsim 1$, the eigenvalue spectrum is dominated by a single large eigenvalue, it follows that
+$$
+\Vert \mathbf{W}\Vert_{F}^{2}\approx N\lambda_{max}  , 
+$$
+where $\lambda_{max}$ is the largest eigenvalue of the matrix $\mathbf{X}$ (with the $1/N$ normalization).
+Taking the log of both sides of this expression and expanding leads to
+\begin{eqnarray*}
+\log\Vert \mathbf{W}\Vert_{F}^{2} 
+   &\approx& \log \left( N\lambda_{max} \right) \\
+   &=&       \log N+\log\lambda_{max}  .
+\end{eqnarray*}
+Rearranging, we get that 
+$$
+\dfrac{\log\Vert \mathbf{W}\Vert_{F}^{2}}{\log\lambda_{max}}\approx \dfrac{\log N}{\log\lambda_{max}}+1  .
+$$
+Thus, for a parameter $\alpha$ satisfying the Basic Relation of Eqn.~(\ref{eqn:basic_relation}), we have that 
+$$
+\alpha\approx \dfrac{\log N}{\log\lambda_{max}}+1  .
+$$
+%%%
+%%%$$
+%%%\alpha-1\approx \dfrac{\log N}{\log\lambda_{max}}  .
+%%%$$
+%%%
+Recall that the relation between $\alpha$ and $\mu$ for the VHT Universality class is given in Eqn.~(\ref{eqn:alpha_mu_vht}) as
+$$
+\alpha=\dfrac{1}{2}\mu+1  .
+$$
+Thus, to establish our result, we need to show that
+$$
+\dfrac{\log N}{\log\lambda_{max}}\approx\dfrac{1}{2}\mu  .
+$$
+To do this, we use the relation of Eqn.~(\ref{eqn:scaling_of_lambda_max}) for the tail statistic, i.e., that 
+$$
+\lambda_{max}\approx N^{4/\mu-1}  .
+$$
+Taking the log of both sides gives
+$$
+\log\lambda_{max}\approx\log N^{4/\mu-1}=(4/\mu-1)\log N  ,
+$$
+from which if follows that
+$$
+\dfrac{\log N}{\log\lambda_{max}}\approx\dfrac{\log N}{(4/\mu-1)\log N}=\dfrac{1}{4/\mu-1}   .
+$$
+Finally, we can form the Taylor Series for $\dfrac{1}{4/\mu-1}$ around $\mu=1.15\approx 1$, which gives 
+$$
+\dfrac{1}{4/\mu-1}\bigg\rvert_{\mu=1.15}\approx\dfrac{1}{2}\mu-\dfrac{1}{6}+\cdots\approx\dfrac{1}{2}\mu  .
+$$
+This established the approximate---and surprising---linear relation we want for $\mu \gtrsim 1$. 
+\michael{Again, be careful below about $\mu$s and $\alpha$s.}
 
 
+\section{Appendix: Real DNN versus HT Random Matrices}
+\label{sxn:appendix-dnn_versus_random}
 
-\begin{table}[t]
-\small
-\begin{center}
-\begin{tabular}{|p{1in}|c|c|c|c|c|c|c|}
-\hline
-Architecture 
- & Model
- & Top 1 Error \\
- \hline
- DenseNet & densenet121 & 25.57 & \\
-& densenet161 & 22.86 & \\
-& densenet169 & 24.4 & \\
-& densenet201 & 23.1 & \\\hline
-DPN & dpn68 & 24.17 & \\
-& dpn98 & 20.81 & \\
-& dpn131 & 20.54 & \\
-\hline
-MeNet & menet108\_8x1\_g3 & 43.92 & \\
-& menet128\_8x1\_g4 & 43.95 & \\
-& menet228\_12x1\_g3 & 33.57 & \\
-& menet256\_12x1\_g4 & 33.41 & \\
-& menet348\_12x1\_g3 & 30.1 & \\
-& menet352\_12x1\_g8 & 33.31 & \\
-& menet456\_24x1\_g3 & 28.4 & \\
-\hline
-MobileNet & mobilenet\_wd4 & 46.26 & \\
-& mobilenet\_wd2 & 36.3 & \\
-& mobilenet\_w3d4 & 33.54 & \\
-& mobilenet\_w1 & 29.86 & \\
-\hline
-MobileNetV2 & mobilenetv2\_wd4 & 49.72 & \\
-& mobilenetv2\_wd2 & 36.54 & \\
-& mobilenetv2\_w3d4 & 31.89 & \\
-& mobilenetv2\_w1 & 29.31 & \\
-\hline
-FDMobileNet & fdmobilenet\_wd4 & 55.77 & \\
-& fdmobilenet\_wd2 & 43.85 & \\
-& fdmobilenet\_w1 & 34.7 & \\
-\hline
-SE-ResNet & seresnet50 & 22.47 & \\
-& seresnet101 & 21.88 & \\
-& seresnet152 & 21.48 & \\
-\hline
-SE-ResNeXt & seresnext50\_32x4d & 21.0 & \\
-& seresnext101\_32x4d & 19.96 & \\
-\hline
-ShuffleNet & shufflenetv2\_wd2 & 41.48 & \\
-& shufflenetv2\_w1 & 34.39 & \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Even more pretrained DNN models.  }
-\label{table:models}
-\end{table}
+\michael{MM still to fix this.}
 
+\paragraph{Properties of our Basic Relation of Eqn.~(\ref{eqn:basic_relation}).}
+XXX.  MAYBE PUT THIS IN APPENDIX.
 
-\begin{figure}[!htb]
+\charlesX{
+TODO:  explain plots.
+Refer to Figure~\ref{fig:relations}.
+
+Multiplying $\alpha$ by $\log_{10}\lambda_{max}$, we now have a relation that increases nearly linearly with the Frobenius norm for a random matrix, and is linearly correlated for real DNN data. Which is exactly what we want for our simple complexity metric.
+
+Note that while linear relation holds over several log scales, 
+the relation does deviate from linearity at the smaller values of $\alpha\;\log_{10}\;\lambda_{max}$.
+This is readily explained below .  
+XXX.  WHAT FIG ARE WE REFERRING TO, PRESUMABLY FIG~\ref{fig:relation-vgg11}.
+}
+
+ \begin{figure}[t] %[!htb]
     \centering
-    \subfigure[CondenseNet]{
-        \includegraphics[scale=0.25]{img/CondenseNet-w_alphas.png} 
-        \label{fig:densenet-small}
+    \subfigure[Random Pareto Matrices] {
+        \includegraphics[scale=0.30]{img/relation-rand.png} 
+        \label{fig:relation-rand}
     }
-    \subfigure[DPN]{
-        \includegraphics[scale=0.25]{img/DPN-w_alphas.png} 
-        \label{fig:dpn-net}
+    \subfigure[VGG 11 Weight matrices]{
+        \includegraphics[scale=0.30]{img/relation-vgg11.png} 
+        \label{fig:relation-vgg11}
     }
-           \caption{DenseNet, DPN}
-    \label{fig:more-examples1}
+        \caption{Relation between $\alpha\;\log_{10}\;\lambda_{max}$ and the Frobenius Norm squared }
+    \label{fig:relations}
 \end{figure}
 
 
-\begin{figure}[!htb]
+\paragraph{Numerical Properties of Eqn.~(\ref{eqn:basic_relation}).}
+
+We demonstrate that this relation holds numerically for both Heavy Tailed random matrices and for the weight matrices in pre-trained DNNs. 
+
+XXX.  MOVE PROBABLY TO THE APPENDIX.
+
+To understand this relation better, and to sketch a proof,
+we will generate the data for a number of a Heavy-Tailed random matrices, 
+with different power law exponents $\mu$.
+And we compare defining correlation matrices $\mathbf{X}$, and therefore $\lambda_{max}$,
+the Spectral Norm (squared) of $\mathbf{W}$, with different normalizations.
+
+\nred{Below} 
+we generate a large number of  Heavy-Tailed  random matrices $\mathbf{W}^{rand}(\mu,M)$, with different number of eigenvalues $M$ (with aspect ratio $Q=1$), and drawn from a Pareto distribution,
+$$
+\Pr[{W}^{rand}_{i,j}]\sim\dfrac{1}{x^{1+\mu}}  ,
+$$
+with exponents $\mu\in[0.5, 5]$.
+%
+We then fit the ESD of each $\mathbf{W}^{rand}(\mu)$ to a PL using the method of Clauset et al.~\cite{CSN09_powerlaw,ABP14} to obtain the empirical exponent $\alpha$.  
+
+%%MM%% \charles{describe, give pesudocode}.
+%%MM%% 
+%%MM%% For the Universality class of VHT ($1<\mu<2$), in order to form the limiting eigenvalue distribution $\rho_{\infty}(\lambda)$,
+%%MM%% we require that the sum of any row of $\mathbf{W}$ converges as $N\rightarrow\infty$. This means a largest  element of any row
+%%MM%% must be of order $\mathcal{O}(1)$.  By eqn (x) above, this implies that a typical element  (i.e the variance) scales as $\mathbf{W}^{0}\sim N^{-1/\mu}$, where $1<\mu<2$.
+%%MM%% Of course, we do not known $\mu$, and most matrices are only moderately Heavy-Tailed, not very Heavy-Tailed.
+%%MM%% Indeed, we are using RMT to model a strongly correlated system, so the scaling parameter
+%%MM%% we have is the power law exponent $\alpha$ from our empirical fit.
+%%MM%% Moreover, in a practical setting, we normalize $\mathbf{X}$ by $1/N$, but the empirical variance is not $1/N$, it is determined by the Frobenius norm squared
+%%MM%% $\Vert\mathbf{W}\Vert^{2}_{F}$.   
+%%MM%% 
+%%MM%% We note that squared Frobenius norm is just the Trace of $\mathbf{W}^{T}\mathbf{W}$
+%%MM%% \nred{which is just the sum of the Singular Values  $\sigma_{i}$ of $M$ squared:}
+%%MM%% 
+%%MM%% $$\Vert\mathbf{W}\Vert_{F}^{2}=\mbox{Trace}[\mathbf{W}^{T}\mathbf{W}]=\sum_{i=1}^{M}\sigma^{2}_{i}$$
+
+If, however, we use the scale-dependent $1/N$ normalization to compute the correlations $\mathbf{X}$, we get very different behavior.
+Figure~\ref{fig:randW} displays the same as above, as a function of the power law exponent \nred{(that was fit)}
+$$
+\dfrac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda_{max}}\;\;vs.\;\;(\alpha)  .
+$$
+
+
+The numerical results for the the Power Law-Norm relation shows several interesting features: 
+First, as $\alpha$ increases, we see the relation for
+\begin{itemize}
+\item  $\alpha<2$ , a near linear relation 
+\item  $\alpha>2$ for $N,M$ large, the relation saturates, becoming constant
+\item  $\alpha>2$  for smaller $N,M$,  a nearly linear relation, but with strong finite-size effects
+\end{itemize}
+These observations lead to a novel linear relation between the Frobenius norm and the power law exponent for our Heavy tailed matrices:
+$$
+\log\Vert\mathbf{W}\Vert^{2}_{F}\approx\alpha\log\lambda_{max}  ,
+$$
+which works very well for VHT Levy matrices, $\alpha<2$, and is a good approximation for MHT matrices and even some WHT matrices. 
+And we believe this is the first time this relation has been noted in the literature.
+
+
+\begin{figure}[t] %[!htb]
+   \centering
+   \subfigure[$\dfrac{1}{N}$ normalization] {
+      \includegraphics[scale=0.30]{img/Alpha-LogNorm-Relations.png}
+      \label{fig:randW}
+   }
+   \subfigure[$\dfrac{1}{N^{2/\mu}}$ normalization] {
+      \includegraphics[scale=0.30]{img/LogNorm-Lmax-Scaled.png}
+      \label{fig:logNormHat}
+   }
+   \caption{
+            Numerical test of Eqn.~(\ref{eqn:basic_relation}) for random HT matrices; and the effect of different normalizations.
+            \michael{Careful about $\alpha$ versus $\mu$ here.}
+            \michael{Mention finite-size issues versus saturation.}
+           }
+\end{figure}
+
+If, instead, we normalize the correlation matrix $\mathbf{X}$ by $N^{2/\mu}$, then we get very different behavior.
+Let 
+%$$
+%\tilde{\mathbf{X}}=\dfrac{1}{N^{2/\mu}}\mathbf{W}^{T}\mathbf{W}  ,
+%$$
+$
+\tilde{\mathbf{X}}=\dfrac{1}N^{-2/\mu}\mathbf{W}^{T}\mathbf{W}  ,
+$
+in which case we call $\tilde{\lambda}$ a \emph{scale-free eigenvalue} of $\tilde{\mathbf{X}}$, i.e.,
+$  %$$
+\tilde{\mathbf{X}}\mathbf{v}=\tilde{\mathbf{X}}\tilde{\lambda}  .
+$  %$$
+If we compute the scale-free eigenvalues, and we fit them to a PL exponent $\tilde{\alpha}$, then we find that the Frobenius norm is dominated by the maximum (scaled) eigenvalue $\tilde{\lambda}$ of $\tilde{\mathbf{X}}$.  
+This is depicted in 
+Figure~\ref{fig:logNormHat}
+for our simulated Pareto matrices $\mathbf{W}^{rand}(\mu)$ which shows
+%the log Frobenius norm squared, $\log_{10}\Vert\mathbf{W}\Vert^{2}_{F}$, divided by $\log_{10}\tilde{\lambda}$,
+$\log\Vert\mathbf{W}\Vert^{2}_{F}/\log\tilde{\lambda}$,
+for all for all ranges of $\mu$.
+
+%%\begin{figure}[!htb]
+%%   \centering
+%%   \includegraphics[scale=0.30]{img/LogNorm-Lmax-Scaled.png}
+%%   \caption{R XXX.  WE MAY WANT THREE SUBFIGURES HERE.
+%%   \michael{Charles suggest we don't need this figure and related discussion, decide later as text evolves.}
+%%   }
+%%  \label{fig:logNormHat}
+%%\end{figure}
+
+\charlesX{UGH I forgot why this is 2 .. we need to review the data and what was done and check the math carefully}\michael{Is this comment stale or still to deal with.}
+
+Notice that this linear relations holds quite well, albeit with a large error bar, for $1<\mu<2$, even for small matrices, but starts to degrade for $\mu>2$.
+This simple linear relation characterizes the scale invariant properties of the VHT Levy matrices; they are dominated by the largest scale-free eigenvalue.
+
+$$\Vert\mathbf{W^{rand}(\mu)}\Vert^{2}_{F}\approx\tilde{\lambda}_{max},\;\;\mu=1$$
+
+\nred{This might need to be
+$$\Vert\mathbf{W^{rand}(\mu)}\Vert^{2}_{F}\approx\tilde{\sigma}^{2}_{max},\;\;\mu=1$$
+}
+
+which is good to within $5\%$ on a log scale
+
+$$\log\;\Vert\mathbf{W^{rand}(\mu)}\Vert^{2}_{F}\approx\log\;\tilde{\lambda}_{max},\;\;1<\mu<2$$
+
+
+\section{Heavy-Tailed Universality: Random Pareto versus Non-random DNN Matrices.} 
+\label{sxn:appendix-universality}
+
+We would like a method that applies both to HT Pareto matrices as well as to non-random, indeed strongly-correlated, finite-sized empirical DNN layer weight matrices that (as evidenced by their ESD properties) are in a HT Universality class.  
+To accomplish this, however, requires some care: while the pre-trained $\mathbf{W}$ matrices do have ESDs that display empirical signatures of HT Universality~\cite{MM18_TR}, they are \emph{not} random Pareto matrices, and their empirical Frobenius norms behaves very differently than that of a random Pareto matrix.  
+
+To illustrate this, Figure~\ref{fig:fnorm} displays the relationship between the (squared) Frobenius norm and the PL exponents, for both randomly-generated Pareto matrices, and the weight matrices
+(extracted from the Conv2D Feature Maps) from the pre-trained VGG11 DNN.
+\michael{Ques: what is the value of $\alpha$ of $\mu$ here.}
+%
+For a random Pareto matrix $\mathbf{W}^{rand}(\mu)$, the Frobenius norm $\Vert\mathbf{W}^{rand}(\mu)\Vert_{F}$ increases with decreasing exponent $(\mu)$; there is a modest finite-size effect; and, as the tails of the ESD $\rho(\lambda)$ get heavier, the largest eigenvalue $\lambda_{max}$ of $\mathbf{X}$ scales with the largest element of $\mathbf{W}^{rand}(\mu)$. 
+\michael{$\alpha$ or $\mu$ here.}
+\michael{Cite something or show this.}
+For the weight matrices of a pre-trained DNN, however, the Frobenius norm $\Vert\mathbf{W}\Vert_{F}$ increases with \emph{increasing} exponent $(\alpha)$, saturating at $\alpha\approx 3$.
+This happens because, due to the training process, the $\mathbf{W}$ matrices themselves are highly-correlated, and not random matrices with a single large, atypical element;   
+and, yet, the ESD $\rho(\lambda)$ of these pre-trained correlations matrices $\mathbf{X}$ display Universal HT behavior~\cite{MM18_TR}.
+This is one of the amazing properties of Universality.
+XXX.  FIX.
+
+ 
+ 
+ \begin{figure}[t] %[!htb]
     \centering
-      \subfigure[ShuffleNet]{
-        \includegraphics[scale=0.25]{img/ShuffleNet-w_alphas.png}
-        \label{fig:shufflenet-small}
+    \subfigure[Random Pareto Matrices] {
+        \includegraphics[scale=0.30]{img/fro-rand.png} 
+        \label{fig:fro-rand}
     }
-   \subfigure[MobileNet]{
-        \includegraphics[scale=0.25]{img/MobileNet-w_alphas.png} 
-        \label{fig:resnet-small}
+    \subfigure[Pre-trained VGG11 Weight Matrices]{
+        \includegraphics[scale=0.30]{img/fro-vgg11.png} 
+        \label{fig:fro-vgg11}
     }
-        \caption{ShuffleNet, MeNet}
-    \label{fig:more-examples1}
+        \caption{Dependence of Frobenius Norm on Power Law exponents for random Pareto versus pre-trained DNN matrices.
+                 \michael{Is thie $\alpha$ or $\mu$ for Pareto.} 
+                 \michael{Have consistent title naming, here and below.} 
+                }
+    \label{fig:fnorm}
 \end{figure}
 
 
+%%MM%% %{To do this, we rely upon the known theoretical results for Heavy tailed random matrices, but we also need to be careful about the normalization we use.}
+%%MM%% 
+%%MM%% More-so, to demonstrate the effectiveness of the approach, we will test these relations with numerical simulations of Heavy tailed Pareto matrices.
 
 
-\begin{figure}[!htb]
-    \centering
-      \subfigure[SeResNet]{
-        \includegraphics[scale=0.25]{img/SeResNet-w_alphas.png}
-        \label{fig:shufflenet-small}
-    }
-         \subfigure[SeResNeXt]{
-        \includegraphics[scale=0.25]{img/SeResNeXt-w_alphas.png}
-        \label{fig:shufflenet-small}
-    }
+\newpage
+\section{Appendix: Michael's Derivation}
+\label{sxn:appendix-michael_derivation}
 
-        \caption{SeResNet, SeResNeXt}
-    \label{fig:more-examples1}
-\end{figure}
+\michael{Probably remove this entirely, unless relate to synthetic empirical results.}
+
+Here, we derive an expression for the ratio of the log of the Frobenius norm of $W$ to the log of the spectral norm of $W$.
+Once we settle on presentation, with normaliation, etc., this will probably be a ``subroutine'' in our analysis.
+To simplify things, we will be interested in the matrix $W$, and in particular the Frobenius norm $\|W\|_F$ and spectral norm $\|W\|_2$ of this matrix.
+Then, given these expressions, we will derive other things, e.g., norms of correlation matrices with different normalizations, etc., by using different normalizations.  
+
+Recall that we are modeling the matrix $W$ as a random matrix with heavy-tailed entries.
+XXX.  WE MIGHT WANT A FIGURE SHOWING THE REAL DATA LOOKS LIKE THIS, LIKE THE BURDA PAPER.
+Thus, the Frobenius norm is going to be related to the second moment of the entries, and the spectral norm is going to be related to the largest entry.
+XXX.  CITE AUFFINGER PAPER FOR EXACTLY THE RANGE OF VALIDITY OF THIS.
+An important issue will be the power law exponent, since---depending on it---familiar results will hold or will fail to hold.
+For the moment, let's ignore that we are dealing with matrices, and let's focus on drawing elements from a heavy-tailed distribution, and computing various moments and extreme values of empirical draws.
+
+Consider the extreme case of a HT distribution, namely a PL distribution.
+XXX.  INCLUDE SOMETHING ABOUT SLOWLY VARYING FUNCTION AS WELL AS XMIN VALUE.
+Up to a slowly-varying function, the general form of the probability distribution function is
+$$
+p(x) = \frac{C}{x^{1+\mu}}  = C x^{-1-\mu} , 
+$$
+where $\mu > -1$, and where $x \in [x_{min},\infty)$.
+The cdf 
+XXX ACTUALLY ONE MINUS THAT 
+is then
+$$
+P_{\ge}(x) = \int_x^{\infty} p(x^{\prime}) dx^{\prime} 
+           = \frac{C}{\mu} \frac{1}{x^{\mu}}  
+           = \frac{C}{\mu} x^{-\mu}  .
+$$
+In order to compute $C$ and normalize these expressions, let
+\begin{eqnarray*}
+1 = \int_{x_{min}}^{\infty} p(x) dx 
+  = C \int_{x_{min}}^{\infty} x^{-1-\mu} dx 
+  = \frac{C}{-\mu} x^{-\mu} |_{x_{min}}^{\infty}  
+  = \frac{C}{\mu} x_{min}^{-\mu}   ,
+\end{eqnarray*}
+which is valid (i.e., the integral converges and exists) if $\mu > 0$.
+From this, is follows that the normalization constant is
+\begin{equation}
+C = \mu x_{min}^{\mu}  .
+\label{eqn:pl_normalization}
+\end{equation}
+Thus, if $\mu > 0$, then the probability distribution function is 
+\begin{equation}
+p(x) 
+%     = \frac{\mu}{x_{min}}\left( \frac{x_{min}}{x}\right)^{1+\mu}  
+     = \frac{\mu}{x_{min}}\left( \frac{x}{x_{min}}\right)^{-1-\mu}  ,
+\label{eqn:pl_pdf}
+\end{equation}
+and the cdf 
+XXX ACTUALLY ONE MINUS THAT
+is 
+\begin{equation}
+P_{\ge}(x) 
+%           = \left( \frac{x_{min}}{x} \right)^{\mu}  
+           = \left( \frac{x}{x_{min}} \right)^{-\mu}  .
+\label{eqn:pl_one_minus_cdf}
+\end{equation}
+XXX.  MENTION SLOWLY VARYING THING, MAYBE AS CLAUSET DID.
+
+An important aspect of heavy-tailed probability distributions is that extreme values, i.e., values very far from the mean (when the mean is even defined) are not extremely uncommon (as they are for distributions in the Gaussian universality class).
+Of particular relevance for us is the largest value $x_{max}$ obtained when sampling from Eqn.~(\ref{eqn:pl_pdf}) in $n$ i.i.d. trials.
+It is known, see e.g.~\cite{SornetteBook,BouchaudPotters03,newman2005_zipf}, that the expectation of $x_{max}$ for $\mu\in(1,2)$ 
+XXX IS THIS TRUE FOR MORE GENERAL PL PARAMETERS
+is given~by:
+$$
+\ExpectBracket{x_{max}} \approx x_{min} n^{1/\mu}  .
+$$
+
+Let's return to the expression given in Eqn.~(\ref{eqn:pl_pdf}) and compute the first few moments of this distribution.
+The first moment is
+\begin{eqnarray*}
+\ExpectBracket{x} = \int_{x_{min}}^{\infty} x p(x) dx  
+                  = C \int_{x_{min}}^{\infty} x^{-\mu} dx 
+                  = \frac{C}{1-\mu} x^{1-\mu} |_{x_{min}}^{\infty} 
+                  = \frac{\mu}{\mu-1} x_{min}    ,
+\end{eqnarray*}
+which is valid if $\mu > 1$.
+Similarly, the second moment is
+\begin{eqnarray*}
+\ExpectBracket{x^2} = \int_{x_{min}}^{\infty} x^2 p(x) dx  
+                    = C \int_{x_{min}}^{\infty} x^{1-\mu} dx 
+                    = \frac{C}{2-\mu} x^{2-\mu} |_{x_{min}}^{\infty} 
+                    = \frac{\mu}{\mu-2} x_{min}^2  ,  
+\end{eqnarray*}
+which is valid if $\mu > 2$.
+While this second moment expression is valid for $\mu > 2$, we are going to want a similar expression for $\mu \in (1,2)$.
+For this we can integrate up to $x_{max}$, rather than up to $\infty$.
+In more detail, for $\mu \in (1,2)$, the empirical second moment is
+\begin{eqnarray*}
+\ExpectBracket{x^2} &=&       \int_{x_{min}}^{x_{max}} x^2 p(x) dx  \\
+                    &=&       \frac{C}{2-\mu} x^{2-\mu} |_{x_{min}}^{x_{max}}  \\
+                    &\approx& \frac{\mu}{2-\mu} x_{min}^{\mu} \left( x_{min}^{2-\mu} n^{(2-\mu)/\mu} - x_{min}^{2-\mu} \right) \\
+                    &\approx& \frac{\mu}{2-\mu} x_{min}^{2} n^{(2-\mu)/\mu}   ,
+\end{eqnarray*}
+which is valid for $\mu\in(1,2)$.
+Note that in these expressions and the expressions below, we follow previous work \cite{MM18_TR} and don't compute expressions for $\mu=2$ precisely.
+(They are known to lie in yet another universality class~\cite{SornetteBook,BouchaudPotters03}, and we don't expect to resolve the difference numerically.)
+
+Finally, consider an $N \times N$ matrix $W$. 
+Then, 
+$\|W\|_2 = w_{min} N^{2/\mu}$ (for $\mu\in(1,2)$) and
+$\|W\|_2 = w_{min} N^{1/2}$ (for $\mu>2$).
+XXX.  CHECK THAT I AM NOT OFF By A FACTOR OF N.
+Thus, for the spectral norm, we have that: 
+\begin{equation}
+\|W\|_2^2 = \left\{ \begin{array}{ll}
+                       w_{min}^2 N^{4/\mu} & \mbox{if $\mu\in(1,2)$} \\
+                       w_{min}^2 N & \mbox{if $\mu > 2$} (XXX CHECK)
+                    \end{array}
+            \right.
+\end{equation}
+Similarly, for the Frobenius norm, we have that:
+\begin{equation}
+\|W\|_F^2 = \left\{ \begin{array}{ll}
+                      \frac{\mu}{2-\mu} w_{min}^2 N^{(4-2\mu)/\mu} & \mbox{if $\mu\in(1,2)$} \\
+                      \frac{\mu}{\mu-2} w_{min}^2 N^2 & \mbox{if $\mu > 2$} 
+                    \end{array}
+            \right.
+\end{equation}
+
+We are interested in the function of $\mu$ defined as:
+$$
+f = f(\mu) = \frac{\log \|W\|_F^2}{\log \|W\|_2^2}  .
+$$
+From the above, if we take logs, then for $\mu\in(1,0)$, we get:
+$$
+f(\mu) = \frac{ \log\left(\frac{\mu}{2-\mu}\right) + \log(w_{min}^2) + \frac{4}{\mu}\log N - 2 \log N }{ \log(w_{min}^2) + \frac{4}{\mu}\log N }
+$$
+and for $\mu > 2$, we get:
+$$
+f(\mu) = \frac{ \log\left(\frac{\mu}{\mu-2}\right) + \log(w_{min}^2) + 2 \log N }{ \log(w_{min}^2) + \log N }
+$$
 
 
+\section{Appendix: Refs: MM TO INCORPORATE THESE INTO TEXT}
+
+\michael{XXX.  INTRO.}
+
+Our theory of Implicit Self Regularization used Heavy Tailed Random Matrix Theory (HT RMT), and here we use HT RMT also~\cite{MM18_TR}.
+See also our prior results on \cite{MM17_TR}.
+
+\cite{NTS14_TR} is 
+Neyshabur et al. on :
+``In search of the real inductive bias: on the role of implicit regularization in deep learning''
 
 
+\cite{NTS15} is
+Neyshabur et al. on:
+``Norm-Based Capacity Control in Neural Network''
 
+\cite{NBMS17_TR} is 
+Neyshabur et al. on:
+``Exploring generalization in deep learning''
 
+\cite{AGNZ18_TR} is 
+Arora et al. on:
+``Stronger generalization bounds for deep nets via a compression approach''
 
+\cite{ACH18_TR} is 
+Arora et al. on:
+``On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization''
 
-See Figure~\ref{fig:counter-examples} for several counterexamples.
-XXX.  COMMENTS.
+\cite{Bar97} is
+Bartlett on:
+``For valid generalization, the size of the weights is more important than the size of the network''
 
-\begin{figure}[!htb]
-    \centering
-    \subfigure[ResNeXt]{
-        \includegraphics[scale=0.18]{img/ResNeXt-w_alphas.png} 
-        \label{fig:resnet-small}
-    }
-   \subfigure[MeNet]{
-        \includegraphics[scale=0.18]{img/MeNet-w_alphas.png} 
-        \label{fig:menet-net}
-    }
-    \subfigure[FDMobileNet]{
-        \includegraphics[scale=0.18]{img/FDMobileNet-w_alphas.png} 
-        \label{fig:resnet-small}
-    }
-        \caption{CounterExamples}
-    \label{fig:counter-examples}
-\end{figure}
+\cite{BFT17_TR} is 
+Bartlett et al. on:
+``Spectrally-normalized margin bounds for neural networks''
 
+\cite{NTS14_TR} is
+Neyshabur et al. on: 
+``In search of the real inductive bias: on the role of implicit regularization in deep learning''
+
+\cite{SHNx17_TR} is 
+Soudry et al. on: 
+``The implicit bias of gradient descent on separable data''
+
+\cite{YM17_TR} is 
+Yoshida and Miyato on:
+``Spectral norm regularization for improving the generalizability of deep learning''
+
+\cite{LMBx18_TR} is 
+Liao et al. on:
+``A surprising linear relationship predicts test performance in deep networks''
+
+\cite{PLMx18_TR}
+is Poggio el at. on: 
+``Theory {IIIb}: Generalization in Deep Networks''
+
+\cite{KKB17_TR} is 
+Kawaguchi et al. on:
+``Generalization in Deep Learning''
+
+\cite{NBS17_TR} is:
+Neyshabur et al. on: 
+``A {PAC}-{B}ayesian Approach to Spectrally-Normalized Margin Bounds for Neural Networks''
+
+\cite{ZF18_TR} is
+Zhou and Feng on:
+``Understanding Generalization and Optimization Performance of Deep {CNN}s''
+
+\cite{BJNx01_TR} is
+Burda et al. on:
+``{L}{\'e}vy Matrices and Financial Covariances''
+
+\cite{MN09_TR} is
+Mahoney and Narayanan on:
+``Learning with Spectral Kernels and Heavy-Tailed Data''
 
 
