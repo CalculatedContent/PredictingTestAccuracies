@@ -242,18 +242,17 @@ and we define the average log norm of the weight matrices as
 \end{equation}
 \michael{Ques: is the notation for layers or convolutions or what, be consistent with Eqn.~(\ref{eqn:alpha_hat_generic}).}
 
+\charlesX{Need more references to Hidary's work}
 
-\paragraph{A Universal, Linear PL--Norm Relation.} 
-
-\charlesX{connects HVT and FT}
-We will derive a simple linear relation between the (squared) Frobenius norm $\Vert\mathbf{W}\Vert^{2}_{F}$ of $\mathbf{W}$, the PL exponent $\alpha$, and the maximum eigenvalue $\lambda_{max}$ of $\mathbf{X}$ (i.e., the Spectral Norm $\Vert\mathbf{X}\Vert_{2}=\frac{1}{N}\Vert\mathbf{W}\Vert^{2}_{2}$):  
+\paragraph{A Universal, Linear,  PL--Norm Relation.} 
+Beloew we derive a simple linear relation between the (squared) Frobenius norm $\Vert\mathbf{W}\Vert^{2}_{F}$ of $\mathbf{W}$, the PL exponent $\alpha$, and the maximum eigenvalue $\lambda_{max}$ of $\mathbf{X}$ (i.e., the Spectral Norm $\Vert\mathbf{X}\Vert_{2}=\frac{1}{N}\Vert\mathbf{W}\Vert^{2}_{2}$):  
 \begin{equation}
 \textbf{PL--Norm Relation:} \quad \alpha\log\;\lambda_{max}\approx\log\;\Vert\mathbf{W}\Vert^{2}_{F}  .
 \label{eqn:basic_relation}
 \end{equation}
 Our justification for using Eqn.~(\ref{eqn:basic_relation}) is three-fold.
 \begin{itemize}
-\item First, we can derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$, for (for simplicity) an $N \times N$ random matrix $\mathbf{W}$.
+\item First, we can derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$, for (for simplicity) an $N\times M$ random matrix $\mathbf{W}$ (with $N=M$, or $Q=1$).
 %See Appendix~\ref{sxn:appendix-justify_basic_pl_norm_relation} for this derivation.
 \item Second, we observe empirically that multiplying the PL exponent $\alpha$ by $\log\lambda_{max}$ leads to a relation that increases nearly linearly with the (log of the) Frobenius norm for a random HT matrix and that is linearly correlated for real DNN data. 
 This is precisely what we want for our simple HT-based complexity metric.
@@ -263,34 +262,24 @@ This is precisely what we want for our simple HT-based complexity metric.
 %See Appendix~\ref{sxn:appendix-universality} for more discussion on this point.
 \end{itemize}
 
-\charlesX{Put Theory Back.  }
+\charlesX{Put Theory Back.  TODO:  clean up and reorganize in liu of abovde}
 
-\charlesX{\paragraph{Appendix C}: Why small exponents contradicts HT RMT}
 
-\nred{Below} 
-we generate a large number of  Heavy-Tailed  random matrices $\mathbf{W}^{rand}(\mu,M)$, with different number of eigenvalues $M$ (with aspect ratio $Q=1$), and drawn from a Pareto distribution,
+\paragraph{Random Pareto versus Strongly Correlated DNN Matrices.} 
+
+We would like a method that applies both to HT Pareto matrices as well as to non-random, indeed strongly-correlated, finite-sized empirical DNN layer weight matrices that (as evidenced by their ESD properties) are in a HT Universality class.  
+To accomplish this, however, requires some care: while the pre-trained $\mathbf{W}$ matrices do have ESDs that display empirical signatures of HT Universality~\cite{MM18_TR}, they are \emph{not} random Pareto matrices, and their empirical Frobenius norms behaves very differently than that of a random Pareto matrix.  
+
+To illustrate this,, we generate a large number of  Heavy-Tailed  random matrices $\mathbf{W}^{rand}(\mu,M)$, with different number of eigenvalues $M$ (with aspect ratio $Q=1$), and drawn from a Pareto distribution,
 $$
 \Pr[{W}^{rand}_{i,j}]\sim\dfrac{1}{x^{1+\mu}}  ,
 $$
 with exponents $\mu\in[0.5, 5]$.
 %
-We then fit the ESD of each $\mathbf{W}^{rand}(\mu)$ to a PL using the method of Clauset et al.~\cite{CSN09_powerlaw,ABP14} to obtain the empirical exponent $\alpha$.  
-
-
-
-
-\charlesX{\paragraph{Appendix B}: How to derive the relation using what we know}
-
-\subsection{Heavy-Tailed Universality: Random Pareto versus Non-random DNN Matrices.} 
-\label{sxn:appendix-universality}
-
-We would like a method that applies both to HT Pareto matrices as well as to non-random, indeed strongly-correlated, finite-sized empirical DNN layer weight matrices that (as evidenced by their ESD properties) are in a HT Universality class.  
-To accomplish this, however, requires some care: while the pre-trained $\mathbf{W}$ matrices do have ESDs that display empirical signatures of HT Universality~\cite{MM18_TR}, they are \emph{not} random Pareto matrices, and their empirical Frobenius norms behaves very differently than that of a random Pareto matrix.  
-
-To illustrate this, Figure~\ref{fig:fnorm} displays the relationship between the (squared) Frobenius norm and the PL exponents, for both randomly-generated Pareto matrices, and the weight matrices
+We then fit the ESD of each $\mathbf{W}^{rand}(\mu)$ to a PL using the method of Clauset et al.~\cite{CSN09_powerlaw,ABP14} to obtain the empirical exponent $\alpha$.   Figure~\ref{fig:fnorm} displays the relationship between the (squared) Frobenius norm and the PL exponents, for both randomly-generated Pareto matrices, and the weight matrices
 (extracted from the Conv2D Feature Maps) from the pre-trained VGG11 DNN.
-\michael{Ques: what is the value of $\alpha$ of $\mu$ here.}
-%
+
+\charlesX{paragraph needs point sentence}
 For a random Pareto matrix $\mathbf{W}^{rand}(\mu)$, the Frobenius norm $\Vert\mathbf{W}^{rand}(\mu)\Vert_{F}$ increases with decreasing exponent $(\mu)$; there is a modest finite-size effect; and, as the tails of the ESD $\rho(\lambda)$ get heavier, the largest eigenvalue $\lambda_{max}$ of $\mathbf{X}$ scales with the largest element of $\mathbf{W}^{rand}(\mu)$. 
 \michael{$\alpha$ or $\mu$ here.}
 \michael{Cite something or show this.}
@@ -320,25 +309,28 @@ XXX.  FIX.
 \end{figure}
 
 
+\charlesX{\paragraph{LEAD INTO HOW WE GOT THIS EXPRESSION...}}
 
 
-\paragraph{Numerical Properties of Eqn.~(\ref{eqn:basic_relation}).}
-
-We demonstrate that this relation holds numerically for both Heavy Tailed random matrices and for the weight matrices in pre-trained DNNs. 
-
-XXX.  MOVE PROBABLY TO THE APPENDIX.
-
-To understand this relation better, and to sketch a proof,
-we will generate the data for a number of a Heavy-Tailed random matrices, 
-with different power law exponents $\mu$.
-And we compare defining correlation matrices $\mathbf{X}$, and therefore $\lambda_{max}$,
-the Spectral Norm (squared) of $\mathbf{W}$, with different normalizations.
+Multiplying $\alpha$ by $\log_{10}\lambda_{max}$, we now have a relation that increases nearly linearly with the 
+Frobenius norm for a random matrix, and is linearly correlated for real DNN data. Which is exactly what we want for our simple complexity metric.
 
 
+'
+'Figure~\ref{fig:randW} displays the Forbenius norm (squared)  as a function of the power law exponent $\alpha$ \nred{(that was fit)}
+$$
+\dfrac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda_{max}}\;\;vs.\;\;(\alpha)  .
+$$
 
-Note that while linear relation holds over several log scales, 
-the relation does deviate from linearity at the smaller values of $\alpha\;\log_{10}\;\lambda_{max}$.
-This is readily explained below .  
+%\paragraph{Numerical Properties of Eqn.~(\ref{eqn:basic_relation}).}
+
+We demonstrate that this relation holds numerically for both Heavy Tailed random matrices and for the weight matrices in pre-trained DNNs, \nred{as above}.
+%To understand this relation better, and to sketch a proof,
+%we will generate the data for a number of a Heavy-Tailed random matrices, 
+%with different power law exponents $\mu$.
+%Note that this linear relation holds over several log scales.  However,
+%the relation does deviate from linearity at the smaller values of $\alpha\;\log_{10}\;\lambda_{max}$.
+%This is readily explained below .  
 
  \begin{figure}[t] %[!htb]
     \centering
@@ -354,18 +346,6 @@ This is readily explained below .
     \label{fig:relations}
 \end{figure}
 
-
-Multiplying $\alpha$ by $\log_{10}\lambda_{max}$, we now have a relation that increases nearly linearly with the 
-Frobenius norm for a random matrix, and is linearly correlated for real DNN data. Which is exactly what we want for our simple complexity metric.
-
-
-'
-'Figure~\ref{fig:randW} displays the Forbenius norm (squared)  as a function of the power law exponent $\alpha$ \nred{(that was fit)}
-$$
-\dfrac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda_{max}}\;\;vs.\;\;(\alpha)  .
-$$
-
-
 The numerical results for the the Power Law-Norm relation shows several interesting features: 
 First, as $\alpha$ increases, we see the relation for
 \begin{itemize}
@@ -373,12 +353,14 @@ First, as $\alpha$ increases, we see the relation for
 \item  $\alpha>2$ for $N,M$ large, the relation saturates, becoming constant
 \item  $\alpha>2$  for smaller $N,M$,  a nearly linear relation, but with strong finite-size effects
 \end{itemize}
+
+\charlesX{REPEATED:
 These observations lead to a novel linear relation between the Frobenius norm and the power law exponent for our Heavy tailed matrices:
 $$
 \log\Vert\mathbf{W}\Vert^{2}_{F}\approx\alpha\log\lambda_{max}  ,
 $$
 which works very well for VHT Levy matrices, $\alpha<2$, and is a good approximation for MHT matrices and even some WHT matrices. 
-And we believe this is the first time this relation has been noted in the literature.
+And we believe this is the first time this relation has been noted in the literature.}
 
 
 \begin{figure}[t] %[!htb]
@@ -397,69 +379,6 @@ And we believe this is the first time this relation has been noted in the litera
             \michael{Mention finite-size issues versus saturation.}
            }
 \end{figure}
-
-
-\subsection{Deriving the Universal, Fiize Size PL--Norm Relation of Eqn.~(\ref{eqn:basic_relation})}
-\label{sxn:justify_basic_pl_norm_relation}
-
-Here, we will derive our Basic Relation of Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$,
-for (for simplicity) an $N \times N$ random matrix $\mathbf{W}$ with elements drawn from Eqn.~(\ref{eqn:ht_dstbn}).%
-\footnote{We derive our Basic Relation at what is sometimes pejoratively known as ``at a physics level of rigor.''  That is fine, as our justification will be seen in Section~\ref{sxn:emp}.  Recall our goal: to derive a very simple expression relating fitted PL exponents and Frobenius norms that usable by practical engineers working with state-of-the-art models, i.e., not simply small toy models.  There is very little ``rigorous'' work on HT-RMT, less still on understanding finite-sized effects of HT Universality.  Hopefully, our results will lead to more work along these lines.  }
-That is, this is an asymptotic relation for the VHT Universality class for very small exponents.
-
-%The reason to try to extend this result to larger exponents, both across the VHT Universality class, $\alpha\in(1,2)$, and into the MHT Universality class, $\alpha\in(2,4)$, where it applies for the finite-size weight matrices in DNNs, is based on HT Universality; the justification is based on our empirical results in Section~\ref{sxn:emp}.
-
-To start, recall that $ \Vert \mathbf{W}\Vert_{F}^{2}=\mbox{Trace}[\mathbf{W}^{T}\mathbf{W}]=N\;\mbox{Trace}[\mathbf{X}]$.
-Since, for $\alpha \gtrsim 1$, the eigenvalue spectrum is dominated by a single large eigenvalue, it follows that
-$$
-\Vert \mathbf{W}\Vert_{F}^{2}\approx N\lambda_{max}  , 
-$$
-where $\lambda_{max}$ is the largest eigenvalue of the matrix $\mathbf{X}$ (with the $1/N$ normalization).
-Taking the log of both sides of this expression and expanding leads to
-\begin{eqnarray*}
-\log\Vert \mathbf{W}\Vert_{F}^{2} 
-   &\approx& \log \left( N\lambda_{max} \right) \\
-   &=&       \log N+\log\lambda_{max}  .
-\end{eqnarray*}
-Rearranging, we get that 
-$$
-\dfrac{\log\Vert \mathbf{W}\Vert_{F}^{2}}{\log\lambda_{max}}\approx \dfrac{\log N}{\log\lambda_{max}}+1  .
-$$
-Thus, for a parameter $\alpha$ satisfying the Basic Relation of Eqn.~(\ref{eqn:basic_relation}), we have that 
-$$
-\alpha\approx \dfrac{\log N}{\log\lambda_{max}}+1  .
-$$
-%%%
-%%%$$
-%%%\alpha-1\approx \dfrac{\log N}{\log\lambda_{max}}  .
-%%%$$
-%%%
-Recall that the relation between $\alpha$ and $\mu$ for the VHT Universality class is given in Eqn.~(\ref{eqn:alpha_mu_vht}) as
-$$
-\alpha=\dfrac{1}{2}\mu+1  .
-$$
-Thus, to establish our result, we need to show that
-$$
-\dfrac{\log N}{\log\lambda_{max}}\approx\dfrac{1}{2}\mu  .
-$$
-To do this, we use the relation of Eqn.~(\ref{eqn:scaling_of_lambda_max}) for the tail statistic, i.e., that 
-$$
-\lambda_{max}\approx N^{4/\mu-1}  .
-$$
-Taking the log of both sides gives
-$$
-\log\lambda_{max}\approx\log N^{4/\mu-1}=(4/\mu-1)\log N  ,
-$$
-from which if follows that
-$$
-\dfrac{\log N}{\log\lambda_{max}}\approx\dfrac{\log N}{(4/\mu-1)\log N}=\dfrac{1}{4/\mu-1}   .
-$$
-Finally, we can form the Taylor Series for $\dfrac{1}{4/\mu-1}$ around $\mu=1.15\approx 1$, which gives 
-$$
-\dfrac{1}{4/\mu-1}\bigg\rvert_{\mu=1.15}\approx\dfrac{1}{2}\mu-\dfrac{1}{6}+\cdots\approx\dfrac{1}{2}\mu  .
-$$
-This established the approximate---and surprising---linear relation we want for $\mu \gtrsim 1$. 
-\michael{Again, be careful below about $\mu$s and $\alpha$s.}
 
 
 \charlesX{back to old stuyff}
