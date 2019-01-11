@@ -73,10 +73,7 @@ This method works very well for exponents between $\alpha\in(2,4)$, and is adequ
 %%MM%%  
 %%MM%%  \michael{can you please add numbers to these equations:  I use them  in the derivation}\michael{To do.}
 
-\nred{removed this: \paragraph{Simple Random Matrix Models.} }
-
-\charlesX{lead into new plot and image here}
-
+\%nred{removed this: \paragraph{Simple Random Matrix Models.} }
 %One might imagine that the matrix elements of $\mathbf{W}$ are drawn from some probability distribution, e.g., a Normal $N(0,\sigma)$ distribution
 %\begin{equation}
 %\Probab{ W_{i,j} } \sim N(0,\sigma)
@@ -91,21 +88,31 @@ This method works very well for exponents between $\alpha\in(2,4)$, and is adequ
 \paragraph{Heavy-Tailed Universality.} 
 
 \charles{EXPLAIN UNIVERSALITY, AS WE USE IT, IN THIS SECTION.  NOTE:  we model the ESD of X, the correlations in W, and therefore
-how the data has been learned.  Universality of Power Law exponents is special, and different from Universality in RMT.  We use RMT as a guide
+how the data has been learned.  Universality of Power Law exponents is special, in the context of statistical physics / Rg theory / SOC,
+and different from Universality in RMT.  We use RMT as a guide
 This section contains LOTS OF  NEW information, including the 2 images and the discussion around them.  Notice:  the conv2D maps are HVT, not MT.
 So we will need an approach that crosses the 2 Universality classes.  Notice:  W is not itself random, but its ESD lookd like the ESD of an HT RMT.}
 
-\charles{TODO: explain why this is special, in the context of statistical physics / Rg theory, and give
-references to SOC.  But, more importantly, use the new figure and tie in discussion below}
 
 %Recent work by Martin and Mahoney
 in our previous study of Heavy-Tailed Self Regularization (HT-SR)~\cite{MM18_TR}, we examine the eigenvalue density
 $\rho(\lambda)$, or Empirical Spectral  Density (ESD), of the linear weight matrices of very large number of modern, pre-trained, DNNs,
-such as the AlexNet, the VGGas a\charlesX{explain this plot, ref to notebook and check in.  
-This plot is for ImageNet, includes conv2D feature maps, lots of small alpha, but not as good a fit}
+such as the AlexNet, the VGG series (VGG11, VGG13, ...) ,  etc.  For nearly every $\mathbf{W}$, the (bulk and tail) of the ESDs can be fit to a power law
+
+\begin{figure}[!htb]
+   \centering
+   \includegraphics[scale=0.40]{img/power-law-histogram.png} 
+   \caption{}
+   \label{fig:power-law-histogram}
+\end{figure}
+
+and the power law exponents $\alpha$ all lie within the range $\alpha\in[2,5]$.
+
+\charlesX{explain this plot, ref to notebook and check in.  This plot is for ImageNet, includes conv@D feature maps, lots of small alpha, but not as good a fit}
 
 Moreover, smaller exponents appear to be correlated with more self-regularization, and, correspondingly, 
 better generalization.
+:.
 
 \begin{figure}[!htb]
    \centering
@@ -113,6 +120,7 @@ better generalization.
    \caption{}
    \label{fig:universality_diagram}
 \end{figure}
+
 
 \paragraph{Heavy-Tailed Random Matrix Theory.} 
 
@@ -264,7 +272,7 @@ This is precisely what we want for our simple HT-based complexity metric.
 
 THE SECOND SECTION PRESENTS THE PL-NORM RELATION, AND SHOWS HOW THE FINITE SIZE EFFECTS ARISE.  TO DO THIS, WE NEED TO PLOT ALPHA LOG LAMBA MAX VS LOG FROBENIUS NOM, SHOW IT IS LINEAR, AND THEN.  DRILL INTO THE SMUDGE .  THIS SECTION SHOULD BEIN THE SPIRIT AS THE SECTION ON THE OTHER 2 RELATIONS THAT WE DEFINE ABOVE IN THE REVIEW, AND THAT WE USE IN THE DERIVATION,. }
 
-\paragraph{Random Pareto versus Strongly Correlated DNN Matrices.} 
+\paragraph{Random Heavy Tailed versus Strongly Correlated DNN Matrices.} 
 
 We would like a method that applies both to HT Pareto matrices as well as to non-random, indeed strongly-correlated, finite-sized empirical DNN layer weight matrices that (as evidenced by their ESD properties) are in a HT Universality class.  
 To accomplish this, however, requires some care: while the pre-trained $\mathbf{W}$ matrices do have ESDs that display empirical signatures of HT Universality~\cite{MM18_TR}, they are \emph{not} random Pareto matrices, and their empirical Frobenius norms behaves very differently than that of a random Pareto matrix.  
