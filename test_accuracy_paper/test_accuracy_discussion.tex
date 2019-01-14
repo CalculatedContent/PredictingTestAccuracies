@@ -3,28 +3,47 @@
 \label{sxn:discussion}
 %\vspace{-3mm}
 
-We have presented an \emph{unsupervised} metric which predicts trends in test accuracies of a trained DNN---without peeking at the test data. 
-This complexity metic, $\hat{\alpha}$ of Eqn.~(\ref{eqn:alpha_hat_specific}), is a weighted average of the PL exponents $\alpha$ for each layer weight matrix, where $\alpha$ is defined in the recent HT-RMT-based Theory Implicit Self-Regularization~\cite{MM17_TR,MM18_TR}, and where the weights are the largest eigenvalue $\lambda_{max}$ of the correlation matrix $\mathbf{X}$.  
+We have presented an \emph{unsupervised} capacity control metric which predicts trends in test accuracies of a trained DNN---without peeking at the test data. 
+This complexity metic, $\hat{\alpha}$ of Eqn.~(\ref{eqn:alpha_hat_specific}), is a weighted average of the PL exponents $\alpha$ for each layer weight matrix, where $\alpha$ is defined in the recent HT-SR Theory~\cite{MM17_TR,MM18_TR}, and where the weights are the largest eigenvalue $\lambda_{max}$ of the correlation matrix $\mathbf{X}$.  
 %
-We examine several commonly-available, production-quality, pre-trained DNNs by plotting $\hat{\alpha}$ versus the reported (Top1) test accuracies.
+We examine several commonly-available, pre-trained, production-quality DNNs by plotting $\hat{\alpha}$ versus the reported test accuracies.
 This covers classes of DNN architectures including the VGG models, ResNet, DenseNet, etc. 
-In nearly every class, and except for a few counterexamples, the smaller average complexity, the better the test accuracy, thereby providing a strong predictor of quality.
-
+In nearly every class, and except for a few counterexamples, the smaller average complexity, the better the average test accuracy, thereby providing a strong predictor of quality.
+%
 We also show that this new complexity metric $\hat{\alpha}$ is approximately the average log of the Frobenius norm of the layer weight matrices, $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$ of Eqn.~(\ref{eqn:av_log_norm}), when accounting for finite-size effects.
-This provides an interesting connection between the SM approach to learning from Martin and Mahoney~\cite{MM17_TR,MM18_TR} and methods such as that of Liao et al.~\cite{LMBx18_TR}, who use norm-based capacity control metrics to bound generalization error.
-Unlike their result, however, our approach does not require modifying the loss function.
-Moreover, the approach and the intent are a bit different: while they seek a \emph{worst case} complexity bound, to reconcile discrepancies with more traditional statistical learning theory, we seek an \emph{average case} complexity metric that can be used in production to guide the development of better DNNs.
+This provides an interesting connection between the Statistical Physics approach to learning (from Martin and Mahoney~\cite{MM17_TR,MM18_TR}, that we extend here) and methods such as that of Liao et al.~\cite{LMBx18_TR}, who use norm-based capacity control metrics to bound worst-case generalization error.
 
-Most importantly, we can apply these complexity metrics \emph{across related DNN architectures}. 
-This is in stark contrast to the standard practice in ML.
+We should mention two higher-level comments.
+%
+First, 
+one of the main insights of our approach is to highlight the importance of what might seem to be a technical issue to ignore, but which in our experience is \emph{extremely} important: the scaling or normalization for weight matrices used in the DNN, and how this relates to the difference between finite-sized versus asymptotic effects.
+This scaling issue has been highlighted perhaps most recently by Liao et al.~\cite{LMBx18_TR}, who were interested in showing that classical generalization bounds can be tight---when normalization is performed appropriately.
+Our approach complements this; and, to our knowledge, our approach is the first to highlight the connection with finite-size effects.
+%
+Second, 
+%it is worth emphasizing that 
+we are taking a 
+very %somewhat 
+non-standard approach (at least for the DNN and ML communities) to address our main question.
+We won't train/retrain lots and lots of (typically rather small) models, analyzing training/test curves, trying to glean from them bits of insight that might then extrapolate to more realistic models.
+Instead, we will take advantage of the fact that there already exist many (typically rather large) publicly-available pre-trained models, and we will analyze the properties of these models.
+That is, we will view these publicly-available pre-trained models as artifacts of the world that achieve state-of-the-art performance in computer vision, natural language processing, and related applications; and we will attempt to understand why.
+To do so, we will analyze the empirical (spectral) properties of these models; 
+%from this, we will form a hypothesis as to why they perform well; 
+and we will then extract data-dependent metrics to predict their generalization performance on production-quality models.
+Given well-known challenges associated with training, 
+%and given our results here as well as other recent results~\cite{MM18_TR},
+we suggest that this methodology be applied more generally.
+
+Finally, one interesting aspect of our approach is that we can apply these complexity metrics \emph{across related DNN architectures}. 
+This is in contrast to the standard practice in ML.
 The equivalent notion would be to compare margins across SVMs, applied to the same data, but with different Kernels. 
 One loose interpretation is that a set of related of DNN models (i.e., VGG11, VGG13, etc.) is analogous to a single, very complicated Kernel, and that the hierarchy of architectures is analogous to the hierarchy of hypothesis spaces in VC theory.
-\charlesX{more here ?  like this ?}
-\michael{Maybe discuss, to see what we can squeeze, given what is now popular.}
+%\charlesX{more here ?  like this ?}
+%\michael{Let's discuss this, to see what we can squeeze, given what is now popular.}   
 
 We expect our result will have applications in the fine-tuning of DNN hyperparameters as well as related challenges.
 Moreover, because we do not need to peek at the test data, our approach may prevent information from leaking from the test set into the model, thereby helping to prevent overtraining and making fined-tuned DNNs more robust.
-%
 Finally, our work also leads to a much harder theoretical question: is it possible to characterize properties of realistic DNNs to determine whether a DNN is overtrained---without peeking at the test data?  
 
 

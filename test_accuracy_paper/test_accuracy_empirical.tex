@@ -24,9 +24,47 @@ metric is a relatively good complexity metric for comparing the test accuracies 
 
 \paragraph{VGG and VGG\_BN Models.}
 
-We start by looking at the VGG class of models, including VGG11, VGG13, VGG16, and VGG19, and their counterparts with Batch Normalization, VGG11\_BN, VGG13\_BN, VGG16\_BN and VGG19\_BN.  
-See Figures~\ref{fig:vgg_lognorms} and~\ref{fig:vgg_alphahat} as well as Table~\ref{table:models_VGG} for details.
-XXX.  SOME COMMENTS.
+\begin{figure}[t] %[!htb]
+   \centering
+   \subfigure[log Frobenius norm $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$]{
+      \includegraphics[scale=0.35]{img/vgg-lognorms.png}
+      \label{fig:vgg_lognorms}
+   }
+   \subfigure[weighted average PL exponent $\hat{\alpha}$]{
+      \includegraphics[scale=0.35]{img/vgg-w_alphas.png}
+      \label{fig:vgg_alphahat}
+   }
+   \caption{%
+      Pre-trained VGG and VGG\_BN Architectures and DNNs.  
+      Test Accuracy versus
+      average log Frobenius norm $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$ (in (\ref{fig:vgg_lognorms}))
+      or
+      weighted average PL exponent $\hat{\alpha}$ (in (\ref{fig:vgg_alphahat}))
+      for
+      VGG11 vs VGG11\_BN ({\color{blue}{blue}}),
+      VGG13 vs VGG13\_BN ({\color{orange}{orange}}),
+      VGG16 vs VGG16\_BN ({\color{green}{green}}),  and
+      VGG19 vs VGG19\_BN ({\color{red}{red}}). 
+      \michael{Have circles and squares or something like that to distinguish regular and BN versions.}
+   }
+   \label{fig:vgg}
+\end{figure}
+
+
+%% COMBINED WITH ABOVE %% \begin{figure}[!htb]
+%% COMBINED WITH ABOVE %%  \centering
+%% COMBINED WITH ABOVE %%    \includegraphics[scale=0.40]{img/vgg-w_alphas.png}
+%% COMBINED WITH ABOVE %%    \caption{
+%% COMBINED WITH ABOVE %% Pre-trained VGG and VGG BN Architectures and DNNs.  Test Accuracy and weighted average $\hat{\alpha}$ for
+%% COMBINED WITH ABOVE %%  VGG11 vs VGG11\_BN ({\color{blue}{blue}}),
+%% COMBINED WITH ABOVE %% VGG13 vs VGG13\_BN ({\color{orange}{orange}}),
+%% COMBINED WITH ABOVE %% VGG16 vs VGG16\_BN ({\color{green}{green}}),  and
+%% COMBINED WITH ABOVE %% VGG19 vs VGG19\_BN ({\color{red}{red}}). 
+%% COMBINED WITH ABOVE %% }
+%% COMBINED WITH ABOVE %%   \label{fig:vgg_alphahat}
+%% COMBINED WITH ABOVE %% \end{figure}
+
+
 
 \begin{table}[t]
 \small
@@ -56,16 +94,23 @@ VGG19 & VGG19 & & & & & \\
 \end{table}
 
 
-\paragraph{ResNet Models.}
 
-Next we look at the ResNet class of models. 
-See
-Figures~\ref{fig:resnet_lognorms}
-and~\ref{fig:resnet_alphahat}
-as well as
-Table~\ref{table:models_resnet}
-for details.
+We start by looking at the VGG class of models, including VGG11, VGG13, VGG16, and VGG19, and their counterparts with Batch Normalization, VGG11\_BN, VGG13\_BN, VGG16\_BN and VGG19\_BN.  
+See Figures~\ref{fig:vgg_lognorms} and~\ref{fig:vgg_alphahat} as well as Table~\ref{table:models_VGG} for details.
 XXX.  SOME COMMENTS.
+
+As an example of our main results, consider Figure~\ref{fig:vgg}, which shows both the average log Frobenius norm 
+($\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$, defined in Eqn.~(\ref{eqn:av_log_norm}))
+as well as the weighted average PL exponent ($\hat{\alpha}$, defined in Eqn.~(\ref{eqn:alpha_hat_specific}))
+as a function of the reported (Top1) test accuracy for the series of pre-trained VGG models (available in the pyTorch package~\cite{pyTorch}).
+(See Table~\ref{table:models_VGG} for additional details.)
+Figure~\ref{fig:vgg_lognorms} shows the average log Frobenius norm results, which are quite good; and 
+Figure \ref{fig:vgg_alphahat} shows the weighted average PL exponent results, which yield slight improvements due to the method we introduce.
+Importantly, since we are using reported test accuracies (i.e., from the literature, and not due to the pecularities of our training), we did not need to retrain any models.
+Equally importantly, we did not need to peek at the ImageNet test data to make this plot; and, in fact, we did not even need the ImageNet training data either.  
+
+
+\paragraph{ResNet Models.}
 
 \begin{figure}[!htb]
    \centering
@@ -127,6 +172,15 @@ ResNet152 & resnet152 & XX,XX & \\
         }
 \label{table:models_resnet}
 \end{table}
+
+Next we look at the ResNet class of models. 
+See
+Figures~\ref{fig:resnet_lognorms}
+and~\ref{fig:resnet_alphahat}
+as well as
+Table~\ref{table:models_resnet}
+for details.
+XXX.  SOME COMMENTS.
 
 
 \paragraph{More Pre-trained Models.}
