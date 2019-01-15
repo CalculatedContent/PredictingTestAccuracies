@@ -3,11 +3,13 @@
 \section{Introduction}
 \label{sxn:intro}
 
-Given two or more Deep Neural Networks (DNNs) with  similar architectures, and trained on the same dataset, but trained with different solvers, parameters, hyper-parameters, regularization, etc., can we predict which DNN will have the best test accuracy, and can we do so without peeking at the test data?   
+Given two or more Deep Neural Networks (DNNs) with the same or similar architectures, and trained on the same dataset, but trained with different solvers, parameters, hyper-parameters, regularization, etc., can we predict which DNN will have the best test accuracy, and can we do so without peeking at the test data?   
 
 Solving this question of generalization would have both theoretical impact and great practical importance. 
 With respect to the former, solving this would help to understand why this class of machine learning (ML) models performs as well as it does in certain classes of applications.
-With respect to the latter, here are several motivating examples.
+With respect to the latter, there are many motivating examples.
+% 
+Here are several.
 \begin{itemize}
 \item
 \textbf{Automating architecture search.}
@@ -34,24 +36,25 @@ Rather than considering bounds on the worst-case generalization accuracy for sma
 
 To place these results in context, recall that the work of Martin and Mahoney~\cite{MM18_TR} showed that the empirical spectral density (ESD) of DNN layer matrices for nearly every large-scale pre-trained DNN displays HT behavior, e.g., that it is well-fit by a PL distribtion, and that smaller PL exponents correspond to better implicit Self-Regularization and generalization quality.
 Motived by these empirical observations, and using the Universality properties of Heavy-Tailed Random Matrix Theory (HT-RMT), they developed a Theory of Heavy-Tailed Self-Regularization (HT-SR) for DNNs~\cite{MM17_TR,MM18_TR}.
-In the Statistical Physics analysis of complicated systems (such as well-trained NNs~\cite{EB01_BOOK,nishimori01}), Universality of PL exponents is very special and suggests the presence of a deeper, underlying mechanism driving the system~\cite{SornetteBook,BouchaudPotters03}.% 
-\footnote{Perhaps the most well-known form of Universality is associated with the Gaussian Universality class, where the sum of many random variables drawn from a wide range of distributions are ``approximately Gaussian,'' e.g., in the sense that the sum approaches a suitably-normalized Gaussian distribution.  As briefly reviewed in Section~\ref{sxn:theory-review}, HT Universality makes analogous (but, admittedly, more complicated) statements for random variables drawn from distributions in which the tails decay more slowly than those in the Gaussian Universality class~\cite{MM18_TR}.}
+In the Statistical Physics analysis of complicated systems (e.g., many physical systems, but also well-trained NNs~\cite{EB01_BOOK,nishimori01}), Universality of PL exponents is very special and suggests the presence of a deeper, underlying mechanism driving the system~\cite{SornetteBook,BouchaudPotters03}.% 
+\footnote{Perhaps the most well-known form of Universality is associated with the Gaussian Universality class, where the sum of many random variables drawn from a wide range of distributions is ``approximately Gaussian,'' e.g., in the sense that the sum approaches a suitably-normalized Gaussian distribution.  As briefly reviewed in Section~\ref{sxn:theory-review}, HT Universality makes analogous (but, admittedly, more complicated) statements for random variables drawn from distributions in which the tails decay more slowly than those in the Gaussian Universality class~\cite{MM18_TR}.}
 It is this Universality that originally motivated our study.
 
 This Universality \emph{suggests} that we look for a Universal capacity control metric.%
 \footnote{To be clear, this metric is Universal, not in the sense that it will apply ``universally'' to every possible DNN, but in the Statistical Physics sense~\cite{SornetteBook,BouchaudPotters03} that it should apply to matrices within/across HT ``Universality''~classes.}
 A natural candidate for this is the weighted sum of PL exponents of various matrices constructed from the DNN, where the weights encode information that ``larger'' matrices are somehow more important.
-A HT Universality argument then leads us to posit that the weights should be the log of the spectral norm of the correlations between layer weight matrices.
+(See Eqn.~(\ref{eqn:alpha_hat_generic}) below.)
+A HT Universality argument then leads to an expression that suggests that the weights should be the log of the spectral norm of the correlations between layer weight matrices.
+(See Eqn.~(\ref{eqn:basic_relation}) below.)
 Importantly, we show this can be approximated by the average of the log of the Frobenius norm of the layer weight matrices.
 
-This connction with the Frobenius norm of the layer weight matrices provides an interesting connection with the large body of work on norm-based capacity control metrics~\cite{XXX-XXX,XXX-XXX,XXX-XXX,XXX-XXX}.
-\cite{SHNx17_TR,PLMx18_TR}.
-This line of work has been motivated by the observation that parameter counting and more traditional VC-based bounds tend to lead to vacuous results for modern state-of-the-art DNNs, e.g., since modern DNNs are heavily over-parameterized and depend so strongly on the training data.
-Perhaps the most related example of this line of work is the work of Liao et al.~\cite{LMBx18_TR}, which 
-\michael{XXX describe in a bit more detail what they did, and be explicit about normalization/scaling issues, worst-case vs average-case, etc.}
+Relating the fitted PL exponent to the Frobenius norm provides an interesting connection with the large body of work on norm-based capacity control metrics. 
+There is recent work along these lines, e.g.,~\cite{LMBx18_TR, SHNx17_TR,PLMx18_TR} and~\cite{NTS14_TR,NTS15,NBMS17_TR,BFT17_TR,YM17_TR,KKB17_TR,NBS17_TR,AGNZ18_TR,ACH18_TR,ZF18_TR},
+but there is also much older work~\cite{Bar97,MN09_TR}.
+Much of this work has been motivated by the observation that parameter counting and more traditional VC-based bounds tend to lead to vacuous results for modern state-of-the-art DNNs, e.g., since modern DNNs are heavily over-parameterized and depend so strongly on the training data.
+Perhaps the most related example from this line of work is that of Liao et al.~\cite{LMBx18_TR}, who use an appropriately-scaled Product Norm to provide tight bounds on generalization accuracy.
 Unlike their result, however, our approach does not require modifying the loss function.
-Moreover, the approach and the intent are a bit different: while they seek a \emph{worst-case} complexity bound, to reconcile discrepancies with more traditional statistical learning theory, we seek an \emph{average-case} complexity metric that can be used in production to guide the development of better DNNs.
-\michael{Refine Liao et al. connection.}
+Moreover, their approach and their intent are a bit different: they seek a \emph{worst-case} complexity bound, to reconcile discrepancies with more traditional statistical learning theory, and they apply it to quite small NNs; but we seek an \emph{average-case} complexity metric that can be used in production to guide the development of better DNNs at scale.
 
 In summary, our main results are the following:
 \begin{itemize}
@@ -61,13 +64,15 @@ Our approach is based on Statistical Physics (in particular, the concept of Univ
 This metric is a weighted linear combination of PL exponents, where the coefficients are the spectral norm of correlation matrices constructed from DNN weight matrices.
 \item
 We apply our Universal capacity control metric to a wide range of large-scale pre-trained production-level DNNs, including the VGG and ResNet series of models.
-This Universal metric predicts well the average error in large-scale DNNs (without the need for re-training or looking at test data, although one could use the metrics as a training diagnostic).
+This Universal metric predicts well the average test error in large-scale DNNs (without the need for re-training or looking at test data, although one could use the metrics as a training diagnostic).
 \item
-We demonstrate a connection between our Universal capacity control metric to a norm-based capacity control metric that depends on the average Frobenius norm of layer weight matrices.
-We also show that (in addition to providing worst-case bounds on generalization quality for rather small NNs) such norm-based capacity control metrics can also predict well the average test performance of large-scale production-level pre-trained DNNs.
+We demonstrate a connection between our Universal capacity control metric and a norm-based capacity control metric that depends on the average Frobenius norm of layer weight matrices.
+We also show that (in addition to providing worst-case bounds on generalization quality for rather small NNs) such norm-based capacity control metrics can also predict well the average test error in large-scale production-level pre-trained DNNs.
 \end{itemize}
-For both our Universal metric and the Product Norm metric, our empirical results are, to our knowledge, the first time such theoretical capacity metrics have been reported to predict (trends in) the test accuracy for \emph{pre-trained production-level} DNNs, illustrating the usefulness of these norm-based metrics beyond smaller models such as MNIST, CIFAR10, and CIFAR100. 
-\michael{Mention and cite weightwatchers.}
-Our results suggest that our ``practical theory'' approach is fruitful more generally for engineering algorithms for realistic large-scale DNNs.
+For both our Universal metric and the Product Norm metric, our empirical results are, to our knowledge, the first time such theoretical capacity metrics have been reported to predict (trends in) the test accuracy for \emph{pre-trained production-level} DNNs.
+In particular, this illustrates the usefulness of these norm-based metrics beyond smaller models such as MNIST, CIFAR10, and CIFAR100. 
+Our 
+results, including for both our Universal metric and the Product Norm metric we consider, can be reproduced with the \texttt{WeightWatcher} package~\cite{weightwatcher_pagkage}; and our
+results suggest that our ``practical theory'' approach is fruitful more generally for engineering good algorithms for realistic large-scale DNNs.
 
 

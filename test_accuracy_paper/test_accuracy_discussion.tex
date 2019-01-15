@@ -8,7 +8,7 @@ This complexity metic, $\hat{\alpha}$ of Eqn.~(\ref{eqn:alpha_hat_specific}), is
 %
 We examine several commonly-available, pre-trained, production-quality DNNs by plotting $\hat{\alpha}$ versus the reported test accuracies.
 This covers classes of DNN architectures including the VGG models, ResNet, DenseNet, etc. 
-In nearly every class, and except for a few counterexamples, the smaller average complexity, the better the average test accuracy, thereby providing a strong predictor of quality.
+In nearly every class, and except for a few counterexamples, smaller $\hat{\alpha}$ corresponds to better average test accuracies, thereby providing a strong predictor of model quality.
 %
 We also show that this new complexity metric $\hat{\alpha}$ is approximately the average log of the Frobenius norm of the layer weight matrices, $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$ of Eqn.~(\ref{eqn:av_log_norm}), when accounting for finite-size effects.
 This provides an interesting connection between the Statistical Physics approach to learning (from Martin and Mahoney~\cite{MM17_TR,MM18_TR}, that we extend here) and methods such as that of Liao et al.~\cite{LMBx18_TR}, who use norm-based capacity control metrics to bound worst-case generalization error.
@@ -16,29 +16,30 @@ This provides an interesting connection between the Statistical Physics approach
 We should mention two higher-level comments.
 %
 First, 
-one of the main insights of our approach is to highlight the importance of what might seem to be a technical issue to ignore, but which in our experience is \emph{extremely} important: the scaling or normalization for weight matrices used in the DNN, and how this relates to the difference between finite-sized versus asymptotic effects.
-This scaling issue has been highlighted perhaps most recently by Liao et al.~\cite{LMBx18_TR}, who were interested in showing that classical generalization bounds can be tight---when normalization is performed appropriately.
-Our approach complements this; and, to our knowledge, our approach is the first to highlight the connection with finite-size effects.
+one of the main insights of our approach is to highlight the importance of what might seem to be a technical issue to ignore, but which in our experience is \emph{extremely} important: the scaling or normalization for weight matrices used in the DNN, and how this relates to the difference between finite-size versus asymptotic effects.
+This scaling issue has been highlighted perhaps most recently by Bartlett et al.~\cite{BFT17_TR} and Liao et al.~\cite{LMBx18_TR}.
+The latter were interested in showing that classical generalization bounds can be tight---when normalization is performed appropriately.
+Our approach complements theirs; but, to our knowledge, our approach is the first to highlight the connection with finite-size effects.
 %
 Second, 
 %it is worth emphasizing that 
 we are taking a 
 very %somewhat 
 non-standard approach (at least for the DNN and ML communities) to address our main question.
-We won't train/retrain lots and lots of (typically rather small) models, analyzing training/test curves, trying to glean from them bits of insight that might then extrapolate to more realistic models.
-Instead, we will take advantage of the fact that there already exist many (typically rather large) publicly-available pre-trained models, and we will analyze the properties of these models.
-That is, we will view these publicly-available pre-trained models as artifacts of the world that achieve state-of-the-art performance in computer vision, natural language processing, and related applications; and we will attempt to understand why.
-To do so, we will analyze the empirical (spectral) properties of these models; 
-%from this, we will form a hypothesis as to why they perform well; 
-and we will then extract data-dependent metrics to predict their generalization performance on production-quality models.
+We didn't train/retrain lots and lots of (typically rather small) models, analyzing training/test curves, trying to glean from them bits of insight that might then extrapolate to more realistic models.
+Instead, we took advantage of the fact that there already exist many (typically rather large) publicly-available pre-trained models, and we analyzed the properties of these models.
+That is, we viewed these publicly-available pre-trained models as artifacts of the world that achieve state-of-the-art performance in computer vision, natural language processing, and related applications; and we attempted to understand why.
+To do so, we analyzed the empirical (spectral) properties of these models; 
+%from this, we formed a hypothesis as to why they perform well; 
+and we then extracted data-dependent metrics to predict their generalization performance on production-quality models.
 Given well-known challenges associated with training, 
 %and given our results here as well as other recent results~\cite{MM18_TR},
 we suggest that this methodology be applied more generally.
 
 Finally, one interesting aspect of our approach is that we can apply these complexity metrics \emph{across related DNN architectures}. 
 This is in contrast to the standard practice in ML.
-The equivalent notion would be to compare margins across SVMs, applied to the same data, but with different Kernels. 
-One loose interpretation is that a set of related of DNN models (i.e., VGG11, VGG13, etc.) is analogous to a single, very complicated Kernel, and that the hierarchy of architectures is analogous to the hierarchy of hypothesis spaces in VC theory.
+The equivalent notion would be to compare margins across SVMs, applied to the same data, but with different kernels. 
+One loose interpretation is that a set of related of DNN models (i.e., VGG11, VGG13, etc.) is analogous to a single, very complicated kernel, and that the hierarchy of architectures is analogous to the hierarchy of hypothesis spaces in more traditional VC theory.
 %\charlesX{more here ?  like this ?}
 %\michael{Let's discuss this, to see what we can squeeze, given what is now popular.}   
 

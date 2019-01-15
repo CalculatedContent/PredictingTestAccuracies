@@ -3,7 +3,9 @@
 \section{Empirical Results on Pre-trained DNNs}
 \label{sxn:emp}
 
-\nred{TOO LONG for a 10 page paper...move extra results to  Appendix}
+\michael{Charles, would you do a core-dump of text for this section, describing the details of the setup and results, and also fill in tables, and I can make a smoothing pass.}
+
+%%\nred{TOO LONG for a 10 page paper...move extra results to  Appendix}
 
 (((
 \charles{
@@ -13,13 +15,13 @@ briefly examine the VGG series (VGG11, VGG13, VGG1, VGG19), with and without Bat
 available ResNet models ranging from ResNet10 to ResNet152(b), and a wide range of other models.  All models have
 been trained on ImageNet, and reported test accuracies are available.  For our analysis, we do not needs to retrain these
 models, and we do not even need access to the test data.  }
-\michael{This par below.}
 )))
 
-(As illustrated in Figure~\ref{fig:vgg_lognorms}, this 
+(((
+As illustrated in Figure~\ref{fig:vgg_lognorms}, this 
 (average log norm of the weight matrices of Eqn.~(\ref{eqn:av_log_norm}))
-metric is a relatively good complexity metric for comparing the test accuracies of different, pre-trained DNNs in the same series.)
-\michael{Do we use this elsewhere, and probably this comment elsewhere.}
+metric is a relatively good complexity metric for comparing the test accuracies of different, pre-trained DNNs in the same series.
+)))
 
 
 \paragraph{VGG and VGG\_BN Models.}
@@ -99,6 +101,7 @@ We start by looking at the VGG class of models, including VGG11, VGG13, VGG16, a
 See Figures~\ref{fig:vgg_lognorms} and~\ref{fig:vgg_alphahat} as well as Table~\ref{table:models_VGG} for details.
 XXX.  SOME COMMENTS.
 
+(((
 As an example of our main results, consider Figure~\ref{fig:vgg}, which shows both the average log Frobenius norm 
 ($\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$, defined in Eqn.~(\ref{eqn:av_log_norm}))
 as well as the weighted average PL exponent ($\hat{\alpha}$, defined in Eqn.~(\ref{eqn:alpha_hat_specific}))
@@ -108,6 +111,7 @@ Figure~\ref{fig:vgg_lognorms} shows the average log Frobenius norm results, whic
 Figure \ref{fig:vgg_alphahat} shows the weighted average PL exponent results, which yield slight improvements due to the method we introduce.
 Importantly, since we are using reported test accuracies (i.e., from the literature, and not due to the pecularities of our training), we did not need to retrain any models.
 Equally importantly, we did not need to peek at the ImageNet test data to make this plot; and, in fact, we did not even need the ImageNet training data either.  
+)))
 
 
 \paragraph{ResNet Models.}

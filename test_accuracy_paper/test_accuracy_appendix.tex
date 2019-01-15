@@ -1,4 +1,4 @@
-\newpage
+%\newpage
 
 %% \section{Appendix: Real DNN versus HT Random Matrices}
 %% \label{sxn:appendix-dnn_versus_random}
@@ -30,7 +30,7 @@
 %%        \includegraphics[scale=0.30]{img/relation-vgg11.png} 
 %%        \label{fig:relation-vgg11}
 %%    }
-%%        \caption{Relation between $\alpha\;\log_{10}\;\lambda_{max}$ and the Frobenius Norm squared }
+%%        \caption{Relation between $\alpha\;\log_{10}\;\lambda_{max}$ and the Frobenius norm squared }
 %%    \label{fig:relations}
 %%\end{figure}
 %%
@@ -45,7 +45,7 @@
 %% we will generate the data for a number of a Heavy-Tailed random matrices, 
 %% with different power law exponents $\mu$.
 %% And we compare defining correlation matrices $\mathbf{X}$, and therefore $\lambda_{max}$,
-%% the Spectral Norm (squared) of $\mathbf{W}$, with different normalizations.
+%% the Spectral norm (squared) of $\mathbf{W}$, with different normalizations.
 %% 
 %% \nred{Below} 
 %% we generate a large number of  Heavy-Tailed  random matrices $\mathbf{W}^{rand}(\mu,M)$, with different number of eigenvalues $M$ (with aspect ratio $Q=1$), and drawn from a Pareto distribution,
@@ -156,12 +156,14 @@
 %% $$\log\;\Vert\mathbf{W^{rand}(\mu)}\Vert^{2}_{F}\approx\log\;\tilde{\lambda}_{max},\;\;1<\mu<2$$
 
 
-\section{Heavy-Tailed Universality: Random Pareto versus Non-random DNN Matrices} 
+\section{Random Pareto versus Non-random DNN Matrices} 
+%\section{Heavy-Tailed Universality: Random Pareto versus Non-random DNN Matrices} 
 \label{sxn:appendix-universality}
 
-When we use Universality, we would like a method that applies both to HT Pareto matrices as well as to non-random, indeed strongly-correlated, pre-trained DNN layer weight matrices that (as evidenced by their ESD properties) are in a HT Universality class.  
+When we use Universality, as we do in our derivation of the basic PL--Norm Relation, we would like a method that applies both to HT random matrices as well as to non-random, indeed strongly-correlated, pre-trained DNN layer weight matrices that (as evidenced by their ESD properties) are in a HT Universality class.  
 To accomplish this, however, requires some care: while the pre-trained $\mathbf{W}$ matrices do have ESDs that display empirical signatures of HT Universality~\cite{MM18_TR}, they are \emph{not} random Pareto matrices.
 Many of their properties, including their empirical Frobenius norms, behave very differently than that of a random Pareto matrix.  
+(We saw this in Figure~\ref{fig:relations}, which showed that $ \alpha\log\lambda_{max} $ achieves much larger values for HT random matrices than real DNN weight matrices.)
 
 To illustrate this, we generate a large number of HT random matrices $\mathbf{W}^{rand}(\mu)$, with exponents $\mu\in[0.5, 5]$, as described in Section~\ref{sxn:theory-new}.
 %
@@ -170,7 +172,7 @@ Figure~\ref{fig:fro-rand} displays the relationship between the (log of the squa
 (Similar but noisier plots would arise if we plotted as a function of $\alpha$, due to imperfections in the PL fit.)
 We did the same for the weight matrices (extracted from the Conv2D Feature Maps) from the pre-trained VGG11 DNN, again as described in Section~\ref{sxn:theory-new}.
 Figure~\ref{fig:fro-vgg11} displays these results, here as a function of $\alpha$.
-\michael{Maybe plot both as a function of $\alpha$, to be consistent and consistent with text.}
+\michael{Charles, maybe plot both as a function of $\alpha$, since they are different, and consistent with text.}
 
 \begin{figure}[!htb]
    \centering
@@ -182,7 +184,7 @@ Figure~\ref{fig:fro-vgg11} displays these results, here as a function of $\alpha
       \includegraphics[scale=0.30]{img/fro-vgg11.png} 
       \label{fig:fro-vgg11}
    }
-   \caption{Dependence of Frobenius Norm on PL exponents for random Pareto versus pre-trained DNN matrices.  }
+   \caption{Dependence of Frobenius norm on PL exponents for random Pareto versus pre-trained DNN matrices.  }
    \label{fig:fnorm}
 \end{figure}
 
@@ -200,11 +202,11 @@ $\alpha\log\lambda_{max}$ is positively correlated with $\log\Vert\mathbf{W}\Ver
 This is one of the remarkable properties of Universality (and it shows why some care must be taken in applying these Universality principles).
  
 
-%\newpage
+\newpage
 \section{Appendix: Michael's Derivation}
 \label{sxn:appendix-michael_derivation}
 
-\michael{Probably remove this entirely, unless relate to synthetic empirical results.}
+\michael{MM probably remove this entirely, unless relate to synthetic empirical results.}
 
 Here, we derive an expression for the ratio of the log of the Frobenius norm of $W$ to the log of the spectral norm of $W$.
 Once we settle on presentation, with normaliation, etc., this will probably be a ``subroutine'' in our analysis.
@@ -339,80 +341,73 @@ f(\mu) = \frac{ \log\left(\frac{\mu}{\mu-2}\right) + \log(w_{min}^2) + 2 \log N 
 $$
 
 
-\section{Appendix: Refs: MM TO INCORPORATE THESE INTO TEXT}
-
-\michael{XXX.  INTRO.}
-
-Our theory of Implicit Self Regularization used Heavy Tailed Random Matrix Theory (HT RMT), and here we use HT RMT also~\cite{MM18_TR}.
-See also our prior results on \cite{MM17_TR}.
-
-\cite{NTS14_TR} is 
-Neyshabur et al. on :
-``In search of the real inductive bias: on the role of implicit regularization in deep learning''
-
-
-\cite{NTS15} is
-Neyshabur et al. on:
-``Norm-Based Capacity Control in Neural Network''
-
-\cite{NBMS17_TR} is 
-Neyshabur et al. on:
-``Exploring generalization in deep learning''
-
-\cite{AGNZ18_TR} is 
-Arora et al. on:
-``Stronger generalization bounds for deep nets via a compression approach''
-
-\cite{ACH18_TR} is 
-Arora et al. on:
-``On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization''
-
-\cite{Bar97} is
-Bartlett on:
-``For valid generalization, the size of the weights is more important than the size of the network''
-
-\cite{BFT17_TR} is 
-Bartlett et al. on:
-``Spectrally-normalized margin bounds for neural networks''
-
-\cite{NTS14_TR} is
-Neyshabur et al. on: 
-``In search of the real inductive bias: on the role of implicit regularization in deep learning''
-
-\cite{SHNx17_TR} is 
-Soudry et al. on: 
-``The implicit bias of gradient descent on separable data''
-
-\cite{YM17_TR} is 
-Yoshida and Miyato on:
-``Spectral norm regularization for improving the generalizability of deep learning''
-
-\cite{LMBx18_TR} is 
-Liao et al. on:
-``A surprising linear relationship predicts test performance in deep networks''
-
-\cite{PLMx18_TR}
-is Poggio el at. on: 
-``Theory {IIIb}: Generalization in Deep Networks''
-
-\cite{KKB17_TR} is 
-Kawaguchi et al. on:
-``Generalization in Deep Learning''
-
-\cite{NBS17_TR} is:
-Neyshabur et al. on: 
-``A {PAC}-{B}ayesian Approach to Spectrally-Normalized Margin Bounds for Neural Networks''
-
-\cite{ZF18_TR} is
-Zhou and Feng on:
-``Understanding Generalization and Optimization Performance of Deep {CNN}s''
-
-\cite{BJNx01_TR} is
-Burda et al. on:
-``{L}{\'e}vy Matrices and Financial Covariances''
-
-\cite{MN09_TR} is
-Mahoney and Narayanan on:
-``Learning with Spectral Kernels and Heavy-Tailed Data''
-
+% \section{Appendix: Refs: MM TO INCORPORATE THESE INTO TEXT}
+% 
+% Our theory of Implicit Self Regularization used Heavy Tailed Random Matrix Theory (HT RMT), and here we use HT RMT also~\cite{MM18_TR}.
+% See also our prior results on \cite{MM17_TR}.
+% 
+% \cite{NTS14_TR} is 
+% Neyshabur et al. on :
+% ``In search of the real inductive bias: on the role of implicit regularization in deep learning''
+% 
+% \cite{NTS15} is
+% Neyshabur et al. on:
+% ``Norm-Based Capacity Control in Neural Network''
+% 
+% \cite{NBMS17_TR} is 
+% Neyshabur et al. on:
+% ``Exploring generalization in deep learning''
+% 
+% \cite{AGNZ18_TR} is 
+% Arora et al. on:
+% ``Stronger generalization bounds for deep nets via a compression approach''
+% 
+% \cite{ACH18_TR} is 
+% Arora et al. on:
+% ``On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization''
+% 
+% \cite{Bar97} is
+% Bartlett on:
+% ``For valid generalization, the size of the weights is more important than the size of the network''
+% 
+% \cite{BFT17_TR} is 
+% Bartlett et al. on:
+% ``Spectrally-normalized margin bounds for neural networks''
+% 
+% \cite{SHNx17_TR} is 
+% Soudry et al. on: 
+% ``The implicit bias of gradient descent on separable data''
+% 
+% \cite{YM17_TR} is 
+% Yoshida and Miyato on:
+% ``Spectral norm regularization for improving the generalizability of deep learning''
+% 
+% \cite{LMBx18_TR} is 
+% Liao et al. on:
+% ``A surprising linear relationship predicts test performance in deep networks''
+% 
+% \cite{PLMx18_TR}
+% is Poggio el at. on: 
+% ``Theory {IIIb}: Generalization in Deep Networks''
+% 
+% \cite{KKB17_TR} is 
+% Kawaguchi et al. on:
+% ``Generalization in Deep Learning''
+% 
+% \cite{NBS17_TR} is:
+% Neyshabur et al. on: 
+% ``A {PAC}-{B}ayesian Approach to Spectrally-Normalized Margin Bounds for Neural Networks''
+% 
+% \cite{ZF18_TR} is
+% Zhou and Feng on:
+% ``Understanding Generalization and Optimization Performance of Deep {CNN}s''
+% 
+% \cite{BJNx01_TR} is
+% Burda et al. on:
+% ``{L}{\'e}vy Matrices and Financial Covariances''
+% 
+% \cite{MN09_TR} is
+% Mahoney and Narayanan on:
+% ``Learning with Spectral Kernels and Heavy-Tailed Data''
+ 
 
