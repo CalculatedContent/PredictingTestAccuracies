@@ -143,11 +143,7 @@ Of course, the DNN weight matrices are not random matrices--they are strongly co
 by experimentally measuring 'observables' that display heavy tailed behavior, and with common, or universal, power law exponents. 
 More importantly, it indicates that a specific universal mechanism drives the underlying physical process, such as Self Organized Criticality (SOC), etc.~\cite{SornetteBook,BouchaudPotters03}. 
 For this reason, we refer to the Universality observed in HT-SR, i.e. in the ESDs of (pretrtained) DNNs weight matrices, as \emph{Heavy-Tailed Mechanistic Universality.}}}
-
-
-\charlesX{Explain FIgure 2 here, and CLEAN UP- text below}
-
-See Figure~\ref{fig:universality_diagram} for an illustration of HT-MU 
+For an illustration \nred{of what we mean} by HT-MU, See Figure~\ref{fig:universality_diagram} 
 \ngreen{
 When we observe HT behavior in $\mathbf{W}$, or rather its correlation matrix $\mathbf{X}$, 
 we use HT-RMT as a generative model.  We say that we \emph{model} $\mathbf{W}$ as if it is a random matrix,
@@ -219,18 +215,10 @@ of Heavy-Tailed random matrices, defined by the range $\mu$ takes on:
 %%\michael{We need to highlight how the HT Universality we use is one that crosses Universality classes, i.e., VHT and finite-sized MHT, and certainly is NOT limited to random matrices, but we use RMT to characterize certain things.}
 %%
 
+\paragraph{Heavy-Tailed, Finite-Size Relations.}
 
-\paragraph{Heavy-Tailed, Finite-Size Relations.} 
-
-\charlesX{Discuss empirical measurements, theoretical parameters, how to relate}
-
-\charlesX{Lots removed ?}
-
-'
-\charlesX{NEED BETTER INTRO}
-
-\ngreen{HT-RMT provides more than HT Universality classes; it also provides simple relations between the empirical observables, such 
-as the power law exponent $\alpha$ and the maximum eigenvalue $\lambda_{max}$, with the parameter $\mu$
+\ngreen{HT-RMT provides more than HT Universality classes; it also provides simple relations between the empirical observables, i.e. 
+ the power law exponent $\alpha$ and the maximum eigenvalue $\lambda_{max}$ of each $\mathbf{W}$, with the parameter(s) $\mu$
 of our generative theory, i.e HT-RMT.   }
 
 %% For the VHT Universality class, the PL tail of Eqn.~(\ref{eqn:eigenval_pl}) persists in the infinite limit $N\rightarrow\infty$, for $Q$ fixed; and
@@ -392,14 +380,14 @@ Our justification for proposing Eqn.~(\ref{eqn:basic_relation}) is three-fold.
 \begin{enumerate}
 \item
 \label{enum:first}
-We derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$, for an $N\times M$ random matrix $\mathbf{W}$ (with $N=M$, or $Q=1$, for simplicity).
+We derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$, for an $N\times M$ random matrix $\mathbf{W}^{rand}(\mu)$ (with $N=M$, or $Q=1$, for simplicity).
 \item
 \label{enum:second}
-We observe empirically that multiplying $\alpha$ by $\log\lambda_{max}$ leads to a relation that increases nearly linearly with $\log\Vert\mathbf{W}\Vert^{2}_{F}$ for a random HT matrix $\mathbf{W}$ and that is linearly correlated for real a DNN weight matrix $\mathbf{W}$. 
+We observe empirically that multiplying $\alpha$ by $\log\lambda_{max}$ leads to a relation that increases nearly linearly with $\log\Vert\mathbf{W}\Vert^{2}_{F}$ for a random HT matrix $\mathbf{W}^{rand}(\mu)$  and that is linearly \nred{and positively} correlated for real a DNN weight matrix $\mathbf{W}$. 
 %This is precisely what we want for our simple HT-based complexity metric.
 \item
 \label{enum:third}
-\emph{Based on Universality}, we expect this result to extend to larger exponents, both across the VHT Universality class, $\alpha\in(1,2)$, and into the \emph{finite-sized} MHT Universality class, $\alpha\in(2,4)$, where it applies for the finite-size weight matrices in DNNs.
+\emph{Based on \nred{Heavy Tailed Mechanistic }Universality (HT-MU)}, we expect this result to extend to larger exponents, both across the VHT Universality class, $\alpha\in(1,2)$, and into the \emph{finite-sized} MHT Universality class, $\alpha\in(2,4)$, where it applies for the finite-size weight matrices in DNNs.
 \end{enumerate}
 We will discuss each of these in more detail below.
 
@@ -415,15 +403,16 @@ Then, we define the complexity metrics for Linear and Convolutional Layers as fo
 %% $$
 %% \text{Conv2D Layer:}\;\;\log\Vert\mathbf{W}_{L}\Vert^{2}_{F}\rightarrow \sum_{i=1}^{n_{L}}\log\lambda^{max}_{i,L}\alpha_{L,i}  .
 %% $$
+\nred{Hard to read max..make superscript ?}
 \begin{eqnarray*}
-\text{Linear Layer:} & & \log\Vert\mathbf{W}_{l}\Vert^{2}_{F} \quad \rightarrow \quad \log{\lambda_{l}}_{max}\alpha_{l}  \\
-\text{Conv2D Layer:} & & \log\Vert\mathbf{W}_{l}\Vert^{2}_{F} \quad \rightarrow \quad \sum_{i=1}^{n_{l}}\log{\lambda_{l,i}}_{max}\alpha_{l,i}  , 
+\text{Linear Layer:} & & \log\Vert\mathbf{W}_{l}\Vert^{2}_{F} \quad \rightarrow \quad \alpha_{l}\;\log{\lambda_{l}}_{max}  \\
+\text{Conv2D Layer:} & & \log\Vert\mathbf{W}_{l}\Vert^{2}_{F} \quad \rightarrow \quad \sum_{i=1}^{n_{l}}\alpha_{l,i} \;\log{\lambda_{l,i}}_{max} , 
 \end{eqnarray*}
 where, for Conv2D Layers, we relate the ``norm'' of the 4-index Tensor $\mathbf{W}_{l}$ to the sum of the $n_{l}=c\times d$ terms for each feature map.
 %% So, in the expression for the Product Norm for $\log\mathcal{C}$, we can replace each $\log\Vert\mathbf{W}_{L}\Vert$ term for layer $L$ with these above expressions, and take the average over all $N_{\alpha}$  matrices.  
 This lets us compare the Product Norm to the weighted average of PL exponents as follows:
 \begin{equation}
-2\log\mathcal{C}=\langle\log\Vert\mathbf{W}\Vert^{2}_{F}\rangle \quad \rightarrow \quad \hat{\alpha} := \dfrac{1}{N_{L}}\sum_{i,l}\log {\lambda_{l,i}}_{max}\alpha_{i,l}  .
+2\log\mathcal{C}=\langle\log\Vert\mathbf{W}\Vert^{2}_{F}\rangle \quad \rightarrow \quad \hat{\alpha} := \dfrac{1}{N_{L}}\sum_{i,l}\alpha_{i,l}\;\log {\lambda_{l,i}}_{max}  .
 \label{eqn:alpha_hat_specific}
 \end{equation}
 %% \michael{We are using subscripts in a slightly confusing way.}
