@@ -2,14 +2,16 @@
 \begin{abstract}
 \noindent
 Given two or more Deep Neural Networks (DNNs) with the same or similar architectures, and trained on the same dataset, but trained with different solvers, parameters, hyper-parameters, regularization, etc., can we predict which DNN will have the best test accuracy, and can we do so without peeking at the test data?   
-In this paper, we show how to use a new Theory of Heavy-Tailed Self-Regularization (HT-SR) for modern DNNs to answer this question. 
-Based on HT-SR Theory, we develop a Universal capacity control metric that is a weighted average of the fitted layer power law exponents, where the weights depend on the log of the spectral norm of the correlations between layer weight matrices.
-Rather than considering small toy NNs, we examine over 50 different, large-scale pre-trained DNNs, ranging over 15 different architectures, trained on ImagetNet, each of which has been reported to have different test accuracies.
-We show that, across each architecture (VGG16/VGG19, 
-%% WE DONT DO INCEPTION HERE %% InceptionV3/V4, 
-ResNet10/ResNet101,
-etc.), the reported test accuracies for each DNN are very well-correlated with this metric.
-Moreover, we show this metric can be approximated by the average of the log of the Frobenius norm of the layer weight matrices.
-Our approach requires no changes to the underlying DNN, it does not require us to train a model (although it could be used to monitor training), and it does not even require access to the ImageNet data.
+In this paper, we show how to use our new Theory of Heavy-Tailed Self-Regularization (HT-SR) to answer this. 
+The HT-SR theory suggests, among other things,  that modern DNNs exhibit a mechanistic form of Heavy Tailed Universality
+in that the correlations in the layer weight matrices can be fit to a power law with exponents that lie in common Heavy Tailed Universality classes from Random Matrix Theory (RMT).
+From this, here, we develop a Universal capacity control metric that is a weighted average of these heavy tailed power law exponents, 
+Rather than considering small toy NNs, we examine over 50 different, large-scale pre-trained DNNs, ranging over 15 different architectures, trained on 
+ImagetNet, each of which has been reported to have different test accuracies. 
+We show that this new capacity metrics correlates very well with the reported test accuracies of these DNNs, looking across each architecture (VGG16/.../VGG19, 
+ResNet10/.../ResNet152, etc.).
+Moreover, we show how to approximate the metric by the more familiar Product Norm capacity measure, as the average of the log  Frobenius norm of the layer weight matrices.
+Our approach requires no changes to the underlying DNN or its loss function, it does not require us to train a model (although it could be used to monitor training), and it does not even require access to the ImageNet data.
 \end{abstract}
+
 
