@@ -36,29 +36,45 @@ Current methods to extend these smaller models to full-scale production models a
 To address our main question, we will build upon and combine two seemingly-unrelated lines of recent work.
 The first is that of Martin and Mahoney~\cite{MM17_TR,MM18_TR}, which considered Heavy-Tailed (HT) Universality methods from Statistical Physics to analyze weight matrices constructed from large-scale pre-trained DNNs.
 The second is that of Liao et al.~\cite{LMBx18_TR}, which used norm-based capacity control metrics to bound the worst-case generalization error for several small (non production-quality, but still of academic interest) DNN models.
-
-Based on these ideas, we develop a Universal capacity control metric that is a weighted average of the fitted layer Power Law (PL) exponents of various layer weight matrices constructed from the DNN, where the weights depend on the log of the spectral norm of the correlations between layer weight matrices; and we show this metric can be approximated by the average of the log of the Frobenius norm of the weight matrices.
+\nred{AWK:}
+Based on these ideas, we develop a Universal capacity control metric that is a weighted average of the fitted layer Power Law (PL) exponents 
+$(\alpha)$ of various layer weight matrices constructed from the DNN, where the weights depend on the log of the spectral norm of the correlations between layer weight matrices; and we show this metric can be approximated by the average of the log of the Frobenius norm of the weight matrices.
 Rather than considering bounds on the worst-case generalization accuracy for small toy NNs, we show that this metric predicts trends in the average case generalization performance for large-scale pre-trained DNNs.
 
-To place these results in context, recall that the work of Martin and Mahoney~\cite{MM18_TR} showed that the empirical spectral density (ESD) of DNN layer matrices for nearly every large-scale pre-trained DNN displays HT behavior, e.g., that it is well-fit by a PL distribtion, and that smaller PL exponents correspond to better implicit Self-Regularization and generalization quality.
+% again, too dense 
+To place these results in context, recall that the work of Martin and Mahoney~\cite{MM18_TR} showed that the empirical spectral density (ESD) of DNN layer matrices for nearly every large-scale pre-trained DNN displays HT behavior, e.g., that it is well-fit by a PL distribution, and that smaller PL exponents correspond to better implicit Self-Regularization and generalization quality.
 Motived by these empirical observations, and using the Universality properties of Heavy-Tailed Random Matrix Theory (HT-RMT), they developed a Theory of Heavy-Tailed Self-Regularization (HT-SR) for DNNs~\cite{MM17_TR,MM18_TR}.
 In the Statistical Physics analysis of complicated systems (e.g., many physical systems, but also well-trained NNs~\cite{EB01_BOOK,nishimori01}), Universality of PL exponents is very special and suggests the presence of a deeper, underlying mechanism driving the system~\cite{SornetteBook,BouchaudPotters03}.% 
 \footnote{Perhaps the most well-known form of Universality is associated with the Gaussian Universality class, where the sum of many random variables drawn from a wide range of distributions is ``approximately Gaussian,'' e.g., in the sense that the sum approaches a suitably-normalized Gaussian distribution.  As briefly reviewed in Section~\ref{sxn:theory-review}, HT Universality makes analogous (but, admittedly, more complicated) statements for random variables drawn from distributions in which the tails decay more slowly than those in the Gaussian Universality class~\cite{MM18_TR}.}
 It is this Universality that originally motivated our study.
 
-This Universality \emph{suggests} that we look for a Universal capacity control metric.%
+This Universality \emph{suggests} that we look for a \emph{Universal Capacity Control Metric}.
 \footnote{To be clear, this metric is Universal, not in the sense that it will apply ``universally'' to every possible DNN, but in the Statistical Physics sense~\cite{SornetteBook,BouchaudPotters03} that it should apply to matrices within/across HT ``Universality''~classes.}
-A natural candidate for this is the weighted sum of PL exponents of various matrices constructed from the DNN, where the weights encode information that ``larger'' matrices are somehow more important.
+\ngreen{
+Indeed, nearly all large, pre-trained DNNs have smallish layer PL exponents  $\alpha$ (at least for the linear layers), all lying within the same Fat-Tailed Universality class.  
+The exponents are small, but not too small.  
+Additionally, the HT-SR studies on small models show that DNNs that generalize better have smaller layer PL exponents.
+These 2 facts suggest that, when comparable, large, production DNNs that generalize better, should have, on average, smaller $\alpha$.  
+  }
+\nred{
+A natural candidate for our Universal complexity metric is the weighted average of layer PL exponents, $\hat{\alpha}$.
 (See Eqn.~(\ref{eqn:alpha_hat_generic}) below.)
-A HT Universality argument then leads to an expression that suggests that the weights should be the log of the spectral norm of the correlations between layer weight matrices.
-(See Eqn.~(\ref{eqn:basic_relation}) below.)
-Importantly, we show this can be approximated by the average of the log of the Frobenius norm of the layer weight matrices.
+where the weights encode information that ``larger'' matrices are somehow more important.
+}
+\ngreen{
+For example, the \emph{average} $\hat{\alpha}$ for VGG19 should be smaller that for VGG11.
+%A HT Universality argument then leads to an expression that suggests that the weights should be the log of the spectral norm of the correlations between layer weight matrices.
+The only question is, how to take the average $\hat{\alpha}$.
+To answer this, we use HT-Universality and  show how to approximate our new metric with the well known product norm metric, namely, as the average log Frobenius norm 
+$\langle\Vert\mathbf{W}_{F}\Vert\rangle$ of the layer weight matrices.}
+\nred{(See Eqn.~(\ref{eqn:basic_relation}) below.)}
 
-Relating the 
-%fitted   awkward
-PL exponent to the Frobenius norm provides an interesting connection with the large body of work on norm-based capacity control metrics. 
+
+% Relating the  PL exponent to the Frobenius norm provides an interesting connection with the . 
+\ngreen{Of course, there is a large body of work on norm-based capacity control metrics, so we expect we can relate our Universality to these established methods--but our intent is different.}
 There is recent work along these lines, e.g.,~\cite{LMBx18_TR, SHNx17_TR,PLMx18_TR} and~\cite{NTS14_TR,NTS15,NBMS17_TR,BFT17_TR,YM17_TR,KKB17_TR,NBS17_TR,AGNZ18_TR,ACH18_TR,ZF18_TR},
-but there is also much older work~\cite{Bar97,MN09_TR}.
+%but
+\nred{and} there is also much older work~\cite{Bar97,MN09_TR}.
 Much of this work has been motivated by the observation that parameter counting and more traditional VC-based bounds tend to lead to vacuous results for modern state-of-the-art DNNs, e.g., since modern DNNs are heavily over-parameterized and depend so strongly on the training data.
 Perhaps the most related example from this line of work is that of Liao et al.~\cite{LMBx18_TR}, who use an appropriately-scaled Product Norm to provide tight bounds on generalization accuracy.
 Unlike their result, however, our approach does not require modifying the loss function.
