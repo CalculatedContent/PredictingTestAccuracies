@@ -45,11 +45,16 @@ The second is that of Liao et al.~\cite{LMBx18_TR}, which used norm-based capaci
 \nred{AWK:}
 Based on these ideas, we develop a Universal capacity control metric $\hat{\alpha}$ that is a weighted average of the layer Power Law (PL) exponents.
 $(\alpha)$ of the DNN layer weight matrices. The average weights depend on the log Spectral norm (i.e. maximum eigenvalue) of the associated correlations matrices.
-We show this metric can be approximated by the  \nred{average  log Frobenius norm}  of the weight matrices $\langle\Vert\\mathbf{W}Vert_F{}\rangle$.
-Rather than considering bounds on the worst-case generalization accuracy for small toy NNs, we show that this metric predicts trends in the average case generalization performance for large-scale pre-trained DNNs.
+We show this metric can be approximated by the  \nred{average  log Frobenius norm}  of the weight matrices $\langle\log\Vert\mathbf{W}\Vert_F{}\rangle$.
+Rather than considering bounds on the worst-case generalization accuracy for small toy NNs, we show that $\hat{\alpha}$ predict trends 
+in the average case generalization performance for large-scale pre-trained DNNs.
 
 % again, too dense 
-To place these results in context, recall that the work of Martin and Mahoney~\cite{MM18_TR} showed that the empirical spectral density (ESD) of DNN layer matrices for nearly every large-scale pre-trained DNN displays HT behavior, e.g., that it is well-fit by a PL distribution, and that smaller PL exponents correspond to better implicit Self-Regularization and generalization quality.
+To place these results in context, \nred{our earlier work}~\cite{MM18_TR}
+ %recall that the work of Martin and Mahoney~\cite{MM18_TR} showed
+ shows that the empirical spectral density (ESD) of DNN layer matrices 
+  displays HT behavior for nearly every large-scale pre-trained DNN.
+  \nred{The layer weight matrices (at least the linear ones) fit} a PL distribution, and that smaller PL exponents $\alpha$ correspond to better implicit Self-Regularization and generalization quality.
 Motived by these empirical observations, and using the Universality properties of Heavy-Tailed Random Matrix Theory (HT-RMT), they developed a Theory of Heavy-Tailed Self-Regularization (HT-SR) for DNNs~\cite{MM17_TR,MM18_TR}.
 In the Statistical Physics analysis of complicated systems (e.g., many physical systems, but also well-trained NNs~\cite{EB01_BOOK,nishimori01}), Universality of PL exponents is very special and suggests the presence of a deeper, underlying mechanism driving the system~\cite{SornetteBook,BouchaudPotters03}.% 
 \footnote{Perhaps the most well-known form of Universality is associated with the Gaussian Universality class, where the sum of many random variables drawn from a wide range of distributions is ``approximately Gaussian,'' e.g., in the sense that the sum approaches a suitably-normalized Gaussian distribution.  As briefly reviewed in Section~\ref{sxn:theory-review}, HT Universality makes analogous (but, admittedly, more complicated) statements for random variables drawn from distributions in which the tails decay more slowly than those in the Gaussian Universality class~\cite{MM18_TR}.}
