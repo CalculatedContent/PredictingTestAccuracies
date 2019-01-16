@@ -13,18 +13,24 @@ Here are several.
 \begin{itemize}
 \item
 \textbf{Automating architecture search.}
-Since developing DNN models often requires significant architecture engineering, there is interest in automating the design of DNN models.
-Having principles that for the design of good models---in particular metrics that do not require much or any labeled data, thus minimizing the risk of label leakage---is of interest.
+Developing DNN models often requires significant architecture engineering, so there is interest in automating the design of DNN models, such as with AutoML \cite{AutoML}.
+%Having principles that for the design of good models---in particular metrics that do not require much or any labeled data, thus minimizing the risk of label leakage---is of interest.
 \michael{Charles, tweak this and add a sentence or two for context.}
+\charlesX{Current methods can produce a series of DNNs across a given general architecture  constraints, however,  the models must be evaluated using cross validation (CV).
+ DNNs have so many adjustable parameters  that even using CV it is possible to leak information from the test sets into the training data, thus producing brittle, non-robust models.
+It is thus of interest to have design principles and quality metrics that do not depend on the test data and/or the labels.  }
 \item
 \textbf{Pre-training on smaller data.}
-It is often of interest to train a smaller model on a smaller quantity of data before trainng a full model on a the full set of data.
+It is often of interest to train a smaller model on a smaller quantity of data before training a full model on a the full set of data.
 Current methods to extend these smaller models to full-scale production models are brittle and require extensive cross-validation, and it is of interest to have principles to guide the design of such classes of models.
 \michael{Charles, tweak this and add a sentence or two for context.}
+\charles{We might scratch this...see below}
 \item
-\textbf{XXX SOMETHING ELSE.}
-XXX.  WHAT.  MAYBE PRACTICAL THEORY HERE, ALTHOUGH IT WOULD BE GOOD TO HAVE A REAL PROBLEM.
-\michael{Charles, tweak this and add a sentence or two for context.}
+\textbf{Fine Tuning Pre-trained Models.}
+\item
+\textbf{DNN Optimizing Compilers.}
+\item
+\textbf{Unsupervised Deep Learning}
 \end{itemize}
 
 To address our main question, we will build upon and combine two seemingly-unrelated lines of recent work.
