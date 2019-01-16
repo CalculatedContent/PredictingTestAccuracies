@@ -438,14 +438,17 @@ Given these connections, in Section~\ref{sxn:emp}, we will use $\hat{\alpha}$ to
 \paragraph{The PL--Norm Relation: Deriving a Special Case of Eqn.~(\ref{eqn:basic_relation}).}
 
 Here, we derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$,
-for an $N \times N$ random matrix $\mathbf{W}$ with elements drawn from Eqn.~(\ref{eqn:ht_dstbn}).%
+for an \nred{$N \times M$} random matrix $\mathbf{W}$, \nred{with $M=N, Q=1$, and} with elements drawn from Eqn.~(\ref{eqn:ht_dstbn}).%
 \footnote{We derive Eqn.~(\ref{eqn:basic_relation}) at what is sometimes pejoratively known as ``at a physics level of rigor.''  That is fine, as our justification will be seen in Section~\ref{sxn:emp}.  Recall our goal: to derive a very simple expression relating fitted PL exponents and Frobenius norms that usable by practical engineers working with state-of-the-art models, i.e., not simply small toy models.  There is very little ``rigorous'' work on HT-RMT, less still on understanding finite-sized effects of HT Universality.  Hopefully, our results will lead to more work along these lines.  }
 \michael{MM TO RECHECK DETAILS.}
 That is, this is an asymptotic relation for the VHT Universality class for very small exponents.
 \michael{MM be careful below about $\mu$s and $\alpha$s.}
 %
-To start, recall that $ \Vert \mathbf{W}\Vert_{F}^{2}=\mbox{Trace}[\mathbf{W}^{T}\mathbf{W}]=N\;\mbox{Trace}[\mathbf{X}]$.
-Since, for $\alpha \gtrsim 1$, the eigenvalue spectrum is dominated by a single large eigenvalue, it follows that
+To start, recall that 
+$$ 
+\Vert \mathbf{W}\Vert_{F}^{2}=\mbox{Trace}[\mathbf{W}^{T}\mathbf{W}]=N\;\mbox{Trace}[\mathbf{X}]
+$$.
+Since, for \nred{$\mu \gtrsim 0$}, \michael{NOT $\alpha$, but maybe 1?} the eigenvalue spectrum is dominated by a single large eigenvalue, it follows that
 $$
 \Vert \mathbf{W}\Vert_{F}^{2}\approx N\lambda_{max}  , 
 $$
@@ -529,7 +532,7 @@ We then fit the ESD of each $\mathbf{W}^{rand}(\mu)$ to a PL using the method of
 Figure~\ref{fig:relation-rand} shows that there is a near-perfect relation between $ \alpha\log\lambda_{max}$ and $\log\Vert\mathbf{W}\Vert^{2}_{F} $.
 We also performed a similar PL fit for VGG11 weight matrices.
 (See Section~\ref{sxn:emp} for some details on the VGG11 model.)
-Figure~\ref{fig:relation-vgg11} shows the results, demonstrating an increasing relation until $ \alpha\log\lambda_{max} \approx 2.5$ and a saturation after that point.
+Figure~\ref{fig:relation-vgg11} shows the results, demonstrating an increasing relation until $ \alpha\log_{10}\lambda_{max} \approx 2.5$ and a saturation after that point.
 Figure~\ref{fig:relations} illustrates
 (among other things\footnote{Clearly, there are also differences between the HT random and the real DNN matrices, most notably that $ \alpha\log\lambda_{max} $ achieves much larger values for the random matrices.  This is discussed in more detail in Appendix~\ref{sxn:appendix-universality}.})
 that multiplying $\alpha$ by $\log_{10}\lambda_{max}$ leads to a relation that increases linearly with the (log of the squared) Frobenius norm for HT random matrices, and that the two quantities are linearly correlated for real DNN weight matrices.
