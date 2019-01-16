@@ -54,7 +54,9 @@ A HT Universality argument then leads to an expression that suggests that the we
 (See Eqn.~(\ref{eqn:basic_relation}) below.)
 Importantly, we show this can be approximated by the average of the log of the Frobenius norm of the layer weight matrices.
 
-Relating the fitted PL exponent to the Frobenius norm provides an interesting connection with the large body of work on norm-based capacity control metrics. 
+Relating the 
+%fitted   awkward
+PL exponent to the Frobenius norm provides an interesting connection with the large body of work on norm-based capacity control metrics. 
 There is recent work along these lines, e.g.,~\cite{LMBx18_TR, SHNx17_TR,PLMx18_TR} and~\cite{NTS14_TR,NTS15,NBMS17_TR,BFT17_TR,YM17_TR,KKB17_TR,NBS17_TR,AGNZ18_TR,ACH18_TR,ZF18_TR},
 but there is also much older work~\cite{Bar97,MN09_TR}.
 Much of this work has been motivated by the observation that parameter counting and more traditional VC-based bounds tend to lead to vacuous results for modern state-of-the-art DNNs, e.g., since modern DNNs are heavily over-parameterized and depend so strongly on the training data.
@@ -65,12 +67,15 @@ Moreover, their approach and their intent are a bit different: they seek a \emph
 In summary, our main results are the following:
 \begin{itemize}
 \item
-We introduce a methodology to analyze the performance of large-scale pre-trained DNNs.
+We introduce a \nred{new} methodology to analyze the performance of large-scale pre-trained DNNs, 
+\nred{using a phenomena observed in our theory of HT-SR we call Heavy Tailed Mechanistic Universality (HT-MU).}
+We call 
 Our approach is based on Statistical Physics (in particular, the concept of Universality underlying HT-SR and related HT-RMT techniques), and it involves constructing a Universal capacity control metric to predict average DNN test performance.
 This metric is a weighted linear combination of PL exponents, where the coefficients are the spectral norm of correlation matrices constructed from DNN weight matrices.
 \item
 We apply our Universal capacity control metric to a wide range of large-scale pre-trained production-level DNNs, including the VGG and ResNet series of models.
-This Universal metric predicts well the average test error in large-scale DNNs (without the need for re-training or looking at test data, although one could use the metrics as a training diagnostic).
+This Universal metric predicts well the average test error in large-scale DNNs
+%(without the need for re-training or looking at test data, although one could use the metrics as a training diagnostic).
 \item
 We demonstrate a connection between our Universal capacity control metric and a norm-based capacity control metric that depends on the average Frobenius norm of layer weight matrices.
 We also show that (in addition to providing worst-case bounds on generalization quality for rather small NNs) such norm-based capacity control metrics can also predict well the average test error in large-scale production-level pre-trained DNNs.

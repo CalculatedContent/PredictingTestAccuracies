@@ -108,6 +108,8 @@ $10-20\%$ of the time, the fitted PL exponent $\alpha$ lies in the range $\alpha
 For example, see Figure~\ref{fig:power-law-histogram} for a histogram of results for ca. 7500 weight matrices from ImageNet.
 %\charlesX{explain this plot, ref to notebook and check in.  This plot is for ImageNet, includes conv@D feature maps, lots of small alpha, but not as good a fit.}
 Of course, there are exceptions: in any real DNN, the fitted $\alpha$ may range anywhere from $\sim 1.5$ to $10$ or higher~\cite{MM18_unpub_work}.  
+\ngreen{Still, overall, we observer that in nearly all large, pretrained DNNs, the correlations in the  weight matrices exhbit a remarkable Universality, being
+both Heavy Tailed, and having small--but not too small--PL exponents.  }
 
 \begin{figure}[t] %[!htb]
    \centering
@@ -115,8 +117,6 @@ Of course, there are exceptions: in any real DNN, the fitted $\alpha$ may range 
    \caption{Histogram of fitted PL exponents $\alpha$ for ca. 7500 Linear and Conv2D Layers from ImageNet.  The vast majority have $\alpha\in(1.5,5)$.  Some Conv2D layers have smaller values of $\alpha$; and larger values of $\alpha$ (up to ca. 20) exist but correspond to less reliable fits. \michael{Charles, zoom in on X axis for fig, so don't go above 10.} }
    \label{fig:power-law-histogram}
 \end{figure}
-
-
 
 
 %\nred{removed this: \paragraph{Simple Random Matrix Models.} }
@@ -131,17 +131,39 @@ Of course, there are exceptions: in any real DNN, the fitted $\alpha$ may range 
 %Empirically, it is know that these Gaussian-based models are useful for understanding older, smallish Neural Networks, such as LeNet5~\cite{MM18_TR}.
 %More modern DNNs, however, display very different, more exotic,  Universal, behavior.  
 
-\charlesX{Heavy-Tailed Mechanistic Universality (HT-MU)}
+\paragraph{Heavy-Tailed \ngreen{Mechanistic} Universality.} 
+\charlesX{This needs a lot of work}
 
-\paragraph{Heavy-Tailed Universality.} 
+\ngreen{What does it \emph{mean} to say the DNN weight matrices exhibit Universality ?  This answer, and its implications depends on your perspective--Mathematician or Physicist.}
 
-Due to the training process, trained DNN weight matrices are strongly-correlated; and fitting their ESDs to Eqn.~(\ref{eqn:eigenval_pl}) amounts to \emph{modeling} the correlational properties in terms of known HT Universality classes~\cite{SornetteBook,BouchaudPotters03}.
-In statistics and applied mathematics, Universality typically refers to properties of systems that can be modeled by random matrices (the justification being that certain system properties can be deduced, without requiring knowledge of the system details, from a few global quantities that are then used as parameters to define a random matrix ensemble)~\cite{ER05,EW13}.
-In Statistical Physics, on the other hand, Universality is \emph{used} to construct scaling relations (that are then empirically evaluated) between empirically-measurable quantities~\cite{SornetteBook,BouchaudPotters03}. 
-In this case, random matrices arise since they are particularly easy-to-analyze members of a Universality class, for which these relations should hold.
-In particular, strongly-correlated DNN weight matrices are clearly not random matrices, but the latter can be used to \emph{model} the former (since, if they are members of the same Universality class, then scaling relations should hold for both).
+In statistics and applied mathematics, Universality typically refers to properties of systems that can be modeled by random matrices \nred{AWKWARD(the justification being that certain system properties can be deduced, without requiring knowledge of the system details, from a few global quantities that are then used as parameters to define a random matrix ensemble)}~\cite{ER05,EW13}.
+Of course, the DNN weight matrices are not random matrices--they are strongly correlated objects--so it may seem odd that we can apply RMT to characterize them.
+
+\charlesX{Explain FIgure 2 here}
+See Figure~\ref{fig:universality_diagram} for an illustration.
+
+
+In Statistical Physics, on the other hand, Universality refers to a different, but related, phenomena,. \ngreen{It arises in systems with very strong correlations, at or near a critical point or phase transition.  It is characterized
+by experimentally measuring 'observables' that display heavy tailed behavior, and with common, or universal, power law exponents. 
+More importantly, it indicates that a specific universal mechanism drives the underlying physical process, such as Self Organized Criticality (SOC), etc.~\cite{SornetteBook,BouchaudPotters03}. 
+For this reason, we refer to the Universality observed in HT-SR, i.e. in the ESDs of (pretrtained) DNNs weight matrices, as \emph{Heavy-Tailed Mechanistic Universality.}}
+
+Due to the training process, trained DNN weight matrices are strongly-correlated; and fitting their ESDs to Eqn.~(\ref{eqn:eigenval_pl}) amounts to \emph{modeling} the correlational properties in terms of 
+known Universality classes \nred{HT-RMT}~\cite{SornetteBook,BouchaudPotters03}.
+
 See Figure~\ref{fig:universality_diagram} for an illustration.
 We use HT-RMT and Universality in the way used in Statistical Physics, i.e., to derive Universal relations between empirically-measurable~quantities.
+
+
+
+
+
+
+Of course, one must do more than just observe common power law exponents to claim 
+%In these cases, one can} construct scaling relations (that are then empirically evaluated) between empirically-measurable quantities
+
+In this case, random matrices arise since they are particularly easy-to-analyze members of a Universality class, for which these relations should hold.
+In particular, strongly-correlated DNN weight matrices are clearly not random matrices, but the latter can be used to \emph{model} the former (since, if they are members of the same Universality class, then scaling relations should hold for both).
 
 %% \charles{%
 %% EXPLAIN UNIVERSALITY, AS WE USE IT, IN THIS SECTION. 
