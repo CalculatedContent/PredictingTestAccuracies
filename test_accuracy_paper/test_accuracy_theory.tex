@@ -3,7 +3,7 @@
 \label{sxn:theory-review}
 
 %In this section, we will briefly review results from Universality that will be relevant for our analylsis.
-Let's review Martin and Mahoney's Theory of Heavy-Tailed Self-Regularization (HT-SR)~\cite{MM18_TR}.
+s s review Martin and Mahoney's Theory of Heavy-Tailed Self-Regularization (HT-SR)~\cite{MM18_TR}.
 %%\michael{We need to push the other 10 pager to the archive, without the supplementary information}
 
 Write the Energy Landscape (or optimization function) for a typical DNN with $L$ layers, with activation functions $h_{l}(\cdot)$, and with $N\times M$ weight matrices $\mathbf{W}_{l}$ and biases $\mathbf{b}_{l}$, as follows:
@@ -85,6 +85,7 @@ This method works very well for exponents between $\alpha\in(2,4)$, and it is ad
 %% $\rho(\lambda)$, or Empirical Spectral  Density (ESD), of the linear weight matrices of very large number of modern, pre-trained, DNNs,
 %% such as the AlexNet, the VGG series (VGG11, VGG13, ...) ,  etc. 
 
+\charlesX{comments  will go back in}
 %% \charlesX{
 %% We apply our new Theory of Heavy-Tailed Self Regularization (HT-SR) to analyze these large, pre-trained DNNs.  
 %% We model \emph{the correlations} arising in the DNN layers by forming the normalized correlation matrices $\mathbf{X}=(1/N)\mathbf{W}_{L}^{T}\mathbf{W}_{L}$ 
@@ -162,7 +163,6 @@ We use HT-RMT and Universality in the way used in Statistical Physics, i.e., to 
 
 
 \paragraph{Heavy-Tailed Random Matrix Theory.} 
-
 To characterize this behavior, we use a HT variant of RMT, where we use HT random matrices to elucidate different Universality classes.
 Let $\mathbf{W}(\mu)$ be an $N \times M$ random matrix with entries chosen i.i.d. from
 \begin{equation}
@@ -188,6 +188,10 @@ of Heavy-Tailed random matrices, defined by the range $\mu$ takes on:
 
 
 \paragraph{Heavy-Tailed, Finite-Size Relations.} 
+
+\charlesX{Discuss empirical measurements, theoretical parameters, how to relate}
+
+\charlesX{Lots removed ?}
 
 %% For the VHT Universality class, the PL tail of Eqn.~(\ref{eqn:eigenval_pl}) persists in the infinite limit $N\rightarrow\infty$, for $Q$ fixed; and
 %% we have the linear relation between our observed exponent $\alpha$ and the theoretical~$\mu$:
@@ -217,7 +221,7 @@ we have the linear relation between our observed exponent $\alpha$ and the theor
 \begin{subequations}
 \label{eqn:alpha_mu_vht_and_mht}
 \begin{align}
-\alpha=\frac{1}{2}\mu+1  .
+\text{VHT:}\;\;\;\alpha=\frac{1}{2}\mu+1  .
 \label{eqn:alpha_mu_vht}
 \end{align}
 %% \michael{Ques: careful, two things change here: observed versus theoretical, and matrix elements versus eigenvalues.}
@@ -226,7 +230,7 @@ This asymptotic expression works very well at finite size, even for very small m
 For the MHT Universality class, the PL tail of Eqn.~(\ref{eqn:eigenval_pl}) holds in the infinite $N\rightarrow\infty$ limit, for $Q$ fixed, for $\alpha$ in Eqn.~(\ref{eqn:alpha_mu_vht}).
 At all finite sizes, however, $\alpha$ is still linear in $\mu$, but it displays \emph{very} strong finite-size effects, empirically giving 
 \begin{align}
-\alpha=a\mu+b, 
+\text{MHT:}\;\;\;\alpha=a\mu+b, 
 \label{eqn:alpha_mu_mht}
 \end{align}
 \end{subequations}
@@ -238,7 +242,7 @@ We will exploit these finite-size effects to develop our-theory.
 
 Finally, for both the VHT and the MHT Universality classes, the maximum empirical eigenvalue, $\lambda_{max}$, follows a Frechet distribution (i.e., an exponentially-truncated PL); and we expect it to scale with $N$ according to Extreme Value Theory (EVT)~\cite{heavytails2007,disordered2007,Resnick07,MM18_TR}:
 \begin{equation}
-\lambda_{max}\sim N^{4/\mu-1}  
+\text{VHT\;\&\;MHT:}\;\;\;\lambda_{max}\sim N^{4/\mu-1}  
 \label{eqn:scaling_of_lambda_max}
 \end{equation}
 (where, for simplicity, $Q=1$).
@@ -246,6 +250,7 @@ Finally, for both the VHT and the MHT Universality classes, the maximum empirica
 Importantly, \emph{due to HT Universality}, we expect Eqn.~(\ref{eqn:scaling_of_lambda_max}) to hold for matrices in these HT Universality classes (as evidenced by their ESD properties), e.g., DNN weight matrices $\mathbf{W}$ after training, \emph{even when the matrix is not itself a HT random matrix} and therefore not governed by~EVT.
 \michael{MM ques: maybe derive these 2 relations---Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max})---in the appendix.}
 
+\charlesX{PUT THIS ABOVE AS INTRO TO SECTION}
 Let's clarify Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max}):  
 $\alpha$ and $\lambda_{max}$ are empirically-measurable quantities (of real or synthetic matrices), while $\mu$ is a parameter of theory (in particular, of HT-RMT).
 Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max}) show that we have very simple relationships that apply to random matrices that lie within both the VHT and MHT Universality classes.
@@ -341,17 +346,14 @@ Our justification for proposing Eqn.~(\ref{eqn:basic_relation}) is three-fold.
 \begin{enumerate}
 \item
 \label{enum:first}
-First, 
-we derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$, for an $N\times M$ random matrix $\mathbf{W}$ (with $N=M$, or $Q=1$, for simplicity).
+We derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$, for an $N\times M$ random matrix $\mathbf{W}$ (with $N=M$, or $Q=1$, for simplicity).
 \item
 \label{enum:second}
-Second, 
-we observe empirically that multiplying $\alpha$ by $\log\lambda_{max}$ leads to a relation that increases nearly linearly with $\log\Vert\mathbf{W}\Vert^{2}_{F}$ for a random HT matrix $\mathbf{W}$ and that is linearly correlated for real a DNN weight matrix $\mathbf{W}$. 
+We observe empirically that multiplying $\alpha$ by $\log\lambda_{max}$ leads to a relation that increases nearly linearly with $\log\Vert\mathbf{W}\Vert^{2}_{F}$ for a random HT matrix $\mathbf{W}$ and that is linearly correlated for real a DNN weight matrix $\mathbf{W}$. 
 %This is precisely what we want for our simple HT-based complexity metric.
 \item
 \label{enum:third}
-Third, 
-\emph{based on Universality}, we expect this result to extend to larger exponents, both across the VHT Universality class, $\alpha\in(1,2)$, and into the \emph{finite-sized} MHT Universality class, $\alpha\in(2,4)$, where it applies for the finite-size weight matrices in DNNs.
+\emph{Based on Universality}, we expect this result to extend to larger exponents, both across the VHT Universality class, $\alpha\in(1,2)$, and into the \emph{finite-sized} MHT Universality class, $\alpha\in(2,4)$, where it applies for the finite-size weight matrices in DNNs.
 \end{enumerate}
 We will discuss each of these in more detail below.
 
