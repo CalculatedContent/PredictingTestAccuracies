@@ -132,38 +132,39 @@ both Heavy Tailed, and having small--but not too small--PL exponents.  }
 %More modern DNNs, however, display very different, more exotic,  Universal, behavior.  
 
 \paragraph{Heavy-Tailed \ngreen{Mechanistic} Universality.} 
-\charlesX{This needs a lot of work}
+\charlesX{THIS SECTION NEEDS A LOT OF WORK}
 
 \ngreen{What does it \emph{mean} to say the DNN weight matrices exhibit Universality ?  This answer, and its implications depends on your perspective--Mathematician or Physicist.}
 
 In statistics and applied mathematics, Universality typically refers to properties of systems that can be modeled by random matrices \nred{AWKWARD(the justification being that certain system properties can be deduced, without requiring knowledge of the system details, from a few global quantities that are then used as parameters to define a random matrix ensemble)}~\cite{ER05,EW13}.
 Of course, the DNN weight matrices are not random matrices--they are strongly correlated objects--so it may seem odd that we can apply RMT to characterize them.
 
-\charlesX{Explain FIgure 2 here}
+\charlesX{Explain FIgure 2 here, and clean up- text below}
+\ngreen{RMT does not describe the behavior of a random matrix $\mathbf{W}$ per-se, but, in fact, characterizes its correlations (i.e the eigenvalues of $\mathbf{X})$.
+Specifically, RMT describes the empirical spectral density, $\rho_{emp}(\lambda)$, its limiting, deterministic form $\rho_{\infty}(\lambda)$, as well as the 
+ finite size scaling and fluctuations of the maximum eigenvalue, $\lambda_{max}$.   }
+ 
+ 
+
 See Figure~\ref{fig:universality_diagram} for an illustration.
-
-
-In Statistical Physics, on the other hand, Universality refers to a different, but related, phenomena,. \ngreen{It arises in systems with very strong correlations, at or near a critical point or phase transition.  It is characterized
-by experimentally measuring 'observables' that display heavy tailed behavior, and with common, or universal, power law exponents. 
-More importantly, it indicates that a specific universal mechanism drives the underlying physical process, such as Self Organized Criticality (SOC), etc.~\cite{SornetteBook,BouchaudPotters03}. 
-For this reason, we refer to the Universality observed in HT-SR, i.e. in the ESDs of (pretrtained) DNNs weight matrices, as \emph{Heavy-Tailed Mechanistic Universality.}}
-
-Due to the training process, trained DNN weight matrices are strongly-correlated; and fitting their ESDs to Eqn.~(\ref{eqn:eigenval_pl}) amounts to \emph{modeling} the correlational properties in terms of 
+%Due to the training process, trained DNN weight matrices are strongly-correlated; and fitting their ESDs to Eqn.~(\ref{eqn:eigenval_pl}) amounts to \emph{modeling} the correlational properties in terms of 
 known Universality classes \nred{HT-RMT}~\cite{SornetteBook,BouchaudPotters03}.
 
 See Figure~\ref{fig:universality_diagram} for an illustration.
 We use HT-RMT and Universality in the way used in Statistical Physics, i.e., to derive Universal relations between empirically-measurable~quantities.
-
-
-
-
-
 
 Of course, one must do more than just observe common power law exponents to claim 
 %In these cases, one can} construct scaling relations (that are then empirically evaluated) between empirically-measurable quantities
 
 In this case, random matrices arise since they are particularly easy-to-analyze members of a Universality class, for which these relations should hold.
 In particular, strongly-correlated DNN weight matrices are clearly not random matrices, but the latter can be used to \emph{model} the former (since, if they are members of the same Universality class, then scaling relations should hold for both).
+
+\ngreen{In Statistical Physics, on the other hand, Universality refers to a different, but related, phenomena,. \ngreen{It arises in systems with very strong correlations, at or near a critical point or phase transition.  It is characterized
+by experimentally measuring 'observables' that display heavy tailed behavior, and with common, or universal, power law exponents. 
+More importantly, it indicates that a specific universal mechanism drives the underlying physical process, such as Self Organized Criticality (SOC), etc.~\cite{SornetteBook,BouchaudPotters03}. 
+For this reason, we refer to the Universality observed in HT-SR, i.e. in the ESDs of (pretrtained) DNNs weight matrices, as \emph{Heavy-Tailed Mechanistic Universality.}}}
+
+
 
 %% \charles{%
 %% EXPLAIN UNIVERSALITY, AS WE USE IT, IN THIS SECTION. 
@@ -219,6 +220,9 @@ of Heavy-Tailed random matrices, defined by the range $\mu$ takes on:
 '
 \charlesX{NEED BETTER INTRO}
 
+\ngreen{HT-RMT provides more than HT Universality classes; it also provides simple relations between the empirical observables, such 
+as the power law exponent $\alpha$ and the maximum eigenvalue $\lambda_{max}$, with the parameters $N,Q,\mu$
+of our generative theory, i.e HT-RMT.   }
 
 %% For the VHT Universality class, the PL tail of Eqn.~(\ref{eqn:eigenval_pl}) persists in the infinite limit $N\rightarrow\infty$, for $Q$ fixed; and
 %% we have the linear relation between our observed exponent $\alpha$ and the theoretical~$\mu$:
@@ -274,21 +278,32 @@ Finally, for both the VHT and the MHT Universality classes, the maximum empirica
 \end{equation}
 (where, for simplicity, $Q=1$).
 \michael{MM ques: do we make $Q$ dependence explicit here and elsewhere.}
-Importantly, \emph{due to HT Universality}, we expect Eqn.~(\ref{eqn:scaling_of_lambda_max}) to hold for matrices in these HT Universality classes (as evidenced by their ESD properties), e.g., DNN weight matrices $\mathbf{W}$ after training, \emph{even when the matrix is not itself a HT random matrix} and therefore not governed by~EVT.
+
+\charlesX{Clean this up}
+
+%Let's clarify Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max}):  
+Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max}) show that we have very simple relationships that apply to random matrices that lie within both 
+the VHT and MHT Universality classes.
+The $\alpha$ and $\lambda_{max}$ are empirically-measurable quantities--of real or synthetic matrices, while $\mu$ is a parameter of the HT-RMT model. How shall we use these relations ?
+
+ \emph{Due to \nred{Heavy Tailed Mechanistic Universality (HT-MU)}}, we expect Eqn.~(\ref{eqn:scaling_of_lambda_max}) to hold for matrices 
+ in these HT Universality classes (as evidenced by their ESD properties), e.g., DNN weight matrices $\mathbf{W}$ after training--
+  \emph{even when the matrix is not itself a HT random matrix} and therefore not governed by~EVT.
 \michael{MM ques: maybe derive these 2 relations---Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max})---in the appendix.}
+We shall use these Universal HT finite size relations to derive a simple capacity control metric for our
+ theory of HT-SR, and relate this to the well known product norm capacity control metric.
 
-
-\charlesX{AWKWARD point sentence}
-
-Let's clarify Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max}):  
-$\alpha$ and $\lambda_{max}$ are empirically-measurable quantities (of real or synthetic matrices), while $\mu$ is a parameter of theory (in particular, of HT-RMT).
-Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max}) show that we have very simple relationships that apply to random matrices that lie within both the VHT and MHT Universality classes.
-Our goal will be to use this to derive a relationship that holds between $\alpha$, $\lambda_{max}$, and perhaps other observables such as matrix norms, and then appeal to HT Universality to apply it to non-random pre-trained DNN weight matrices that also lie within these HT Universality classes.
+%We will use this to derive a relationship that holds between $\alpha$, $\lambda_{max}$, and perhaps other observables such as matrix norms, and then 
+%appeal to \nred{HT-MU} to apply it to  \nred{the highly} non-random, pre-trained DNN weight matrices that also lie within these HT Universality classes.
 
 %\section{Using Heavy-Tailed Universality}
-%\section{Relating Heavy-Tailed Universality to Capacity Metrics}
-\section{Heavy-Tailed Universality and Capacity Control Metrics}
+\section{Heavy-Tailed Mechanistic Universality and Capacity Control Metrics}
 \label{sxn:theory-new}
+
+
+
+\charlesX{\bf{Heavy-Tailed Self-Regularization and Capacity Control Metrics}}
+
 
 %In this section, we will describe our proposed capacity control metric.
 %
