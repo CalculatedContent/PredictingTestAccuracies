@@ -139,30 +139,39 @@ both Heavy Tailed, and having small--but not too small--PL exponents.  }
 In statistics and applied mathematics, Universality typically refers to properties of systems that can be modeled by random matrices \nred{AWKWARD(the justification being that certain system properties can be deduced, without requiring knowledge of the system details, from a few global quantities that are then used as parameters to define a random matrix ensemble)}~\cite{ER05,EW13}.
 Of course, the DNN weight matrices are not random matrices--they are strongly correlated objects--so it may seem odd that we can apply RMT to characterize them.
 
-\charlesX{Explain FIgure 2 here, and clean up- text below}
-\ngreen{RMT does not describe the behavior of a random matrix $\mathbf{W}$ per-se, but, in fact, characterizes its correlations (i.e the eigenvalues of $\mathbf{X})$.
-Specifically, RMT describes the empirical spectral density, $\rho_{emp}(\lambda)$, its limiting, deterministic form $\rho_{\infty}(\lambda)$, as well as the 
- finite size scaling and fluctuations of the maximum eigenvalue, $\lambda_{max}$.   }
- 
- 
-
-See Figure~\ref{fig:universality_diagram} for an illustration.
-%Due to the training process, trained DNN weight matrices are strongly-correlated; and fitting their ESDs to Eqn.~(\ref{eqn:eigenval_pl}) amounts to \emph{modeling} the correlational properties in terms of 
-known Universality classes \nred{HT-RMT}~\cite{SornetteBook,BouchaudPotters03}.
-
-See Figure~\ref{fig:universality_diagram} for an illustration.
-We use HT-RMT and Universality in the way used in Statistical Physics, i.e., to derive Universal relations between empirically-measurable~quantities.
-
-Of course, one must do more than just observe common power law exponents to claim 
-%In these cases, one can} construct scaling relations (that are then empirically evaluated) between empirically-measurable quantities
-
-In this case, random matrices arise since they are particularly easy-to-analyze members of a Universality class, for which these relations should hold.
-In particular, strongly-correlated DNN weight matrices are clearly not random matrices, but the latter can be used to \emph{model} the former (since, if they are members of the same Universality class, then scaling relations should hold for both).
-
-\ngreen{In Statistical Physics, on the other hand, Universality refers to a different, but related, phenomena,. \ngreen{It arises in systems with very strong correlations, at or near a critical point or phase transition.  It is characterized
+\ngreen{In Statistical Physics, Universality refers to a different, but related, phenomena,. \ngreen{It arises in systems with very strong correlations, at or near a critical point or phase transition.  It is characterized
 by experimentally measuring 'observables' that display heavy tailed behavior, and with common, or universal, power law exponents. 
 More importantly, it indicates that a specific universal mechanism drives the underlying physical process, such as Self Organized Criticality (SOC), etc.~\cite{SornetteBook,BouchaudPotters03}. 
 For this reason, we refer to the Universality observed in HT-SR, i.e. in the ESDs of (pretrtained) DNNs weight matrices, as \emph{Heavy-Tailed Mechanistic Universality.}}}
+
+
+\charlesX{Explain FIgure 2 here, and CLEAN UP- text below}
+
+See Figure~\ref{fig:universality_diagram} for an illustration of HT-MU 
+\ngreen{
+When we observe HT behavior in $\mathbf{W}$, or rather its correlation matrix $\mathbf{X}$, 
+we use HT-RMT as a generative model.  We say that we \emph{model} $\mathbf{W}$ as if it is a random matrix,
+$\mathbf{W}^{rand}(\mu)$, drawn from a Universality class of HT-RMT (ie VHT, MHT, or WHT).  But we do not mean that $\mathbf{W}$ is itself random in any way.
+We simply use RMT as a stand-in generative model because the correlations in $\mathbf{W}^{rand}(\mu)$ resembles the correlations in  $\mathbf{W}$.
+Indeed, RMT itself does not describe the behavior of a random matrix $\mathbf{W}$ per-se, but, in fact, characterizes its correlations (i.e the eigenvalues of $\mathbf{X}$).
+Specifically, RMT describes the empirical spectral density, $\rho_{emp}(\lambda)$, its limiting, deterministic form $\rho_{\infty}(\lambda)$, as well as the 
+ finite size scaling and fluctuations of the maximum eigenvalue, $\lambda_{max}$.   So even though $\mathbf{W}$ is not random, we expect 
+ its ESD and maximum eigenvalue to behave \emph{as it } they were drawn from some HT-random matrix $\mathbf{W}^{rand}(\mu)$.
+   }
+   
+ \nred{NEED LEAD IN}
+ 
+%See Figure~\ref{fig:universality_diagram} for an illustration.
+%Due to the training process, trained DNN weight matrices are strongly-correlated; and fitting their ESDs to Eqn.~(\ref{eqn:eigenval_pl}) amounts to \emph{modeling} the correlational properties in terms of 
+%known Universality classes \nred{HT-RMT}~\cite{SornetteBook,BouchaudPotters03}.
+
+%We use HT-RMT and Universality in the way used in Statistical Physics, i.e., to derive Universal relations between empirically-measurable~quantities.
+
+%Of course, one must do more than just observe common power law exponents to claim 
+%In these cases, one can} construct scaling relations (that are then empirically evaluated) between empirically-measurable quantities
+
+%In this case, random matrices arise since they are particularly easy-to-analyze members of a Universality class, for which these relations should hold.
+%In particular, strongly-correlated DNN weight matrices are clearly not random matrices, but the latter can be used to \emph{model} the former (since, if they are members of the same Universality class, then scaling relations should hold for both).
 
 
 
@@ -271,15 +280,13 @@ where $a,b$ depend strongly on $M,N$.
 These strong finite-size effects characterize MHT distributions; and they are well-known in Statistical Physics~\cite{SornetteBook,BouchaudPotters03}. 
 We will exploit these finite-size effects to develop our-theory.
 
-Finally, for both the VHT and the MHT Universality classes, the maximum empirical eigenvalue, $\lambda_{max}$, follows a Frechet distribution (i.e., an exponentially-truncated PL); and we expect it to scale with $N$ according to Extreme Value Theory (EVT)~\cite{heavytails2007,disordered2007,Resnick07,MM18_TR}:
+Finally, for both the VHT and the MHT Universality classes, the maximum empirical eigenvalue, $\lambda_{max}$, 
+follows a Frechet distribution (i.e., an exponentially-truncated PL); and we expect it to scale with $N$ according to Extreme Value Theory (EVT)~\cite{heavytails2007,disordered2007,Resnick07,MM18_TR}:
 \begin{equation}
 \text{VHT\;\&\;MHT:}\;\;\;\lambda_{max}\sim N^{4/\mu-1}  
 \label{eqn:scaling_of_lambda_max}
 \end{equation}
-(where, for simplicity, $Q=1$).
-\michael{MM ques: do we make $Q$ dependence explicit here and elsewhere.}
-
-\charlesX{Clean this up}
+(where, for simplicity, $Q=1$).  \charlesX{Add back in Q}
 
 %Let's clarify Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max}):  
 Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max}) show that we have very simple relationships that apply to random matrices that lie within both 
@@ -288,7 +295,7 @@ The $\alpha$ and $\lambda_{max}$ are empirically-measurable quantities--of real 
 
  \emph{Due to \nred{Heavy Tailed Mechanistic Universality (HT-MU)}}, we expect Eqn.~(\ref{eqn:scaling_of_lambda_max}) to hold for matrices 
  in these HT Universality classes (as evidenced by their ESD properties), e.g., DNN weight matrices $\mathbf{W}$ after training--
-  \emph{even when the matrix is not itself a HT random matrix} and therefore not governed by~EVT.
+  \emph{even when the matrix is not itself a HT random matrix} and therefore not governed by RMT or ~EVT.
 \michael{MM ques: maybe derive these 2 relations---Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max})---in the appendix.}
 We shall use these Universal HT finite size relations to derive a simple capacity control metric for our
  theory of HT-SR, and relate this to the well known product norm capacity control metric.
