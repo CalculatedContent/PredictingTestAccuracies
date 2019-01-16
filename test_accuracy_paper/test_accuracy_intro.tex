@@ -19,26 +19,33 @@ Developing DNN models often requires significant architecture engineering, so th
 \charlesX{Current methods can produce a series of DNNs across a given general architecture  constraints, however,  the models must be evaluated using cross validation (CV).
  DNNs have so many adjustable parameters  that even using CV it is possible to leak information from the test sets into the training data, thus producing brittle, non-robust models.
 It is thus of interest to have design principles and quality metrics that do not depend on the test data and/or the labels.  }
-\item
-\textbf{Pre-training on smaller data.}
-It is often of interest to train a smaller model on a smaller quantity of data before training a full model on a the full set of data.
-Current methods to extend these smaller models to full-scale production models are brittle and require extensive cross-validation, and it is of interest to have principles to guide the design of such classes of models.
-\michael{Charles, tweak this and add a sentence or two for context.}
-\charles{We might scratch this...see below}
+%\item
+%\textbf{Pre-training on smaller data.}
+%it is often of interest to train a smaller model on a smaller quantity of data before training a full model on a the full set of data.
+%Current methods to extend these smaller models to full-scale production models are brittle and require extensive cross-validation, and it is of interest to have principles to guide the design of such classes of models.
+%\michael{Charles, tweak this and add a sentence or two for context.}
+%\charles{We might scratch this...see below}
 \item
 \textbf{Fine Tuning Pre-trained Models.}
-\item
-\textbf{DNN Optimizing Compilers.}
+\ngreen{Frequently one does not enough labeled data to train a large DNN from scratch. Fortunately,
+many modern engineering solutions can re-use widely available pre-trained DNNs, fine tuning them on smaller data sets.  This technique
+works extremely well for visual tasks using DNNs pre-trained on ImageNet.  And, recently, it has become feasible for complex NLP tasks.  
+But sometimes these fine tuned models become brittle and non-robust due to overtraining because information leaks from the test set into the training data.
+Here, it would also be very helpful to be able to fine tune large, pretrained DNNs without needing to extensively peek at the test data.
+ }
+%\item
+%\textbf{DNN Optimizing Compilers.}
 \item
 \textbf{Unsupervised Deep Learning}
 \end{itemize}
 
 To address our main question, we will build upon and combine two seemingly-unrelated lines of recent work.
 The first is that of Martin and Mahoney~\cite{MM17_TR,MM18_TR}, which considered Heavy-Tailed (HT) Universality methods from Statistical Physics to analyze weight matrices constructed from large-scale pre-trained DNNs.
-The second is that of Liao et al.~\cite{LMBx18_TR}, which used norm-based capacity control metrics to bound the worst-case generalization error for several small (non production-quality, but still of academic interest) DNN models.
+The second is that of Liao et al.~\cite{LMBx18_TR}, which used norm-based capacity control metrics to bound the worst-case generalization error for several small (non production-quality, but still \nred{interesting}) DNN models.
 \nred{AWK:}
-Based on these ideas, we develop a Universal capacity control metric that is a weighted average of the fitted layer Power Law (PL) exponents 
-$(\alpha)$ of various layer weight matrices constructed from the DNN, where the weights depend on the log of the spectral norm of the correlations between layer weight matrices; and we show this metric can be approximated by the average of the log of the Frobenius norm of the weight matrices.
+Based on these ideas, we develop a Universal capacity control metric $\hat{\alpha}$ that is a weighted average of the layer Power Law (PL) exponents.
+$(\alpha)$ of the DNN layer weight matrices. The average weights depend on the log Spectral norm (i.e. maximum eigenvalue) of the associated correlations matrices.
+We show this metric can be approximated by the  \nred{average  log Frobenius norm}  of the weight matrices $\langle\Vert\\mathbf{W}Vert_F{}\rangle$.
 Rather than considering bounds on the worst-case generalization accuracy for small toy NNs, we show that this metric predicts trends in the average case generalization performance for large-scale pre-trained DNNs.
 
 % again, too dense 
@@ -46,7 +53,7 @@ To place these results in context, recall that the work of Martin and Mahoney~\c
 Motived by these empirical observations, and using the Universality properties of Heavy-Tailed Random Matrix Theory (HT-RMT), they developed a Theory of Heavy-Tailed Self-Regularization (HT-SR) for DNNs~\cite{MM17_TR,MM18_TR}.
 In the Statistical Physics analysis of complicated systems (e.g., many physical systems, but also well-trained NNs~\cite{EB01_BOOK,nishimori01}), Universality of PL exponents is very special and suggests the presence of a deeper, underlying mechanism driving the system~\cite{SornetteBook,BouchaudPotters03}.% 
 \footnote{Perhaps the most well-known form of Universality is associated with the Gaussian Universality class, where the sum of many random variables drawn from a wide range of distributions is ``approximately Gaussian,'' e.g., in the sense that the sum approaches a suitably-normalized Gaussian distribution.  As briefly reviewed in Section~\ref{sxn:theory-review}, HT Universality makes analogous (but, admittedly, more complicated) statements for random variables drawn from distributions in which the tails decay more slowly than those in the Gaussian Universality class~\cite{MM18_TR}.}
-It is this Universality that originally motivated our study.
+It is this \ngreen{\emph{Heavy Tailed Mechanistic Universality} (HT-MU), as well call it,} that originally motivated our study.
 
 This Universality \emph{suggests} that we look for a \emph{Universal Capacity Control Metric}.
 \footnote{To be clear, this metric is Universal, not in the sense that it will apply ``universally'' to every possible DNN, but in the Statistical Physics sense~\cite{SornetteBook,BouchaudPotters03} that it should apply to matrices within/across HT ``Universality''~classes.}
@@ -81,21 +88,32 @@ Unlike their result, however, our approach does not require modifying the loss f
 Moreover, their approach and their intent are a bit different: they seek a \emph{worst-case} complexity bound, to reconcile discrepancies with more traditional statistical learning theory, and they apply it to quite small NNs; but we seek an \emph{average-case} complexity metric that can be used in production to guide the development of better DNNs at scale.
 
 In summary, our main results are the following:
+
+
 \begin{itemize}
 \item
-We introduce a \nred{new} methodology to analyze the performance of large-scale pre-trained DNNs, 
-\nred{using a phenomena observed in our theory of HT-SR we call Heavy Tailed Mechanistic Universality (HT-MU).}
-We call 
-Our approach is based on Statistical Physics (in particular, the concept of Universality underlying HT-SR and related HT-RMT techniques), and it involves constructing a Universal capacity control metric to predict average DNN test performance.
-This metric is a weighted linear combination of PL exponents, where the coefficients are the spectral norm of correlation matrices constructed from DNN weight matrices.
+We introduce a \nred{new} methodology to analyze the performance of large-scale pre-trained DNNs,
+using a phenomena observed in our theory of HT-SR we call Heavy Tailed Mechanistic Universality (HT-MU).
+Our \nred{motivations lie in} Statistical Physics, and, in particular, the concept of Universality underlying HT-SR (and related HT-RMT techniques).
+It it involves constructing a Universal capacity control metric to predict average DNN test performance.
+This metric is a weighted \nred{average} of layer PL exponents, $\hat{alpha}$, weighted by the Spectral Norm
+(i.e. maximum eigenvalue) of layer correlation matrices. \nred{EQUATION NEEDED}
 \item
-We apply our Universal capacity control metric to a wide range of large-scale pre-trained production-level DNNs, including the VGG and ResNet series of models.
-This Universal metric predicts well the average test error in large-scale DNNs
+We apply our Universal capacity control metric $\hat{\alpha}$ to a wide range of large-scale pre-trained production-level DNNs,?
+ including the VGG and ResNet series of models, as well as many others.
+This Universal metric \nred{correlates very well with the reported} average test error \nred{for the pretrained} DNNs
 %(without the need for re-training or looking at test data, although one could use the metrics as a training diagnostic).
 \item
-We demonstrate a connection between our Universal capacity control metric and a norm-based capacity control metric that depends on the average Frobenius norm of layer weight matrices.
-We also show that (in addition to providing worst-case bounds on generalization quality for rather small NNs) such norm-based capacity control metrics can also predict well the average test error in large-scale production-level pre-trained DNNs.
+\nred{We derive the relation between our Universal capacity control metric $\hat{\alpha}$ and the well known Product Norm} capacity control metric, i.e
+the average Frobenius norm $\langle\Vert\mathbf{W}\Vert_{F}\rangle$.
+We also show that
+% (in addition to providing worst-case bounds on generalization quality for rather small NNs)
+such norm-based capacity control metrics \nred{also correlate well} with the average test error in large-scale production-level pre-trained DNNs.
 \end{itemize}
+
+
+
+\nred{OK}
 For both our Universal metric and the Product Norm metric, our empirical results are, to our knowledge, the first time such theoretical capacity metrics have been reported to predict (trends in) the test accuracy for \emph{pre-trained production-level} DNNs.
 In particular, this illustrates the usefulness of these norm-based metrics beyond smaller models such as MNIST, CIFAR10, and CIFAR100. 
 Our 

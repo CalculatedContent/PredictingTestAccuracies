@@ -114,7 +114,7 @@ both Heavy Tailed, and having small--but not too small--PL exponents.  }
 \begin{figure}[t] %[!htb]
    \centering
    \includegraphics[scale=0.40]{img/power-law-histogram.png} 
-   \caption{Histogram of fitted PL exponents $\alpha$ for ca. 7500 Linear and Conv2D Layers from ImageNet.  The vast majority have $\alpha\in(1.5,5)$.  Some Conv2D layers have smaller values of $\alpha$; and larger values of $\alpha$ (up to ca. 20) exist but correspond to less reliable fits. \michael{Charles, zoom in on X axis for fig, so don't go above 10.} }
+   \caption{\nred{CAN ADD 1 more fig}Histogram of PL exponents $\alpha$, fit on ca. 7500 Linear and Conv2D Layers from ImageNet.  The vast majority have $\alpha\in(1.5,5)$.  Some Conv2D layers have smaller values of $\alpha$; and larger values of $\alpha$ (up to ca. 20) exist but correspond to less reliable fits. \michael{Charles, zoom in on X axis for fig, so don't go above 10.} }
    \label{fig:power-law-histogram}
 \end{figure}
 
@@ -230,7 +230,7 @@ of Heavy-Tailed random matrices, defined by the range $\mu$ takes on:
 \charlesX{NEED BETTER INTRO}
 
 \ngreen{HT-RMT provides more than HT Universality classes; it also provides simple relations between the empirical observables, such 
-as the power law exponent $\alpha$ and the maximum eigenvalue $\lambda_{max}$, with the parameters $N,Q,\mu$
+as the power law exponent $\alpha$ and the maximum eigenvalue $\lambda_{max}$, with the parameter $\mu$
 of our generative theory, i.e HT-RMT.   }
 
 %% For the VHT Universality class, the PL tail of Eqn.~(\ref{eqn:eigenval_pl}) persists in the infinite limit $N\rightarrow\infty$, for $Q$ fixed; and
@@ -308,17 +308,14 @@ We shall use these Universal HT finite size relations to derive a simple capacit
 \label{sxn:theory-new}
 
 
-
 \charlesX{\bf{Heavy-Tailed Self-Regularization and Capacity Control Metrics}}
-
 
 %In this section, we will describe our proposed capacity control metric.
 %
 From prior work~\cite{MM18_TR}, we expect that smaller PL exponents of the ESD imply more regularization and therefore better generalization. 
 Since smaller norms of weight matrices often correspond to better capacity control~\cite{LMBx18_TR,SHNx17_TR,PLMx18_TR,BFT17_TR}, we would like to relate the empirical PL exponent $\alpha$ to the empirical Frobenius norm $\Vert\mathbf{W}\Vert_{F}$.
-At least na\"{\i}vely, this is a challenge, since smaller PL exponents often correspond to larger matrix norms (and thus worse generalization).
-To resolve this apparent discrepancy, we will exploit HT Universality to propose a Universal DNN complexity metric.
-
+At least na\"{\i}vely, this is a challenge, since smaller PL exponents often correspond to larger matrix norms (and thus worse generalization\nred{!}).
+To resolve this apparent discrepancy, we will exploit HT \nred{Mechanistic} Universality to propose a Universal DNN complexity metric.
 
 \paragraph{Form of a Proposed Universal DNN Complexity Metric.} 
 
