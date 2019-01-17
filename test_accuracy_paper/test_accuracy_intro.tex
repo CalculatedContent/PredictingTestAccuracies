@@ -105,11 +105,12 @@ This metric is a weighted \nred{average} of layer PL exponents, $\hat{\alpha}$, 
 \item
 We apply our Universal capacity control metric $\hat{\alpha}$ to a wide range of large-scale pre-trained production-level DNNs,?
  including the VGG and ResNet series of models, as well as many others.
-This Universal metric \nred{correlates very well with the reported} average test error \nred{for the pretrained} DNNs
+This Universal metric \nred{correlates very well with the reported} average test error \nred{across series of pretrained} DNNs,
+such as the VGG, ResNet, and other series of arcitectures.
 %(without the need for re-training or looking at test data, although one could use the metrics as a training diagnostic).
 \item
 \nred{We derive the relation between our Universal capacity control metric $\hat{\alpha}$ and the well known Product Norm} capacity control metric, i.e
-the average log of the Frobenius norm $\langle\Vert\log\mathbf{W}\Vert_{F}\rangle$.
+in the form of the average log of the Frobenius norm $\langle\Vert\log\mathbf{W}\Vert_{F}\rangle$.
 We also show that
 % (in addition to providing worst-case bounds on generalization quality for rather small NNs)
 such norm-based capacity control metrics \nred{also correlate well} with the average test error in large-scale production-level pre-trained DNNs.
