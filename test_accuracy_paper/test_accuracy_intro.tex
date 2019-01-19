@@ -5,39 +5,29 @@
 
 Given two or more Deep Neural Networks (DNNs) with the same or similar architectures, and trained on the same dataset, but trained with different solvers, parameters, hyper-parameters, regularization, etc., can we predict which DNN will have the best test accuracy, and can we do so without peeking at the test data?   
 
-\nred{Lead in here could be more engaging}
-Solving this question of generalization would have both theoretical impact and great practical importance. 
-With respect to the former, solving this would help to understand why this class of machine learning (ML) models performs as well as it does in certain classes of applications.
-With respect to the latter, there are many motivating examples.
+This question is both theoretical and practical. 
+Theoretically, solving this would help to understand why this class of machine learning (ML) models performs as well as it does in certain classes of applications.
+Practically, there are many motivating examples.
 % 
 Here are several.
 \begin{itemize}
 \item
 \textbf{Automating architecture search.}
-Developing DNN models often requires significant architecture engineering, so there is interest in automating the design of DNN models, such as with AutoML \cite{AutoML}.
-%Having principles that for the design of good models---in particular metrics that do not require much or any labeled data, thus minimizing the risk of label leakage---is of interest.
-\michael{Charles, tweak this and add a sentence or two for context.}
-\charlesX{Current methods can produce a series of DNNs across a given general architecture  constraints, however,  the models must be evaluated using cross validation (CV).
- DNNs have so many adjustable parameters  that even using CV it is possible to leak information from the test sets into the training data, thus producing brittle, non-robust models.
-It is thus of interest to have design principles and quality metrics that do not depend on the test data and/or the labels.  }
-%\item
-%\textbf{Pre-training on smaller data.}
-%it is often of interest to train a smaller model on a smaller quantity of data before training a full model on a the full set of data.
-%Current methods to extend these smaller models to full-scale production models are brittle and require extensive cross-validation, and it is of interest to have principles to guide the design of such classes of models.
-%\michael{Charles, tweak this and add a sentence or two for context.}
-%\charles{We might scratch this...see below}
+Developing DNN models often requires significant architecture engineering, so there is interest in automating the design of DNNs.
+Current methods can produce a series of DNNs subject to given general architecture constraints, but the models must be evaluated using cross validation (CV).
+DNNs have so many adjustable parameters  that even using CV it is possible to leak information from the test sets into the training data, thus producing brittle, non-robust models.
+It is thus of interest to have design principles and quality metrics that do not depend on the test data and/or the labels.  
 \item
-\textbf{Fine Tuning Pre-trained Models.}
-\ngreen{Frequently one does not enough labeled data to train a large DNN from scratch. Fortunately,
-many modern engineering solutions can re-use widely available pre-trained DNNs, fine tuning them on smaller data sets.  This technique
-works extremely well for visual tasks using DNNs pre-trained on ImageNet.  And, recently, it has become feasible for complex NLP tasks.  
+\textbf{Fine-Tuning Pre-trained Models.}
+Frequently one does not enough labeled data to train a large DNN from scratch.
+Fortunately, many modern engineering solutions can re-use widely available pre-trained DNNs, fine tuning them on smaller data sets. 
+This technique works extremely well for visual tasks using DNNs pre-trained on ImageNet. 
+And, recently, it has become feasible for complex NLP tasks.  
 But sometimes these fine tuned models become brittle and non-robust due to overtraining because information leaks from the test set into the training data.
 Here, it would also be very helpful to be able to fine tune large, pretrained DNNs without needing to extensively peek at the test data.
- }
-%\item
-%\textbf{DNN Optimizing Compilers.}
 \item
-\textbf{Unsupervised Deep Learning}
+\textbf{Unsupervised Deep Learning.}
+\michael{MM TO DO OR REMOVE.}
 \end{itemize}
 
 \charlesX{TRY THIS FOR LEADIN. 
@@ -70,7 +60,7 @@ production quality DNNs.
 To predict trends in the test accuracies, one needs some \emph{Universal} empirical metric that transfers across DNN architectures.
 
 Recent work Martin and Mahoney~\cite{MM18_TR} provides and Universal empirical metric that characterizes the amount of \emph{Implicit Self-Regularization}
-and, accordingly, the generalization capacity, or a wide range of pretrained DNNs-- the Power Law (PL) exponents, $\alpha$, of the invidual layer weight matrices $\mathbf{W}$,
+and, accordingly, the generalization capacity, or a wide range of pretrained DNNs---the power law (PL) exponents, $\alpha$, of the invidual layer weight matrices $\mathbf{W}$,
 as determined by fitting the Empirical Spectral Density (ESD), $\rho(\lambda)$, to a PL distribution according to Heavy Tailed Random Matrix Theory. (HT-RMT)
 Looking in detail at a series of models, like AlexNet, VGG, ResNet, etc, they observe that the (linear) layer weight matrices almost always follow a PL distribution,
 and the fitted PL exponents nearly all lie within a universal range $\alpha\in[2,5]$.   Further analysis of a small model (MinAlexNet) shows that 
@@ -90,10 +80,10 @@ Indeed, the dynamics of learning in DNNs (and perhaps real neurons as well) seem
 such as the phase boundary of spin glass, or a system displaying Self Organized Criticality (SOC), or , say, a Jamming transition.  
 Of course, we can not say which mechanism, if any, is at play.  Instead, we use the machinery of  HT-RMT 
 as a stand-in for a generative model of the weight matrices in DNNs, to catalog and model the  HT behavior of DNNs.
-\footnote{Perhaps the most well-known form of Universality in RMT is associated with the Gaussian Universality class, where the sum of many random variables drawn from a wide range of distributions is ``approximately Gaussian,'' e.g., in the sense that the sum approaches a suitably-normalized Gaussian distribution.  As briefly reviewed in Section~\ref{sxn:theory-review}, HT Universality makes analogous (but, admittedly, more complicated) statements for random variables drawn from distributions in which the tails decay more slowly than those in the Gaussian Universality class~\cite{MM18_TR}.}
+\footnote{Perhaps the most well-known Universality in RMT is associated with the Gaussian Universality class, where the sum of many random variables drawn from a wide range of distributions is ``approximately Gaussian,'' e.g., in the sense that the sum approaches a suitably-normalized Gaussian distribution.  As briefly reviewed in Section~\ref{sxn:theory-review}, HT Universality makes analogous (but, admittedly, more complicated) statements for random variables drawn from distributions in which the tails decay more slowly than those in the Gaussian Universality class~\cite{MM18_TR}.}
 }
 
-%Based on these ideas, we develop a Universal capacity control metric $\hat{\alpha}$ that is a weighted average of the layer Power Law (PL) exponents.
+%Based on these ideas, we develop a Universal capacity control metric $\hat{\alpha}$ that is a weighted average of the layer power law (PL) exponents.
 %$(\alpha)$ of the DNN layer weight matrices. The average weights depend on the log Spectral norm (i.e. maximum eigenvalue) of the associated correlations matrices.
 %We show this metric can be approximated by the  \nred{average  log Frobenius norm}  of the weight matrices $\langle\log\Vert\mathbf{W}\Vert_F{}\rangle$.
 %Rather than considering bounds on the worst-case generalization accuracy for small toy NNs, we show that $\hat{\alpha}$ predict trends 
@@ -114,7 +104,7 @@ as a stand-in for a generative model of the weight matrices in DNNs, to catalog 
  % \nred{The layer weight matrices (at least the linear ones) fit} a PL distribution, and that smaller PL exponents $\alpha$ correspond to better implicit Self-Regularization and generalization quality.
 %Motived by these empirical observations, and using the Universality properties of Heavy-Tailed Random Matrix Theory (HT-RMT), they developed a Theory of Heavy-Tailed Self-Regularization (HT-SR) for %DNNs~\cite{MM17_TR,MM18_TR}.
 %In the Statistical Physics analysis of complicated systems (e.g., many physical systems, but also well-trained NNs~\cite{EB01_BOOK,nishimori01}), Universality of PL exponents is very special and suggests the presence %of a deeper, underlying mechanism driving the system~\cite{SornetteBook,BouchaudPotters03}.% 
-%\footnote{Perhaps the most well-known form of Universality is associated with the Gaussian Universality class, where the sum of many random variables drawn from a wide range of distributions is ``approximately %Gaussian,'' e.g., in the sense that the sum approaches a suitably-normalized Gaussian distribution.  As briefly reviewed in Section~\ref{sxn:theory-review}, HT Universality makes analogous (but, admittedly, more complicated) statements for random variables drawn from distributions in which the tails decay more slowly than those in the Gaussian Universality class~\cite{MM18_TR}.}
+%\footnote{Perhaps the most well-known Universality is associated with the Gaussian Universality class, where the sum of many random variables drawn from a wide range of distributions is ``approximately %Gaussian,'' e.g., in the sense that the sum approaches a suitably-normalized Gaussian distribution.  As briefly reviewed in Section~\ref{sxn:theory-review}, HT Universality makes analogous (but, admittedly, more complicated) statements for random variables drawn from distributions in which the tails decay more slowly than those in the Gaussian Universality class~\cite{MM18_TR}.}
 %It is this \ngreen{\emph{Heavy Tailed Mechanistic Universality} (HT-MU), as well call it,} that originally motivated our study.
 
 
@@ -146,30 +136,28 @@ MORE HERE ?
 In summary, our main results are the following:
 \begin{itemize}
 \item
-We introduce a \nred{new} methodology to analyze the performance of large-scale pre-trained DNNs,
-using a phenomena observed in our theory of HT-SR we call Heavy Tailed Mechanistic Universality (HT-MU).
-\nred{We construct} ta Universal capacity control metric to predict average DNN test performance.
-This metric is a weighted \nred{average} of layer PL exponents, $\hat{\alpha}$, weighted by the Spectral Norm
-(i.e. maximum eigenvalue $\lambda_{max}$) of layer correlation matrices. 
-$$\hat{\alpha}=\sum_{l\in L}\alpha_{l}\log\lambda_{l,max}$$
+We introduce a new methodology to analyze the performance of large-scale pre-trained DNNs, using a phenomena observed in HT-SR Theory that we call Heavy Tailed Mechanistic Universality (HT-MU).
+We construct a Universal capacity control metric to predict average DNN test performance.
+This metric is a weighted average of layer PL exponents, $\hat{\alpha}$, weighted by the Spectral Norm (i.e., maximum eigenvalue $\lambda_{max}$) of layer correlation matrices: 
+$$
+\hat{\alpha}=\sum_{l\in L}\alpha_{l}\log\lambda_{l,max}  .
+$$
 \item
-We apply our Universal capacity control metric $\hat{\alpha}$ to a wide range of large-scale pre-trained production-level DNNs,?
- including the VGG and ResNet series of models, as well as many others.
-This Universal metric \nred{correlates very well with the reported} average test error \nred{across series of pretrained} DNNs,
-such as the VGG, ResNet, and other series of arcitectures.
+We apply our Universal capacity control metric $\hat{\alpha}$ to a wide range of large-scale pre-trained production-level DNNs, including the VGG and ResNet series of models, as well as many others.
+This Universal metric correlates very well with the reported average test error across series of pretrained DNNs.
+%% such as the VGG, ResNet, and other series of arcitectures.
 %(without the need for re-training or looking at test data, although one could use the metrics as a training diagnostic).
 \item
-\nred{We derive the relation between our Universal capacity control metric $\hat{\alpha}$ and the well known Product Norm} capacity control metric, i.e
-in the form of the average log of the Frobenius norm, 
-$$\langle\log\Vert\mathbf{W}\Vert^{2}_{F}\rangle\approx \alpha\log\lambda_{max}$$.
+We derive a relation between our Universal capacity control metric $\hat{\alpha}$ and the well known Product Norm capacity control metric, i.e, in the form of the average log of the Frobenius norm,
+$$
+\langle\log\Vert\mathbf{W}\Vert^{2}_{F}\rangle\approx \alpha\log\lambda_{max}  .
+$$
 We also show that
 % (in addition to providing worst-case bounds on generalization quality for rather small NNs)
-such norm-based capacity control metrics \nred{also correlate well} with the average test error in large-scale production-level pre-trained DNNs.
+such norm-based capacity control metrics also correlate well with the average test error in large-scale production-level pre-trained DNNs.
 \end{itemize}
 
 
-
-\nred{OK}
 For both our Universal metric and the Product Norm metric, our empirical results are, to our knowledge, the first time such theoretical capacity metrics have been reported to predict (trends in) the test accuracy for \emph{pre-trained production-level} DNNs.
 In particular, this illustrates the usefulness of these norm-based metrics beyond smaller models such as MNIST, CIFAR10, and CIFAR100. 
 Our 
