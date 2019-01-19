@@ -40,7 +40,22 @@ Here, it would also be very helpful to be able to fine tune large, pretrained DN
 \textbf{Unsupervised Deep Learning}
 \end{itemize}
 
-To address our main question, we will build upon and combine two seemingly-unrelated lines of recent work.
+\charlesX{TRY THIS FOR LEADIN. We want to predict the trends in the generalization accuracy a series of DNN architectures; how can we do this ?
+VC-like theories offer theoretical bounds on the generalization accuracy.  Practically, such capacity metrics can guide the
+theoretical development of new regularizers for traditional ML optimization problems (i.e. counterfactual expected risk minimization ),
+but the bounds themselves are far too loose to be used directly.  Moreover, since the early days of neural network research, even
+Vapnik himself argued that his VC theory could (probably) not be directly applied to the seemingly widely non-convex optimization problem
+implicitly posed by neural networks.   This has caused some researchers to suggest we need to rethink regularization in DNNs entirely.
+
+Still perhaps it is not really this hard ?   Recent work by  Liao et al.~\cite{LMBx18_TR} used a data-dependent Product Norm capacity control metric
+to bound the worst-case generalization error for several small (non production-quality, but still \nred{interesting}) DNN models...and the bounds are remarkably tight.
+To achieve this result, however, hthey had to modify the DNN optimization loss function.  So this can not be tested on any existing pre-trained DNN architecture,
+such as the VGG and ResNet models, widely used today in industry.  Still, these results do suggest that a Product Norm may work well as a capacity
+metric for large DNNs with many layers.   Of course, bounding a DNN does not necessarily mean that the individual  weight matrix Norms are 
+directly comparable across layers in different architectures.  To predict trends in the test accuracies, one needs some Universal empirical metric.
+}
+
+\michael{I WILL REWORK THIS TOO:  to address our main question, we will build upon and combine two seemingly-unrelated lines of recent work.
 The first is that of Martin and Mahoney~\cite{MM17_TR,MM18_TR}, which considered Heavy-Tailed (HT) Universality methods from Statistical Physics to analyze weight matrices constructed from large-scale pre-trained DNNs.
 The second is that of Liao et al.~\cite{LMBx18_TR}, which used norm-based capacity control metrics to bound the worst-case generalization error for several small (non production-quality, but still \nred{interesting}) DNN models.
 \nred{AWK:}
@@ -49,7 +64,7 @@ $(\alpha)$ of the DNN layer weight matrices. The average weights depend on the l
 We show this metric can be approximated by the  \nred{average  log Frobenius norm}  of the weight matrices $\langle\log\Vert\mathbf{W}\Vert_F{}\rangle$.
 Rather than considering bounds on the worst-case generalization accuracy for small toy NNs, we show that $\hat{\alpha}$ predict trends 
 in the average case generalization performance for large-scale pre-trained DNNs.
-
+}
 % again, too dense 
 To place these results in context, \nred{our earlier work}~\cite{MM18_TR}
  %recall that the work of Martin and Mahoney~\cite{MM18_TR} showed
