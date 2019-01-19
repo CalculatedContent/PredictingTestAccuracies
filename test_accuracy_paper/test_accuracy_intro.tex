@@ -51,19 +51,20 @@ implicitly posed by neural networks.   This has caused some researchers to sugge
 
 Still perhaps it is not really this hard ?   Recent work by  Liao et al.~\cite{LMBx18_TR} used an appropriately-scaled, data-dependent Product Norm capacity control metric
 to bound the worst-case generalization error for several small (non production-quality, but still \nred{interesting}) DNN models...and the bounds are remarkably tight.
-To achieve this result, however, they had to modify the DNN optimization loss function.  So this can not be tested on any existing pre-trained DNN architecture,
-such as the VGG and ResNet models, widely used today in industry. }
+}
 \ngreen{There is, in fact, a large body of work on norm-based capacity control metrics, both recent e.g.,~\cite{LMBx18_TR, SHNx17_TR,PLMx18_TR} and~\cite{NTS14_TR,NTS15,NBMS17_TR,BFT17_TR,YM17_TR,KKB17_TR,NBS17_TR,AGNZ18_TR,ACH18_TR,ZF18_TR},
 %but
 \nred{and} much older ~\cite{Bar97,MN09_TR}. 
-%Much of this work has been motivated by the observation that parameter counting and more traditional VC-based bounds tend to lead to 
-%vacuous results for modern state-of-the-art DNNs, e.g., since modern DNNs are heavily over-parameterized and depend so strongly on the training data.
+\nred{Much of this work has been motivated by the observation that parameter counting and more traditional VC-based bounds tend to lead to 
+vacuous results for modern state-of-the-art DNNs, e.g., since modern DNNs are heavily over-parameterized and depend so strongly on the training data.}
 \charlesX{
 But, as with most theoretical studies, Liao et al's approach and intent differ greatly from ours; they seek a \emph{worst-case} complexity bound, motivated to reconcile discrepancies 
 with more traditional statistical learning theory, and they apply it to quite small NNs; but we seek an \emph{average-case} 
 complexity metric , viable in production to guide the development of better DNNs at scale.
-And  bounding a toy model does not necessarily mean that the individual weight matrix Norms will be 
+And bounding a toy model does not necessarily mean that the individual weight matrix Norms will be 
 directly comparable across layers in different, and more complex, architectures.
+Also, to achieve their result, they had to modify the DNN optimization loss function.  So this can not be tested on any existing pre-trained DNN architecture,
+such as the VGG and ResNet models, widely used today in industry. 
 Still, these results do suggest that a Product Norm may work well as a \emph{practical} capacity metric for large, and even pre-trained,
 production quality DNNs.   
 To predict trends in the test accuracies, one needs some \emph{Universal} empirical metric that transfers across DNN architectures.
@@ -104,8 +105,6 @@ as a stand-in for a generative model of the weight matrices in DNNs, to catalog 
 %\michael{I WILL REWORK THIS TOO, INLY DISCUSS OUR WORK HERE:  to address our main question, we will build upon and combine two seemingly-unrelated lines of recent work.
 %The first is that of Martin and Mahoney~\cite{MM17_TR,MM18_TR}, which considered Heavy-Tailed (HT) Universality methods from Statistical Physics to analyze weight matrices constructed from large-scale pre-trained DNNs.
 %The second is that of Liao et al.~\cite{LMBx18_TR}, which used norm-based capacity control metrics to bound the worst-case generalization error for several small (non production-quality, but still \nred{interesting}) DNN models.
-\nred{CLEAN UP BELOW}
-
 
 % again, too dense 
 %To place these results in context, \nred{our earlier work}~\cite{MM18_TR}
@@ -126,20 +125,22 @@ Indeed, nearly all large, pre-trained DNNs have smallish layer PL exponents  $\a
 The exponents are small, but not too small.  
 Additionally, the HT-SR studies on small models show that DNNs that generalize better have smaller layer PL exponents.
 These 2 facts suggest that, when comparable, large, production DNNs that generalize better, should have, on average, smaller $\alpha$.  
+For example, the \emph{average} $\hat{\alpha}$ for VGG19 should be smaller that for VGG11.
   }
 \nred{
 A natural candidate for our Universal complexity metric is the weighted average of layer PL exponents, $\hat{\alpha}$.
 (See Eqn.~(\ref{eqn:alpha_hat_generic}) below.)
 where the weights encode information that ``larger'' matrices are somehow more important.
+MORE HERE ?
 }
-\ngreen{
-For example, the \emph{average} $\hat{\alpha}$ for VGG19 should be smaller that for VGG11.
-%A HT Universality argument then leads to an expression that suggests that the weights should be the log of the spectral norm of the correlations between layer weight matrices.
-The only question is, how to take the average $\hat{\alpha}$.
-To answer this, we use HT-Universality and  show how to approximate our new metric with the well known product norm metric, namely, as the average log Frobenius norm 
-$\langle\Vert\mathbf{W}_{F}\Vert\rangle$ of the layer weight matrices.}
-\nred{(See Eqn.~(\ref{eqn:basic_relation}) below.)}
 
+
+%\ngreen{
+%A HT Universality argument then leads to an expression that suggests that the weights should be the log of the spectral norm of the correlations between layer weight matrices.
+%The only question is, how to take the average $\hat{\alpha}$.
+%To answer this, we use HT-Universality and  show how to approximate our new metric with the well known product norm metric, namely, as the average log Frobenius norm 
+%$\langle\Vert\mathbf{W}_{F}\Vert\rangle$ of the layer weight matrices.}
+%\nred{(See Eqn.~(\ref{eqn:basic_relation}) below.)}
 }
 
 In summary, our main results are the following:
