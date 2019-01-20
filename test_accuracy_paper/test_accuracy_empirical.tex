@@ -23,10 +23,12 @@ As illustrated in Figure~\ref{fig:vgg_lognorms}, this
 metric is a relatively good complexity metric for comparing the test accuracies of different, pre-trained DNNs in the same series.
 )))
 
+Here, we summarize our results for the VGG and ResNet series of models.
+See Appendix~\ref{sxn:appendix-addl-empirical} for additional empirical results on other models.
 
 \paragraph{VGG and VGG\_BN Models.}
 
-\begin{figure}[t] %[!htb]
+\begin{figure*}[t] %[!htb]
    \centering
    \subfigure[log Frobenius norm $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$]{
       \includegraphics[scale=0.35]{img/vgg-lognorms.png}
@@ -47,10 +49,10 @@ metric is a relatively good complexity metric for comparing the test accuracies 
       VGG13 vs VGG13\_BN ({\color{orange}{orange}}),
       VGG16 vs VGG16\_BN ({\color{green}{green}}),  and
       VGG19 vs VGG19\_BN ({\color{red}{red}}). 
-      \michael{Have circles and squares or something like that to distinguish regular and BN versions.}
+      \michael{Charles, have circles and squares or something like that to distinguish regular and BN versions.}
    }
    \label{fig:vgg}
-\end{figure}
+\end{figure*}
 
 
 %% COMBINED WITH ABOVE %% \begin{figure}[!htb]
@@ -71,7 +73,7 @@ metric is a relatively good complexity metric for comparing the test accuracies 
 \begin{table}[t]
 \small
 \begin{center}
-\begin{tabular}{|p{1in}|c|c|c|c|c|c|c|}
+\begin{tabular}{|p{0.75in}|c|c|c|c|c|c|c|}
 \hline
 Architecture 
  & Model &Top1 
@@ -116,7 +118,7 @@ Equally importantly, we did not need to peek at the ImageNet test data to make t
 
 \paragraph{ResNet Models.}
 
-\begin{figure}[!htb]
+\begin{figure*}[!htb]
    \centering
    \subfigure[log Frobenius norm $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$]{
       \includegraphics[scale=0.30]{img/ResNet_top1-lognorms.png}
@@ -135,12 +137,12 @@ Equally importantly, we did not need to peek at the ImageNet test data to make t
       weighted average PL exponent $\hat{\alpha}$ (in (\ref{fig:resnet_alphahat})).
            }
    \label{fig:resnet}
-\end{figure}
+\end{figure*}
 
 \begin{table}[!htb]
 \small
 \begin{center}
-\begin{tabular}{|p{1in}|c|c|c|c|c|c|c|}
+\begin{tabular}{|p{0.75in}|c|c|c|c|c|c|c|}
 \hline
 Architecture 
  & Model
@@ -153,7 +155,7 @@ ResNet (small)  & resnet10 & 37.46 & \\
 \hline
 ResNet18 & resnet18\_wd4 & XX & \\
 & resnet18\_wd2 & XX & \\
-& resnet18 \_wd3d4& XX & \\
+& resnet18\_wd3d4& XX & \\
 & resnet18 & XX & \\
 
 \hline
@@ -172,7 +174,7 @@ ResNet152 & resnet152 & XX,XX & \\
 \end{tabular}
 \end{center}
 \caption{Results for ResNet Series of Architectures and DNN Models.
-         \michael{Are we going to have the same set of cols for ResNet at least that we had for VGG.}
+         \michael{Charles, are we going to have the same set of columns for ResNet at least that we had for VGG in the VGG table.}
         }
 \label{table:models_resnet}
 \end{table}
@@ -185,215 +187,5 @@ as well as
 Table~\ref{table:models_resnet}
 for details.
 XXX.  SOME COMMENTS.
-
-
-\paragraph{More Pre-trained Models.}
-
-Here are results for more pre-trained models.
-See
-Table~\ref{table:models_more}
-as well as 
-Figure~\ref{fig:models_more} 
-for details.
-XXX.  SOME COMMENTS.
-
-\begin{table}[!htb]
-\small
-\begin{center}
-\begin{tabular}{|p{1in}|c|c|c|c|c|c|c|}
-\hline
-Architecture 
- & Model
- & Test Accuracy \\
-\hline
-GoogLeNet & & \\
-\hline
-ResNeXt & & \\
-\hline
-SqueezeNet & & \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Results for more models.
-         \michael{Why is this split off from the next table.}
-        }
-\label{table:models_more}
-\end{table}
-
-\begin{figure}[!htb]
-   \centering
-   \subfigure[DenseNet] {
-       \includegraphics[scale=0.30]{img/densenet-pytorch-w_alphas.png} 
-       \label{fig:densenet}
-   }
-   \subfigure[SqueezeNet]{
-       \includegraphics[scale=0.30]{img/squeezenet-pytorch-w_alphas.png} 
-       \label{fig:squeezenet}
-   }
-   \caption{
-      Pre-trained 
-      Densenet and SqueezeNet PyTorch 
-      Models.
-      Test Accuracy versus
-      $\hat{\alpha}$.
-           }
-   \label{fig:models_more}
-\end{figure}
-
-
-\paragraph{Still More Pre-trained Models.}
-
-Here are results for still more pre-trained models.
-See
-Table~\ref{table:models_still_more}
-as well as
-Figures~\ref{fig:still_more_1} and \ref{fig:still_more_2}
-for details.
-XXX.  SOME COMMENTS.
-
-
-\begin{table}[!htb]
-\small
-\begin{center}
-\begin{tabular}{|p{1in}|c|c|c|c|c|c|c|}
-\hline
-Architecture 
- & Model
- & Top 1 Error \\
- \hline
- DenseNet & densenet121 & 25.57 & \\
-& densenet161 & 22.86 & \\
-& densenet169 & 24.4 & \\
-& densenet201 & 23.1 & \\\hline
-DPN & dpn68 & 24.17 & \\
-& dpn98 & 20.81 & \\
-& dpn131 & 20.54 & \\
-\hline
-MeNet & menet108\_8x1\_g3 & 43.92 & \\
-& menet128\_8x1\_g4 & 43.95 & \\
-& menet228\_12x1\_g3 & 33.57 & \\
-& menet256\_12x1\_g4 & 33.41 & \\
-& menet348\_12x1\_g3 & 30.1 & \\
-& menet352\_12x1\_g8 & 33.31 & \\
-& menet456\_24x1\_g3 & 28.4 & \\
-\hline
-MobileNet & mobilenet\_wd4 & 46.26 & \\
-& mobilenet\_wd2 & 36.3 & \\
-& mobilenet\_w3d4 & 33.54 & \\
-& mobilenet\_w1 & 29.86 & \\
-\hline
-MobileNetV2 & mobilenetv2\_wd4 & 49.72 & \\
-& mobilenetv2\_wd2 & 36.54 & \\
-& mobilenetv2\_w3d4 & 31.89 & \\
-& mobilenetv2\_w1 & 29.31 & \\
-\hline
-FDMobileNet & fdmobilenet\_wd4 & 55.77 & \\
-& fdmobilenet\_wd2 & 43.85 & \\
-& fdmobilenet\_w1 & 34.7 & \\
-\hline
-SE-ResNet & seresnet50 & 22.47 & \\
-& seresnet101 & 21.88 & \\
-& seresnet152 & 21.48 & \\
-\hline
-SE-ResNeXt & seresnext50\_32x4d & 21.0 & \\
-& seresnext101\_32x4d & 19.96 & \\
-\hline
-ShuffleNet & shufflenetv2\_wd2 & 41.48 & \\
-& shufflenetv2\_w1 & 34.39 & \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Results for still more models.
-         \michael{Why is this split off from previous table.}
-         \michael{Why is CondenseNet missing.}
-         \michael{Why Test Accuracy for others and Top 1 Error here.}
-        }
-\label{table:models_still_more}
-\end{table}
-
-
-\begin{figure}[!htb]
-   \centering
-   \subfigure[CondenseNet]{
-       \includegraphics[scale=0.19]{img/CondenseNet-w_alphas.png} 
-       \label{fig:densenet-small}
-   }
-   \subfigure[DPN]{
-       \includegraphics[scale=0.19]{img/DPN-w_alphas.png} 
-       \label{fig:dpn-net}
-   }
-   \subfigure[ShuffleNet]{
-      \includegraphics[scale=0.19]{img/ShuffleNet-w_alphas.png}
-      \label{fig:shufflenet-small}
-   }
-   \caption{
-      Pre-trained 
-      CondenseNet, DPN, and ShuffleNet
-      Models.
-      Top 1 Test error versus
-      $\hat{\alpha}$.
-           }
-   \label{fig:still_more_1}
-\end{figure}
-
-
-\begin{figure}[!htb]
-   \centering
-   \subfigure[MobileNet]{
-      \includegraphics[scale=0.19]{img/MobileNet-w_alphas.png} 
-      \label{fig:resnet-small}
-   }
-   \subfigure[SeResNet]{
-      \includegraphics[scale=0.19]{img/SeResNet-w_alphas.png}
-      \label{fig:shufflenet-small}
-   }
-   \subfigure[SeResNeXt]{
-      \includegraphics[scale=0.19]{img/SeResNeXt-w_alphas.png}
-      \label{fig:shufflenet-small}
-   }
-   \caption{
-      Pre-trained 
-      MeNet, SeResNet, and SeResNeXt
-      Models.
-      Top 1 Test error versus
-      $\hat{\alpha}$.
-           }
-   \label{fig:still_more_2}
-\end{figure}
-
-
-\paragraph{Counterexamples.}
-There are of course exceptions here and there.
-See
-Figure~\ref{fig:counter-examples}
-as well as 
-Table~\ref{table:models_still_more}
-for details on the counterexamples.
-XXX.  COMMENTS.
-
-\begin{figure}[!htb]
-   \centering
-   \subfigure[ResNeXt]{
-      \includegraphics[scale=0.19]{img/ResNeXt-w_alphas.png} 
-      \label{fig:resnet-small}
-   }
-   \subfigure[MeNet]{
-      \includegraphics[scale=0.19]{img/MeNet-w_alphas.png} 
-      \label{fig:menet-net}
-   }
-   \subfigure[FDMobileNet]{
-      \includegraphics[scale=0.19]{img/FDMobileNet-w_alphas.png} 
-      \label{fig:resnet-small}
-   }
-   \caption{
-      Pre-trained 
-      ResNeXt, MeNet, and FDMobileNet
-      Models 
-      that provide counterexamples to our main trends.
-      Top 1 Test error versus
-      $\hat{\alpha}$.
-           }
-   \label{fig:counter-examples}
-\end{figure}
 
 

@@ -3,64 +3,69 @@
 \section{Introduction}
 \label{sxn:intro}
 
-Given two or more Deep Neural Networks (DNNs) with the same or similar architectures, and trained on the same dataset, but trained with different solvers, parameters, hyper-parameters, regularization, etc., can we predict which DNN will have the best test accuracy, and can we do so without peeking at the test data?   
+We are interested in the following general question.
+\begin{itemize}
+\item
+Given two or more Deep Neural Networks (DNNs) with the same or similar architectures, and trained on the same dataset, but trained with different solvers, parameters, hyper-parameters, regularization, etc., can we predict which DNN will have the best test accuracy, and can we do so without peeking at the test data? 
+\end{itemize}
 
 This question is both theoretical and practical. 
 Theoretically, solving this would help to understand why this class of machine learning (ML) models performs as well as it does in certain classes of applications.
 Practically, there are many motivating examples.
 % 
 Here are several.
+%\vspace{-2mm}
 \begin{itemize}
 \item
 \textbf{Automating architecture search.}
 Developing DNN models often requires significant architecture engineering, so there is interest in automating the design of DNNs.
 Current methods can produce a series of DNNs subject to given general architecture constraints, but the models must be evaluated using cross validation (CV).
-DNNs have so many adjustable parameters  that even using CV it is possible to leak information from the test sets into the training data, thus producing brittle, non-robust models.
-It is thus of interest to have design principles and quality metrics that do not depend on the test data and/or the labels.  
+DNNs have so many adjustable parameters that even when using CV it is possible to leak information from the test sets into the training data, thus producing brittle, non-robust models.
+It is thus of interest to have design principles and quality metrics that do not depend on the test data and/or the labels. 
 \item
 \textbf{Fine-Tuning Pre-trained Models.}
-Frequently one does not enough labeled data to train a large DNN from scratch.
-Fortunately, many modern engineering solutions can re-use widely available pre-trained DNNs, fine tuning them on smaller data sets. 
-This technique works extremely well for visual tasks using DNNs pre-trained on ImageNet. 
-And, recently, it has become feasible for complex NLP tasks.  
-But sometimes these fine tuned models become brittle and non-robust due to overtraining because information leaks from the test set into the training data.
-Here, it would also be very helpful to be able to fine tune large, pretrained DNNs without needing to extensively peek at the test data.
-\item
-\textbf{Unsupervised Deep Learning.}
-\michael{MM TO DO OR REMOVE.}
+Since one often does not have enough labeled data to train a large DNN from scratch, many modern engineering solutions can re-use widely-available pre-trained DNNs, fine-tuning them on smaller data sets. 
+This technique often works extremely well for visual tasks, using DNNs pre-trained on ImageNet; and recently it has become feasible for complex NLP tasks. 
+Sometimes, however, these fine-tuned models become brittle and non-robust---due to overtraining, because information leaks from the test set into the training data.
+Here, it would also be very helpful to be able to fine-tune large, pre-trained DNNs without needing to peek at the test data.
+%%SPACE%% \item
+%%SPACE%% \textbf{Unsupervised Deep Learning.}
+%%SPACE%% \michael{MM TO DO OR REMOVE.}
 \end{itemize}
+%\vspace{-1mm}
 
-\charlesX{TRY THIS FOR LEADIN. 
+To predict trends in the generalization accuracy of a series of DNN architectures, VC-like theories offer theoretical bounds on the generalization accuracy. 
+Practically, such capacity metrics can guide the
+theoretical development of new regularizers for traditional ML optimization problems (e.g., counterfactual expected risk minimization), but the bounds themselves are far too loose to be used directly. 
+Moreover, since the early days of NN research, 
+it was known that 
+%%even Vapnik himself argued that his 
+VC theory could (probably) not be directly applied to the seemingly widely non-convex optimization problem implicitly posed by NNs. 
+(This has caused some researchers to suggest we need to rethink regularization in DNNs entirely.)
 
-We want to predict the trends in the generalization accuracy a series of DNN architectures; how can we do this ?
-VC-like theories offer theoretical bounds on the generalization accuracy.  Practically, such capacity metrics can guide the
-theoretical development of new regularizers for traditional ML optimization problems (i.e. counterfactual expected risk minimization ),
-but the bounds themselves are far too loose to be used directly.  Moreover, since the early days of neural network research, even
-Vapnik himself argued that his VC theory could (probably) not be directly applied to the seemingly widely non-convex optimization problem
-implicitly posed by neural networks.   This has caused some researchers to suggest we need to rethink regularization in DNNs entirely.
+In light of this, 
+%%Still perhaps it is not really this hard?  Recent work by 
+Liao et al.~\cite{LMBx18_TR} used an appropriately-scaled, data-dependent Product Norm capacity control metric to bound the worst-case generalization error for several small (non production-quality, but still interesting) DNN models, and they showed that the bounds are remarkably tight.
+%
+There is, in fact, a large body of work on norm-based capacity control metrics, both recent, e.g.,~\cite{LMBx18_TR, SHNx17_TR,PLMx18_TR} and~\cite{NTS14_TR,NTS15,NBMS17_TR,BFT17_TR,YM17_TR,KKB17_TR,NBS17_TR,AGNZ18_TR,ACH18_TR,ZF18_TR}, as well as much older ~\cite{Bar97,MN09_TR}. 
+Much of this work has been motivated by the observation that parameter counting and more traditional VC-based bounds tend to lead to 
+vacuous results for modern state-of-the-art DNNs, e.g., since modern DNNs are heavily over-parameterized and depend so strongly on the training data.
 
-Still perhaps it is not really this hard ?   Recent work by  Liao et al.~\cite{LMBx18_TR} used an appropriately-scaled, data-dependent Product Norm capacity control metric
-to bound the worst-case generalization error for several small (non production-quality, but still \nred{interesting}) DNN models...and the bounds are remarkably tight.
-}
-\ngreen{There is, in fact, a large body of work on norm-based capacity control metrics, both recent e.g.,~\cite{LMBx18_TR, SHNx17_TR,PLMx18_TR} and~\cite{NTS14_TR,NTS15,NBMS17_TR,BFT17_TR,YM17_TR,KKB17_TR,NBS17_TR,AGNZ18_TR,ACH18_TR,ZF18_TR},
-%but
-\nred{and} much older ~\cite{Bar97,MN09_TR}. 
-\nred{Much of this work has been motivated by the observation that parameter counting and more traditional VC-based bounds tend to lead to 
-vacuous results for modern state-of-the-art DNNs, e.g., since modern DNNs are heavily over-parameterized and depend so strongly on the training data.}
-\charlesX{
-But, as with most theoretical studies, Liao et al's approach and intent differ greatly from ours; they seek a \emph{worst-case} complexity bound, motivated to reconcile discrepancies 
-with more traditional statistical learning theory, and they apply it to quite small NNs; but we seek an \emph{average-case} 
-complexity metric , viable in production to guide the development of better DNNs at scale.
-And bounding a toy model does not necessarily mean that the individual weight matrix Norms will be 
-directly comparable across layers in different, and more complex, architectures.
-Also, to achieve their result, they had to modify the DNN optimization loss function.  So this can not be tested on any existing pre-trained DNN architecture,
-such as the VGG and ResNet models, widely used today in industry. 
-Still, these results do suggest that a Product Norm may work well as a \emph{practical} capacity metric for large, and even pre-trained,
-production quality DNNs.   
+As with most theoretical studies, Liao et al.'s approach and intent differ greatly from ours.
+They seek \emph{worst-case} complexity bounds, motivated to reconcile discrepancies with more traditional statistical learning theory, and they apply it to quite small NNs.
+To address our main question, we seek an \emph{average-case} complexity metric, viable in production to guide the development of better DNNs at scale.
+\michael{MM: do we want to call this typical case.}
+Bounding a toy model does not necessarily mean that the individual weight matrix norms in production-quality DNNs will be directly comparable, e.g., across layers in different, and more complex, architectures.
+Also, to achieve their result, Liao et al. had to modify the DNN optimization loss function.
+This means that their approach can not be tested/evaluated on any existing pre-trained DNN architecture, e.g., the VGG and ResNet models, widely-used today in industry. 
+Still, their results do suggest that a Product Norm may work well as a \emph{practical} capacity metric for large, and perhaps even pre-trained, production-quality DNNs.   
 To predict trends in the test accuracies, one needs some \emph{Universal} empirical metric that transfers across DNN architectures.
 
+\michael{MM still to tweak the rest.}
+
+\charlesX{
 Recent work Martin and Mahoney~\cite{MM18_TR} provides and Universal empirical metric that characterizes the amount of \emph{Implicit Self-Regularization}
-and, accordingly, the generalization capacity, or a wide range of pretrained DNNs---the power law (PL) exponents, $\alpha$, of the invidual layer weight matrices $\mathbf{W}$,
+and, accordingly, the generalization capacity, or a wide range of pre-trained DNNs---the power law (PL) exponents, $\alpha$, of the invidual layer weight matrices $\mathbf{W}$,
 as determined by fitting the Empirical Spectral Density (ESD), $\rho(\lambda)$, to a PL distribution according to Heavy Tailed Random Matrix Theory. (HT-RMT)
 Looking in detail at a series of models, like AlexNet, VGG, ResNet, etc, they observe that the (linear) layer weight matrices almost always follow a PL distribution,
 and the fitted PL exponents nearly all lie within a universal range $\alpha\in[2,5]$.   Further analysis of a small model (MinAlexNet) shows that 
@@ -84,7 +89,7 @@ as a stand-in for a generative model of the weight matrices in DNNs, to catalog 
 }
 
 %Based on these ideas, we develop a Universal capacity control metric $\hat{\alpha}$ that is a weighted average of the layer power law (PL) exponents.
-%$(\alpha)$ of the DNN layer weight matrices. The average weights depend on the log Spectral norm (i.e. maximum eigenvalue) of the associated correlations matrices.
+%$(\alpha)$ of the DNN layer weight matrices. The average weights depend on the log Spectral norm (i.e., maximum eigenvalue) of the associated correlations matrices.
 %We show this metric can be approximated by the  \nred{average  log Frobenius norm}  of the weight matrices $\langle\log\Vert\mathbf{W}\Vert_F{}\rangle$.
 %Rather than considering bounds on the worst-case generalization accuracy for small toy NNs, we show that $\hat{\alpha}$ predict trends 
 %in the average case generalization performance for large-scale pre-trained DNNs.
@@ -124,38 +129,38 @@ where the weights encode information that ``larger'' matrices are somehow more i
 MORE HERE ?
 }
 
-
 %\ngreen{
 %A HT Universality argument then leads to an expression that suggests that the weights should be the log of the spectral norm of the correlations between layer weight matrices.
 %The only question is, how to take the average $\hat{\alpha}$.
 %To answer this, we use HT-Universality and  show how to approximate our new metric with the well known product norm metric, namely, as the average log Frobenius norm 
 %$\langle\Vert\mathbf{W}_{F}\Vert\rangle$ of the layer weight matrices.}
 %\nred{(See Eqn.~(\ref{eqn:basic_relation}) below.)}
-}
 
 In summary, our main results are the following:
+%\vspace{-2mm}
 \begin{itemize}
 \item
 We introduce a new methodology to analyze the performance of large-scale pre-trained DNNs, using a phenomena observed in HT-SR Theory that we call Heavy Tailed Mechanistic Universality (HT-MU).
 We construct a Universal capacity control metric to predict average DNN test performance.
-This metric is a weighted average of layer PL exponents, $\hat{\alpha}$, weighted by the Spectral Norm (i.e., maximum eigenvalue $\lambda_{max}$) of layer correlation matrices: 
+This metric is a weighted average of layer PL exponents, $\hat{\alpha}$, weighted by the Spectral Norm (i.e., maximum eigenvalue $\lambda^{max}$) of layer correlation matrices: 
 $$
-\hat{\alpha}=\sum_{l\in L}\alpha_{l}\log\lambda_{l,max}  .
+\hat{\alpha}=\sum_{l\in L}\alpha_{l}\log\lambda_{l}^{max}  .
 $$
 \item
 We apply our Universal capacity control metric $\hat{\alpha}$ to a wide range of large-scale pre-trained production-level DNNs, including the VGG and ResNet series of models, as well as many others.
-This Universal metric correlates very well with the reported average test error across series of pretrained DNNs.
+This Universal metric correlates very well with the reported average test error across series of pre-trained DNNs.
 %% such as the VGG, ResNet, and other series of arcitectures.
 %(without the need for re-training or looking at test data, although one could use the metrics as a training diagnostic).
 \item
 We derive a relation between our Universal capacity control metric $\hat{\alpha}$ and the well known Product Norm capacity control metric, i.e, in the form of the average log of the Frobenius norm,
 $$
-\langle\log\Vert\mathbf{W}\Vert^{2}_{F}\rangle\approx \alpha\log\lambda_{max}  .
+\langle\log\Vert\mathbf{W}\Vert^{2}_{F}\rangle\approx \alpha\log\lambda^{max}  .
 $$
 We also show that
 % (in addition to providing worst-case bounds on generalization quality for rather small NNs)
 such norm-based capacity control metrics also correlate well with the average test error in large-scale production-level pre-trained DNNs.
 \end{itemize}
+%\vspace{-1mm}
 
 
 For both our Universal metric and the Product Norm metric, our empirical results are, to our knowledge, the first time such theoretical capacity metrics have been reported to predict (trends in) the test accuracy for \emph{pre-trained production-level} DNNs.
