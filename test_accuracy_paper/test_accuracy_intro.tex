@@ -13,7 +13,8 @@ This question is both theoretical and practical.
 Theoretically, solving this would help to understand why this class of machine learning (ML) models performs as well as it does in certain classes of applications.
 Practically, there are many motivating examples.
 % 
-Here are several.
+Here are two.
+%%SPACE%% several.
 %\vspace{-2mm}
 \begin{itemize}
 \item
@@ -25,12 +26,12 @@ It is thus of interest to have design principles and quality metrics that do not
 \item
 \textbf{Fine-Tuning Pre-trained Models.}
 Since one often does not have enough labeled data to train a large DNN from scratch, many modern engineering solutions can re-use widely-available pre-trained DNNs, fine-tuning them on smaller data sets. 
-This technique often works extremely well for visual tasks, using DNNs pre-trained on ImageNet; and recently it has become feasible for complex NLP tasks. 
+This technique often works extremely well for visual tasks, using DNNs pre-trained on ImageNet; and recently it has become feasible for complex natural language processing (NLP) tasks. 
 Sometimes, however, these fine-tuned models become brittle and non-robust---due to overtraining, because information leaks from the test set into the training data.
 Here, it would also be very helpful to be able to fine-tune large, pre-trained DNNs without needing to peek at the test data.
 %%SPACE%% \item
 %%SPACE%% \textbf{Unsupervised Deep Learning.}
-%%SPACE%% \michael{MM TO DO OR REMOVE.}
+%%SPACE%% \michael{Charles, put in sentences; or remove and ``several'' to ``two'' above.}
 \end{itemize}
 %\vspace{-1mm}
 
@@ -53,81 +54,78 @@ vacuous results for modern state-of-the-art DNNs, e.g., since modern DNNs are he
 
 As with most theoretical studies, Liao et al.'s approach and intent differ greatly from ours.
 They seek \emph{worst-case} complexity bounds, motivated to reconcile discrepancies with more traditional statistical learning theory, and they apply it to quite small NNs.
-To address our main question, we seek an \emph{average-case} complexity metric, viable in production to guide the development of better DNNs at scale.
-\michael{MM: do we want to call this typical case.}
-Bounding a toy model does not necessarily mean that the individual weight matrix norms in production-quality DNNs will be directly comparable, e.g., across layers in different, and more complex, architectures.
-Also, to achieve their result, Liao et al. had to modify the DNN optimization loss function.
+To address our main question, we seek an \emph{average-case} or \emph{typical case} (for realistic problems) complexity metric, viable in production to guide the development of better DNNs at scale.
+%\michael{MM: do we want to call this typical case.}
+Bounding a toy model does not necessarily mean that the individual weight matrix norms in production-quality DNNs will be directly comparable.
+In particular, it does not mean that we can directly compare the individual weight matrix norms across layers in different, and more complex, architectures. 
+Also, 
+%to achieve their result, 
+Liao et al. had to modify the DNN optimization loss function.
 This means that their approach can not be tested/evaluated on any existing pre-trained DNN architecture, e.g., the VGG and ResNet models, widely-used today in industry. 
 Still, their results do suggest that a Product Norm may work well as a \emph{practical} capacity metric for large, and perhaps even pre-trained, production-quality DNNs.   
-To predict trends in the test accuracies, one needs some \emph{Universal} empirical metric that transfers across DNN architectures.
+To predict trends in the test accuracies, one needs some more \emph{Universal} empirical metric that transfers across DNN architectures.
 
-\michael{MM still to tweak the rest.}
+Recent work by Martin and Mahoney~\cite{MM18_TR} provides a Universal empirical metric that characterizes the amount of \emph{Implicit Self-Regularization} and, accordingly, the generalization capacity, for a wide range of pre-trained DNNs.
+The metric involves the power law (PL) exponents, $\alpha$, of individual layer weight matrices, $\mathbf{W}$, as determined by fitting the Empirical Spectral Density (ESD), $\rho(\lambda)$, to a PL distribution.
+Looking in detail at a series of models, like AlexNet, VGG, ResNet, etc, they observe that the (linear) layer weight matrices almost always follow a PL distribution, and the fitted PL exponents nearly all lie within a universal range $\alpha\in[2,5]$. 
+Further, analysis of a small model (MinAlexNet) demonstrates that smaller PL exponents $\alpha$ correspond to better generalization.
+Subsequent work~\cite{MM18_unpub_work} demonstrated HT behavior in nearly every pre-trained architecture studied, e.g., across nearly $7500$ layer weight matrices (and 2D feature maps), including DNNs pre-trained for computer vision tasks on ImageNet, and for several different NLP tasks.
 
-\charlesX{
-Recent work Martin and Mahoney~\cite{MM18_TR} provides and Universal empirical metric that characterizes the amount of \emph{Implicit Self-Regularization}
-and, accordingly, the generalization capacity, or a wide range of pre-trained DNNs---the power law (PL) exponents, $\alpha$, of the invidual layer weight matrices $\mathbf{W}$,
-as determined by fitting the Empirical Spectral Density (ESD), $\rho(\lambda)$, to a PL distribution according to Heavy Tailed Random Matrix Theory. (HT-RMT)
-Looking in detail at a series of models, like AlexNet, VGG, ResNet, etc, they observe that the (linear) layer weight matrices almost always follow a PL distribution,
-and the fitted PL exponents nearly all lie within a universal range $\alpha\in[2,5]$.   Further analysis of a small model (MinAlexNet) shows that 
-smaller PL exponents $\alpha$ correspond to better generalization.
-When we observe good empirical PL fits for the ESDs of the correlations of layer weight matrices, we say the DNN \emph{exhibits Heavy Tailed (HT) behavior}.
-And we have observed  Heavy Tailed (HT) behavior in every pre-trained architecture studied, across nearly $7500$ layer weight matrices (and 2D feature maps),
-including DNNs pre-trained on for computer vision tasks on ImageNet, and for different NLP tasks.
-Motived by these empirical observations, and using the Universality properties of Heavy-Tailed Random Matrix Theory (HT-RMT), 
-they developed a theory of Heavy-Tailed Self-Regularization (HT-SR) for DNNs~\cite{MM17_TR,MM18_TR}.
+When one observes good empirical PL fits of the ESDs of the correlations of layer weight matrices, we say the DNN \emph{exhibits Heavy-Tailed (HT) behavior}.
+Motivated by these empirical observations, and using the Universality properties of Heavy-Tailed Random Matrix Theory (HT-RMT), Martin and Mahoney developed a theory of Heavy-Tailed Self-Regularization (HT-SR) for DNNs~\cite{MM17_TR,MM18_TR}.
+We build on and extend that theory~here.
 
-In Statistical Physics, Universality of PL exponents is very special, and suggests the presence of a deeper, underlying, \emph{Universal mechanism}
- driving the system dynamics~\cite{SornetteBook,BouchaudPotters03}, and It  is this \ngreen{\emph{Heavy Tailed Mechanistic Universality} (HT-MU),
-  as well call it,}    that originally motivated our study.  
- This applies to the analysis of complicated systems, including many physical systems,  traditional Neural Networks\cite{EB01_BOOK,nishimori01}),
-and even models of the dynamics of actual spiking neurons.
-Indeed, the dynamics of learning in DNNs (and perhaps real neurons as well) seems to resemble a system near a phase transition,
-such as the phase boundary of spin glass, or a system displaying Self Organized Criticality (SOC), or , say, a Jamming transition.  
-Of course, we can not say which mechanism, if any, is at play.  Instead, we use the machinery of  HT-RMT 
-as a stand-in for a generative model of the weight matrices in DNNs, to catalog and model the  HT behavior of DNNs.
+In Statistical Physics, Universality of PL exponents is very special, and it suggests the presence of a deeper, underlying, \emph{Universal mechanism} driving the system dynamics~\cite{SornetteBook,BouchaudPotters03}.
+It is this \emph{Heavy Tailed Mechanistic Universality} (HT-MU), as well call it, that originally motivated our study.  
+HT-MU applies to the analysis of complicated systems, including many physical systems, traditional NNs~\cite{EB01_BOOK,nishimori01}, and even models of the dynamics of actual spiking neurons.
+Indeed, the dynamics of learning in DNNs 
+%(and perhaps real neurons as well) 
+seems to resemble a system near a phase transition, such as the phase boundary of spin glass, or a system displaying Self Organized Criticality (SOC), or a Jamming transition~\cite{GSdx18_TR,SGd18_TR}. 
+Of course, we can not say which mechanism, if any, is at play. 
+Instead, we use the machinery of  HT-RMT as a stand-in for a generative model of the weight matrices in DNNs, to catalog and model the HT behavior of DNNs.%
 \footnote{Perhaps the most well-known Universality in RMT is associated with the Gaussian Universality class, where the sum of many random variables drawn from a wide range of distributions is ``approximately Gaussian,'' e.g., in the sense that the sum approaches a suitably-normalized Gaussian distribution.  As briefly reviewed in Section~\ref{sxn:theory-review}, HT Universality makes analogous (but, admittedly, more complicated) statements for random variables drawn from distributions in which the tails decay more slowly than those in the Gaussian Universality class~\cite{MM18_TR}.}
-}
-
-%Based on these ideas, we develop a Universal capacity control metric $\hat{\alpha}$ that is a weighted average of the layer power law (PL) exponents.
-%$(\alpha)$ of the DNN layer weight matrices. The average weights depend on the log Spectral norm (i.e., maximum eigenvalue) of the associated correlations matrices.
-%We show this metric can be approximated by the  \nred{average  log Frobenius norm}  of the weight matrices $\langle\log\Vert\mathbf{W}\Vert_F{}\rangle$.
-%Rather than considering bounds on the worst-case generalization accuracy for small toy NNs, we show that $\hat{\alpha}$ predict trends 
-%in the average case generalization performance for large-scale pre-trained DNNs.
-
-%\nred{STOPPED HERE? We catalog the DNN ESDs into  RMT Universality classes, and use the mathematical form of the $\rho(\lambda)$, and the tail statistics,
-%to build Universality relations that even cross the ...}
-
-%\michael{I WILL REWORK THIS TOO, INLY DISCUSS OUR WORK HERE:  to address our main question, we will build upon and combine two seemingly-unrelated lines of recent work.
-%The first is that of Martin and Mahoney~\cite{MM17_TR,MM18_TR}, which considered Heavy-Tailed (HT) Universality methods from Statistical Physics to analyze weight matrices constructed from large-scale pre-trained DNNs.
-%The second is that of Liao et al.~\cite{LMBx18_TR}, which used norm-based capacity control metrics to bound the worst-case generalization error for several small (non production-quality, but still \nred{interesting}) DNN models.
-
-% again, too dense 
-%To place these results in context, \nred{our earlier work}~\cite{MM18_TR}
- %recall that the work of Martin and Mahoney~\cite{MM18_TR} showed
- %shows that for nearly every large-scale pre-trained DNN
-%the empirical spectral density (ESD) of the layer weight matrices displays HT behavior.
- % \nred{The layer weight matrices (at least the linear ones) fit} a PL distribution, and that smaller PL exponents $\alpha$ correspond to better implicit Self-Regularization and generalization quality.
-%Motived by these empirical observations, and using the Universality properties of Heavy-Tailed Random Matrix Theory (HT-RMT), they developed a Theory of Heavy-Tailed Self-Regularization (HT-SR) for %DNNs~\cite{MM17_TR,MM18_TR}.
-%In the Statistical Physics analysis of complicated systems (e.g., many physical systems, but also well-trained NNs~\cite{EB01_BOOK,nishimori01}), Universality of PL exponents is very special and suggests the presence %of a deeper, underlying mechanism driving the system~\cite{SornetteBook,BouchaudPotters03}.% 
-%\footnote{Perhaps the most well-known Universality is associated with the Gaussian Universality class, where the sum of many random variables drawn from a wide range of distributions is ``approximately %Gaussian,'' e.g., in the sense that the sum approaches a suitably-normalized Gaussian distribution.  As briefly reviewed in Section~\ref{sxn:theory-review}, HT Universality makes analogous (but, admittedly, more complicated) statements for random variables drawn from distributions in which the tails decay more slowly than those in the Gaussian Universality class~\cite{MM18_TR}.}
-%It is this \ngreen{\emph{Heavy Tailed Mechanistic Universality} (HT-MU), as well call it,} that originally motivated our study.
-
-
-This Universality \emph{suggests} that we look for a \emph{Universal Capacity Control Metric}.
+%% 
+%% %Based on these ideas, we develop a Universal capacity control metric $\hat{\alpha}$ that is a weighted average of the layer power law (PL) exponents.
+%% %$(\alpha)$ of the DNN layer weight matrices. The average weights depend on the log Spectral norm (i.e., maximum eigenvalue) of the associated correlations matrices.
+%% %We show this metric can be approximated by the  \nred{average  log Frobenius norm}  of the weight matrices $\langle\log\Vert\mathbf{W}\Vert_F{}\rangle$.
+%% %Rather than considering bounds on the worst-case generalization accuracy for small toy NNs, we show that $\hat{\alpha}$ predict trends 
+%% %in the average case generalization performance for large-scale pre-trained DNNs.
+%% 
+%% %\nred{STOPPED HERE? We catalog the DNN ESDs into  RMT Universality classes, and use the mathematical form of the $\rho(\lambda)$, and the tail statistics,
+%% %to build Universality relations that even cross the ...}
+%% 
+%% %\michael{I WILL REWORK THIS TOO, INLY DISCUSS OUR WORK HERE:  to address our main question, we will build upon and combine two seemingly-unrelated lines of recent work.
+%% %The first is that of Martin and Mahoney~\cite{MM17_TR,MM18_TR}, which considered Heavy-Tailed (HT) Universality methods from Statistical Physics to analyze weight matrices constructed from large-scale pre-trained DNNs.
+%% %The second is that of Liao et al.~\cite{LMBx18_TR}, which used norm-based capacity control metrics to bound the worst-case generalization error for several small (non production-quality, but still \nred{interesting}) DNN models.
+%% 
+%% % again, too dense 
+%% %To place these results in context, \nred{our earlier work}~\cite{MM18_TR}
+%%  %recall that the work of Martin and Mahoney~\cite{MM18_TR} showed
+%%  %shows that for nearly every large-scale pre-trained DNN
+%% %the empirical spectral density (ESD) of the layer weight matrices displays HT behavior.
+%%  % \nred{The layer weight matrices (at least the linear ones) fit} a PL distribution, and that smaller PL exponents $\alpha$ correspond to better implicit Self-Regularization and generalization quality.
+%% %Motived by these empirical observations, and using the Universality properties of Heavy-Tailed Random Matrix Theory (HT-RMT), they developed a Theory of Heavy-Tailed Self-Regularization (HT-SR) for %DNNs~\cite{MM17_TR,MM18_TR}.
+%% %In the Statistical Physics analysis of complicated systems (e.g., many physical systems, but also well-trained NNs~\cite{EB01_BOOK,nishimori01}), Universality of PL exponents is very special and suggests the presence %of a deeper, underlying mechanism driving the system~\cite{SornetteBook,BouchaudPotters03}.% 
+%% %\footnote{Perhaps the most well-known Universality is associated with the Gaussian Universality class, where the sum of many random variables drawn from a wide range of distributions is ``approximately %Gaussian,'' e.g., in the sense that the sum approaches a suitably-normalized Gaussian distribution.  As briefly reviewed in Section~\ref{sxn:theory-review}, HT Universality makes analogous (but, admittedly, more complicated) statements for random variables drawn from distributions in which the tails decay more slowly than those in the Gaussian Universality class~\cite{MM18_TR}.}
+%% %It is this \ngreen{\emph{Heavy Tailed Mechanistic Universality} (HT-MU), as well call it,} that originally motivated our study.
+%% 
+This Universality \emph{suggests} that we look for a \emph{Universal Capacity Control Metric}%
 \footnote{To be clear, this metric is Universal, not in the sense that it will apply ``universally'' to every possible DNN, but in the Statistical Physics sense~\cite{SornetteBook,BouchaudPotters03} that it should apply to matrices within/across HT ``Universality''~classes.}
-\ngreen{
-Indeed, nearly all large, pre-trained DNNs have smallish layer PL exponents  $\alpha$, all lying within the same Fat-Tailed Universality class.  
-The exponents are small, but not too small.  
-Additionally, the HT-SR studies on small models show that DNNs that generalize better have smaller layer PL exponents.
-These 2 facts suggest that, when comparable, large, production DNNs that generalize better, should have, on average, smaller $\alpha$.  
-For example, the \emph{average} $\hat{\alpha}$ for VGG19 should be smaller that for VGG11.
-  }
-\nred{
-A natural candidate for our Universal complexity metric is the weighted average of layer PL exponents, $\hat{\alpha}$.
-(See Eqn.~(\ref{eqn:alpha_hat_generic}) below.)
-where the weights encode information that ``larger'' matrices are somehow more important.
-MORE HERE ?
-}
+to address our main question.
+
+%% INCOMPLETE AND SPACE %% \ngreen{
+%% INCOMPLETE AND SPACE %% Indeed, nearly all large, pre-trained DNNs have smallish layer PL exponents  $\alpha$, all lying within the same Fat-Tailed Universality class.  
+%% INCOMPLETE AND SPACE %% The exponents are small, but not too small.  
+%% INCOMPLETE AND SPACE %% Additionally, the HT-SR studies on small models show that DNNs that generalize better have smaller layer PL exponents.
+%% INCOMPLETE AND SPACE %% These 2 facts suggest that, when comparable, large, production DNNs that generalize better, should have, on average, smaller $\alpha$.  
+%% INCOMPLETE AND SPACE %% For example, the \emph{average} $\hat{\alpha}$ for VGG19 should be smaller that for VGG11.
+%% INCOMPLETE AND SPACE %%   }
+%% INCOMPLETE AND SPACE %% \nred{
+%% INCOMPLETE AND SPACE %% A natural candidate for our Universal complexity metric is the weighted average of layer PL exponents, $\hat{\alpha}$.
+%% INCOMPLETE AND SPACE %% (See Eqn.~(\ref{eqn:alpha_hat_generic}) below.)
+%% INCOMPLETE AND SPACE %% where the weights encode information that ``larger'' matrices are somehow more important.
+%% INCOMPLETE AND SPACE %% MORE HERE ?
+%% INCOMPLETE AND SPACE %% }
 
 %\ngreen{
 %A HT Universality argument then leads to an expression that suggests that the weights should be the log of the spectral norm of the correlations between layer weight matrices.
@@ -136,11 +134,13 @@ MORE HERE ?
 %$\langle\Vert\mathbf{W}_{F}\Vert\rangle$ of the layer weight matrices.}
 %\nred{(See Eqn.~(\ref{eqn:basic_relation}) below.)}
 
-In summary, our main results are the following:
+%In summary, 
+%To summarize,
+Our main results are the following.
 %\vspace{-2mm}
 \begin{itemize}
 \item
-We introduce a new methodology to analyze the performance of large-scale pre-trained DNNs, using a phenomena observed in HT-SR Theory that we call Heavy Tailed Mechanistic Universality (HT-MU).
+We introduce a new methodology to analyze the performance of large-scale pre-trained DNNs, using a phenomena observed in HT-SR Theory that we call Heavy-Tailed Mechanistic Universality (HT-MU).
 We construct a Universal capacity control metric to predict average DNN test performance.
 This metric is a weighted average of layer PL exponents, $\hat{\alpha}$, weighted by the Spectral Norm (i.e., maximum eigenvalue $\lambda^{max}$) of layer correlation matrices: 
 $$
@@ -152,7 +152,7 @@ This Universal metric correlates very well with the reported average test error 
 %% such as the VGG, ResNet, and other series of arcitectures.
 %(without the need for re-training or looking at test data, although one could use the metrics as a training diagnostic).
 \item
-We derive a relation between our Universal capacity control metric $\hat{\alpha}$ and the well known Product Norm capacity control metric, i.e, in the form of the average log of the Frobenius norm,
+We derive a relation between our Universal capacity control metric $\hat{\alpha}$ and the well known Product Norm capacity control metric, i.e, in the form of the average log of the squared Frobenius norm:
 $$
 \langle\log\Vert\mathbf{W}\Vert^{2}_{F}\rangle\approx \alpha\log\lambda^{max}  .
 $$
@@ -166,7 +166,10 @@ such norm-based capacity control metrics also correlate well with the average te
 For both our Universal metric and the Product Norm metric, our empirical results are, to our knowledge, the first time such theoretical capacity metrics have been reported to predict (trends in) the test accuracy for \emph{pre-trained production-level} DNNs.
 In particular, this illustrates the usefulness of these norm-based metrics beyond smaller models such as MNIST, CIFAR10, and CIFAR100. 
 Our 
-results, including for both our Universal metric and the Product Norm metric we consider, can be reproduced with the \texttt{WeightWatcher} package~\cite{weightwatcher_pagkage}; and our
+results, including for both our Universal metric and the Product Norm metric we consider, can be reproduced with the \texttt{WeightWatcher} package%
+%~\cite{weightwatcher_pagkage}; 
+\footnote{\url{https://pypi.org/project/WeightWatcher/}};
+and our
 results suggest that our ``practical theory'' approach is fruitful more generally for engineering good algorithms for realistic large-scale DNNs.
 
 

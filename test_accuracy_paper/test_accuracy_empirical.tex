@@ -28,14 +28,16 @@ See Appendix~\ref{sxn:appendix-addl-empirical} for additional empirical results 
 
 \paragraph{VGG and VGG\_BN Models.}
 
-\begin{figure*}[t] %[!htb]
+\begin{figure}[t] %[!htb]
    \centering
    \subfigure[log Frobenius norm $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$]{
-      \includegraphics[scale=0.35]{img/vgg-lognorms.png}
+      %\includegraphics[scale=0.35]{img/vgg-lognorms.png}
+      \includegraphics[scale=0.19]{img/vgg-lognorms.png}
       \label{fig:vgg_lognorms}
    }
    \subfigure[weighted average PL exponent $\hat{\alpha}$]{
-      \includegraphics[scale=0.35]{img/vgg-w_alphas.png}
+      %\includegraphics[scale=0.35]{img/vgg-w_alphas.png}
+      \includegraphics[scale=0.19]{img/vgg-w_alphas.png}
       \label{fig:vgg_alphahat}
    }
    \caption{%
@@ -52,7 +54,7 @@ See Appendix~\ref{sxn:appendix-addl-empirical} for additional empirical results 
       \michael{Charles, have circles and squares or something like that to distinguish regular and BN versions.}
    }
    \label{fig:vgg}
-\end{figure*}
+\end{figure}
 
 
 %% COMBINED WITH ABOVE %% \begin{figure}[!htb]
@@ -93,7 +95,7 @@ VGG19 & VGG19 & & & & & \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Results for VGG Series of Architectures and DNN Models.}
+\caption{Results for VGG Architectures and DNN Models.}
 \label{table:models_VGG}
 \end{table}
 
@@ -118,26 +120,28 @@ Equally importantly, we did not need to peek at the ImageNet test data to make t
 
 \paragraph{ResNet Models.}
 
-\begin{figure*}[!htb]
+\begin{figure}[!htb]
    \centering
    \subfigure[log Frobenius norm $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$]{
-      \includegraphics[scale=0.30]{img/ResNet_top1-lognorms.png}
+      %\includegraphics[scale=0.30]{img/ResNet_top1-lognorms.png}
+      \includegraphics[scale=0.15]{img/ResNet_top1-lognorms.png}
       \label{fig:resnet_lognorms}
    }
    \subfigure[weighted average PL exponent $\hat{\alpha}$]{
-      \includegraphics[scale=0.30]{img/ResNet-w_alphas.png}
+      %\includegraphics[scale=0.30]{img/ResNet-w_alphas.png}
+      \includegraphics[scale=0.15]{img/ResNet-w_alphas.png}
       \label{fig:resnet_alphahat}
    }
    \caption{
       Pre-trained
-      ResNet Series of Architectures and DNNs.  
+      ResNet Architectures and DNNs.  
       Top 1 Test error versus
       average log Frobenius norm $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$ (in (\ref{fig:resnet_lognorms}))
       or
       weighted average PL exponent $\hat{\alpha}$ (in (\ref{fig:resnet_alphahat})).
            }
    \label{fig:resnet}
-\end{figure*}
+\end{figure}
 
 \begin{table}[!htb]
 \small
@@ -173,7 +177,7 @@ ResNet152 & resnet152 & XX,XX & \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Results for ResNet Series of Architectures and DNN Models.
+\caption{Results for ResNet Architectures and DNN Models.
          \michael{Charles, are we going to have the same set of columns for ResNet at least that we had for VGG in the VGG table.}
         }
 \label{table:models_resnet}

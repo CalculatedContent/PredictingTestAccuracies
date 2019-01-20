@@ -7,10 +7,11 @@ We review Martin and Mahoney's Theory of Heavy-Tailed Self-Regularization (HT-SR
 %%\michael{We need to push the other 10 pager to the archive, without the supplementary information}
 
 Write the Energy Landscape (or optimization function) for a typical DNN with $L$ layers, with activation functions $h_{l}(\cdot)$, and with $N\times M$ weight matrices $\mathbf{W}_{l}$ and biases $\mathbf{b}_{l}$, as:
-\begin{equation}
-E_{DNN}=h_{L}(\mathbf{W}_{L}\times h_{L-1}(\mathbf{W}_{L-1}\times h_{L-2}(\cdots)+\mathbf{b}_{L-1})+\mathbf{b}_{L})  .
-\label{eqn:dnn_energy}
-\end{equation}
+\begin{equation*}
+%PRESQUISH% E_{DNN}=h_{L}(\mathbf{W}_{L}\times h_{L-1}(\mathbf{W}_{L-1}\times h_{L-2}(\cdots)+\mathbf{b}_{L-1})+\mathbf{b}_{L})  .
+E_{DNN} \hspace{-1mm} = \hspace{-1mm} h_{L}(\mathbf{W}_{L}\cdot h_{L-1}(\mathbf{W}_{L-1}\cdot h_{L-2}(\cdots)+\mathbf{b}_{L-1})+\mathbf{b}_{L})  .
+%\label{eqn:dnn_energy}
+\end{equation*}
 %WLOG,
 Typically, this model would be trained on some labeled data $\{d_{i},y_{i}\}\in\mathcal{D}$, using Backprop, by minimizing the loss $\mathcal{L}$.
 For simplicity, we do not indicate the structural details of the layers (e.g., Dense or not, Convolutions or not, Residual/Skip Connections, etc.). 
@@ -49,7 +50,7 @@ $$
 %This will be very important below. 
 %For our empirical analysis, we set $\gamma=1$ and deal with these issues in an \emph{a posteriori} manner. 
 %
-If we compute the eigenvalue spectrum of $\mathbf{X}$, i.e.,
+If we compute the eigenvalue spectrum of $\mathbf{X}$, i.e., $\lambda_i$ such that
 $  % $$
 \mathbf{X}\mathbf{v}_{i}=\lambda_{i}\mathbf{v}_{i} , 
 $  % $$
@@ -60,8 +61,8 @@ then the ESD of eigenvalues, $\rho(\lambda)$, is just a histogram of the eigenva
 \end{equation}
 %
 %From HT-RMT theory~\cite{XXX-XXX,XXX-XXX,XXX-XXX,XXX-XXX}, the ESD $\rho(\lambda)$ of a HT matrix will have a HT, taking the form
-Empirically, for weight matrices of a modern well-trained production-quality DNN, the ESD nearly always exhibits Heavy-Tailed properties~\cite{MM18_TR}.%
-\footnote{Older and smaller models exhibit ESD properties closer to a Spiked Covariance model, and it is possible to train DNNs to have ESDs with other properties, corresponsing to other types of implicit self regularization~\cite{MM18_TR}.} 
+%% POSSIBLY REDUNDANT %% Empirically, for weight matrices of a modern well-trained production-quality DNN, the ESD nearly always exhibits Heavy-Tailed properties~\cite{MM18_TR}.
+%%SPACE%% \footnote{Older and smaller models exhibit ESD properties closer to a Spiked Covariance model, and it is possible to train DNNs to have ESDs with other properties, corresponsing to other types of implicit self regularization~\cite{MM18_TR}.} 
 Using HT-SR Theory, we can characterize the \emph{correlations} in a weight matrix by examining its ESD, $\rho(\lambda)$.
 It can be well-fit to a power law (PL) distribution, given as
 \begin{equation}
@@ -99,8 +100,32 @@ This method works very well for exponents between $\alpha\in(2,4)$, and it is ad
 %%   to predict trends in the generalization accuracy.}
 
 The original work on HT-SR Theory~\cite{MM18_TR} considered NNs including AlexNet and InceptionV3 (as well as DenseNet, ResNet, and VGG), and it showed that for nearly every $\mathbf{W}$, the (bulk and tail) of the ESDs can be fit to a PL and the PL exponents $\alpha$ nearly all lie within the range $\alpha\in(1.5,5)$.
-Moreover, smaller exponents appear $\alpha$ are correlated with more self-regularization and, correspondingly, better generalization~\cite{MM18_TR}.
-Subsequent work~\cite{MM18_unpub_work} has shown that these results are ubiquitous; see Appendix~\ref{sxn:appendix-ubiquity-of-ht}.
+Moreover, smaller exponents $\alpha$ are correlated with more implicit self-regularization and, correspondingly, better generalization~\cite{MM18_TR}.
+Subsequent work~\cite{MM18_unpub_work} has shown that these results are ubiquitous.
+%\michael{Put ref to notebook in~\cite{MM18_unpub_work}.}
+For example, 
+upon examining nearly 10,000 layer weight matrices $\mathbf{W}_{l,i}$ across over 50 different modern pre-trained DNN architectures, the ESD of nearly every $\mathbf{W}$ layer matrix can be fit to a PL:
+$70-80\%$ of the time, the fitted PL exponent $\alpha$ lies in the range $\alpha\in(2,4)$; and  %% (in the Moderately Heavy-Tailed Universality class, described below); and
+$10-20\%$ of the time, the fitted PL exponent $\alpha$ lies in the range $\alpha< 2$.  %% (in the Very Heavy-Tailed Universality class, described below).
+For example, see Figure~\ref{fig:power-law-histogram} for a histogram of results for ca. 7500 weight matrices from ImageNet.
+%\charlesX{explain this plot, ref to notebook and check in.  This plot is for ImageNet, includes conv@D feature maps, lots of small alpha, but not as good a fit.}
+Of course, there are exceptions: in any real DNN, the fitted $\alpha$ may range anywhere from $\sim 1.5$ to $10$ or higher~\cite{MM18_unpub_work} (and, of course, larger values of $\alpha$ may indicate that the PL is not a good model for the data).  
+Still, overall, in nearly all large, pre-trained DNNs, the correlations in the  weight matrices exhbit a remarkable Universality, being both Heavy Tailed, and having small---but not too small---PL exponents. 
+
+\begin{figure}[!htb]
+   \centering
+   \includegraphics[scale=0.40]{img/power-law-histogram.png} 
+   \caption{%
+            Histogram of PL exponents, $\alpha$, fit on ca. 7500 Linear and Conv2D Layers from ImageNet. 
+            The vast majority have $\alpha\in(1.5,5)$. 
+            Some Conv2D layers have smaller values of $\alpha$; and larger values of $\alpha$ (up to ca. 20) exist but correspond to less reliable fits.
+            \michael{Charles, zoom in on X axis, so don't go above 10.}
+            }
+   \label{fig:power-law-histogram}
+\end{figure}
+
+
+
 
 
 %\nred{removed this: \paragraph{Simple Random Matrix Models.} }
@@ -120,26 +145,27 @@ Subsequent work~\cite{MM18_unpub_work} has shown that these results are ubiquito
 
 %\charlesX{THIS SECTION NEEDS A LOT OF WORK}
 
-What does it \emph{mean} to say the DNN weight matrices exhibit Universality? 
-This answer to this---and its implications---depends on your perspective---as a Mathematician or a Physicist.
+Here, we consider the question:
+what does it \emph{mean} to say that DNN weight matrices exhibit Universality? 
+This answer to this---and its implications---depends on your perspective, in particular, as a Mathematician or a Physicist.
 
 In Statistics and Applied Mathematics, Universality typically refers to properties of systems that can be modeled by random matrices.
 The justification is that certain system properties can be deduced, without requiring knowledge of system details, from a few global quantities that are then used as parameters to define a random matrix ensemble~\cite{ER05,EW13}.
-Of course, the DNN weight matrices are not random matrices---they are strongly correlated objects---so it may seem odd that we can apply RMT to characterize them.
+Of course, the DNN weight matrices are not random matrices---they are strongly- correlated objects---so it may seem odd that we can apply RMT to characterize them.
 
 In Statistical Physics, Universality refers to a different, but related, phenomena.
 It arises in systems with very strong correlations, at or near a critical point or phase transition. 
-It is characterized by experimentally measuring ``observables'' that display HT behavior, with common---or universal---PL exponents. 
-More importantly, it indicates that a specific universal mechanism drives the underlying physical process, e.g., Self Organized Criticality, directed percolation, etc.~\cite{SornetteBook,BouchaudPotters03}. 
-For this reason, we refer to the Universality observed in HT-SR, i.e., in the ESDs of (pre-trtained) DNNs weight matrices, as \emph{Heavy-Tailed Mechanistic Universality (HT-MU)}.
+It is characterized by measuring experimentally certain ``observables'' that display HT behavior, with common---or Universal---PL exponents. 
+More importantly, it indicates that a specific Universal mechanism drives the underlying physical process, e.g., Self Organized Criticality, directed percolation, etc.~\cite{SornetteBook,BouchaudPotters03}. 
+For this reason, we refer to the Universality observed in HT-SR, i.e., in the ESDs of (pre-trtained) DNN weight matrices, as \emph{Heavy-Tailed Mechanistic Universality~(HT-MU)}.
 
 For an illustration of what we mean by HT-MU, see Figure~\ref{fig:universality_diagram}. 
 When we observe HT behavior in $\mathbf{W}$, or rather its correlation matrix $\mathbf{X}$, we use HT-RMT as a generative model. 
-We say that we \emph{model} $\mathbf{W}$ \emph{as if} it is a random matrix, $\mathbf{W}^{rand}(\mu)$, drawn from a Universality class of HT-RMT (i.e., VHT, MHT, or WHT). 
+We say that we \emph{model} $\mathbf{W}$ \emph{as if} it is a random matrix, $\mathbf{W}^{rand}(\mu)$, drawn from a Universality class of HT-RMT (i.e., VHT, MHT, or WHT, as defined below). 
 Of course, we do not mean that $\mathbf{W}$ is itself random in any way.
 We simply use RMT as a stand-in generative model because the correlations in $\mathbf{W}^{rand}(\mu)$ resembles the correlations in  $\mathbf{W}$. 
 Indeed, RMT itself does not describe the behavior of a random matrix $\mathbf{W}$ per-se, but it characterizes its correlations (i.e., the eigenvalues of $\mathbf{X}$). 
-Specifically, RMT describes the empirical spectral density, $\rho_{emp}(\lambda)$, its limiting, deterministic form $\rho_{\infty}(\lambda)$, as well as the finite size scaling and fluctuations of the maximum eigenvalue, $\lambda^{max}$~\cite{MM18_TR}. 
+Specifically, RMT describes the ESD, $\rho_{emp}(\lambda)$, its limiting, deterministic form $\rho_{\infty}(\lambda)$, as well as the finite-size scaling and fluctuations of the maximum eigenvalue, $\lambda^{max}$~\cite{MM18_TR}. 
 So, even though $\mathbf{W}$ is not random, we expect its ESD and maximum eigenvalue to behave \emph{as if} they were drawn from some HT-random matrix $\mathbf{W}^{rand}(\mu)$.
    
 %% \nred{NEED LEAD IN}
@@ -172,7 +198,7 @@ So, even though $\mathbf{W}$ is not random, we expect its ESD and maximum eigenv
    \includegraphics[scale=0.36]{img/universality_classes.png} 
    \caption{Illustration of our use of HT Universality.  
             %\michael{Charles, maybe tweak this figure to rotate and horizontally show transfer of Universal things between different matrices.}  
-            A random matrix $\mathbf{W}(\mu)$ with elements drawn i.i.d. from the HT distribution of Eqn.~(\ref{eqn:ht_dstbn}) and weight matrix from a modern well-trained DNN that exhibits strong correlations $\mathbf{W}^{str. corr.}$ each arise from different generative mechanisms, and they different.  Both exhibit similar Universality properties, as evidneced by the HT properties of the ESDs of their corresponding correlation matrices $\mathbf{X}$, and so we expect Universal properties to be similar between them.}
+            A random matrix $\mathbf{W}(\mu)$ with elements drawn i.i.d. from the HT distribution of Eqn.~(\ref{eqn:ht_dstbn}) and weight matrix $\mathbf{W}^{str. corr.}$ from a modern well-trained DNN that exhibits strong correlations each arise from different generative mechanisms, and they different.  Both exhibit similar Universality properties, as evidneced by the HT properties of the ESDs of their corresponding correlation matrices $\mathbf{X}$, and so we expect Universal properties to be similar between them.}
    \label{fig:universality_diagram}
 \end{figure}
 
@@ -205,7 +231,7 @@ of HT random matrices, defined by the range $\mu$ takes on:
 \paragraph{Heavy-Tailed, Finite-Size Relations.}
 
 HT-RMT provides more than HT Universality classes.
-It also provides simple relations between the empirical observables, e.g., the PL exponent $\alpha$ and the maximum eigenvalue $\lambda^{max}$ of each $\mathbf{W}$, with the parameter(s) $\mu$ of our generative theory, i.e, HT-RMT.   
+It also provides simple relations between the empirical observables, e.g., the PL exponent $\alpha$ and the maximum eigenvalue $\lambda^{max}$ of each $\mathbf{W}$, with the parameter(s) $\mu$ of our generative theory, i.e, of~HT-RMT.   
 
 %% For the VHT Universality class, the PL tail of Eqn.~(\ref{eqn:eigenval_pl}) persists in the infinite limit $N\rightarrow\infty$, for $Q$ fixed; and
 %% we have the linear relation between our observed exponent $\alpha$ and the theoretical~$\mu$:
@@ -240,9 +266,9 @@ we have the linear relation between our observed exponent $\alpha$ and the theor
 \end{align}
 %% \michael{Ques: careful, two things change here: observed versus theoretical, and matrix elements versus eigenvalues.}
 This asymptotic expression works very well at finite size, even for very small matrices $(M,N\approx100)$.
-%
+
 For the MHT Universality class, the PL tail of Eqn.~(\ref{eqn:eigenval_pl}) holds in the infinite $N\rightarrow\infty$ limit, for $Q$ fixed, for $\alpha$ in Eqn.~(\ref{eqn:alpha_mu_vht}).
-At all finite sizes, however, $\alpha$ is still linear in $\mu$, but it displays \emph{very} strong finite-size effects, empirically giving 
+At all finite sizes, however, $\alpha$ is still linear in $\mu$, but it displays \emph{very} strong finite-size effects, empirically~giving: 
 \begin{align}
 \text{MHT:}\;\;\;\alpha=a\mu+b, 
 \label{eqn:alpha_mu_mht}
@@ -252,7 +278,7 @@ At all finite sizes, however, $\alpha$ is still linear in $\mu$, but it displays
 where $a,b$ depend strongly on $M,N$. 
 (See Table 3 of \cite{MM18_TR} and Figure~\ref{fig:randW} below for more details.)
 These strong finite-size effects characterize MHT distributions; and they are well-known in Statistical Physics~\cite{SornetteBook,BouchaudPotters03}. 
-We will exploit these finite-size effects to develop our-theory.
+We will exploit these finite-size effects to develop our~theory.
 
 Finally, for both the VHT and the MHT Universality classes, the maximum empirical eigenvalue, $\lambda^{max}$, 
 follows a Frechet distribution (i.e., an exponentially-truncated PL); and we expect it to scale with $N$ according to Extreme Value Theory (EVT)~\cite{heavytails2007,disordered2007,Resnick07,MM18_TR}:
@@ -266,11 +292,12 @@ follows a Frechet distribution (i.e., an exponentially-truncated PL); and we exp
 %Let's clarify Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max}):  
 Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max}) show that we have very simple relationships that apply to random matrices that lie within both 
 the VHT and MHT Universality classes.
-The $\alpha$ and $\lambda^{max}$ are empirically-measurable quantities--of real or synthetic matrices, while $\mu$ is a parameter of the HT-RMT model. How shall we use these relations ?
+The $\alpha$ and $\lambda^{max}$ are empirically-measurable quantities---of real or synthetic matrices---while $\mu$ is a parameter of the HT-RMT model. 
+For us, the question is: how shall we \emph{use} these relations?
 
-\emph{Due to Heavy Tailed Mechanistic Universality (HT-MU)}, we expect Eqn.~(\ref{eqn:scaling_of_lambda_max}) to hold for matrices in these HT Universality classes (as evidenced by their ESD properties), e.g., DNN weight matrices $\mathbf{W}$ after training--\emph{even when the matrix is not itself a HT random matrix} and therefore not governed by RMT or EVT.
+\emph{Due to Heavy Tailed Mechanistic Universality (HT-MU)}, we expect Eqn.~(\ref{eqn:scaling_of_lambda_max}) to hold for matrices in these HT Universality classes (as evidenced by their ESD properties), e.g., DNN weight matrices $\mathbf{W}$ after training---\emph{even when the matrix is not itself a HT random matrix} and therefore not governed by RMT or EVT.
 %%% (See Appendix~\ref{sxn:appendix-derivation-two-relations} for a derivation of Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max}).)
-We shall use these Universal HT finite size relations to derive a simple capacity control metric for our theory of HT-SR, and relate this to the well known product norm capacity control metric.
+We shall use these Universal HT finite-size relations to derive a simple capacity control metric for our theory of HT-SR, and relate this to the well known product norm capacity control metric.
 
 %We will use this to derive a relationship that holds between $\alpha$, $\lambda^{max}$, and perhaps other observables such as matrix norms, and then 
 %appeal to \nred{HT-MU} to apply it to  \nred{the highly} non-random, pre-trained DNN weight matrices that also lie within these HT Universality classes.
@@ -296,7 +323,11 @@ The PL exponent $\alpha$ is a complexity metric for a single DNN weight matrix, 
 % The fitted PL  ... AWK
 It describes how well that matrix encodes complex correlations in the training data.
 Thus, a natural class of complexity or capacity metrics to consider for a DNN is to take a \emph{weighted average}%
-\footnote{There are several reasons we don't want a simple unweighted average: an unweighted average behaves differently for HT random matrices than for well-trained DNN weight matrices, and so it would not be Universal; we want a metric that relates the $\alpha$ of HT-SR Theory with known capacity control metrics such as norms of weight matrices, and including weights permits this flexibility; and unweighted averages, while sometimes providing predictive quality, do not perform as reliably well. }
+\footnote{There are several reasons we don't want an unweighted average: 
+an unweighted average behaves differently for HT random matrices than for well-trained DNN weight matrices, and so it would not be Universal; 
+we want a metric that relates the $\alpha$ of HT-SR Theory with known capacity control metrics such as norms of weight matrices, and including weights permits this flexibility; 
+we want weights to encode information that ``larger'' matrices are somehow more important;
+and unweighted averages, while sometimes providing predictive quality, do not perform as reliably~well. }
 of the PL exponents, $\alpha_{l,i}$, for each layer weight matrix $\mathbf{W}_{l,i}$:
 \begin{equation}
 \hat{\alpha}:=\dfrac{1}{N_L}\sum_{l,i}b_{l,i}\alpha_{l,i}  .
@@ -325,8 +356,8 @@ It has been suggested that the complexity, $\mathcal{C}$, of a DNN can be charac
 $$
 \mathcal{C}\sim\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert ,
 $$
-where $\Vert\mathbf{W}\Vert$ is, e.g., the Frobenius norm~\cite{LMBx18_TR, SHNx17_TR,PLMx18_TR}.%
-\footnote{Here, we can use either $\Vert\mathbf{W}\Vert$ or $\Vert\mathbf{W}\Vert^{2}$, and one can view $\mathcal{C}$ as akin to a data-dependent VC complexity.}
+where $\Vert\mathbf{W}\Vert$ is, e.g., the Frobenius norm~\cite{LMBx18_TR, SHNx17_TR,PLMx18_TR}.
+(Here, we can use either $\Vert\mathbf{W}\Vert$ or $\Vert\mathbf{W}\Vert^{2}$, and one can view $\mathcal{C}$ as akin to a data-dependent VC complexity.)
 To that end, we consider a log complexity
 \begin{eqnarray*}
 \log\mathcal{C} &\sim& \log\bigg[\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert\bigg]  \\
@@ -365,27 +396,28 @@ Our justification for proposing Eqn.~(\ref{eqn:basic_relation}) is three-fold.
 \begin{enumerate}
 \item
 \label{enum:first}
-We derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$, for an $N\times M$ random matrix $\mathbf{W}^{rand}(\mu)$ (with $N=M$, or $Q=1$, for simplicity).
+We derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$, for an $N\times M$ 
+%random 
+matrix $\mathbf{W}^{rand}(\mu)$ (with $N=M$, or $Q=1$).
 See Appendix~\ref{sxn:appendix-derivation-pl-norm-relation}.
 \item
 \label{enum:second}
-For finite size random matrices $\mathbf{W}^{rand}(\mu)$, the MHT Universality class, $\mu\in(2,4)$, behaves \emph{like} the VHT Universality class, $\mu\in(1,2)$.
+For finite-size random matrices $\mathbf{W}^{rand}(\mu)$, the MHT Universality class, $\mu\in(2,4)$, behaves \emph{like} the VHT Universality class, $\mu\in(1,2)$.
 Because of this similarity, we show we can extend Eqn.~(\ref{eqn:basic_relation}), approximately, to larger PL exponents.
 For $N\sim\mathcal{O}(100-1000)$, $\alpha\log\lambda^{max}$ increases nearly linearly with $\log\Vert\mathbf{W}^{rand}(\mu)\Vert^{2}_{F}$ as $\mu$ increases.
 For larger $N$, the relation saturates for large $\mu$. 
-\michael{MM: Something is slightly off here, check and combine with what I had before.}
-See Appendix~\ref{sxn:appendix-random-vs-real}.
+See Appendix~\ref{sxn:appendix-finite-size}.
 \item
 \label{enum:third}
-\emph{As evidence of HT-MU}, we observe empirically that Eqn.~(\ref{eqn:basic_relation} also applies, approximately, to the real DNN weight matrices $\mathbf{W}$. 
+\emph{As evidence of HT-MU}, we observe empirically that Eqn.~(\ref{eqn:basic_relation}) also applies, approximately, to the real DNN weight matrices $\mathbf{W}$. 
 We see that $\alpha\;\log\lambda_{max}$ is positively correlated with $\log\Vert\mathbf{W}\Vert^{2}_{F}$ as $\alpha$ increases, and even shows similar saturation effects at large $\alpha$.
-\michael{MM: Something is slightly off here, check and combine with what I had before.}
-See Appendix~\ref{sxn:appendix-finite-size}.
+See Appendix~\ref{sxn:appendix-random-vs-real}.
 \end{enumerate}
 
 %%SPACE MOVED TO APPENDIX.%% We will discuss each of these in more detail below.
 
-Finally, based on Eqn.~(\ref{eqn:basic_relation}), we choose the weights in Eqn.~(\ref{eqn:alpha_hat_generic}) to be the log of the corresponding maximum eigenvalues of $\mathbf{X}$, i.e., for a given $l,i$, we have 
+Finally, based on Eqn.~(\ref{eqn:basic_relation}), we choose the weights in Eqn.~(\ref{eqn:alpha_hat_generic}) to be the log of the corresponding maximum eigenvalues of $\mathbf{X}$.
+That is, for a given $l,i$, we have 
 $$
 b_{l,i} = \lambda_{l,i}^{max}  .
 $$
