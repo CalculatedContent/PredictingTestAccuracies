@@ -28,16 +28,14 @@ See Appendix~\ref{sxn:appendix-addl-empirical} for additional empirical results 
 
 \paragraph{VGG and VGG\_BN Models.}
 
-\begin{figure}[t] %[!htb]
+\begin{figure*}[t] %[!htb]
    \centering
    \subfigure[log Frobenius norm $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$]{
-      %\includegraphics[scale=0.35]{img/vgg-lognorms.png}
-      \includegraphics[scale=0.19]{img/vgg-lognorms.png}
+      \includegraphics[scale=0.25]{img/vgg-lognorms.png}
       \label{fig:vgg_lognorms}
    }
    \subfigure[weighted average PL exponent $\hat{\alpha}$]{
-      %\includegraphics[scale=0.35]{img/vgg-w_alphas.png}
-      \includegraphics[scale=0.19]{img/vgg-w_alphas.png}
+      \includegraphics[scale=0.25]{img/vgg-w_alphas.png}
       \label{fig:vgg_alphahat}
    }
    \caption{%
@@ -54,7 +52,7 @@ See Appendix~\ref{sxn:appendix-addl-empirical} for additional empirical results 
       \michael{Charles, have circles and squares or something like that to distinguish regular and BN versions.}
    }
    \label{fig:vgg}
-\end{figure}
+\end{figure*}
 
 
 %% COMBINED WITH ABOVE %% \begin{figure}[!htb]
@@ -120,16 +118,14 @@ Equally importantly, we did not need to peek at the ImageNet test data to make t
 
 \paragraph{ResNet Models.}
 
-\begin{figure}[!htb]
+\begin{figure*}[!htb]
    \centering
    \subfigure[log Frobenius norm $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$]{
-      %\includegraphics[scale=0.30]{img/ResNet_top1-lognorms.png}
-      \includegraphics[scale=0.15]{img/ResNet_top1-lognorms.png}
+      \includegraphics[scale=0.21]{img/ResNet_top1-lognorms.png}
       \label{fig:resnet_lognorms}
    }
    \subfigure[weighted average PL exponent $\hat{\alpha}$]{
-      %\includegraphics[scale=0.30]{img/ResNet-w_alphas.png}
-      \includegraphics[scale=0.15]{img/ResNet-w_alphas.png}
+      \includegraphics[scale=0.21]{img/ResNet-w_alphas.png}
       \label{fig:resnet_alphahat}
    }
    \caption{
@@ -141,7 +137,7 @@ Equally importantly, we did not need to peek at the ImageNet test data to make t
       weighted average PL exponent $\hat{\alpha}$ (in (\ref{fig:resnet_alphahat})).
            }
    \label{fig:resnet}
-\end{figure}
+\end{figure*}
 
 \begin{table}[!htb]
 \small
