@@ -3,28 +3,13 @@
 \section{Empirical Results on Pre-trained DNNs}
 \label{sxn:emp}
 
-\michael{Charles, would you do a core-dump of text for this section, describing the details of the setup and results, and also fill in tables, and I can make a smoothing pass.}
-
-%%\nred{TOO LONG for a 10 page paper...move extra results to  Appendix}
-
-(((
-\charles{
-In this study, we only need to consider Linear and 2D Convolutional (Conv2D) layers because we will only examine series of commonly
-available, open source, pre-trained DNNs with these kinds of layers.  We describe these pre-trained models in detail below;
-briefly examine the VGG series (VGG11, VGG13, VGG1, VGG19), with and without BatchNorm, the complete set of
-available ResNet models ranging from ResNet10 to ResNet152(b), and a wide range of other models.  All models have
-been trained on ImageNet, and reported test accuracies are available.  For our analysis, we do not needs to retrain these
-models, and we do not even need access to the test data.  }
-)))
-
-(((
-As illustrated in Figure~\ref{fig:vgg_lognorms}, this 
-(average log norm of the weight matrices of Eqn.~(\ref{eqn:av_log_norm}))
-metric is a relatively good complexity metric for comparing the test accuracies of different, pre-trained DNNs in the same series.
-)))
-
 Here, we summarize our results for the VGG and ResNet series of models.
 See Appendix~\ref{sxn:appendix-addl-empirical} for additional empirical results on other models.
+
+We only consider Linear and 2D Convolutional (Conv2D) layers because we will only examine series of commonly
+available, open source, pre-trained DNNs with these kinds of layers.  All models have
+been trained on ImageNet, and reported test accuracies are available.  For our analysis, we do not needs to retrain these
+models--and we do not even need the test data!
 
 \paragraph{VGG and VGG\_BN Models.}
 
@@ -98,23 +83,24 @@ VGG19 & VGG19 & & & & & \\
 \end{table}
 
 
-
-We start by looking at the VGG class of models, including VGG11, VGG13, VGG16, and VGG19, and their counterparts with Batch Normalization, VGG11\_BN, VGG13\_BN, VGG16\_BN and VGG19\_BN.  
-See Figures~\ref{fig:vgg_lognorms} and~\ref{fig:vgg_alphahat} as well as Table~\ref{table:models_VGG} for details.
-XXX.  SOME COMMENTS.
-
-(((
-As an example of our main results, consider Figure~\ref{fig:vgg}, which shows both the average log Frobenius norm 
-($\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$, defined in Eqn.~(\ref{eqn:av_log_norm}))
-as well as the weighted average PL exponent ($\hat{\alpha}$, defined in Eqn.~(\ref{eqn:alpha_hat_specific}))
-as a function of the reported (Top1) test accuracy for the series of pre-trained VGG models (available in the pyTorch package~\cite{pyTorch}).
+We start by comparing the log Norm and Universal $\hat{\alpha}$ metrics for the  the VGG class of models.
+Figure~\ref{fig:vgg} shows both the average log Frobenius norm
+$\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$,  Eqn.~(\ref{eqn:av_log_norm}),
+and the weighted average PL exponent $\hat{\alpha}$,   Eqn.~(\ref{eqn:alpha_hat_specific}),
+as a function of the reported (Top1) test accuracy for the series of pre-trained VGG models ,
+as available in the pyTorch package~\cite{pyTorch}. 
+These include VGG11, VGG13, VGG16, and VGG19, and
+their more accurate counterparts with Batch Normalization, VGG11\_BN, VGG13\_BN, VGG16\_BN and VGG19\_BN.  
+%See Figures~\ref{fig:vgg_lognorms} and~\ref{fig:vgg_alphahat} as well as Table~\ref{table:models_VGG} for details.
 (See Table~\ref{table:models_VGG} for additional details.)
-Figure~\ref{fig:vgg_lognorms} shows the average log Frobenius norm results, which are quite good; and 
-Figure \ref{fig:vgg_alphahat} shows the weighted average PL exponent results, which yield slight improvements due to the method we introduce.
-Importantly, since we are using reported test accuracies (i.e., from the literature, and not due to the pecularities of our training), we did not need to retrain any models.
-Equally importantly, we did not need to peek at the ImageNet test data to make this plot; and, in fact, we did not even need the ImageNet training data either.  
-)))
 
+%Figure~\ref{fig:vgg_lognorms} shows the average log Frobenius norm results, which are quite good; and 
+%Figure \ref{fig:vgg_alphahat} shows the weighted average PL exponent results, which yield slight improvements due to the method we introduce.
+Across the entire series of architectures, reported test error decreases linearly with both metrics, the 
+average log Frobenius norm $\langle\log_{10}\Vert\mathbf{W}\Vert_{F}\rangle$, Eqn.~(\ref{eqn:av_log_norm}), 
+and the  average weighted power law exponent $\hat{\alpha}$,  Eqn.~(\ref{eqn}).
+Moreover, where the log Norm relation has 2 outliers, VGG13 and VGG13\_BN, 
+the Universal $\hat{\alpha}$ metric shows a near perfect linear relation across the entire VGG series.
 
 \paragraph{ResNet Models.}
 
@@ -186,6 +172,24 @@ and~\ref{fig:resnet_alphahat}
 as well as
 Table~\ref{table:models_resnet}
 for details.
-XXX.  SOME COMMENTS.
+Here, we consider a 15 different pretrained ResNet models, of varying sizes
+and accuracies, ranging from the small ResNe10 upto the largest ResNet152 models,
+as provided by the OSMR sandbox
+\footnote{https://github.com/osmr/imgclsmob},
+developed for  training large-scale image classification networks for embedded systems.
+Again, we compare the reported (Top1) test accuracy versus the average log Norm 
+$\langle\log_{10}\Vert\mathbf{W}\Vert_{F}\rangle$
+and Universal $\hat{\alpha}$ metrics.
 
+As with the VGG series, both metrics monotonically decrease as the test accuracies decreases,
+both have a few large outliers off the mainline relation .  The log Norm metric has several notable outliers, 
+including resnet18\_wd2, resnet18\_wd3\_d4, resnet34, and resnet10.
+The $\hat{\alpha}$ relation shows a slightly better relation, with resnet18\_wd2 more in line, and
+the other 3 outliers a little less off the mainline correlation.
+The Universal $\hat{\alpha}$ metric is as good or slightly better than the average log Norm metric
+for the Resnet series of models.  
 
+We see similar results for our Universal PL capacity control metric $\hat{\alpha}$ across a wide ranger of  other pre-trained DNN models, 
+described in the Appendix and in Table XXX.  In nearly all cases, the metric  $\hat{\alpha}$  correlates well with the reported test accuracies,
+with only a three DNN architectures as exceptions.  Overall the $\hat{\alpha}$ metric systematically correlates well with the
+generalization accuracy of a wide class of pre-trained DNN architectures--which is remarkable!
