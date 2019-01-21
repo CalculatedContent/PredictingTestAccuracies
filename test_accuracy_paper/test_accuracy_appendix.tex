@@ -7,16 +7,22 @@
 \section{The PL--Norm Relation: Deriving a Special Case of Eqn.~(\ref{eqn:basic_relation})}
 \label{sxn:appendix-derivation-pl-norm-relation}
 
-Here, we derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$, for an $N \times M$ random matrix $\mathbf{W}$, {with $M=N, Q=1$, and with elements drawn from Eqn.~(\ref{eqn:ht_dstbn}).%
-\footnote{We derive Eqn.~(\ref{eqn:basic_relation}) at what is sometimes pejoratively known as ``at a physics level of rigor.''  That is fine, as our justification will be seen in Section~\ref{sxn:emp}.  Recall our goal: to derive a very simple expression relating fitted PL exponents and Frobenius norms that usable by practical engineers working with state-of-the-art models, i.e., not simply small toy models.  There is very little ``rigorous'' work on HT-RMT, less still on understanding finite-sized effects of HT Universality.  Hopefully, our results will lead to more work along these lines.  }
+Here, we derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, 
+As 
+%%$\alpha \rightarrow 1$, 
+$\mu \rightarrow 1$, 
+\michael{$\mu$ or $\alpha$, clarify and be consistent with appendix.}
+for an $N \times M$ random matrix $\mathbf{W}$, {with $M=N, Q=1$, and with elements drawn from Eqn.~(\ref{eqn:ht_dstbn}).%
+\footnote{We derive Eqn.~(\ref{eqn:basic_relation}) at what is sometimes pejoratively known as ``at a physics level of rigor.''  That is fine, as our justification ultimately lies in our empirical results.  Recall our goal: to derive a very simple expression relating fitted PL exponents and Frobenius norms that is usable by practical engineers working with state-of-the-art models, i.e., not simply small toy models.  There is very little ``rigorous'' work on HT-RMT, less still on understanding finite-sized effects of HT Universality.  Hopefully, our results will lead to more work along these lines.  }
 That is, we establish this as an asymptotic relation for the VHT Universality class for very small exponents.
 
-\michael{MM TO RECHECK DETAILS; and be careful below about $\mu$s and $\alpha$s.}
+\michael{Be careful below about $\mu$s and $\alpha$s throughout this section.}
 To start, recall that 
 $$ 
 \Vert \mathbf{W}\Vert_{F}^{2}=\mbox{Trace}[\mathbf{W}^{T}\mathbf{W}]=N\;\mbox{Trace}[\mathbf{X}]  .
 $$
-Since, for \nred{$\mu \gtrsim 0$}, \michael{NOT $\alpha$, but maybe 1?} 
+Since, for \nred{$\mu \gtrsim 0$}, 
+\michael{NOT $\alpha$, but maybe 1?}
 the eigenvalue spectrum is dominated by a single large eigenvalue, it follows that
 $$
 \Vert \mathbf{W}\Vert_{F}^{2}\approx N\lambda^{max}  , 
@@ -70,7 +76,8 @@ Finally, we can form the Taylor Series for $\dfrac{1}{4/\mu-1}$ around $\mu=1.15
 $$
 \dfrac{1}{4/\mu-1}\bigg\rvert_{\mu=1.15}\approx\dfrac{1}{2}\mu-\dfrac{1}{6}+\cdots\approx\dfrac{1}{2}\mu  .
 $$
-This established the approximate---and surprising---linear relation we want for $\mu \gtrsim 1$. 
+\michael{Check that.}
+This establishes the approximate---and rather surprising---linear relation we want for $\mu \gtrsim 1$. 
 %\michael{MM again, be careful below about $\mu$s and $\alpha$s.}
 
 
@@ -82,24 +89,24 @@ This established the approximate---and surprising---linear relation we want for 
 
 Here, we consider finite-size effects in Eqn.~(\ref{eqn:basic_relation}), both within and across HT Universality classes, i.e., for both VHT and MHT matrices.
 See Figure~\ref{fig:randW}, which  displays $\frac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda^{max}}$ as a function of the fitted PL exponent $\alpha$, with varying sizes $N$ (with aspect ratio $Q=1$).
-Recall that $\alpha \approx \frac{1}{2}\mu+1$ for VHT random matrices \nred{(Eqn. XXX)}, while $\alpha = a\mu+b$ for MHT random matrices \nred{(Eqn. XXX)} )where $a,b$ strongly depends on $N$ and $M$.
+Recall that $\alpha \approx \frac{1}{2}\mu+1$ for VHT random matrices (Eqn.~\ref{eqn:alpha_mu_vht}), while $\alpha = a\mu+b$ for MHT random matrices (Eqn.~\ref{eqn:alpha_mu_mht})), where $a,b$ strongly depend on $N$ and $M$.
 Thus, $\mu\in(0,2)$ for VHT matrices corresponds to $\alpha\in(1,2)$, while $\alpha \approx(2,5)$ for MHT matrices.
 %% $$
 %% \dfrac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda^{max}}\;\;vs.\;\;(\alpha)  .
 %% $$
+
 The numerical results in Figure~\ref{fig:randW} show that as $\alpha$ increases
 when $\alpha<2$, there exists a near-linear relation; and
 when $\alpha>2$, for $N,M$ large, the relation saturates, becoming constant, while for smaller $N,M$, there exists a near-linear relation, but with strong finite-size effects.
 These numerical results demonstrate that $ \log\Vert\mathbf{W}\Vert^{2}_{F}\approx\alpha\log\lambda^{max} $ works very well for VHT random matrices, for $\alpha<2$, and that it works moderately well for MHT matrices and even some WHT matrices.
-In particular, for MHT matrices, in the finite-size regime, when $N,M\sim\mathcal{O}(100-1000)$, which is typical for modern DNNs, the PL-Norm relations holds, \emph{on average}. quite well. 
-\nred{Which is what we want in a practical engineering metric that can describe the average test accuracy.  }
+In particular, for MHT matrices, in the finite-size regime, when $N,M\sim\mathcal{O}(100-1000)$, which is typical for modern DNNs, the PL-Norm relations holds, \emph{on average}, quite well. 
+This is precisely what we want in a practical engineering metric that is designed to describe average test accuracy. 
 
 \begin{figure*}[!htb]
    \centering
    \includegraphics[scale=0.25]{img/Alpha-LogNorm-Relations.png}
    \caption{
             Numerical test of Eqn.~(\ref{eqn:basic_relation}) for random HT matrices across different HT Universality classes.
-            \michael{Charles, change $M$ to $N$ in caption.}
            }
    \label{fig:randW}
 \end{figure*}
@@ -137,7 +144,6 @@ In particular, for MHT matrices, in the finite-size regime, when $N,M\sim\mathca
         \label{fig:relation-vgg11}
     }
         \caption{Relation between $\alpha\log_{10}\lambda^{max}$ and $\log_{10}\Vert\mathbf{W}\Vert^{2}_{F}$ for random (Pareto) matrices and real (VGG11) DNN weight matrices.
-                 \michael{Charles, change $M$ to $N$ in caption.}
                  }
     \label{fig:relations}
 \end{figure*}
@@ -146,13 +152,13 @@ Here, we show, numerically, that Eqn.~(\ref{eqn:basic_relation}) holds qualitati
  more generally than the special case derived previously, including into the MHT Universality class, for both random and real data.
 To illustrate this, we generate a large number of HT random matrices $\mathbf{W}^{rand}(\mu)$, with varying sizes $N$ (and $Q=1$), drawn from a Pareto distribution of Eqn.~(\ref{eqn:ht_dstbn}), with exponents $\mu\in[0.5, 5]$.
 We then fit the ESD of each $\mathbf{W}^{rand}(\mu)$ to a PL using the method of Clauset et al.~\cite{CSN09_powerlaw,ABP14} to obtain the empirical exponent $\alpha$.   
-Figure~\ref{fig:relation-rand} shows that there is a near-perfect relation between $ \alpha\log\lambda^{max}$ and $\log\Vert\mathbf{W}\Vert^{2}_{F} $.
+Figure~\ref{fig:relation-rand} shows that there is a near-perfect relation between $ \alpha\log\lambda^{max}$ and $\log\Vert\mathbf{W}\Vert^{2}_{F} $, for this random data.
 We also performed a similar PL fit for VGG11 weight matrices.
 (See Section~\ref{sxn:emp} for some details on the VGG11 model.)
-Figure~\ref{fig:relation-vgg11} shows the results, demonstrating an increasing relation until $ \alpha\log_{10}\lambda^{max} \approx 2.5$ and a saturation after that point.
+Figure~\ref{fig:relation-vgg11} shows the results, demonstrating for the VGG11 data an increasing relation until $ \alpha\log\lambda^{max} \approx 2.5$, and a saturation after that point.
 Figure~\ref{fig:relations} illustrates
-(among other things\footnote{Clearly, there are also differences between the HT random and the real DNN matrices, most notably that $ \alpha\log\lambda^{max} $ achieves much larger values for the random matrices.  This is discussed in more detail in Appendix~\ref{sxn:appendix-universality}.})
-that multiplying $\alpha$ by $\log_{10}\lambda^{max}$ leads to a relation that increases linearly with the (log of the squared) Frobenius norm for HT random matrices, and that the two quantities are linearly correlated for real DNN weight matrices.
+(among other things\footnote{Clearly, there are also differences between the HT random and the real DNN matrices, most notably that $ \alpha\log\lambda^{max} $ achieves much larger values for the random matrices.  This is discussed in more detail in Appendix~\ref{sxn:appendix-universality}.}):
+that multiplying $\alpha$ by $\log\lambda^{max}$ leads to a relation that increases linearly with the (log of the squared) Frobenius norm for HT random matrices; that the two quantities are linearly correlated for real DNN weight matrices; and that both random HT and real, strongly-correlated matrices show similar saturation effects at large PL exponents.
 
 %% \michael{Maybe comment also about how points large on the X axis have smaller $\alpha$.}
 %% 
@@ -164,19 +170,21 @@ that multiplying $\alpha$ by $\log_{10}\lambda^{max}$ leads to a relation that i
 %\section{Heavy-Tailed Universality: Random Pareto versus Non-random DNN Matrices} 
 \label{sxn:appendix-universality}
 
-When we use Universality, as we do in our derivation of the basic PL--Norm Relation, we would like a method that applies both to HT random matrices as well as to non-random, indeed strongly-correlated, pre-trained DNN layer weight matrices that (as evidenced by their ESD properties) are in a HT Universality class.  
+When we use Universality, as we do in our derivation of 
+the basic PL--Norm Relation, 
+%Eqn.~(\ref{eqn:basic_relation}),
+we would like a method that applies both to HT random matrices as well as to non-random, indeed strongly-correlated, pre-trained DNN layer weight matrices that (as evidenced by their ESD properties) are in a HT Universality class.  
 To accomplish this, however, requires some care: while the pre-trained $\mathbf{W}$ matrices do have ESDs that display empirical signatures of HT Universality~\cite{MM18_TR}, they are \emph{not} random Pareto matrices.
 Many of their properties, including their empirical Frobenius norms, behave very differently than that of a random Pareto matrix.  
 (We saw this in Figure~\ref{fig:relations}, which showed that $ \alpha\log\lambda^{max} $ achieves much larger values for HT random matrices than real DNN weight matrices.)
 
 To illustrate this, we generate a large number of HT random matrices $\mathbf{W}^{rand}(\mu)$, with exponents $\mu\in[0.5, 5]$, as described in Section~\ref{sxn:theory-new}.
 %
-We then fit the ESD of each $\mathbf{W}^{rand}(\mu)$ to a PL using the method of Clauset et al.~\cite{CSN09_powerlaw,ABP14} to obtain the empirical exponent $\alpha$. 
+We then fit the ESD of each $\mathbf{W}^{rand}(\mu)$ to a PL using the method of Clauset et al.~\cite{CSN09_powerlaw,ABP14} to obtain the empirical PL exponent $\alpha$. 
 Figure~\ref{fig:fro-rand} displays the relationship between the (log of the squared) Frobenius norm and the $\mu$ exponents for these randomly-generated Pareto matrices.
-(Similar but noisier plots would arise if we plotted as a function of $\alpha$, due to imperfections in the PL fit.)
+(Similar but noisier plots would arise if we plotted this as a function of $\alpha$, due to imperfections in the PL fit.)
 We did the same for the weight matrices (extracted from the Conv2D Feature Maps) from the pre-trained VGG11 DNN, again as described in Section~\ref{sxn:theory-new}.
 Figure~\ref{fig:fro-vgg11} displays these results, here as a function of $\alpha$.
-\michael{Charles, maybe plot both as a function of $\alpha$, since they are different, and consistent with text.}
 
 \begin{figure*}[!htb]
    \centering
@@ -192,17 +200,14 @@ Figure~\ref{fig:fro-vgg11} displays these results, here as a function of $\alpha
    \label{fig:fnorm}
 \end{figure*}
 
-The properties of $\Vert\mathbf{W}\Vert^{2}_{F}$ differ strikingly  for the random Pareto versus real/ron-random DNN weight matrices,
-and care must be taken when applying these Universality principles to strongly correlated systems.
-For a random Pareto matrix, $\mathbf{W}^{rand}(\mu)$, the Frobenius norm $\Vert\mathbf{W}^{rand}(\mu)\Vert^{2}_{F}$ 
-\emph{decreases with increasing exponent} $(\mu)$; and there is a modest finite-size effect.
+From Figures~\ref{fig:fro-rand} and~\ref{fig:fro-vgg11}, we see that the properties of $\Vert\mathbf{W}\Vert^{2}_{F}$ differ strikingly for the random Pareto versus real/ron-random DNN weight matrices, and thus care must be taken when applying these Universality principles to strongly correlated systems.
+For a random Pareto matrix, $\mathbf{W}^{rand}(\mu)$, the Frobenius norm $\Vert\mathbf{W}^{rand}(\mu)\Vert^{2}_{F}$ \emph{decreases with increasing exponent} $(\mu)$; and there is a modest finite-size effect.
 (In addition, as the tails of the ESD $\rho(\lambda)$ get heavier, the largest eigenvalue $\lambda^{max}$ of $\mathbf{X}$ scales with the largest element of $\mathbf{W}^{rand}(\mu)$.) 
 For the weight matrices of a pre-trained DNN, however, the Frobenius norm $\Vert\mathbf{W}\Vert^{2}_{F}$ \emph{increases with increasing exponent} $(\alpha)$, saturating at $\alpha\approx 3$.
-This happens because, due to the training process, the $\mathbf{W}$ matrices themselves are highly-correlated, and not random matrices with a single large, atypical element.
+This happens because, due to the training process, the $\mathbf{W}$ matrices themselves are highly-correlated, and not random matrices with a single large, atypical element.%
 \footnote{This is easily seen by simply randomizing the elements of a real DNN weight matrix, and computing the ESD again.}
-In spite of this, the ESD $\rho(\lambda)$ of these pre-trained correlations matrices $\mathbf{X}$ display Universal HT behavior~\cite{MM18_TR}; and, as shown in Figure~\ref{fig:relation-vgg11}, 
-Eqn.~(\ref{eqn:basic_relation}) is approximately satisfied, in the sense that 
-$\alpha\log\lambda^{max}$ is positively correlated with $\log\Vert\mathbf{W}\Vert^{2}_{F} $.
+In spite of this, the ESD $\rho(\lambda)$ of these pre-trained correlations matrices $\mathbf{X}$ display Universal HT behavior~\cite{MM18_TR}.
+In addition, as shown in Figure~\ref{fig:relation-vgg11}, Eqn.~(\ref{eqn:basic_relation}) is approximately satisfied, in the sense that $\alpha\log\lambda^{max}$ is positively correlated with $\log\Vert\mathbf{W}\Vert^{2}_{F} $.
 This is one of the remarkable properties of Mechanistic Universality.
 
 
@@ -214,47 +219,25 @@ Here, we summarize some of those results.
 
 \paragraph{More Pre-trained Models.}
 
-We present results for eleven more series of pre-trained DNN architectures,
-(See Table~\ref{table:models_still_more}), 
-eight of which show positive results, as with the VGG and  ResNet
-series (above), and three counterexample architectures..
+We present results for eleven more series of pre-trained DNN architectures, eight of which show positive results, as with the VGG and ResNet series (in Section~\ref{sxn:emp}), and three of which provide counterexample architectures.
+See Table~\ref{table:models_more} for a summary of results.
 
 The results that perform as expected are show in
-Figures~\ref{fig:models_more}, 
-~\ref{fig:still_more_1}, and \ref{fig:still_more_2}.
+Figures~\ref{fig:models_more_0}, 
+\ref{fig:models_more_1}, 
+\ref{fig:models_more_2}, 
+and~\ref{fig:models_more_3}.
 For each set of models, our Universal metric $\hat{\alpha}$
 is smaller when, for the most part, the reported (Top 1)
-test accuracy is larger.  This holds approximately
+test accuracy is larger. 
+This holds approximately
 true for the three of the four DenseNet models, with
-densenet169 as an outlier.  In fact, this is the only
-outlier out of 26 DNN models in these eight architectures.,
-For all of the other pre-trained DNNs,  smaller
+densenet169 as an outlier. 
+In fact, this is the only
+outlier out of 26 DNN models in these 8 architectures.
+For all of the other pre-trained DNNs, smaller
 $\hat{\alpha}$ corresponds with smaller test error
 and larger test accuracy, as predicted by our theory.
-
-\begin{figure*}[!htb]
-   \centering
-   \subfigure[DenseNet] {
-       \includegraphics[scale=0.25]{img/densenet-pytorch-w_alphas.png} 
-       \label{fig:densenet}
-   }
-   \subfigure[SqueezeNet]{
-       \includegraphics[scale=0.25]{img/squeezenet-pytorch-w_alphas.png} 
-       \label{fig:squeezenet}
-   }
-   \caption{
-      Pre-trained 
-      Densenet and SqueezeNet PyTorch 
-      Models.
-      Test Accuracy versus
-      $\hat{\alpha}$.
-           }
-   \label{fig:models_more}
-\end{figure*}
-
-
-
-
 
 \begin{table}[!htb]
 \small
@@ -321,77 +304,110 @@ FDMobileNet & fdmobilenet\_wd4 & 55.77 & \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Results for more pre-trained DNN models.  Models provided in 
-the OSMR Sandbox, implemented in pytorch.  }
+\caption{Results for more pre-trained DNN models.  Models provided in the OSMR Sandbox, implemented in pytorch.}
 \label{table:models_more}
 \end{table}
 
 
 \begin{figure*}[!htb]
    \centering
-   \subfigure[CondenseNet]{
-       \includegraphics[scale=0.19]{img/CondenseNet-w_alphas.png} 
-       \label{fig:densenet-small}
+   \subfigure[DenseNet] {
+       \includegraphics[scale=0.25]{img/densenet-pytorch-w_alphas.png} 
+       \label{fig:densenet}
    }
-   \subfigure[DPN]{
-       \includegraphics[scale=0.19]{img/DPN-w_alphas.png} 
-       \label{fig:dpn-net}
-   }
-   \subfigure[ShuffleNet]{
-      \includegraphics[scale=0.19]{img/ShuffleNet-w_alphas.png}
-      \label{fig:shufflenet-small}
+   \subfigure[SqueezeNet]{
+       \includegraphics[scale=0.25]{img/squeezenet-pytorch-w_alphas.png} 
+       \label{fig:squeezenet}
    }
    \caption{
       Pre-trained 
-      CondenseNet, DPN, and ShuffleNet
+      Densenet and SqueezeNet PyTorch 
       Models.
-      Top 1 Test error versus
+      Top 1 Test Accuracy versus
       $\hat{\alpha}$.
            }
-   \label{fig:still_more_1}
+   \label{fig:models_more_0}
 \end{figure*}
 
 
 \begin{figure*}[!htb]
    \centering
+   \subfigure[CondenseNet]{
+       \includegraphics[scale=0.25]{img/CondenseNet-w_alphas.png} 
+       \label{fig:densenet-small}
+   }
+   \subfigure[DPN]{
+       \includegraphics[scale=0.25]{img/DPN-w_alphas.png} 
+       \label{fig:dpn-net}
+   }
+   \caption{
+      Pre-trained 
+      CondenseNet and DPN
+      Models.
+      Top 1 Test Accuracy versus
+      $\hat{\alpha}$.
+           }
+   \label{fig:models_more_1}
+\end{figure*}
+
+
+\begin{figure*}[!htb]
+   \centering
+   \subfigure[ShuffleNet]{
+      \includegraphics[scale=0.25]{img/ShuffleNet-w_alphas.png}
+      \label{fig:shufflenet-small}
+   }
    \subfigure[MobileNet]{
-      \includegraphics[scale=0.19]{img/MobileNet-w_alphas.png} 
+      \includegraphics[scale=0.25]{img/MobileNet-w_alphas.png} 
       \label{fig:resnet-small}
    }
+   \caption{
+      Pre-trained 
+      ShuffleNet and MobileNet
+      Models.
+      Top 1 Test Accuracy versus
+      $\hat{\alpha}$.
+           }
+   \label{fig:models_more_2}
+\end{figure*}
+
+
+\begin{figure*}[!htb]
+   \centering
    \subfigure[SeResNet]{
-      \includegraphics[scale=0.19]{img/SeResNet-w_alphas.png}
+      \includegraphics[scale=0.25]{img/SeResNet-w_alphas.png}
       \label{fig:shufflenet-small}
    }
    \subfigure[SeResNeXt]{
-      \includegraphics[scale=0.19]{img/SeResNeXt-w_alphas.png}
+      \includegraphics[scale=0.25]{img/SeResNeXt-w_alphas.png}
       \label{fig:shufflenet-small}
    }
    \caption{
       Pre-trained 
-      MeNet, SeResNet, and SeResNeXt
+      SeResNet and SeResNeXt
       Models.
-      Top 1 Test error versus
+      Top 1 Test Accuracy versus
       $\hat{\alpha}$.
            }
-   \label{fig:still_more_2}
+   \label{fig:models_more_3}
 \end{figure*}
 
 
 \paragraph{Counterexamples.}
-There are of course exceptions here and there.
+In such a large corpus of DNNs, there are of course exceptions for a predictive theory.
 See
 Figure~\ref{fig:counter-examples}
-as well as 
-Table~\ref{table:models_still_more}
-for details on the counterexamples.
+(as well as the corresponding rows of Table~\ref{table:models_more})
+for the counterexamples.
 These are ResNeXt, MeNet, and FDMobileNet.
 For ResNeXt, there are only two models, and the $\hat{\alpha}$ is larger
-for the less accurate model. For MeNet, there are seven different models,
-and there is no discernible pattern in the data.  Finally, for FDMobileNet,
-there are three different pre-trained models,  and, again, the 
- $\hat{\alpha}$ is larger for the less accurate models.
- We have not looked in detail at these results and simply
- present them for completeness.
+for the less accurate model. 
+For MeNet, there are seven different models,
+and there is no discernible pattern in the data. 
+Finally, for FDMobileNet,
+there are three different pre-trained models, and, again, the 
+$\hat{\alpha}$ is larger for the less accurate models. 
+We have not looked in detail at these results and simply present them for completeness. 
  
 \begin{figure*}[!htb]
    \centering
@@ -411,44 +427,45 @@ there are three different pre-trained models,  and, again, the
       Pre-trained 
       ResNeXt, MeNet, and FDMobileNet
       Models 
-      that provide counterexamples to our main trends.
-      Top 1 Test error versus
+      provide counterexamples to our main trends.
+      Top 1 Test Accuracy versus
       $\hat{\alpha}$.
            }
    \label{fig:counter-examples}
 \end{figure*}
 
 
-
-
-
 \section{Additional Discussion}
 \label{sxn:appendix-addl-discussion}
 
 We have presented an \emph{unsupervised} capacity control metric which predicts trends in test accuracies of a trained DNN---without peeking at the test data. 
-This complexity metic, $\hat{\alpha}$ of Eqn.~(\ref{eqn:alpha_hat_specific}), is a weighted average of the PL exponents $\alpha$ for each layer weight matrix, where $\alpha$ is defined in the recent HT-SR Theory~\cite{MM17_TR,MM18_TR}, and where the weights are the largest eigenvalue $\lambda^{max}$ of the correlation matrix $\mathbf{X}$.  
+This complexity metic, $\hat{\alpha}$ of Eqn.~(\ref{eqn:alpha_hat_specific}), is a weighted average of the PL exponents $\alpha$ for each layer weight matrix, where $\alpha$ is defined in the recent HT-SR Theory~\cite{MM18_TR}, and where the weights are the largest eigenvalue $\lambda^{max}$ of the correlation matrix $\mathbf{X}$.  
 %
 We examine several commonly-available, pre-trained, production-quality DNNs by plotting $\hat{\alpha}$ versus the reported test accuracies.
 This covers classes of DNN architectures including the VGG models, ResNet, DenseNet, etc. 
 In nearly every class, and except for a few counterexamples, smaller $\hat{\alpha}$ corresponds to better average test accuracies, thereby providing a strong predictor of model quality.
 %
-We also show that this new complexity metric $\hat{\alpha}$ is approximately the average log of the Frobenius norm of the layer weight matrices, $\langle\log\Vert\mathbf{W}\Vert_{F}^{2}\rangle$, when accounting for finite-size effects.
+We also show that this new complexity metric $\hat{\alpha}$ is approximately the average log of the squared Frobenius norm of the layer weight matrices, $\langle\log\Vert\mathbf{W}\Vert_{F}^{2}\rangle$, when accounting for finite-size effects:
+$$
+ \alpha\log\lambda^{max}\approx\log\Vert\mathbf{W}\Vert^{2}_{F}  .
+$$
 This provides an interesting connection between the Statistical Physics approach to learning (from Martin and Mahoney~\cite{MM17_TR,MM18_TR}, that we extend here) and methods such as that of Liao et al.~\cite{LMBx18_TR}, who use norm-based capacity control metrics to bound worst-case generalization~error.
 
-We should mention two higher-level comments.
-%
-First, 
-one of the main insights of our approach is to highlight the importance of what might seem to be a technical issue to ignore, but which in our experience is \emph{extremely} important: the scaling or normalization for weight matrices used in the DNN, and how this relates to the difference between finite-size versus asymptotic effects.
-This scaling issue has been highlighted perhaps most recently by Bartlett et al.~\cite{BFT17_TR} and Liao et al.~\cite{LMBx18_TR}.
-The latter were interested in showing that classical generalization bounds can be tight---when normalization is performed appropriately.
-Our approach complements theirs; but, to our knowledge, our approach is the first to highlight the connection with finite-size effects.
-%
-Second, 
-%it is worth emphasizing that 
+%% We should mention two higher-level comments.
+%% %
+%% First, 
+%% one of the main insights of our approach is to highlight the importance of what might seem to be a technical issue to ignore, but which in our experience is \emph{extremely} important: the scaling or normalization for weight matrices used in the DNN, and how this relates to the difference between finite-size versus asymptotic effects.
+%% This scaling issue has been highlighted perhaps most recently by Bartlett et al.~\cite{BFT17_TR} and Liao et al.~\cite{LMBx18_TR}.
+%% The latter were interested in showing that classical generalization bounds can be tight---when normalization is performed appropriately.
+%% Our approach complements theirs; but, to our knowledge, our approach is the first to highlight the connection with finite-size effects.
+%% %
+%% Second, 
+
+It is worth emphasizing that 
 we are taking a 
 very %somewhat 
 non-standard approach (at least for the DNN and ML communities) to address our main question.
-W did not train/retrain lots and lots of (typically rather small) models, analyzing training/test curves, trying to glean from them bits of insight that might then extrapolate to more realistic models.
+We did not train/retrain lots and lots of (typically rather small) models, analyzing training/test curves, trying to glean from them bits of insight that might then extrapolate to more realistic models.
 Instead, we took advantage of the fact that there already exist many (typically rather large) publicly-available pre-trained models, and we analyzed the properties of these models.
 That is, we viewed these publicly-available pre-trained models as artifacts of the world that achieve state-of-the-art performance in computer vision, NLP, and related applications; and we attempted to understand why.
 To do so, we analyzed the empirical (spectral) properties of these models; 
@@ -464,6 +481,7 @@ The equivalent notion would be to compare margins across SVMs, applied to the sa
 One loose interpretation is that a set of related of DNN models (i.e., VGG11, VGG13, etc.) is analogous to a single, very complicated kernel, and that the hierarchy of architectures is analogous to the hierarchy of hypothesis spaces in more traditional VC theory.
 %\charlesX{more here ?  like this ?}
 %\michael{Let's discuss this, to see what we can squeeze, given what is now popular.}   
+Making this idea precise is clearly of interest.
 
 We expect our result will have applications in the fine-tuning of pre-trained DNNs used for transfer learning, as in NLP and related applications.
 Moreover, because we do not need to peek at the test data, our approach may prevent information from leaking from the test set into the model, thereby helping to prevent overtraining and making fined-tuned DNNs more robust.

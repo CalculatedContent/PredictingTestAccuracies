@@ -142,13 +142,15 @@ Our main results are the following.
 \item
 We introduce a new methodology to analyze the performance of large-scale pre-trained DNNs, using a phenomena observed in HT-SR Theory that we call Heavy-Tailed Mechanistic Universality (HT-MU).
 We construct a Universal capacity control metric to predict average DNN test performance.
-This metric is a weighted average of layer PL exponents, $\hat{\alpha}$, weighted by the Spectral Norm (i.e., maximum eigenvalue $\lambda^{max}$) of layer correlation matrices: 
+This metric is a weighted average of layer PL exponents, $\hat{\alpha}$, weighted by the log%
+\footnote{Throughout, we use log base 10.}
+of the Spectral norm (i.e., maximum eigenvalue $\lambda^{max}$) of layer correlation matrices: 
 $$
 \hat{\alpha}=\sum_{l\in L}\alpha_{l}\log\lambda_{l}^{max}  .
 $$
 \item
 We apply our Universal capacity control metric $\hat{\alpha}$ to a wide range of large-scale pre-trained production-level DNNs, including the VGG and ResNet series of models, as well as many others.
-This Universal metric correlates very well with the reported average test error across series of pre-trained DNNs.
+This Universal metric correlates very well with the reported average test accuracies across many series of pre-trained DNNs.
 %% such as the VGG, ResNet, and other series of arcitectures.
 %(without the need for re-training or looking at test data, although one could use the metrics as a training diagnostic).
 \item
@@ -158,7 +160,7 @@ $$
 $$
 We also show that
 % (in addition to providing worst-case bounds on generalization quality for rather small NNs)
-such norm-based capacity control metrics also correlate well with the average test error in large-scale production-level pre-trained DNNs.
+such norm-based capacity control metrics also correlate well with the average test accuracy in large-scale production-level pre-trained DNNs.
 \end{itemize}
 %\vspace{-1mm}
 

@@ -17,7 +17,7 @@ Typically, this model would be trained on some labeled data $\{d_{i},y_{i}\}\in\
 For simplicity, we do not indicate the structural details of the layers (e.g., Dense or not, Convolutions or not, Residual/Skip Connections, etc.). 
 Each layer is defined by one or more layer 2D weight matrices $\mathbf{W}_{l}$, and/or the 2D feature maps $\mathbf{W}_{l,i}$ extracted from 2D Convolutional (Conv2D) layers.
 (We have not yet analyzed LSTM or other complicated Layers.) 
-A typical modern DNN may have anywhere between 5 and 5000 2D $\mathbf{W}_{l,i}$ layer matrices.%
+A typical modern DNN may have anywhere between 5 and 5000 2D layer matrices.%
 \footnote{%
 %Some notational conventions:
 For each Linear Layer, we get a  single $(N\times M)$ (real-valued) 2D weight matrix, denoted $\mathbf{W}_{l}$, for layer $l$.  
@@ -39,7 +39,7 @@ We  extract $n_{l}=c\times d$ 2D weight matrices $\mathbf{W}_{l,i}$, one for eac
 %
 In the HT-SR Theory, we analyze the eigenvalue spectrum (the ESD) of the associated correlation matrices~\cite{MM18_TR}.
 From this, we can characterize the amount and form of correlation, and therefore implicit self-regularizartion, present in the DNN's weight matrices.
-For each layer weight matrix, $\mathbf{W}_{l}$, construct the associated $M\times M$ (uncentered) correlation matrix $\mathbf{X}$. 
+For each layer weight matrix, construct the associated $M\times M$ (uncentered) correlation matrix $\mathbf{X}$. 
 Dropping the $L$ and $l,i$ indices, we have
 $$
 \mathbf{X} = \frac{1}{N}\mathbf{W}^{T}\mathbf{W}.
@@ -197,7 +197,7 @@ So, even though $\mathbf{W}$ is not random, we expect its ESD and maximum eigenv
    \includegraphics[scale=0.36]{img/universality_classes.png} 
    \caption{Illustration of our use of HT Universality.  
             %\michael{Charles, maybe tweak this figure to rotate and horizontally show transfer of Universal things between different matrices.}  
-            A random matrix $\mathbf{W}(\mu)$ with elements drawn i.i.d. from the HT distribution of Eqn.~(\ref{eqn:ht_dstbn}) and weight matrix $\mathbf{W}^{str. corr.}$ from a modern well-trained DNN that exhibits strong correlations each arise from different generative mechanisms, and they different.  Both exhibit similar Universality properties, as evidneced by the HT properties of the ESDs of their corresponding correlation matrices $\mathbf{X}$, and so we expect Universal properties to be similar between them.}
+            A random matrix $\mathbf{W}(\mu)$ with elements drawn i.i.d. from the HT distribution of Eqn.~(\ref{eqn:ht_dstbn}) and weight matrix $\mathbf{W}^{str. corr.}$ from a modern well-trained DNN that exhibits strong correlations each arise from different generative mechanisms, and they are different.  Both exhibit similar Universality properties, as evidneced by the HT properties of the ESDs of their corresponding correlation matrices $\mathbf{X}$, and so we expect Universal properties to be similar between~them.}
    \label{fig:universality_diagram}
 \end{figure}
 
@@ -275,7 +275,7 @@ At all finite sizes, however, $\alpha$ is still linear in $\mu$, but it displays
 \end{subequations}
 %
 where $a,b$ depend strongly on $M,N$. 
-(See Table 3 of \cite{MM18_TR} and Figure~\ref{fig:randW} below for more details.)
+(See Table 3 of \cite{MM18_TR} for more details.)
 These strong finite-size effects characterize MHT distributions; and they are well-known in Statistical Physics~\cite{SornetteBook,BouchaudPotters03}. 
 We will exploit these finite-size effects to develop our~theory.
 
@@ -301,6 +301,9 @@ We shall use these Universal HT finite-size relations to derive a simple capacit
 %We will use this to derive a relationship that holds between $\alpha$, $\lambda^{max}$, and perhaps other observables such as matrix norms, and then 
 %appeal to \nred{HT-MU} to apply it to  \nred{the highly} non-random, pre-trained DNN weight matrices that also lie within these HT Universality classes.
 
+%%Appendix~\ref{sxn:appendix-finite-size}
+%%Appendix~\ref{sxn:appendix-random-vs-real}
+%%Appendix~\ref{sxn:appendix-universality}
 
 
 %\section{Using Heavy-Tailed Universality}
@@ -314,6 +317,7 @@ We shall use these Universal HT finite-size relations to derive a simple capacit
 From prior work~\cite{MM18_TR}, we expect that smaller PL exponents of the ESD imply more regularization and therefore better generalization. 
 Since smaller norms of weight matrices often correspond to better capacity control~\cite{LMBx18_TR,SHNx17_TR,PLMx18_TR,BFT17_TR}, we would like to relate the empirical PL exponent $\alpha$ to the empirical Frobenius norm $\Vert\mathbf{W}\Vert_{F}$.
 At least na\"{\i}vely, this is a challenge, since smaller PL exponents often correspond to larger matrix norms (and thus worse generalization!).
+See Appendices~\ref{sxn:appendix-random-vs-real} and~\ref{sxn:appendix-universality}.
 To resolve this apparent discrepancy, we will exploit HT-MU to propose a Universal DNN complexity metric.
 
 \paragraph{Form of a Proposed Universal DNN Complexity Metric.} 
@@ -326,14 +330,16 @@ Thus, a natural class of complexity or capacity metrics to consider for a DNN is
 an unweighted average behaves differently for HT random matrices than for well-trained DNN weight matrices, and so it would not be Universal; 
 we want a metric that relates the $\alpha$ of HT-SR Theory with known capacity control metrics such as norms of weight matrices, and including weights permits this flexibility; 
 we want weights to encode information that ``larger'' matrices are somehow more important;
-and unweighted averages, while sometimes providing predictive quality, do not perform as reliably~well. }
+and unweighted averages, while sometimes providing predictive quality, do not perform as reliably~well. 
+See Appendices~\ref{sxn:appendix-random-vs-real} and~\ref{sxn:appendix-universality} for more details.
+}
 of the PL exponents, $\alpha_{l,i}$, for each layer weight matrix $\mathbf{W}_{l,i}$:
 \begin{equation}
 \hat{\alpha}:=\dfrac{1}{N_L}\sum_{l,i}b_{l,i}\alpha_{l,i}  .
 \label{eqn:alpha_hat_generic}
 \end{equation}
 Here, the smaller $\hat{\alpha}$, the better we expect the DNN to represent training data, and (presumably) the better the DNN will generalize.  % to new data.
-The question is: what are good weights~$b_{l,i}$?
+An open question is: what are good weights~$b_{l,i}$?
 
 As we now show, we can extract the weighted average $\hat{\alpha}$ directly from the more familiar Product Norm, by exploiting both HT Universality, and its finite-size effects, arising
 in DNN weight matrices.
@@ -398,6 +404,7 @@ Our justification for proposing Eqn.~(\ref{eqn:basic_relation}) is three-fold.
 We derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$, for an $N\times M$ 
 %random 
 matrix $\mathbf{W}^{rand}(\mu)$ (with $N=M$, or $Q=1$).
+\michael{$\mu$ or $\alpha$, clarify and be consistent with appendix.}
 See Appendix~\ref{sxn:appendix-derivation-pl-norm-relation}.
 \item
 \label{enum:second}
