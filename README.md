@@ -1,2 +1,8 @@
 # PredictingTestAccuracies
-Paper and jupyter notebooks describing how to predict test accuracies of DNNs without looking at the test data
+
+Supporting Jupyter Notebooks for paper
+
+_Heavy-Tailed Universality Predicts Trends in Test Accuracies for Very Large Pre-Trained Deep Neural Networks_
+
+Submitted to ICML 2019
+
