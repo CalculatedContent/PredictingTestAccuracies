@@ -4,11 +4,12 @@
 \label{sxn:emp}
 
 Here, we summarize our results for the VGG and ResNet series of models.
-See Appendix~\ref{sxn:appendix-addl-empirical} for additional empirical results on other models.
+See Appendix~\ref{sxn:appendix-addl-empirical} for additional empirical results on other pre-trained 
+DNN models.
 
 We only consider Linear and 2D Convolutional (Conv2D) layers because we will only examine series of commonly
 available, open source, pre-trained DNNs with these kinds of layers.  All models have
-been trained on ImageNet, and reported test accuracies are available.  For our analysis, we do not needs to retrain these
+been trained on ImageNet, and reported test accuracies are widely available.  For our analysis, we do not need to retrain these
 models--and we do not even need the test data!
 
 \paragraph{VGG and VGG\_BN Models.}
@@ -28,13 +29,13 @@ models--and we do not even need the test data!
       Test Accuracy versus
       average log Frobenius norm $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$ (in (\ref{fig:vgg_lognorms}))
       or
-      weighted average PL exponent $\hat{\alpha}$ (in (\ref{fig:vgg_alphahat}))
+      Universal, weighted average PL exponent $\hat{\alpha}$ (in (\ref{fig:vgg_alphahat}))
       for
       VGG11 vs VGG11\_BN ({\color{blue}{blue}}),
       VGG13 vs VGG13\_BN ({\color{orange}{orange}}),
       VGG16 vs VGG16\_BN ({\color{green}{green}}),  and
       VGG19 vs VGG19\_BN ({\color{red}{red}}). 
-      \michael{Charles, have circles and squares or something like that to distinguish regular and BN versions.}
+      We plot plain VGG models with circles, and the VGG BN models with squares.
    }
    \label{fig:vgg}
 \end{figure*}
@@ -88,7 +89,8 @@ Figure~\ref{fig:vgg} shows both the average log Frobenius norm
 $\langle\log\Vert\mathbf{W}\Vert_{F}\rangle$,  Eqn.~(\ref{eqn:av_log_norm}),
 and the weighted average PL exponent $\hat{\alpha}$,   Eqn.~(\ref{eqn:alpha_hat_specific}),
 as a function of the reported (Top1) test accuracy for the series of pre-trained VGG models ,
-as available in the pyTorch package~\cite{pyTorch}. 
+as available in the pyTorch package
+\footnote{https://pytorch.org/}. 
 These include VGG11, VGG13, VGG16, and VGG19, and
 their more accurate counterparts with Batch Normalization, VGG11\_BN, VGG13\_BN, VGG16\_BN and VGG19\_BN.  
 %See Figures~\ref{fig:vgg_lognorms} and~\ref{fig:vgg_alphahat} as well as Table~\ref{table:models_VGG} for details.
