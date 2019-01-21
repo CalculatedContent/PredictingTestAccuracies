@@ -84,7 +84,7 @@ Here, we consider finite-size effects in Eqn.~(\ref{eqn:basic_relation}), both w
 See Figure~\ref{fig:randW}, which  displays $\frac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda^{max}}$ as a function of the fitted PL exponent $\alpha$, with varying sizes $N$ (with aspect ratio $Q=1$).
 Recall that $\alpha \approx \frac{1}{2}\mu+1$ for finite-sized VHT random matrices, while $\alpha = a\mu+b$ for finite-sized MHT random matrices, where $a,b$ depend strongly on the size of the matrix.  Thus, $\mu\in(0,2)$ for VHT matrices corresponds to $\alpha\in(1,2)$, while $\alpha \approx(2,3)$ or $\alpha \approx(2,4)$ for MHT matrices.
 %% $$
-%% \dfrac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda_{max}}\;\;vs.\;\;(\alpha)  .
+%% \dfrac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda^{max}}\;\;vs.\;\;(\alpha)  .
 %% $$
 The numerical results in Figure~\ref{fig:randW} show that as $\alpha$ increases:
 when $\alpha<2$, there exists a near-linear relation; and
@@ -94,7 +94,7 @@ In particular, for MHT matrices, the finite-size regime in which it holds modera
 
 \begin{figure*}[!htb]
    \centering
-   \includegraphics[scale=0.30]{img/Alpha-LogNorm-Relations.png}
+   \includegraphics[scale=0.25]{img/Alpha-LogNorm-Relations.png}
    \caption{
             Numerical test of Eqn.~(\ref{eqn:basic_relation}) for random HT matrices across different HT Universality classes.
             \michael{Charles, change $M$ to $N$ in caption.}
@@ -110,7 +110,7 @@ In particular, for MHT matrices, the finite-size regime in which it holds modera
 %we will generate the data for a number of a Heavy-Tailed random matrices, 
 %with different power law exponents $\mu$.
 %Note that this linear relation holds over several log scales.  However,
-%the relation does deviate from linearity at the smaller values of $\alpha\;\log_{10}\;\lambda_{max}$.
+%the relation does deviate from linearity at the smaller values of $\alpha\;\log_{10}\;\lambda^{max}$.
 %This is readily explained below .  
 
 
@@ -127,11 +127,11 @@ In particular, for MHT matrices, the finite-size regime in which it holds modera
 \begin{figure*}[!htb]
     \centering
     \subfigure[Random Pareto Matrices] {
-        \includegraphics[scale=0.30]{img/relation-rand.png} 
+        \includegraphics[scale=0.25]{img/relation-rand.png} 
         \label{fig:relation-rand}
     }
     \subfigure[VGG11 Weight matrices]{
-        \includegraphics[scale=0.30]{img/relation-vgg11.png} 
+        \includegraphics[scale=0.25]{img/relation-vgg11.png} 
         \label{fig:relation-vgg11}
     }
         \caption{Relation between $\alpha\log_{10}\lambda^{max}$ and $\log_{10}\Vert\mathbf{W}\Vert^{2}_{F}$ for random (Pareto) matrices and real (VGG11) DNN weight matrices.
@@ -178,11 +178,11 @@ Figure~\ref{fig:fro-vgg11} displays these results, here as a function of $\alpha
 \begin{figure*}[!htb]
    \centering
    \subfigure[Random Pareto Matrices] {
-      \includegraphics[scale=0.30]{img/fro-rand.png} 
+      \includegraphics[scale=0.25]{img/fro-rand.png} 
       \label{fig:fro-rand}
    }
    \subfigure[Pre-trained VGG11 Weight Matrices]{
-      \includegraphics[scale=0.30]{img/fro-vgg11.png} 
+      \includegraphics[scale=0.25]{img/fro-vgg11.png} 
       \label{fig:fro-vgg11}
    }
    \caption{Dependence of Frobenius norm on PL exponents for random Pareto versus pre-trained DNN matrices.  }
@@ -245,11 +245,11 @@ SqueezeNet & & \\
 \begin{figure*}[!htb]
    \centering
    \subfigure[DenseNet] {
-       \includegraphics[scale=0.30]{img/densenet-pytorch-w_alphas.png} 
+       \includegraphics[scale=0.25]{img/densenet-pytorch-w_alphas.png} 
        \label{fig:densenet}
    }
    \subfigure[SqueezeNet]{
-       \includegraphics[scale=0.30]{img/squeezenet-pytorch-w_alphas.png} 
+       \includegraphics[scale=0.25]{img/squeezenet-pytorch-w_alphas.png} 
        \label{fig:squeezenet}
    }
    \caption{
