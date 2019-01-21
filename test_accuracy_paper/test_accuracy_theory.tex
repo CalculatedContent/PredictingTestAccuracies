@@ -377,7 +377,7 @@ and we define the average log norm of weight matrices as
 
 We propose a simple linear relation between the (squared) Frobenius norm $\Vert\mathbf{W}\Vert^{2}_{F}$ of $\mathbf{W}$, the PL exponent $\alpha$, and the maximum eigenvalue $\lambda^{max}$ of $\mathbf{X}$ (i.e., the spectral norm $\Vert\mathbf{X}\Vert_{2}=\frac{1}{N}\Vert\mathbf{W}\Vert^{2}_{2}$):  
 \begin{equation}
-\textbf{PL--Norm Relation:} \quad \alpha\log\;\lambda^{max}\approx\log\;\Vert\mathbf{W}\Vert^{2}_{F}  .
+\textbf{PL--Norm Relation:} \quad \alpha\log\lambda^{max}\approx\log\Vert\mathbf{W}\Vert^{2}_{F}  .
 \label{eqn:basic_relation}
 \end{equation}
 To our knowledge, this is the first time this PL--Norm relation has been noted in the literature (although prior work has considered norm bounds for HT data~\cite{MN09_TR}).
@@ -409,14 +409,14 @@ See Appendix~\ref{sxn:appendix-finite-size}.
 \item
 \label{enum:third}
 \emph{As evidence of HT-MU}, we observe empirically that Eqn.~(\ref{eqn:basic_relation}) also applies, approximately, to the real DNN weight matrices $\mathbf{W}$. 
-We see that $\alpha\;\log\lambda_{max}$ is positively correlated with $\log\Vert\mathbf{W}\Vert^{2}_{F}$ as $\alpha$ increases, and even shows similar saturation effects at large $\alpha$.
+We see that $\alpha\log\lambda^{max}$ is positively correlated with $\log\Vert\mathbf{W}\Vert^{2}_{F}$ as $\alpha$ increases, and even shows similar saturation effects at large $\alpha$.
 See Appendix~\ref{sxn:appendix-random-vs-real}.
 \end{enumerate}
 
 %%SPACE MOVED TO APPENDIX.%% We will discuss each of these in more detail below.
 
 Finally, based on Eqn.~(\ref{eqn:basic_relation}), we choose the weights in Eqn.~(\ref{eqn:alpha_hat_generic}) to be the log of the corresponding maximum eigenvalues of $\mathbf{X}$.
-That is, for a given $l,i$, we have 
+That is, for a given $l,i$, we have the weights in Eqn.~(\ref{eqn:alpha_hat_generic})~as
 $$
 b_{l,i} = \lambda_{l,i}^{max}  .
 $$
@@ -434,12 +434,12 @@ Then, we define the complexity metrics for Linear and Convolutional Layers as fo
 %\quad 
 \rightarrow 
 %\quad 
-\alpha_{l}\;\log\lambda_{l}^{max}  \\
+\alpha_{l}\log\lambda_{l}^{max}  \\
 \text{Conv2D Layer:} & & \log\Vert\mathbf{W}_{l}\Vert^{2}_{F} 
 %\quad 
 \rightarrow 
 %\quad 
-\sum_{i=1}^{n_{l}}\alpha_{l,i} \;\log\lambda_{l,i}^{max} , 
+\sum_{i=1}^{n_{l}}\alpha_{l,i} \log\lambda_{l,i}^{max} , 
 \end{eqnarray*}
 where, for Conv2D Layers, we relate the ``norm'' of the 4-index Tensor $\mathbf{W}_{l}$ to the sum of the $n_{l}=c\times d$ terms for each feature map.
 %% So, in the expression for the Product Norm for $\log\mathcal{C}$, we can replace each $\log\Vert\mathbf{W}_{L}\Vert$ term for layer $L$ with these above expressions, and take the average over all $N_{\alpha}$  matrices.  
@@ -449,7 +449,7 @@ This lets us compare the Product Norm to the weighted average of PL exponents as
 %\quad 
 \rightarrow 
 %\quad 
-\hat{\alpha} := \dfrac{1}{N_{L}}\sum_{i,l}\alpha_{i,l}\;\log \lambda_{l,i}^{max}  .
+\hat{\alpha} := \dfrac{1}{N_{L}}\sum_{i,l}\alpha_{i,l}\log \lambda_{l,i}^{max}  .
 \label{eqn:alpha_hat_specific}
 \end{equation}
 %% \michael{We are using subscripts in a slightly confusing way.}

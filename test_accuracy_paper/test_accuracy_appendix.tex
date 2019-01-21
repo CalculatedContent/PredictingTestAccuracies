@@ -81,7 +81,7 @@ This established the approximate---and surprising---linear relation we want for 
 
 
 Here, we consider finite-size effects in Eqn.~(\ref{eqn:basic_relation}), both within and across HT Universality classes, i.e., for both VHT and MHT matrices.
-See Figure~\ref{fig:randW}, which  displays $\frac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda_{max}}$ as a function of the fitted PL exponent $\alpha$, with varying sizes $N$ (with aspect ratio $Q=1$).
+See Figure~\ref{fig:randW}, which  displays $\frac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda^{max}}$ as a function of the fitted PL exponent $\alpha$, with varying sizes $N$ (with aspect ratio $Q=1$).
 Recall that $\alpha \approx \frac{1}{2}\mu+1$ for finite-sized VHT random matrices, while $\alpha = a\mu+b$ for finite-sized MHT random matrices, where $a,b$ depend strongly on the size of the matrix.  Thus, $\mu\in(0,2)$ for VHT matrices corresponds to $\alpha\in(1,2)$, while $\alpha \approx(2,3)$ or $\alpha \approx(2,4)$ for MHT matrices.
 %% $$
 %% \dfrac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda_{max}}\;\;vs.\;\;(\alpha)  .
@@ -89,7 +89,7 @@ Recall that $\alpha \approx \frac{1}{2}\mu+1$ for finite-sized VHT random matric
 The numerical results in Figure~\ref{fig:randW} show that as $\alpha$ increases:
 when $\alpha<2$, there exists a near-linear relation; and
 when $\alpha>2$, for $N,M$ large, the relation saturates, becoming constant, while for smaller $N,M$, there exists a near-linear relation, but with strong finite-size effects.
-These numerical results demonstrate that $ \log\Vert\mathbf{W}\Vert^{2}_{F}\approx\alpha\log\lambda_{max} $ works very well for VHT random matrices, for $\alpha<2$, and that it works moderately well for MHT matrices and even some WHT matrices.
+These numerical results demonstrate that $ \log\Vert\mathbf{W}\Vert^{2}_{F}\approx\alpha\log\lambda^{max} $ works very well for VHT random matrices, for $\alpha<2$, and that it works moderately well for MHT matrices and even some WHT matrices.
 In particular, for MHT matrices, the finite-size regime in which it holds moderately well when $N,M\sim\mathcal{O}(100-1000)$, which is typical for modern DNNs. 
 
 \begin{figure*}[!htb]
@@ -143,13 +143,13 @@ In particular, for MHT matrices, the finite-size regime in which it holds modera
 Here, we show numerically that the qualitative form of Eqn.~(\ref{eqn:basic_relation}) holds more generally than the special case derived previously, including into the MHT Universality class, for both random and real data.
 To illustrate this, we generate a large number of HT random matrices $\mathbf{W}^{rand}(\mu)$, with varying sizes $N$ (with aspect ratio $Q=1$), drawn from a Pareto distribution of Eqn.~(\ref{eqn:ht_dstbn}), with exponents $\mu\in[0.5, 5]$.
 We then fit the ESD of each $\mathbf{W}^{rand}(\mu)$ to a PL using the method of Clauset et al.~\cite{CSN09_powerlaw,ABP14} to obtain the empirical exponent $\alpha$.   
-Figure~\ref{fig:relation-rand} shows that there is a near-perfect relation between $ \alpha\log\lambda_{max}$ and $\log\Vert\mathbf{W}\Vert^{2}_{F} $.
+Figure~\ref{fig:relation-rand} shows that there is a near-perfect relation between $ \alpha\log\lambda^{max}$ and $\log\Vert\mathbf{W}\Vert^{2}_{F} $.
 We also performed a similar PL fit for VGG11 weight matrices.
 (See Section~\ref{sxn:emp} for some details on the VGG11 model.)
-Figure~\ref{fig:relation-vgg11} shows the results, demonstrating an increasing relation until $ \alpha\log_{10}\lambda_{max} \approx 2.5$ and a saturation after that point.
+Figure~\ref{fig:relation-vgg11} shows the results, demonstrating an increasing relation until $ \alpha\log_{10}\lambda^{max} \approx 2.5$ and a saturation after that point.
 Figure~\ref{fig:relations} illustrates
-(among other things\footnote{Clearly, there are also differences between the HT random and the real DNN matrices, most notably that $ \alpha\log\lambda_{max} $ achieves much larger values for the random matrices.  This is discussed in more detail in Appendix~\ref{sxn:appendix-universality}.})
-that multiplying $\alpha$ by $\log_{10}\lambda_{max}$ leads to a relation that increases linearly with the (log of the squared) Frobenius norm for HT random matrices, and that the two quantities are linearly correlated for real DNN weight matrices.
+(among other things\footnote{Clearly, there are also differences between the HT random and the real DNN matrices, most notably that $ \alpha\log\lambda^{max} $ achieves much larger values for the random matrices.  This is discussed in more detail in Appendix~\ref{sxn:appendix-universality}.})
+that multiplying $\alpha$ by $\log_{10}\lambda^{max}$ leads to a relation that increases linearly with the (log of the squared) Frobenius norm for HT random matrices, and that the two quantities are linearly correlated for real DNN weight matrices.
 
 %% \michael{Maybe comment also about how points large on the X axis have smaller $\alpha$.}
 %% 
@@ -164,7 +164,7 @@ that multiplying $\alpha$ by $\log_{10}\lambda_{max}$ leads to a relation that i
 When we use Universality, as we do in our derivation of the basic PL--Norm Relation, we would like a method that applies both to HT random matrices as well as to non-random, indeed strongly-correlated, pre-trained DNN layer weight matrices that (as evidenced by their ESD properties) are in a HT Universality class.  
 To accomplish this, however, requires some care: while the pre-trained $\mathbf{W}$ matrices do have ESDs that display empirical signatures of HT Universality~\cite{MM18_TR}, they are \emph{not} random Pareto matrices.
 Many of their properties, including their empirical Frobenius norms, behave very differently than that of a random Pareto matrix.  
-(We saw this in Figure~\ref{fig:relations}, which showed that $ \alpha\log\lambda_{max} $ achieves much larger values for HT random matrices than real DNN weight matrices.)
+(We saw this in Figure~\ref{fig:relations}, which showed that $ \alpha\log\lambda^{max} $ achieves much larger values for HT random matrices than real DNN weight matrices.)
 
 To illustrate this, we generate a large number of HT random matrices $\mathbf{W}^{rand}(\mu)$, with exponents $\mu\in[0.5, 5]$, as described in Section~\ref{sxn:theory-new}.
 %
@@ -192,14 +192,14 @@ Figure~\ref{fig:fro-vgg11} displays these results, here as a function of $\alpha
 The properties of $\Vert\mathbf{W}\Vert^{2}_{F}$ for the random Pareto versus real/ron-random DNN weight matrices are quite different.
 For a random Pareto matrix, $\mathbf{W}^{rand}(\mu)$, the Frobenius norm $\Vert\mathbf{W}^{rand}(\mu)\Vert^{2}_{F}$ 
 \emph{decreases with increasing exponent} $(\mu)$; and there is a modest finite-size effect.
-(In addition, as the tails of the ESD $\rho(\lambda)$ get heavier, the largest eigenvalue $\lambda_{max}$ of $\mathbf{X}$ scales with the largest element of $\mathbf{W}^{rand}(\mu)$.) 
+(In addition, as the tails of the ESD $\rho(\lambda)$ get heavier, the largest eigenvalue $\lambda^{max}$ of $\mathbf{X}$ scales with the largest element of $\mathbf{W}^{rand}(\mu)$.) 
 % \michael{$\alpha$ or $\mu$ here.}
 % \michael{Cite something or show this.}
 For the weight matrices of a pre-trained DNN, however, the Frobenius norm $\Vert\mathbf{W}\Vert^{2}_{F}$ \emph{increases with increasing exponent} $(\alpha)$, saturating at $\alpha\approx 3$.
 This happens because, due to the training process, the $\mathbf{W}$ matrices themselves are highly-correlated, and not random matrices with a single large, atypical element.
 In spite of this, the ESD $\rho(\lambda)$ of these pre-trained correlations matrices $\mathbf{X}$ display Universal HT behavior~\cite{MM18_TR}; and, as shown in Figure~\ref{fig:relation-vgg11}, 
 Eqn.~(\ref{eqn:basic_relation}) is approximately satisfied, in the sense that 
-$\alpha\log\lambda_{max}$ is positively correlated with $\log\Vert\mathbf{W}\Vert^{2}_{F} $.
+$\alpha\log\lambda^{max}$ is positively correlated with $\log\Vert\mathbf{W}\Vert^{2}_{F} $.
 This is one of the remarkable properties of Universality (and it shows why some care must be taken in applying these Universality principles).
 
 
@@ -430,7 +430,7 @@ XXX.  COMMENTS.
 \label{sxn:appendix-addl-discussion}
 
 We have presented an \emph{unsupervised} capacity control metric which predicts trends in test accuracies of a trained DNN---without peeking at the test data. 
-This complexity metic, $\hat{\alpha}$ of Eqn.~(\ref{eqn:alpha_hat_specific}), is a weighted average of the PL exponents $\alpha$ for each layer weight matrix, where $\alpha$ is defined in the recent HT-SR Theory~\cite{MM17_TR,MM18_TR}, and where the weights are the largest eigenvalue $\lambda_{max}$ of the correlation matrix $\mathbf{X}$.  
+This complexity metic, $\hat{\alpha}$ of Eqn.~(\ref{eqn:alpha_hat_specific}), is a weighted average of the PL exponents $\alpha$ for each layer weight matrix, where $\alpha$ is defined in the recent HT-SR Theory~\cite{MM17_TR,MM18_TR}, and where the weights are the largest eigenvalue $\lambda^{max}$ of the correlation matrix $\mathbf{X}$.  
 %
 We examine several commonly-available, pre-trained, production-quality DNNs by plotting $\hat{\alpha}$ versus the reported test accuracies.
 This covers classes of DNN architectures including the VGG models, ResNet, DenseNet, etc. 
@@ -443,6 +443,7 @@ We should mention two higher-level comments.
 %
 First, 
 one of the main insights of our approach is to highlight the importance of what might seem to be a technical issue to ignore, but which in our experience is \emph{extremely} important: the scaling or normalization for weight matrices used in the DNN, and how this relates to the difference between finite-size versus asymptotic effects.
+\michael{Modify slightly since we don't go into as much detail about our scaling problems, so modify these comments.}
 This scaling issue has been highlighted perhaps most recently by Bartlett et al.~\cite{BFT17_TR} and Liao et al.~\cite{LMBx18_TR}.
 The latter were interested in showing that classical generalization bounds can be tight---when normalization is performed appropriately.
 Our approach complements theirs; but, to our knowledge, our approach is the first to highlight the connection with finite-size effects.
