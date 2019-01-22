@@ -10,19 +10,17 @@
 Here, we derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, 
 As 
 %%$\alpha \rightarrow 1$, 
-$\mu \rightarrow 1$, 
-\michael{$\mu$ or $\alpha$, and $0$ or $1$, clarify and be consistent with main text.}
+$\mu \rightarrow 0$, 
 for an $N \times M$ random matrix $\mathbf{W}$, {with $M=N, Q=1$, and with elements drawn from Eqn.~(\ref{eqn:ht_dstbn}).%
+We seek a relation good in the region $mu\in[0,2]$, and will extend the $\mu~0$ results to this.
 \footnote{We derive Eqn.~(\ref{eqn:basic_relation}) at what is sometimes pejoratively known as ``at a physics level of rigor.''  That is fine, as our justification ultimately lies in our empirical results.  Recall our goal: to derive a very simple expression relating fitted PL exponents and Frobenius norms that is usable by practical engineers working with state-of-the-art models, i.e., not simply small toy models.  There is very little ``rigorous'' work on HT-RMT, less still on understanding finite-sized effects of HT Universality.  Hopefully, our results will lead to more work along these lines.  }
 That is, we establish this as an asymptotic relation for the VHT Universality class for very small exponents.
 
-\michael{Be careful below about $\mu$s and $\alpha$s throughout this section.}
 To start, recall that 
 $$ 
 \Vert \mathbf{W}\Vert_{F}^{2}=\mbox{Trace}[\mathbf{W}^{T}\mathbf{W}]=N\;\mbox{Trace}[\mathbf{X}]  .
 $$
-Since, for \nred{$\mu \gtrsim 0$}, 
-\michael{NOT $\alpha$, but maybe 1?}
+Since, $\mu \gtrsim 0$, 
 the eigenvalue spectrum is dominated by a single large eigenvalue, it follows that
 $$
 \Vert \mathbf{W}\Vert_{F}^{2}\approx N\lambda^{max}  , 
@@ -76,10 +74,18 @@ Finally, we can form the Taylor Series for $\dfrac{1}{4/\mu-1}$ around $\mu=1.15
 $$
 \dfrac{1}{4/\mu-1}\bigg\rvert_{\mu=1.15}\approx\dfrac{1}{2}\mu-\dfrac{1}{6}+\cdots\approx\dfrac{1}{2}\mu  .
 $$
-\michael{Check that, where we expand around, if we want $\mu\approx 0$.}
-This establishes the approximate---and rather surprising---linear relation we want for $\mu \gtrsim 1$. 
-\michael{Check that, $0$ or $1$.}
-%\michael{MM again, be careful below about $\mu$s and $\alpha$s.}
+This relation is depicted in Figure~\ref{fig:img/talyor-series}.
+This establishes the approximate---and rather surprising---linear relation we want for $\mu\in[0.2]$ for
+the VHT Universality class of HT-RMT.
+
+\begin{figure}[!htb]
+   \centering
+   \includegraphics[scale=0.25]{img/taylor-series.png} 
+   \caption{%
+            Taylor series expansion for $\frac{1}{4/\mu-1}$ at $\mu=1.15\approx1$.
+            }
+   \label{fig:img/taylor-series}
+\end{figure}
 
 
 
