@@ -8,12 +8,12 @@
 \label{sxn:appendix-derivation-pl-norm-relation}
 
 Here, we derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, 
-As 
+as 
 %%$\alpha \rightarrow 1$, 
 $\mu \rightarrow 0$, 
 for an $N \times M$ random matrix $\mathbf{W}$, {with $M=N, Q=1$, and with elements drawn from Eqn.~(\ref{eqn:ht_dstbn}).%
-We seek a relation good in the region $\mu\in[0,2]$, and will extend the $\mu\sim 0$ results to this.
 \footnote{We derive Eqn.~(\ref{eqn:basic_relation}) at what is sometimes pejoratively known as ``at a physics level of rigor.''  That is fine, as our justification ultimately lies in our empirical results.  Recall our goal: to derive a very simple expression relating fitted PL exponents and Frobenius norms that is usable by practical engineers working with state-of-the-art models, i.e., not simply small toy models.  There is very little ``rigorous'' work on HT-RMT, less still on understanding finite-sized effects of HT Universality.  Hopefully, our results will lead to more work along these lines.  }
+We seek a relation good in the region $\mu\in[0,2]$, and we will extend the $\mu\sim 0$ results to this full region.
 That is, we establish this as an asymptotic relation for the VHT Universality class for very small exponents.
 
 To start, recall that 
@@ -66,11 +66,11 @@ Taking the log of both sides gives
 $$
 \log\lambda^{max}\approx\log N^{4/\mu-1}=(4/\mu-1)\log N  ,
 $$
-from which if follows that
+from which it follows that
 $$
 \dfrac{\log N}{\log\lambda^{max}}\approx\dfrac{\log N}{(4/\mu-1)\log N}=\dfrac{1}{4/\mu-1}   .
 $$
-Finally, we can form the Taylor Series for $\dfrac{1}{4/\mu-1}$ around $\mu=1.15\approx 1$, which gives 
+Finally, we can form the Taylor Series for $\dfrac{1}{4/\mu-1}$ around, e.g., $\mu=1.15\approx 1$, which gives 
 $$
 \dfrac{1}{4/\mu-1}\bigg\rvert_{\mu=1.15}\approx\dfrac{1}{2}\mu-\dfrac{1}{6}+\cdots\approx\dfrac{1}{2}\mu  .
 $$
@@ -80,7 +80,7 @@ the VHT Universality class of HT-RMT.
 
 \begin{figure}[!htb]
    \centering
-   \includegraphics[scale=0.25]{img/taylor-series.png} 
+   \includegraphics[scale=0.30]{img/taylor-series.png} 
   \caption{%
            Taylor series expansion for $\frac{1}{4/\mu-1}$ at $\mu=1.15\approx1$.
           }
@@ -194,11 +194,11 @@ Figure~\ref{fig:fro-vgg11} displays these results, here as a function of $\alpha
 \begin{figure*}[!htb]
    \centering
    \subfigure[Random Pareto Matrices] {
-      \includegraphics[scale=0.20]{img/fro-rand.png} 
+      \includegraphics[scale=0.25]{img/fro-rand.png} 
       \label{fig:fro-rand}
    }
    \subfigure[Pre-trained VGG11 Weight Matrices]{
-      \includegraphics[scale=0.20]{img/fro-vgg11.png} 
+      \includegraphics[scale=0.25]{img/fro-vgg11.png} 
       \label{fig:fro-vgg11}
    }
    \caption{Dependence of Frobenius norm on PL exponents for random Pareto versus pre-trained DNN matrices.  }
@@ -320,18 +320,18 @@ FDMobileNet
 \end{tabular}
 \end{center}
 \caption{Results for more pre-trained DNN models.  Models provided in the OSMR Sandbox, implemented in pyTorch. Top 1 refers to the Top 1 Accuracy, which $100.0$ minus the Top 1 reported error.}
-\label{table:models_more}. 
+\label{table:models_more}
 \end{table}
 
 
 \begin{figure*}[!htb]
    \centering
    \subfigure[DenseNet] {
-       \includegraphics[scale=0.25]{img/densenet-pytorch-w_alphas.png} 
+       \includegraphics[scale=0.30]{img/densenet-pytorch-w_alphas.png} 
        \label{fig:densenet}
    }
    \subfigure[SqueezeNet]{
-       \includegraphics[scale=0.25]{img/squeezenet-pytorch-w_alphas.png} 
+       \includegraphics[scale=0.30]{img/squeezenet-pytorch-w_alphas.png} 
        \label{fig:squeezenet}
    }
    \caption{
@@ -424,18 +424,21 @@ there are three different pre-trained models, and, again, the
 $\hat{\alpha}$ is larger for the less accurate models. 
 We have not looked in detail at these results and simply present them for completeness. 
  
-\begin{figure*}[!htb]
+\begin{figure}[!htb]
    \centering
    \subfigure[ResNeXt]{
-      \includegraphics[scale=0.19]{img/ResNeXt-w_alphas.png} 
+      %\includegraphics[scale=0.19]{img/ResNeXt-w_alphas.png} 
+      \includegraphics[scale=0.22]{img/ResNeXt-w_alphas.png} 
       \label{fig:resnet-small}
    }
    \subfigure[MeNet]{
-      \includegraphics[scale=0.19]{img/MeNet-w_alphas.png} 
+      %\includegraphics[scale=0.19]{img/MeNet-w_alphas.png} 
+      \includegraphics[scale=0.22]{img/MeNet-w_alphas.png} 
       \label{fig:menet-net}
    }
    \subfigure[FDMobileNet]{
-      \includegraphics[scale=0.19]{img/FDMobileNet-w_alphas.png} 
+      %\includegraphics[scale=0.19]{img/FDMobileNet-w_alphas.png} 
+      \includegraphics[scale=0.22]{img/FDMobileNet-w_alphas.png} 
       \label{fig:resnet-small}
    }
    \caption{
@@ -447,7 +450,7 @@ We have not looked in detail at these results and simply present them for comple
       $\hat{\alpha}$.
            }
    \label{fig:counter-examples}
-\end{figure*}
+\end{figure}
 
 
 \section{Additional Discussion}
