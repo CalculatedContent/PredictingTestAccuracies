@@ -154,7 +154,7 @@ This answer to this---and its implications---depends on your perspective, in par
 
 In Statistics and Applied Mathematics, Universality typically refers to properties of systems that can be modeled by random matrices.
 The justification is that certain system properties can be deduced, without requiring knowledge of system details, from a few global quantities that are then used as parameters to define a random matrix ensemble~\cite{ER05,EW13}.
-Of course, the DNN weight matrices are not random matrices---they are strongly- correlated objects---so it may seem odd that we can apply RMT to characterize them.
+Of course, the DNN weight matrices are not random matrices---they are strongly-correlated objects---so it may seem odd that we can apply RMT to characterize them.
 
 In Statistical Physics, Universality refers to a different, but related, phenomena.
 It arises in systems with very strong correlations, at or near a critical point or phase transition. 
@@ -201,7 +201,7 @@ So, even though $\mathbf{W}$ is not random, we expect its ESD and maximum eigenv
    \includegraphics[scale=0.36]{img/universality_classes.png} 
    \caption{Illustration of our use of HT Universality.  
             %\michael{Charles, maybe tweak this figure to rotate and horizontally show transfer of Universal things between different matrices.}  
-            A random matrix $\mathbf{W}(\mu)$ with elements drawn i.i.d. from the HT distribution of Eqn.~(\ref{eqn:ht_dstbn}) and weight matrix $\mathbf{W}^{str. corr.}$ from a modern well-trained DNN that exhibits strong correlations each arise from different generative mechanisms, and they are different.  Both exhibit similar Universality properties, as evidneced by the HT properties of the ESDs of their corresponding correlation matrices $\mathbf{X}$, and so we expect Universal properties to be similar between~them.}
+            A random matrix $\mathbf{W}(\mu)$ with elements drawn i.i.d. from the HT distribution of Eqn.~(\ref{eqn:ht_dstbn}) and weight matrix $\mathbf{W}^{str. corr.}$ from a modern well-trained DNN that exhibits strong correlations each arise from different generative mechanisms, and they are different.  Both exhibit similar Universality properties, as evidenced by the HT properties of the ESDs of their corresponding correlation matrices $\mathbf{X}$, and so we expect Universal properties to be similar between~them.}
    \label{fig:universality_diagram}
 \end{figure}
 
@@ -300,7 +300,7 @@ For us, the question is: how shall we \emph{use} these relations?
 
 \emph{Due to Heavy Tailed Mechanistic Universality (HT-MU)}, we expect Eqn.~(\ref{eqn:scaling_of_lambda_max}) to hold for matrices in these HT Universality classes (as evidenced by their ESD properties), e.g., DNN weight matrices $\mathbf{W}$ after training---\emph{even when the matrix is not itself a HT random matrix} and therefore not governed by RMT or EVT.
 %%% (See Appendix~\ref{sxn:appendix-derivation-two-relations} for a derivation of Eqns.~(\ref{eqn:alpha_mu_vht_and_mht}) and~(\ref{eqn:scaling_of_lambda_max}).)
-We shall use these Universal HT finite-size relations to derive a simple capacity control metric for our theory of HT-SR, and relate this to the well known product norm capacity control metric.
+We shall use these Universal HT finite-size relations to derive a simple capacity control metric for our HT-SR Theory, and relate this to the well known Product Norm capacity control metric.
 
 %We will use this to derive a relationship that holds between $\alpha$, $\lambda^{max}$, and perhaps other observables such as matrix norms, and then 
 %appeal to \nred{HT-MU} to apply it to  \nred{the highly} non-random, pre-trained DNN weight matrices that also lie within these HT Universality classes.
@@ -371,7 +371,7 @@ $$
 $$
 where $\Vert\mathbf{W}\Vert$ is, e.g., the Frobenius norm~\cite{LMBx18_TR, SHNx17_TR,PLMx18_TR}.
 (Here, we can use either $\Vert\mathbf{W}\Vert$ or $\Vert\mathbf{W}\Vert^{2}$, and one can view $\mathcal{C}$ as akin to a data-dependent VC complexity.)
-To that end, we consider a log complexity
+To that end, we consider a log~complexity
 \begin{eqnarray*}
 \log\mathcal{C} &\sim& \log\bigg[\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert\bigg]  \\
                 &\sim& \bigg[\log\Vert\mathbf{W}_{1}\Vert+\log\Vert\mathbf{W}_{2}\Vert\cdots\log\Vert\mathbf{W}_{L}\Vert\bigg]  ,

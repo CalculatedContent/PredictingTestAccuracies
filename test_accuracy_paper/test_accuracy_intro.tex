@@ -22,13 +22,13 @@ Here are two.
 Developing DNN models often requires significant architecture engineering, so there is interest in automating the design of DNNs.
 Current methods can produce a series of DNNs subject to given general architecture constraints, but the models must be evaluated using cross validation (CV).
 DNNs have so many adjustable parameters that even when using CV it is possible to leak information from the test sets into the training data, thus producing brittle, non-robust models.
-It is thus of interest to have design principles and quality metrics that do not depend on the test data and/or the labels. 
+It is thus of interest to have design principles and quality metrics that do not depend on the test data and/or the~labels. 
 \item
 \textbf{Fine-Tuning Pre-trained Models.}
 Since one often does not have enough labeled data to train a large DNN from scratch, many modern engineering solutions can re-use widely-available pre-trained DNNs, fine-tuning them on smaller data sets. 
 This technique often works extremely well for visual tasks, using DNNs pre-trained on ImageNet; and recently it has become feasible for complex natural language processing (NLP) tasks. 
 Sometimes, however, these fine-tuned models become brittle and non-robust---due to overtraining, because information leaks from the test set into the training data.
-Here, it would also be very helpful to be able to fine-tune large, pre-trained DNNs without needing to peek at the test data.
+Here, it would also be very helpful to be able to fine-tune large, pre-trained DNNs without needing to peek at the test~data.
 %%SPACE%% \item
 %%SPACE%% \textbf{Unsupervised Deep Learning.}
 %%SPACE%% \michael{Charles, put in sentences; or remove and ``several'' to ``two'' above.}
@@ -41,7 +41,7 @@ theoretical development of new regularizers for traditional ML optimization prob
 Moreover, since the early days of NN research, 
 it was known that 
 %%even Vapnik himself argued that his 
-VC theory could (probably) not be directly applied to the seemingly widely non-convex optimization problem implicitly posed by NNs. 
+VC theory could (probably) not be directly applied to the seemingly wildly non-convex optimization problem implicitly posed by NNs. 
 (This has caused some researchers to suggest we need to rethink regularization in DNNs entirely.)
 
 In light of this, 
@@ -65,11 +65,12 @@ This means that their approach can not be tested/evaluated on any existing pre-t
 Still, their results do suggest that a Product Norm may work well as a \emph{practical} capacity metric for large, and perhaps even pre-trained, production-quality DNNs.   
 To predict trends in the test accuracies, one needs some more \emph{Universal} empirical metric that transfers across DNN architectures.
 
-Recent work by Martin and Mahoney~\cite{MM18_TR} provides a Universal empirical metric that characterizes the amount of \emph{Implicit Self-Regularization} and, accordingly, the generalization capacity, for a wide range of pre-trained DNNs.
+Recent work by Martin and Mahoney~\cite{MM18_TR} provides a Universal empirical metric that characterizes the amount of \emph{Implicit Self-Regularization} and, accordingly, the generalization capacity, for a wide range of pre-trained DNNs.%
+\footnote{A short version of~\cite{MM18_TR} is also available as~\cite{MM19_shortTR_of_longTR}, but the long version contains many more results and a much more detailed exposition.  }
 The metric involves the power law (PL) exponents, $\alpha$, of individual layer weight matrices, $\mathbf{W}$, as determined by fitting the Empirical Spectral Density (ESD), $\rho(\lambda)$, to a PL distribution.
 Looking in detail at a series of models, like AlexNet, VGG, ResNet, etc, they observe that the (linear) layer weight matrices almost always follow a PL distribution, and the fitted PL exponents nearly all lie within a universal range $\alpha\in[2,5]$. 
 Further, analysis of a small model (MinAlexNet) demonstrates that smaller PL exponents $\alpha$ correspond to better generalization.
-Subsequent work~\cite{MM18_unpub_work} demonstrated HT behavior in nearly every pre-trained architecture studied, e.g., across nearly $7500$ layer weight matrices (and 2D feature maps), including DNNs pre-trained for computer vision tasks on ImageNet, and for several different NLP tasks.
+Subsequent work~\cite{MM18_unpub_work} demonstrated HT behavior in nearly every pre-trained architecture studied, e.g., across nearly $7500$ layer weight matrices (and 2D feature maps), including DNNs pre-trained for computer vision tasks on ImageNet, and for several different NLP~tasks.
 
 When one observes good empirical PL fits of the ESDs of the correlations of layer weight matrices, we say the DNN \emph{exhibits Heavy-Tailed (HT) behavior}.
 Motivated by these empirical observations, and using the Universality properties of Heavy-Tailed Random Matrix Theory (HT-RMT), Martin and Mahoney developed a theory of Heavy-Tailed Self-Regularization (HT-SR) for DNNs~\cite{MM17_TR,MM18_TR}.
@@ -156,7 +157,7 @@ This Universal metric correlates very well with the reported average test accura
 \item
 We derive a relation between our Universal capacity control metric $\hat{\alpha}$ and the well known Product Norm capacity control metric, i.e, in the form of the average log of the squared Frobenius norm:
 $$
-\langle\log\Vert\mathbf{W}\Vert^{2}_{F}\rangle\approx \alpha\log\lambda^{max}  .
+\langle\log\Vert\mathbf{W}\Vert^{2}_{F}\rangle\approx \frac{1}{N_L}\sum_{l\in L} \alpha_{l}\log\lambda_{l}^{max}  .
 $$
 We also show that
 % (in addition to providing worst-case bounds on generalization quality for rather small NNs)

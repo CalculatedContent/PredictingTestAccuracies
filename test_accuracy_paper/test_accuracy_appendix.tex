@@ -14,7 +14,7 @@ $\mu \rightarrow 0$,
 for an $N \times M$ random matrix $\mathbf{W}$, {with $M=N, Q=1$, and with elements drawn from Eqn.~(\ref{eqn:ht_dstbn}).%
 \footnote{We derive Eqn.~(\ref{eqn:basic_relation}) at what is sometimes pejoratively known as ``at a physics level of rigor.''  That is fine, as our justification ultimately lies in our empirical results.  Recall our goal: to derive a very simple expression relating fitted PL exponents and Frobenius norms that is usable by practical engineers working with state-of-the-art models, i.e., not simply small toy models.  There is very little ``rigorous'' work on HT-RMT, less still on understanding finite-sized effects of HT Universality.  Hopefully, our results will lead to more work along these lines.  }
 We seek a relation good in the region $\mu\in[0,2]$, and we will extend the $\mu\sim 0$ results to this full region.
-That is, we establish this as an asymptotic relation for the VHT Universality class for very small exponents.
+That is, we establish this as an asymptotic relation for the VHT Universality class for very small~exponents.
 
 To start, recall that 
 $$ 
@@ -94,7 +94,7 @@ the VHT Universality class of HT-RMT.
 
 Here, we consider finite-size effects in Eqn.~(\ref{eqn:basic_relation}), both within and across HT Universality classes, i.e., for both VHT and MHT matrices.
 See Figure~\ref{fig:randW}, which  displays $\frac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda^{max}}$ as a function of the fitted PL exponent $\alpha$, with varying sizes $N$ (with aspect ratio $Q=1$).
-Recall that $\alpha \approx \frac{1}{2}\mu+1$ for VHT random matrices (Eqn.~\ref{eqn:alpha_mu_vht}), while $\alpha = a\mu+b$ for MHT random matrices (Eqn.~\ref{eqn:alpha_mu_mht})), where $a,b$ strongly depend on $N$ and $M$.
+Recall that $\alpha \approx \frac{1}{2}\mu+1$ for VHT random matrices (Eqn.~(\ref{eqn:alpha_mu_vht})), while $\alpha = a\mu+b$ for MHT random matrices (Eqn.~(\ref{eqn:alpha_mu_mht})), where $a,b$ strongly depend on $N$ and $M$.
 Thus, $\mu\in(0,2)$ for VHT matrices corresponds to $\alpha\in(1,2)$, while $\alpha \approx(2,5)$ for MHT matrices.
 %% $$
 %% \dfrac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda^{max}}\;\;vs.\;\;(\alpha)  .
@@ -105,13 +105,13 @@ when $\alpha<2$, there exists a near-linear relation; and
 when $\alpha>2$, for $N,M$ large, the relation saturates, becoming constant, while for smaller $N,M$, there exists a near-linear relation, but with strong finite-size effects.
 These numerical results demonstrate that $ \log\Vert\mathbf{W}\Vert^{2}_{F}\approx\alpha\log\lambda^{max} $ works very well for VHT random matrices, for $\alpha<2$, and that it works moderately well for MHT matrices and even some WHT matrices.
 In particular, for MHT matrices, in the finite-size regime, when $N,M\sim\mathcal{O}(100-1000)$, which is typical for modern DNNs, the PL-Norm relations holds, \emph{on average}, quite well. 
-This is precisely what we want in a practical engineering metric that is designed to describe average test accuracy. 
+This is precisely what we want in a practical engineering metric that is designed to describe average test~accuracy. 
 
 \begin{figure}[!htb]
    \centering
    \includegraphics[scale=0.25]{img/Alpha-LogNorm-Relations.png}
    \caption{
-            Numerical test of Eqn.~(\ref{eqn:basic_relation}) for random HT matrices across different HT Universality classes.
+            Numerical test of Eqn.~(\ref{eqn:basic_relation}) for random HT matrices across different HT Universality~classes.
            }
    \label{fig:randW}
 \end{figure}
@@ -210,7 +210,7 @@ For a random Pareto matrix, $\mathbf{W}^{rand}(\mu)$, the Frobenius norm $\Vert\
 (In addition, as the tails of the ESD $\rho(\lambda)$ get heavier, the largest eigenvalue $\lambda^{max}$ of $\mathbf{X}$ scales with the largest element of $\mathbf{W}^{rand}(\mu)$.) 
 For the weight matrices of a pre-trained DNN, however, the Frobenius norm $\Vert\mathbf{W}\Vert^{2}_{F}$ \emph{increases with increasing exponent} $(\alpha)$, saturating at $\alpha\approx 3$.
 This happens because, due to the training process, the $\mathbf{W}$ matrices themselves are highly-correlated, and not random matrices with a single large, atypical element.%
-\footnote{This is easily seen by simply randomizing the elements of a real DNN weight matrix, and computing the ESD again.}
+\footnote{This is easily seen by simply randomizing the elements of a real DNN weight matrix, and computing the ESD~again.}
 In spite of this, the ESD $\rho(\lambda)$ of these pre-trained correlations matrices $\mathbf{X}$ display Universal HT behavior~\cite{MM18_TR}.
 In addition, as shown in Figure~\ref{fig:relation-vgg11}, Eqn.~(\ref{eqn:basic_relation}) is approximately satisfied, in the sense that $\alpha\log\lambda^{max}$ is positively correlated with $\log\Vert\mathbf{W}\Vert^{2}_{F} $.
 This is one of the remarkable properties of Mechanistic Universality.
@@ -225,7 +225,7 @@ Here, we summarize some of those results.
 \paragraph{More Pre-trained Models.}
 
 We present results for eleven more series of pre-trained DNN architectures, eight of which show positive results, as with the VGG and ResNet series (in Section~\ref{sxn:emp}), and three of which provide counterexample architectures.
-See Table~\ref{table:models_more} for a summary of results.
+See Table~\ref{table:models_more} for a summary of~results.
 
 The results that perform as expected are show in
 Figures~\ref{fig:models_more_0}, 
@@ -338,8 +338,7 @@ FDMobileNet
       Pre-trained 
       Densenet and SqueezeNet PyTorch 
       Models.
-      Top 1 Test Accuracy versus
-      $\hat{\alpha}$.
+      Top 1 Test Accuracy versus~$\hat{\alpha}$.
            }
    \label{fig:models_more_0}
 \end{figure*}
