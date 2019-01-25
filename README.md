@@ -6,3 +6,5 @@ _Heavy-Tailed Universality Predicts Trends in Test Accuracies for Very Large Pre
 
 Submitted to ICML 2019
 
+https://arxiv.org/abs/1901.08278
+
