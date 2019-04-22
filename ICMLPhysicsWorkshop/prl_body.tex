@@ -201,6 +201,15 @@ and we then extracted data-dependent metrics to predict their generalization per
 Given well-known challenges associated with training, and given our results here as well as other recent results~\cite{MM18_TR},
 we suggest that this methodology be applied more generally.
 
-In the context of theoretical physics...discuss spin glass models and LeCuns approach to complexity
+In theoretical physics, many researchers study neural networks using spin glass models, such as the traditional Gardner analysis, [SG's work], etc,
+Most notably, however, LeCun et. al. have suggested that the energy landscape of DNNs should resemble the 
+zero-temperature energy landscape of a p-spin spherical spin glass. Specifically, they have argued that there are many local minima
+that concentrate at a floor just above the global minima.  Here, however, we argue that such spin glass models should really employ
+heavy tailed, not Gaussian, stochastic spin-spin interactions, and that such models would have a very different zero-temperature
+complexity.  Indeed, heavy tailed Levy spin-glasses do not have a large number of low lying minima, and, instead resemble something like a
+ruggedly convex 'energy funnel', with few local minima \cite{GB1993}, similar in some sense to the Wolynes-Onuchic Energy landscape
+suggested in the early protein folding literature.
+
+
 
 
