@@ -1,0 +1,152 @@
+
+Outline of Letter
+
+Motivations:  
+
+What is the problem
+What is it important
+What has been done before
+What needs to be done
+What we HAVE done
+
+
+   Deep Learning:  compare to old methods
+   Regularization
+   Optimization
+   Lacking a theory:  VC, Gardner, Spin Glass methods (SG)
+      worst case bounds vs average case behavior
+        some discussion here
+   Why need: deep problems.  
+     - Do DNNs just memorize their data ?
+     - Can they truly generalize to unknown example ?  
+     - How defend against adversarial attacks
+      - What is the capacity of a network  ?  not as simple as HAM
+    - Can not rely on infinite labeled data sets
+    
+    - compiler / compression ./. modifying existing trained models at deployment .. what wil this do ?
+    
+    
+    Theory suggests:  optimal DNNs operate like a system near a critical point
+    (Nishimori)
+    
+  Has been done before ?
+    Rethinking regularization--resembles old theory 
+    Capacity:  Hidary and Poggio:  seems to work 
+     
+ 
+Our Methodology
+  -  Study pretrained networks.  Model Zoo
+-   Study  best-in-class  models
+
+ Rather than train a model, study the (static) properties of hundreds of pretrained models
+ in the spirit of an physical experiment
+ 
+  -  Examine existing capacity metrics:   Norms
+   - We can predict trends in accuracy ACROSS different architectures
+   - What are the lmits of such methods ?  Are they complementary ?
+   Do they always work ?
+  
+   Tool: RMT   
+      easy than spin glass / order parameter
+      can study weight matrices of trained network
+       do not need to peek at test data
+     can relate back to spin glass complexity
+     
+    Concepts:
+       Universality 
+       RMT Universality Classes
+       Power law exponents
+       Capacity and Generalization
+       Average case vs worst case bounds
+       
+ 
+Math:
+  Deep learning E function
+  W-> ESD -> Power Law
+   
+  Graph of 5 phases ?
+  Spectral Norm Bounds
+  alpha_hat -= weighted log norm bound
+  
+  Frobenius Norm
+  alpha_hat ~  log soft rank
+  
+Results to report:
+  Universality over larger set of networks
+  VGG16
+  ResNet
+  
+  Lots to have..how condense ?
+  Need 1 graph...pick the counterexample ?
+  
+Compression and Counterexample Results
+   Norms increases 
+    Alpha decrease
+  
+ Discussion
+ 
+ TODO:  Math and Plots
+ 
+ PLOTS
+ 4-5 small plots at least
+ 
+ Plot1: Universality across 10,000 matrrices
+ 
+ Plot2/ 3:  2 parts:  
+ LogNorm, SpectralNorm, Alpha,. WeightedAlpha
+ 
+ ResNet , VGG. each
+ 
+ Plot4:  LogNorm failures, Alpha Successes
+ 
+  ------
+  
+  
+  Universality of exponents
+     
+   
+    Here:  
+    
+    - We show deep Universality  -- nets approach universal exponent of 2
+    - Evidence of self organization, similar to but more general than models like Sornette
+    
+     - ave developed a new capacity metric, the weighted power law exponent
+     - similar to soft rank in low alpha limit, assuming EVT
+     - similar to weight average of log power law of spectral norm
+     
+    - W mats NOT EVT
+    
+    - W resembles strongly correlated systems
+    
+     COMPRESSION... 
+   
+
+
+------
+  What can we understand without peeking at the data ? 
+-Can we predict the capacity ?  
+-Can we retrofit a pretrained network, defend against adversarial attacks ?
+-Can we tell if a network is overtrained ?
+
+
+Weight norms should decrease
+
+Product Norm as a Capacity Measure
+
+Resembles a Strongly correlated systems 
+
+Heavy Tailed ESD correlated with Generalization Capacity across architectures
+
+Different from older DNNs, models of Self Organization (Sornette)
+
+Universality = Power Law exponents approach 2.0, lower limit of the RMT Universality Class
+
+Small exponents ~ better generalization
+
+
+
+How do Product Norms compare with Power Law relations ?  Same of different
+
+Same in some cases, different in others
+
+A new principle to measure capacity

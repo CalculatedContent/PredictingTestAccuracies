@@ -1,0 +1,70 @@
+\vspace{-2mm}
+\section{Letter}
+\label{sxn:body}
+\vspace{-1mm}
+
+Intro: Deep Learning 
+
+Deep Neural Networks (DNNs) resemble in some form the Multi-layer perceptrons of the late 90s, and, yet
+perform remarkably better.  
+
+-why: have similar architectures (MLPs, CNNs, and Attention),  similar activation functions (ReLU vs Sigmoid), 
+use BackProp with variants of SGD.  
+
+Some advances in regularization, like BatchNorm, Dropout, and ?  Not well understood
+
+Advances in optimization:  learning rate tuning = weight decay, resembles, in  spirit, temperature annealing.
+Also not well understood...
+
+Lacking a solid theoretical framework.  VC theory ?  Gardner Analysis / Field theoretic analysis.
+More general Spin Glass models (Nishimori, SG).  
+
+Many open problems?  Adversarial attacks.  Overtaining ?  Memorization?  
+
+
+
+
+
+
+
+Outline of Letter
+
+
+
+ Study pretrained networks
+ 
+ Rather than train a model, study the (static) properties of hundreds of pretrained models
+ in the spirit of an physical experiment
+ 
+Study  best-in-class  models
+
+
+  What can we understand without peeking at the data ? 
+-Can we predict the capacity ?  
+-Can we retrofit a pretrained network, defend against adversarial attacks ?
+-Can we tell if a network is overtrained ?
+
+
+Weight norms should decrease
+
+Product Norm as a Capacity Measure
+
+Resembles a Strongly correlated systems 
+
+Heavy Tailed ESD correlated with Generalization Capacity across architectures
+
+Different from older DNNs, models of Self Organization (Sornette)
+
+Universality = Power Law exponents approach 2.0, lower limit of the RMT Universality Class
+
+Small exponents ~ better generalization
+
+How do Product Norms compare with Power Law relations ?  Same of different
+
+Same in some cases, different in others
+
+A new principle to measure capacity
+
+
+
+
