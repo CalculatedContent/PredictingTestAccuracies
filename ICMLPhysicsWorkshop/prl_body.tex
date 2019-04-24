@@ -182,6 +182,50 @@ and our
 results suggest that our ``practical theory'' approach is fruitful more generally for engineering good algorithms for realistic large-scale DNNs.
 
 \paragraph{Comparison with other metrics}
+Our Universality metric $\hat{\alpha}$ seems related to other, more familiar capacity metrics such as the Spectral Norm, the Frobenius $(L2)$ Norm, and the measures of Soft Rank like the Stable Rank.
+This suggests an obvious question; does the  $\hat{\alpha}$ "work" simply because the DNN models have explicit regularization (i.e. with an $(L2)$ or Spectral Norm constraint).
+Or, more generally, is $\hat{\alpha}$ just a variation of these more familiar \emph{worst case} bounds.  
+
+The short answer is, we believe that Mechanistic Universality is a new, more fundamental relation.  It complements other metrics, but works more generally on actual DNN models
+when other theoretical metrics and bound fail.  In particular, we can identify counter examples, most notably in compressed DNN models, where the average Frobenius $(L2)$ Norm
+increases with decreasing test error, but the average $\alpha$ decreases, as expected.  
+
+
+For example, we consider average metrics measured on ResNet20, trained on CIFAR10, before and after applying the Group Regularization technique, 
+as implemented in the \emph{distiller} package ADDCITE. 
+%We compare the pretrained baseline ($4D\_regularized\_5Lremoved$), with the pretrained finetuned version ($4D\_regularized\_5Lremoved_finetuned$).    
+Notice that the reported baseline test accuracies ($Top1=91.450$ and $Top5=99.750$) 
+are better than the reported finetuned test accuracies ($Top1=91.020$ and $Top5=99.670$), so traditional theory suggests that the baseline Spectral Norm
+($\lambda_{max}\sim\Vert\mathbf{W}\Vert_{2}$) should be \emph{smaller} than those of the layers in the finetuned model.
+Based on previous empirical results, we may also expect the baseline Frobenius norm to be smaller than the fine tuned.  We observe the reverse for both.
+
+\begin{figure}[H]
+   \centering
+   \subfigure[$\lambda_{max}$ for ResNet20 layers]{
+      \includegraphics[scale=0.13]{img/resnet4d_maxev.png}
+      \label{fig:resnet204Dalpha}
+   }
+   \subfigure[$\alpha$ for ResNet20 layers]{
+      \includegraphics[scale=0.13]{img/resnet4d_alphas.png}
+      \label{fig:resnet204Dmaxev}l
+   }
+   \caption{
+     ResNet20 with Group Regularization, comparison of layer $\mathbf{W}$ maximum eigenvalue  ($\lambda_{max}$, or Spectral Norm *with $1/N$ normalization) and 
+     Power Law exponent $\alpha$ pretrained baseline and finetuned modles
+           }
+   \label{fig:resnet204D5L}
+\end{figure}
+
+DESCRIBE THESE 2 FIGURES
+
+
+For the $4D\_regularized$ models, the \emph{distiller} Group Regularization technique has the unusual effect of increasing the norms of the $W$ feature maps for at least 2 of the Conv2D layers.
+We suspect this effect arises because the Group Regularization  concentrates Frobenius mass from the 5 removed Conv2D layers into these remaining Conv2D layers.
+
+Notice while the matrix norms behave atyically,  the layers $\alpha$ do not systematically differ between the baseline and finetuned models,
+and, also (not shown), the average (unweighted) baseline $\alpha$ is indeed smaller than the finetuned average.
+
+COMMMENT ON IMPLICATIONS
 
 \paragraph{Discussion}
 
