@@ -2,14 +2,15 @@
 \begin{abstract}
 \noindent
 
-We use our new Theory of Implicit and Heavy-Tailed Self-Regularization (HT-SR) to develop Universal capacity control metric, $\hat{\alpha}$, for Deep Neural Networks (DNNs).
-HT-SR indicates that modern DNNs exhibit what we call Heavy-Tailed Mechanistic Universality (HT-MU), meaning
-that the spectral density of layer weight matrices can be fit to a power law, $\rho(\lambda)\sim\lambda^{-\alpha}$, with exponents, $\alpha\in[2,5]$, that lie in common Universality classes from Heavy-Tailed Random Matrix Theory (HT-RMT).
-Empirically, smaller $\alpha$ is correlated with better generalization accuracy, with $\alpha\rightarrow 2$ universally across different best-in-class, pretrained DNN architectures that generalize best.
-Using these facts, we define average case complexity metric, $\hat{\alpha}=\sum\alpha\log\lambda_{max}$,  which resembles more familiar metrics, and that can be applied
-to pre-trained DNNs to predict trends in the test accuracy.
-We apply this new capacity metric to over 50 different, large-scale pre-trained DNNs, ranging over 15 different architectures, trained on ImagetNet, but with differing test accuracies. 
-It correlates amazingly well with the reported test accuracies of these DNNs, looking across each architecture (VGG16/.../VGG19, ResNet10/.../ResNet152, etc.).
+We use the Theory of Implicit Heavy-Tailed Self-Regularization (HT-SR) to develop a new Universal capacity control metric, $\hat{\alpha}$, for Deep Neural Networks (DNNs).
+HT-SR indicates that modern DNNs exhibit 
+%what we call 
+a
+Heavy-Tailed Mechanistic Universality (HT-MU), meaning the spectral density of layer weight matrices can be fit to a power law, $\rho(\lambda)\sim\lambda^{-\alpha}$, with exponents, $\alpha\in[2,5]$, that lie in common Universality classes from Heavy-Tailed Random Matrix Theory (HT-RMT).
+Empirically, smaller $\alpha$ is correlated with better generalization accuracy, with $\alpha\rightarrow 2$ universally across different best-in-class, pretrained DNN architectures.  % that generalize best.
+%LENGTH% Using these facts, we define an average-case capacity metric, $\hat{\alpha}=\sum\alpha\log\lambda_{max}$, which resembles more familiar worst-case capacity metrics, but that can be applied to pre-trained DNNs to predict trends in the test accuracy.
+We apply this metric to over 50 different, large-scale pre-trained DNNs, ranging over 15 different architectures, trained on ImagetNet, but with differing test accuracies. 
+This metric correlates remarkably well with reported trends in test accuracies of these DNNs, looking across each architecture (VGG16/\ldots/VGG19, ResNet10/\ldots/ResNet152, etc.).
 Our approach requires no changes to the underlying DNN or its loss function, it does not require us to train a model, and it does not even require access to the ImageNet data.
 \end{abstract}
 

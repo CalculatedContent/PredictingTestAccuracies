@@ -1,6 +1,3 @@
-
-
-
 %%%%%%%% ICML 2019 EXAMPLE LATEX SUBMISSION FILE %%%%%%%%%%%%%%%%%
 
 \documentclass{article}
@@ -27,18 +24,21 @@
 \usepackage{amssymb}
 \usepackage{enumitem}
 \setlist[itemize,1]{leftmargin=*,wide=0em, noitemsep,nolistsep}
+\newcommand {\michael}[1]{{\color{red}\sf{[michael: #1]}}}
+\newcommand {\charles}[1]{{\color{blue}\sf{[charles: #1]}}}
 
 %-----------------------------------------------------------------------
 
 % Use the following line for the initial blind version submitted for review:
-\usepackage{icml2019}
+%\usepackage{icml2019}
 
 % If accepted, instead use the following line for the camera-ready submission:
-%\usepackage[accepted]{icml2019}
+\usepackage[accepted]{icml2019_phys4dl}
 
 % The \icmltitle you define below is probably too long as a header.
 % Therefore, a short form for the running title is supplied here:
-\icmltitlerunning{Heavy Tailed Universality in Deep Neural Networks}
+\icmltitlerunning{Universality and Capacity Metrics in Deep Neural Networks}
+
 
 \begin{document}
 
@@ -61,15 +61,16 @@
 \icmlsetsymbol{equal}{*}
 
 \begin{icmlauthorlist}
-\icmlauthor{Charles H. Martin}{equal,chm}
-\icmlauthor{Michael Mahoney}{equal,mm}
+\icmlauthor{Charles H. Martin}{cc}
+\icmlauthor{Michael W. Mahoney}{ucb}
 \end{icmlauthorlist}
 
-\icmlaffiliation{chm}{Calculation Consulting, San Francisco, Ca, USA}
-\icmlaffiliation{mm}{Department of Statistics, University of California, Berkeley, Ca, USA}
+\icmlaffiliation{cc}{Calculation Consulting, 8 Locksley Ave, 6B, San Francisco, CA 94122}
+\icmlaffiliation{ucb}{ICSI and Department of Statistics, University of California at Berkeley, Berkeley, CA 94720}
 
-\icmlcorrespondingauthor{Charles H Martin}{charles@calculationconsulting.com}
-\icmlcorrespondingauthor{Michael Mahoney}{c.vvvvv@googol.com}
+\icmlcorrespondingauthor{Charles H Martin}{charles@CalculationConsulting.com}
+\icmlcorrespondingauthor{Michael W. Mahoney}{mmahoney@stat.berkeley.edu}
+
 
 % You may provide any keywords that you
 % find helpful for describing your paper; these are used to populate
@@ -87,27 +88,15 @@
 % The \icmlEqualContribution command is standard text for equal contribution.
 % Remove it (just {}) if you do not need this facility.
 
-%\printAffiliationsAndNotice{}  % leave blank if no need to mention equal contribution
-\printAffiliationsAndNotice{\icmlEqualContribution} % otherwise use the standard text.
+\printAffiliationsAndNotice{}  % leave blank if no need to mention equal contribution
+%\printAffiliationsAndNotice{\icmlEqualContribution} % otherwise use the standard text.
 
 \input{prl_abstract}
 
 \input{prl_body}
 
-
-% % Acknowledgements should only appear in the accepted version.
-% \section*{Acknowledgements}
-
-
-%{\small
-\bibliography{dnns}
 \bibliographystyle{icml2019}
-%}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\bibliography{dnns}
 
 \end{document}
 
