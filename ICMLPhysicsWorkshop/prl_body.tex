@@ -31,8 +31,7 @@ See Figure~\ref{fig:alphas}.
       \label{fig:alphaTop5}
    }
    \caption{Histogram of PL exponents, and scatter plot of average ${\alpha}$ vs Top5 error, for nearly $10,000$ layer weight matrices (and 2D feature maps) from CV and NLP.
-   \michael{More details, here or in text.}
-   \michael{Can't read words on figs, here and elsewhere.}
+   \michael{CHARLES: more details, here or in text; can't read words on figs, here and elsewhere.}
    }
    \label{fig:alphas}
 \end{figure}
@@ -44,8 +43,8 @@ Moreover, smaller values of $\alpha$ correlate well with better generalization a
 In Statistical Physics, Universality of PL exponents is very special, and it suggests the presence of a deeper, underlying, \emph{Universal mechanism} driving the system dynamics~\cite{SornetteBook,BouchaudPotters03}.
 It is this \emph{Heavy Tailed Mechanistic Universality} (HT-MU), as well call it, that originally motivated our study.  
 
-HT-MU applies to the analysis of complicated systems, including many physical systems, traditional NNs~\cite{EB01_BOOK,nishimori01}, and even models of the dynamics of actual spiking neurons.
-\michael{Maybe cite Sornette for first and something for third.}
+HT-MU applies to the analysis of complicated systems, including many physical systems~\cite{SornetteBook}, traditional NNs~\cite{EB01_BOOK,nishimori01}, and even models of the dynamics of actual spiking neurons~\cite{XXX-SOME-NEURAL-SPIKE-PAPER}.
+\michael{CHARELS: What is best ref here.}
 Indeed, the dynamics of learning in DNNs, and perhaps real neurons as well, seems to resemble a system near a phase transition, e.g., the phase boundary of spin glass, a system displaying Self Organized Criticality (SOC), or a Jamming transition~\cite{GSdx18_TR,SGd18_TR}. 
 Of course, we can not say which mechanism, if any, is at play. 
 Instead, we use the machinery of  HT-RMT as a stand-in for a generative model of the weight matrices in DNNs, and we use this to catalog and model the HT behavior of DNNs.%
@@ -84,13 +83,11 @@ For simplicity, we do not indicate the structural details of the layers (e.g., D
 Each layer is defined by one or more layer 2D weight matrices $\mathbf{W}_{l}$, and/or the 2D feature maps $\mathbf{W}_{l,i}$ extracted directly from 2D Convolutional (Conv2D) layers.
 (We have not yet analyzed LSTM or other complex Layers.)   A typical modern DNN may have anywhere between 5 and 5000 2D layer matrices / feature maps.
 
-We can relate our universality metric to the more traditional, data dependent, VC-like product norm capacity metric $\mathcal{C}$.
-Let us define the \emph{worst-case} bound $\mathcal{C}$ as
-\michael{why is this worst case, and why is this a bound.}
+We can relate our universality metric to the more traditional, data dependent, VC-like Product Norm capacity metric $\mathcal{C}$, defined as
 \begin{equation}
 \mathcal{C}\sim\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert   .
 \end{equation}
-Using a standard trick from field theory, we consider the log product norm, which takes the form of an average log norm
+Using a standard trick from field theory, we consider the log Product Norm, which takes the form of an average log norm
 \begin{eqnarray*}
 \log\mathcal{C} &\sim& \log\bigg[\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert\bigg]  \\
                 &\sim& \bigg[\log\Vert\mathbf{W}_{1}\Vert+\log\Vert\mathbf{W}_{2}\Vert\cdots\log\Vert\mathbf{W}_{L}\Vert\bigg]  \\
@@ -106,12 +103,11 @@ Specifically, when $\alpha$ is very small, we can relate $\alpha$ to the more fa
 \mathcal{R}^{log}_{s}:=\dfrac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda^{max}}  \approx \alpha  .
 \end{equation}
 Using this, one could implement our capacity metric as a regularizer to improve DNN training by implementing a Stable Rank regularizer (similar to how Spectral norm regularization is implemented~\cite{XXX-XXX-WHAT-IS-BEST-REF}.
-\michael{What is best ref for there.}
+\michael{MICHAEL TO DO: fill in best ref for there.}
 
 
 \paragraph{Methodology.} 
 To evaluate our metric, we introduce a new methodology to analyze the performance of large-scale pre-trained DNNs, including the VGG and ResNet series of models, as well nearly 200 other widely available models, and we study how capacity metrics correlate with the reported test accuracies.
-\michael{Should we describe it more, and move some relevant comments from elsewhere to here.}
  
 This approach offers several advantages over common practice in the area, most notably the following.
 \begin{itemize}
@@ -145,7 +141,7 @@ For Linear DNN layers, we can simply replace the log Norm with our metric, where
 Our Universal metric correlates very well with the reported average test accuracies across many series of pre-trained DNNs.
 See Figures~\ref{fig:bothmodels} and~\ref{fig:alphahats}.
 
-\michael{Prob make a short paragraph of this.}
+\michael{CHARLES: make a short paragraph of this; need details on figs in captions or text---put in a draft, and then I'll make a pass.}
 DISCUSS FIGURE IN DETAIL, CAN ADD 1 more BELOW and discuss
 
 \begin{figure}[H]
@@ -171,7 +167,7 @@ DISCUSS FIGURE IN DETAIL, CAN ADD 1 more BELOW and discuss
    }
    \caption{%
     Caption: we have room for 1 more 
-    \michael{Do we want another subfigure here, maybe scatter plot of some NLP models.}
+    \michael{CHARELS: do we want another subfigure here, maybe scatter plot of some NLP models.}
    }
    \label{fig:alphahats}
 \end{figure}
@@ -190,25 +186,25 @@ Our Universality metric $\hat{\alpha}$ is related to other, more familiar capaci
 This suggests an obvious question: 
 Does the $\hat{\alpha}$ metric ``work'' simply because DNN models have explicit regularization (i.e., with an $(L2)$ or Spectral Norm constraint)?
 More generally, is the $\hat{\alpha}$ metric just a variation of these more familiar \emph{worst case} bounds?  
-\michael{We seem to be convolving norms versus exponents with worst-case versus typical-case issues.}
+\michael{MICHAEL TO DO: we seem to be convolving norms versus exponents with worst-case versus typical-case issues---I'll fix in light of recent discussion.}
 
 The short answer is that we believe that HTMU is a new, more fundamental relation. 
 It complements other metrics, but it works more generally on actual DNNs when other norm-based theoretical metrics inspired by worst-case bounds fail. 
-In particular, we can identify counter examples, most notably in compressed DNN models~\cite{XXX-XXX-WHAT-IS-REF}\michael{What ref for compressed DNN models here}, where the average Frobenius $(L2)$ Norm increases with decreasing test error, but where the average $\alpha$ decreases, as expected.  
+In particular, we can identify counter examples, most notably in compressed DNN models~\cite{XXX-XXX-WHAT-IS-REF}\michael{MICHAEL TO DO: Fill in ref for compressed DNN models here}, where the average Frobenius $(L2)$ Norm increases with decreasing test error, but where the average $\alpha$ decreases, as expected.  
 
 
 %For example, 
 To illustrate this, we consider average metrics measured on ResNet20, trained on CIFAR10, before and after applying the Group Regularization technique, 
 as implemented in the \emph{distiller} package~\cite{XXX-ADDCITE}. 
-\michael{Reference for distiller here.}
-\michael{Why is that in emph rather than texttt.}
+\michael{MICHAEL TO DO: Fill in reference for distiller here.}
+\michael{MICHAEL TO DO: why is that in emph rather than texttt.}
 See Figure~\ref{fig:resnet204D5L}.
-\michael{Details.}
+\michael{CHARLES: More details here.}
 %We compare the pre-trained baseline ($4D\_regularized\_5Lremoved$), with the pre-trained fine-tuned version ($4D\_regularized\_5Lremoved_finetuned$).    
 Notice that the reported baseline test accuracies ($Top1=91.450$ and $Top5=99.750$) 
 are better than the reported fine-tuned test accuracies ($Top1=91.020$ and $Top5=99.670$), so traditional theory suggests that the baseline Spectral Norm
 ($\lambda_{max}\sim\Vert\mathbf{W}\Vert_{2}$) should be \emph{smaller} than those of the layers in the fine-tuned model.
-\michael{Frob norm not shown?}
+\michael{CHARELS: Frob norm not shown?  If yes, we can jsut say ``(not shown)'' but I want to check before adding that.}
 Based on previous empirical results, we may also expect the baseline Frobenius norm to be smaller than the fine tuned. 
 %We observe the reverse for both.
 In both cases, we observe the opposite.
@@ -227,22 +223,22 @@ In both cases, we observe the opposite.
    \caption{
      ResNet20 with Group Regularization, comparison of layer $\mathbf{W}$ maximum eigenvalue ($\lambda_{max}$, or Spectral Norm *with $1/N$ normalization) and 
      Power Law exponent $\alpha$ pre-trained baseline and fine-tuned models.
-     \michael{Better explanation.}
+     \michael{CHARLES: better explanation.}
            }
    \label{fig:resnet204D5L}
 \end{figure}
 
+\michael{CHARLES: Add a draft of that description; then I'll make a pass and make it a separate paragraph or combine with above par and below par.}
 DESCRIBE THESE 2 FIGURES
-\michael{Is this a separate par, or combine with above par and below par.}
 
 
 For the $4D\_regularized$ models, the \emph{distiller} Group Regularization technique has the unusual effect of increasing the norms of the $\mathbf{W}$ feature maps for at least 2 of the Conv2D layers.
-\michael{Name $4D\_regularized$ not introduced yet.}
+\michael{MICHAEL TO DO: name $4D\_regularized$ not introduced yet.}
 We suspect this effect arises because the Group Regularization  concentrates Frobenius mass from the 5 removed Conv2D layers into these remaining Conv2D layers.
 
 Notice while the matrix norms behave atyically, the layers $\alpha$ do not systematically differ between the baseline and fine-tuned models.
 Also (not shown), the average (unweighted) baseline $\alpha$ is indeed smaller than the fine-tuned average.
-\michael{What is significance of that last comment.}
+\michael{CHARLES: what is significance of that last comment.}
 
 \paragraph{Discussion.}
 
