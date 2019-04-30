@@ -43,7 +43,8 @@ See Figure~\ref{fig:alphas}.
    \label{fig:alphas}
 \end{figure}
 
-These observations hold across nearly $10,000$ layer weight matrices (and 2D feature maps), drawn from over $100$ different, large-scale pre-trained DNNs, ranging over $15$ different architectures.
+These observations hold across nearly $10,000$ layer weight matrices (and 2D feature maps), drawn from over $150$ different, large-scale pre-trained DNNs.
+\footnote{as available both in PyTorch, and in the OMSR project: \url{https://github.com/osmr/imgclsmob}.}
 This includes DNNs pre-trained for computer vision (CV) tasks on ImageNet, as well as DNNs pre-trained for several different natural language processing (NLP) tasks.
 Moreover, smaller values of $\alpha$ correlate well with better generalization accuracies, with $\alpha$ approaching a \emph{universal value}, $\alpha\rightarrow 2$, at the lower limit of the Moderately Heavy Tailed (or Fat Tailed) RMT Universality class~\cite{MM18_TR,MM19_HTSR_ICML} .  
 
@@ -202,15 +203,18 @@ Amazingly, our simple $\hat{\alpha}$ metric correlates very well with the report
 
 \begin{figure}[H]
    \centering
-    \subfigure[  $\hat{\alpha}$ vs Top1 error]{
-      \includegraphics[scale=0.20]{img/Top1AlphaHat.png}
-      \label{fig:alphahatTop1}
+    \subfigure[Unweighted average ${\alpha}$ vs reported Top1 error]{
+      \includegraphics[scale=0.20]{img/Top1AvgAlpha.png}
+      \label{fig:alphaTop1}
+   }
+    \quad
+   \subfigure[Weighted average $(\hat{\alpha})$ vs reported Top1 error]{
+      \includegraphics[scale=0.20]{img/Top1AvgAlphaHat.png}
+      \label{fig:ralphahatTop1}
    }
    \vspace{-3mm}
-   \caption{%
-    Caption: we have room for 1 more 
-    \michael{CHARELS: do we want another subfigure here, maybe scatter plot of some NLP models.}\charles{we do not have NLP data across architectures...still thinking about this}
-   }
+   \caption{Comparison of unweighted and weighted average Power Law exponent ($\alpha$) vs. reported Top1 Error for 156 pre-trained ImageNet PyTorch/OSMR models.
+      }
    \label{fig:alphahats}
 \end{figure}
 
@@ -278,7 +282,7 @@ The \texttt{distiller} Group Regularization technique has the unusual effect of 
 %\michael{MICHAEL TO DO: name $4D\_regularized$ not introduced yet.}
 We suspect this effect arises because the Group Regularization concentrates Frobenius mass from the five removed Conv2D layers into the remaining Conv2D layers.
 
-Notice while the matrix norms behave atyically, the layers $\alpha$ do not systematically differ between the baseline and fine-tuned models.
+Notice while the matrix norms behave atypically, the layers $\alpha$ do not systematically differ between the baseline and fine-tuned models.
 Also (not shown), the average (unweighted) baseline $\alpha$ is indeed smaller than the fine-tuned average, as would be predicted by HT-SR Theory.
 
 \vspace{-2mm}
