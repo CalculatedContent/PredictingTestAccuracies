@@ -43,7 +43,7 @@ See Figure~\ref{fig:alphas}.
    \label{fig:alphas}
 \end{figure}
 
-These observations hold across nearly $10,000$ layer weight matrices (and 2D feature maps), drawn from over $50$ different, large-scale pre-trained DNNs, ranging over $15$ different architectures.
+These observations hold across nearly $10,000$ layer weight matrices (and 2D feature maps), drawn from over $100$ different, large-scale pre-trained DNNs, ranging over $15$ different architectures.
 This includes DNNs pre-trained for computer vision (CV) tasks on ImageNet, as well as DNNs pre-trained for several different natural language processing (NLP) tasks.
 Moreover, smaller values of $\alpha$ correlate well with better generalization accuracies, with $\alpha$ approaching a \emph{universal value}, $\alpha\rightarrow 2$, at the lower limit of the Moderately Heavy Tailed (or Fat Tailed) RMT Universality class~\cite{MM18_TR,MM19_HTSR_ICML} .  
 
@@ -59,7 +59,7 @@ Based on these ideas, we develop here a Universal capacity control metric, $\hat
 This metric is a weighted average of the layer PL exponents, $\alpha_{l}$, of the DNN layer weight matrices,
 \vspace{-2mm}
 \begin{equation}
-\hat{\alpha}=\sum_{l\in L}\alpha_{l}\log\lambda_{l}^{max}  ,
+\hat{\alpha}=\dfrac{1}{N_L}\sum_{l\in L}\alpha_{l}\log\lambda_{l}^{max}  ,
 \label{eqn:alpha_hat_specific}
 \vspace{-1mm}
 \end{equation}
@@ -96,7 +96,10 @@ For simplicity, we do not indicate the structural details of the layers (e.g., D
 Each layer is defined by one or more layer 2D weight matrices $\mathbf{W}_{l}$, and/or the 2D feature maps $\mathbf{W}_{l,i}$ extracted directly from 2D Convolutional (Conv2D) layers.
 (We have not yet analyzed LSTM or other complex Layers.)   A typical modern DNN may have anywhere between 5 and 5000 2D layer matrices / feature maps.
 
-We can relate our universality metric to the more traditional, data dependent, Product Norm capacity metric, $\mathcal{C}$, defined~as
+Our capacity metric $\hat{\alpha}$ depends two parameters, the PL exponent $\alpha$ (a measure of matrix sparsity) and the maximum eigenvalue $\lambda_{max}$ (which corrects for the matrix scale). 
+Other capacity metrics typically consider either just the sparsity or rank-based sparsity (e.g., the Stable Rank) or just the scale via a matrix norm (e.g., Spectral or Frobenius norm).
+
+We can relate  $\hat{\alpha}$  to these more familiar, data dependent metrics.  Consider the Product Norm capacity metric, $\mathcal{C}$, defined~as
 \vspace{-2mm}
 \begin{equation}
 \mathcal{C}\sim\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert   .
@@ -111,8 +114,6 @@ Using a standard trick from field theory, we consider the log Product Norm, whic
 \vspace{-1mm}
 \end{eqnarray*}
 
-Our capacity metric $\hat{\alpha}$ depends two parameters, the PL exponent $\alpha$ (a measure of matrix sparsity) and the maximum eigenvalue $\lambda_{max}$ (which corrects for the matrix scale). 
-Other capacity metrics typically consider either just the sparsity or rank-based sparsity (e.g., the Stable Rank) or just the scale via a matrix norm (e.g., Spectral or Frobenius norm).
 
 When $\Vert\mathbf{W}\Vert$ is the Spectral norm, $\Vert\mathbf{W}\Vert_{2}\sim\lambda_{max}$, then our $\hat{\alpha}$ of Eqn.~(\ref{eqn:alpha_hat_specific}) is a weighted average of the log Spectral norms, where the weights are power law exponents $\alpha$. 
 In this sense, our universal metric $\hat{\alpha}$ behaves like an \emph{average-case} version of what is a worst-case bound, but it is more suitable for applying to large, production-level DNNs.
@@ -129,7 +130,7 @@ Using this, one could implement our capacity metric as a regularizer to improve 
 
 \vspace{-2mm}
 \paragraph{Methodology.} 
-To evaluate our metric, we introduce a new methodology to analyze the performance of large-scale pre-trained DNNs, including the VGG and ResNet series of models, as well nearly 200 other widely available models, and we study how capacity metrics correlate with the reported test accuracies.
+To evaluate our metric, we introduce a new methodology to analyze the performance of large-scale pre-trained DNNs, including the VGG and ResNet series of models, as well nearly 100 other widely available models, and we study how capacity metrics correlate with the reported test accuracies.
  
 This approach offers several advantages over common practice in the area, most notably the following.
 \begin{itemize}
@@ -237,12 +238,15 @@ For compressed models, we have observed that the average Frobenius Norm increase
 
 %For example, 
 To illustrate this, we consider average metrics measured on ResNet20, trained on CIFAR10, before and after applying the Group Regularization technique, 
-as implemented in the \emph{distiller} package.%~\cite{distiller_repo}. 
+as implemented in the \texttt{distiller} package.%~\cite{distiller_repo}. 
 \footnote{For details, see \url{https://nervanasystems.github.io/distiller/\#distiller-documentation} and also \url{https://github.com/NervanaSystems/distiller}.}
 See Figure~\ref{fig:resnet204D5L}.
+
 \michael{CHARLES: More details here, e.g., what are axes, what is green versus red, more description of what figures show, etc.}
-%We compare the pre-trained baseline ($4D\_regularized\_5Lremoved$), with the pre-trained fine-tuned version ($4D\_regularized\_5Lremoved_finetuned$).    
-Notice that the reported baseline test accuracies ($Top1=91.450$ and $Top5=99.750$) 
+\charles{We analyze the available pre-trained 4D\_regularized\_5Lremoved baseline and finetuned models\cite{distiller}.
+Figure~\ref{resnet204D5L} presents the maximum eigenvalues ($\lambda_{max}$, or Spectral Norm) and PL exponent $\alpha$ for each individual layer weight matrix $\mathbf{W}_{l}$ }
+\footnote{We only include layer matrices or feature maps with  $M\ge50$}
+The reported baseline  test accuracies ($Top1=91.450$ and $Top5=99.750$)
 are better than the reported fine-tuned test accuracies ($Top1=91.020$ and $Top5=99.670$), so traditional theory suggests that the baseline Spectral Norm
 ($\lambda_{max}\sim\Vert\mathbf{W}\Vert_{2}$) should be \emph{smaller} than those of the layers in the fine-tuned model.
 Based on previous empirical results, we may also expect the baseline Frobenius norm to be smaller than the fine tuned. 
@@ -262,14 +266,15 @@ In both cases (Frobenius norm results not shown), we observe the opposite.
    }
    \vspace{-3mm}
    \caption{
-     ResNet20 with Group Regularization, comparison of layer $\mathbf{W}$ maximum eigenvalue ($\lambda_{max}$, or Spectral Norm *with $1/N$ normalization) and 
-     Power Law exponent $\alpha$ pre-trained baseline and fine-tuned models.
-     \michael{CHARLES: better explanation here and/or text; and is the ``*with'' above a typo.}
+     Analysis of ResNet20 , distilled with Group Regularization, as implemented in the \texttt{distiller}  (4D\_regularized\_5Lremoved) pre-trained models.  
+     Comparison of individual layer $\mathbf{W}_{l}$ maximum eigenvalues ($\lambda_{max}$, or Spectral Norms) and  
+     Power Law exponent $\alpha$, between baseline (green) and fine-tuned (red)  pre-trained models.   
+     \michael{CHARLES: better explanation here and/or text; and is the ``*with'' above a typo.}\charles{see now}
            }
    \label{fig:resnet204D5L}
 \end{figure}
 
-For the $4D\_regularized$ models, the \emph{distiller} Group Regularization technique has the unusual effect of increasing the norms of the $\mathbf{W}$ feature maps for at least 2 of the Conv2D layers.
+The \texttt{distiller} Group Regularization technique has the unusual effect of increasing the norms of the $\mathbf{W}$ feature maps for at least 2 of the Conv2D layers.
 %\michael{MICHAEL TO DO: name $4D\_regularized$ not introduced yet.}
 We suspect this effect arises because the Group Regularization concentrates Frobenius mass from the five removed Conv2D layers into the remaining Conv2D layers.
 
