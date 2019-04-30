@@ -4,9 +4,7 @@
 %\label{sxn:body}
 
 Recent work by Martin and Mahoney~\cite{MM18_TR,MM19_HTSR_ICML} has developed a new Theory of Implicit Heavy-Tailed Self-Regularization (HT-SR) for Deep Neural Networks (DNNs). 
-Among other things, this theory provides a Universal empirical metric that characterizes the amount of \emph{Implicit Self-Regularization}---and, accordingly, the generalization capacity---for a wide range of publicly-available, best-in-class, pre-trained DNNs, including AlexNet, VGG, ResNet, 
-and over 100 other models.
-%\charles{including over 100 pre-trained models.}
+Among other things, this theory provides a Universal empirical metric that characterizes the amount of \emph{Implicit Self-Regularization}---and, accordingly, the generalization capacity---for a wide range of publicly-available, best-in-class, pre-trained DNNs, including AlexNet, VGG, ResNet,  and over 150 other models.
 
 In more detail, they study the Empirical Spectral Density (ESD), $\rho(\lambda)$, of individual layer weight matrices, $\mathbf{W}$, as well as of convolutional feature maps, through the lens of Random Matrix Theory (RMT); and they observe that the individual layer ESDs almost always follow a (truncated) power law (PL) distribution
 \vspace{-2mm}
@@ -131,7 +129,7 @@ Using this, one could implement our capacity metric as a regularizer to improve 
 
 \vspace{-2mm}
 \paragraph{Methodology.} 
-To evaluate our metric, we introduce a new methodology to analyze the performance of large-scale pre-trained DNNs, including the VGG and ResNet series of models, as well nearly 100 other widely available models, and we study how capacity metrics correlate with the reported test accuracies.
+To evaluate our metric, we introduce a new methodology to analyze the performance of large-scale pre-trained DNNs, including the VGG and ResNet series of models, as well over 150 other widely available pre-trained models, and we study how capacity metrics correlate with the reported test accuracies.
  
 This approach offers several advantages over common practice in the area, most notably the following.
 \begin{itemize}
