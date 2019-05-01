@@ -51,20 +51,22 @@ This includes DNNs pre-trained for computer vision (CV) tasks on ImageNet, as we
 Moreover, smaller values of $\alpha$ correlate well with better generalization accuracies, with $\alpha$ approaching a \emph{universal value}, $\alpha\rightarrow 2$, at the lower limit of the Moderately Heavy Tailed (or Fat Tailed) RMT Universality class~\cite{MM18_TR,MM19_HTSR_ICML} .  
 
 In Statistical Physics, Universality of PL exponents is very special, and it suggests the presence of a deeper, underlying, \emph{Universal mechanism} driving the system dynamics~\cite{SornetteBook,BouchaudPotters03}.
-It is this \emph{Heavy Tailed Mechanistic Universality} (HT-MU), as well call it, that originally motivated our study.  
+It is this \emph{Heavy Tailed Mechanistic Universality} (HT-MU), as we call it, that originally motivated our study.  
 
 HT-MU applies to the analysis of complicated systems, including many physical systems~\cite{SornetteBook}, traditional NNs~\cite{EB01_BOOK,nishimori01}, and even models of the dynamics of actual spiking neurons~\cite{FIBX12}.
-Indeed, the dynamics of learning in DNNs, and perhaps real neurons as well, seems to resemble a system near a phase transition, e.g., the phase boundary of spin glass, a system displaying Self Organized Criticality (SOC), or a Jamming transition~\cite{GSdx18_TR,SGd18_TR}. 
+Indeed, the dynamics of learning in DNNs
+%, and perhaps real neurons as well, 
+seem to resemble a system near a phase transition, e.g., the phase boundary of spin glass, a system displaying Self Organized Criticality (SOC), or a Jamming transition~\cite{GSdx18_TR,SGd18_TR}. 
 Of course, we can not say which mechanism, if any, is at play. 
 Instead, we use the machinery of  HT-RMT as a stand-in for a generative model of the weight matrices in DNNs, and we use this to catalog and model the HT behavior of DNNs.%
 
 Based on these ideas, we develop here a Universal capacity control metric, $\hat{\alpha}$.
 This metric is a weighted average of the layer PL exponents, $\alpha_{l}$, of the DNN layer weight matrices,
-\vspace{-2mm}
+\vspace{-3mm}
 \begin{equation}
 \hat{\alpha}=\dfrac{1}{N_L}\sum_{l\in L}\alpha_{l}\log\lambda_{l}^{max}  ,
 \label{eqn:alpha_hat_specific}
-\vspace{-1mm}
+\vspace{-2mm}
 \end{equation}
 where $L$ indexes layers, and 
 %where 
@@ -73,11 +75,13 @@ $\lambda_{l}^{max}$ is the maximum eigenvalue (i.e., Spectral norm) of layer cor
 \vspace{-3mm}
 \paragraph{Approach.} 
 Our approach and intent differ from other theoretical studies in the DNN literature, although we can relate our results back to known results.
-Most recently, e.g., Liao et al.~\cite{LMBx18_TR} used an appropriately-scaled, data-dependent Product Norm capacity control metric to bound worst-case generalization error for several small (not production-quality, but still interesting) DNN models, and they showed that the bounds are remarkably tight.
+Most recently, 
+%e.g., 
+Liao et al.~\cite{LMBx18_TR} used an appropriately-scaled, data-dependent Product Norm capacity control metric to bound worst-case generalization error for several small (not production-quality, but still interesting) DNN models, and they showed that the bounds are remarkably tight.
 There is, in fact, a large body of work on norm-based capacity control metrics, both recent~\cite{LMBx18_TR, SHNx17_TR,PLMx18_TR} and~\cite{NTS14_TR,NTS15,NBMS17_TR,BFT17_TR,YM17_TR,KKB17_TR,NBS17_TR,AGNZ18_TR,ACH18_TR,ZF18_TR}, as well as much older~\cite{Bar97,MN09_TR}. 
 These studies seek \emph{worst-case} complexity bounds, motivated in some cases to reconcile discrepancies with more traditional statistical learning theory, and they apply (when applied at all) to quite small NNs.
 
-This approach contrasts with that of Martin and Mahoney~\cite{MM18_TR,MM19_HTSR_ICML}, who looked at empirical properties of a wide range of state-of-the-art models, and from this developed a metric that provides \emph{a posteriori} characterization of implicit regularization for typical-case DNNs.  
+This approach contrasts with that of Martin and Mahoney~\cite{MM18_TR,MM19_HTSR_ICML}, who looked at empirical properties of a wide range of state-of-the-art models, and from this developed a metric that provides \emph{a posteriori} characterization of implicit regularization.  % for typical-case DNNs.  
 Thus, instead of using statistical learning theory principles to propose a metric that provides worst-case \emph{a priori} bounds, we seek here an \emph{average-case} or \emph{typical case} (where ``typical'' is for current state-of-the-art publicly-available pre-trained DNN models) complexity metric, viable in production settings as a guide to the development of better DNNs at scale.
 
 \vspace{-2mm}
@@ -103,7 +107,8 @@ Each layer is defined by one or more layer 2D weight matrices $\mathbf{W}_{l}$, 
 Our capacity metric $\hat{\alpha}$ depends two parameters, the PL exponent $\alpha$ (a measure of matrix sparsity) and the maximum eigenvalue $\lambda_{max}$ (which corrects for the matrix scale). 
 Other capacity metrics typically consider either just the sparsity or rank-based sparsity (e.g., the Stable Rank) or just the scale via a matrix norm (e.g., Spectral or Frobenius norm).
 
-We can relate  $\hat{\alpha}$  to these more familiar, data dependent metrics.  Consider the Product Norm capacity metric, $\mathcal{C}$, defined~as
+We can relate $\hat{\alpha}$ to these more familiar, data-dependent metrics. 
+Consider the Product Norm capacity metric, $\mathcal{C}$, defined~as
 \vspace{-3mm}
 \begin{equation}
 \mathcal{C}\sim\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert   .
@@ -130,7 +135,7 @@ Specifically, when $\alpha$ is very small, we can relate $\alpha$ to the more fa
 \mathcal{R}^{log}_{s}:=\dfrac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda^{max}}  \approx \alpha  .
 \vspace{-1mm}
 \end{equation}
-Using this, one could implement our capacity metric as a regularizer to improve DNN training by implementing a Stable Rank regularizer (similar to how Spectral/Frobenius norm regularization is often implemented.  %~\cite{XXX-XXX-WHAT-IS-BEST-REF}.
+Using this, one could implement our capacity metric as a regularizer to improve DNN training by implementing a Stable Rank regularizer (similar to how Spectral/Frobenius norm regularization is often implemented).  %~\cite{XXX-XXX-WHAT-IS-BEST-REF}.
 
 
 \vspace{-3mm}
@@ -179,7 +184,7 @@ Our Universal metric correlates very well with the reported average test accurac
 See Figures~\ref{fig:bothmodels} and~\ref{fig:alphahats}.
 In Figure~\ref{fig:bothmodels}, we present two complex examples of pre-trained models with similar architectures of differing depths.  
 Figure~\ref{fig:vgg_alphahat} presents the VGG series of networks (VGG11, 13, 16, and 19, with an without Batch Normalization (BN), as available in PyTorch), and 
-Figure~\ref{fig:resnet_alphahat} presents results for a large set of ResNet architectures, ranging from ResNet10 to ResNet152 (available here). 
+Figure~\ref{fig:resnet_alphahat} presents results for a large set of ResNet architectures, ranging from ResNet10 to ResNet152 (available with OMSR). 
 We generate the $\hat{\alpha}$ metric using the \texttt{WeightWatcher} tool~\cite{weightwatcher_package_justURL}, (hopefully) making these results trivial to reproduce.
 Notice, we do not have access to the (ImageNet) test data.
 Compare $\hat{\alpha}$ to reported Top1 test errors. 
@@ -221,7 +226,7 @@ In Figure~\ref{fig:alphahats}, we demonstrate the improvements obtained by weigh
       \label{fig:ralphahatTop1}
    }
    \vspace{-3mm}
-   \caption{Comparison of unweighted and weighted average Power Law exponent ($\alpha$) vs. reported Top1 Error for 156 pre-trained ImageNet PyTorch/OSMR models.
+   \caption{Comparison of unweighted and weighted average PL exponent ($\alpha$) versus reported Top1 Error for 156 pre-trained ImageNet PyTorch/OSMR models.
       }
    \label{fig:alphahats}
 \end{figure}
@@ -232,16 +237,18 @@ In Figure~\ref{fig:alphahats}, we demonstrate the improvements obtained by weigh
 Our empirical results are, to our knowledge, the first time such theoretical capacity 
 metrics have been reported to predict (trends in) the test accuracy for any series of DNNs, let alone for \emph{pre-trained production-level} DNNs.
 In particular, this illustrates the usefulness of these norm-based metrics beyond smaller models such as MNIST, CIFAR10, and CIFAR100. 
-Our  results can be reproduced with the \texttt{WeightWatcher} package~\cite{weightwatcher_package_justURL}; 
-%\footnote{\url{https://pypi.org/project/WeightWatcher/}};
-and our
+Our 
+reproducible
+% results can be reproduced with the \texttt{WeightWatcher} package~\cite{weightwatcher_package_justURL}; 
+%%\footnote{\url{https://pypi.org/project/WeightWatcher/}};
+%and our
 results suggest that our ``practical theory'' methodology is fruitful more generally for engineering good algorithms for realistic large-scale DNNs.
 
 \vspace{-2mm}
 \paragraph{Comparison with other metrics.}
 Our Universality metric $\hat{\alpha}$ can be related to other, more familiar capacity metrics such as the Spectral Norm, the Frobenius Norm, and robust measures of matrix rank such as the Stable Rank.
 This suggests an obvious question: 
-Does the $\hat{\alpha}$ metric ``work'' simply because DNN models have explicit regularization (i.e., with a Frobenius or Spectral Norm constraint)?
+Does the $\hat{\alpha}$ metric ``work'' simply because DNN models have explicit regularization (i.e., with a norm constraint)?
 More generally, is the $\hat{\alpha}$ metric just a variation of these more familiar norm-based metrics?  
 
 The short answer is that we believe that HTMU is a new, more fundamental relation. 
@@ -262,7 +269,7 @@ Figure~\ref{fig:resnet204D5L} presents the maximum eigenvalues ($\lambda_{max}$,
 The reported baseline  test accuracies ($Top1=91.450$ and $Top5=99.750$)
 are better than the reported fine-tuned test accuracies ($Top1=91.020$ and $Top5=99.670$), so traditional theory suggests that the baseline Spectral Norm
 ($\lambda_{max}\sim\Vert\mathbf{W}\Vert_{2}$) should be \emph{smaller} than those of the layers in the fine-tuned model.
-Based on previous empirical results, we may also expect the baseline Frobenius norm to be smaller than the fine tuned. 
+Based on previous empirical results, we may also expect the baseline Frobenius norm to be smaller.  % than the fine tuned. 
 %We observe the reverse for both.
 In both cases (Frobenius norm results not shown), we observe the opposite.
 
@@ -291,7 +298,7 @@ The \texttt{distiller} Group Regularization technique has the unusual effect of 
 %\michael{MICHAEL TO DO: name $4D\_regularized$ not introduced yet.}
 We suspect this effect arises because the Group Regularization concentrates Frobenius mass from the five removed Conv2D layers into the remaining Conv2D layers.
 
-Notice while the matrix norms behave atypically, the layers $\alpha$ do not systematically differ between the baseline and fine-tuned models.
+While the matrix norms behave atypically, the $\alpha$ values do not systematically differ between the baseline and fine-tuned models.
 Also (not shown), the average (unweighted) baseline $\alpha$ is indeed smaller than the fine-tuned average, as would be predicted by HT-SR Theory.
 
 \vspace{-3mm}
@@ -316,9 +323,8 @@ In theoretical physics, many researchers study NNs using spin glass models, as i
 %Most notably, however, Choromanska et. al. have 
 It has been 
 suggested that the energy landscape of DNNs should resemble the zero-temperature energy landscape of a p-spin spherical spin glass~\cite{CHMAx14_TR}.
-%Specifically, 
-%this 
-This
+Specifically, 
+this 
 implies 
 %they have argued that 
 there are many local minima that concentrate at a floor just above the global minima. 
