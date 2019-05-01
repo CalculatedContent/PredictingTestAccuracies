@@ -186,8 +186,8 @@ In Figure~\ref{fig:bothmodels}, we present two complex examples of pre-trained m
 Figure~\ref{fig:vgg_alphahat} presents the VGG series of networks (VGG11, 13, 16, and 19, with an without Batch Normalization (BN), as available in PyTorch), and 
 Figure~\ref{fig:resnet_alphahat} presents results for a large set of ResNet architectures, ranging from ResNet10 to ResNet152 (available with OMSR). 
 We generate the $\hat{\alpha}$ metric using the \texttt{WeightWatcher} tool~\cite{weightwatcher_package_justURL}, (hopefully) making these results trivial to reproduce.
-Notice, we do not have access to the (ImageNet) test data.
-Compare $\hat{\alpha}$ to reported Top1 test errors. 
+Notice, we do not have access to the (ImageNet) test data, so we 
+compare $\hat{\alpha}$ to the reported Top1 test errors. 
 Amazingly, our simple $\hat{\alpha}$ metric correlates very well with the reported Top1 test errors. 
 In Figure~\ref{fig:alphahats}, we demonstrate the improvements obtained by weighting each term in the sum Eqn.~(\ref{eqn:alpha_hat_specific}) by $\alpha_l$.
  
