@@ -1,6 +1,6 @@
 
 
-\newpage
+%\newpage
 
 
 %\paragraph{The PL--Norm Relation: Deriving a Special Case of Eqn.~(\ref{eqn:basic_relation}).}
@@ -179,7 +179,7 @@ When we use Universality, as we do in our derivation of
 the basic PL--Norm Relation, 
 %Eqn.~(\ref{eqn:basic_relation}),
 we would like a method that applies both to HT random matrices as well as to non-random, indeed strongly-correlated, pre-trained DNN layer weight matrices that (as evidenced by their ESD properties) are in a HT Universality class.  
-To accomplish this, however, requires some care: while the pre-trained $\mathbf{W}$ matrices do have ESDs that display empirical signatures of HT Universality~\cite{MM18_TR}, they are \emph{not} random Pareto matrices.
+To accomplish this, however, requires some care: while the pre-trained $\mathbf{W}$ matrices do have ESDs that display empirical signatures of HT Universality~\cite{MM18_TR,MM19_HTSR_ICML}, they are \emph{not} random Pareto matrices.
 Many of their properties, including their empirical Frobenius norms, behave very differently than that of a random Pareto matrix.  
 (We saw this in Figure~\ref{fig:relations}, which showed that $ \alpha\log\lambda^{max} $ achieves much larger values for HT random matrices than real DNN weight matrices.)
 
@@ -211,7 +211,7 @@ For a random Pareto matrix, $\mathbf{W}^{rand}(\mu)$, the Frobenius norm $\Vert\
 For the weight matrices of a pre-trained DNN, however, the Frobenius norm $\Vert\mathbf{W}\Vert^{2}_{F}$ \emph{increases with increasing exponent} $(\alpha)$, saturating at $\alpha\approx 3$.
 This happens because, due to the training process, the $\mathbf{W}$ matrices themselves are highly-correlated, and not random matrices with a single large, atypical element.%
 \footnote{This is easily seen by simply randomizing the elements of a real DNN weight matrix, and computing the ESD~again.}
-In spite of this, the ESD $\rho(\lambda)$ of these pre-trained correlations matrices $\mathbf{X}$ display Universal HT behavior~\cite{MM18_TR}.
+In spite of this, the ESD $\rho(\lambda)$ of these pre-trained correlations matrices $\mathbf{X}$ display Universal HT behavior~\cite{MM18_TR,MM19_HTSR_ICML}.
 In addition, as shown in Figure~\ref{fig:relation-vgg11}, Eqn.~(\ref{eqn:basic_relation}) is approximately satisfied, in the sense that $\alpha\log\lambda^{max}$ is positively correlated with $\log\Vert\mathbf{W}\Vert^{2}_{F} $.
 This is one of the remarkable properties of Mechanistic Universality.
 
@@ -456,7 +456,7 @@ We have not looked in detail at these results and simply present them for comple
 \label{sxn:appendix-addl-discussion}
 
 We have presented an \emph{unsupervised} capacity control metric which predicts trends in test accuracies of a trained DNN---without peeking at the test data. 
-This complexity metic, $\hat{\alpha}$ of Eqn.~(\ref{eqn:alpha_hat_specific}), is a weighted average of the PL exponents $\alpha$ for each layer weight matrix, where $\alpha$ is defined in the recent HT-SR Theory~\cite{MM18_TR}, and where the weights are the largest eigenvalue $\lambda^{max}$ of the correlation matrix $\mathbf{X}$.  
+This complexity metic, $\hat{\alpha}$ of Eqn.~(\ref{eqn:alpha_hat_specific}), is a weighted average of the PL exponents $\alpha$ for each layer weight matrix, where $\alpha$ is defined in the recent HT-SR Theory~\cite{MM18_TR,MM19_HTSR_ICML}, and where the weights are the largest eigenvalue $\lambda^{max}$ of the correlation matrix $\mathbf{X}$.  
 %
 We examine several commonly-available, pre-trained, production-quality DNNs by plotting $\hat{\alpha}$ versus the reported test accuracies.
 This covers classes of DNN architectures including the VGG models, ResNet, DenseNet, etc. 
@@ -466,7 +466,7 @@ We also show that this new complexity metric $\hat{\alpha}$ is approximately the
 $$
  \alpha\log\lambda^{max}\approx\log\Vert\mathbf{W}\Vert^{2}_{F}  .
 $$
-This provides an interesting connection between the Statistical Physics approach to learning (from Martin and Mahoney~\cite{MM17_TR,MM18_TR}, that we extend here) and methods such as that of Liao et al.~\cite{LMBx18_TR}, who use norm-based capacity control metrics to bound worst-case generalization~error.
+This provides an interesting connection between the Statistical Physics approach to learning (from Martin and Mahoney~\cite{MM17_TR,MM18_TR,MM19_HTSR_ICML}, that we extend here) and methods such as that of Liao et al.~\cite{LMBx18_TR}, who use norm-based capacity control metrics to bound worst-case generalization~error.
 
 %% We should mention two higher-level comments.
 %% %
@@ -489,7 +489,7 @@ To do so, we analyzed the empirical (spectral) properties of these models;
 %from this, we formed a hypothesis as to why they perform well; 
 and we then extracted data-dependent metrics to predict their generalization performance on production-quality models.
 Given well-known challenges associated with training, 
-%and given our results here as well as other recent results~\cite{MM18_TR},
+%and given our results here as well as other recent results~\cite{MM18_TR,MM19_HTSR_ICML},
 we suggest that this methodology be applied more generally.
 
 Finally, one interesting aspect of our approach is that we can apply these complexity metrics \emph{across related DNN architectures}. 
@@ -619,7 +619,7 @@ In more detail, for $\mu \in (1,2)$, the empirical second moment is
                     &\approx& \frac{\mu}{2-\mu} x_{min}^{2} n^{(2-\mu)/\mu}   ,
 \end{eqnarray*}
 which is valid for $\mu\in(1,2)$.
-Note that in these expressions and the expressions below, we follow previous work \cite{MM18_TR} and don't compute expressions for $\mu=2$ precisely.
+Note that in these expressions and the expressions below, we follow previous work \cite{MM18_TR,MM19_HTSR_ICML} and don't compute expressions for $\mu=2$ precisely.
 (They are known to lie in yet another universality class~\cite{SornetteBook,BouchaudPotters03}, and we don't expect to resolve the difference numerically.)
 
 Finally, consider an $N \times N$ matrix $W$. 
@@ -665,7 +665,7 @@ $$
 \newpage
 \section{Appendix: Refs: MM TO INCORPORATE THESE INTO TEXT}
 
-Our theory of Implicit Self Regularization used Heavy Tailed Random Matrix Theory (HT RMT), and here we use HT RMT also~\cite{MM18_TR}.
+Our theory of Implicit Self Regularization used Heavy Tailed Random Matrix Theory (HT RMT), and here we use HT RMT also~\cite{MM18_TR,MM19_HTSR_ICML}.
 See also our prior results on \cite{MM17_TR}.
 
 \cite{NTS14_TR} is 
