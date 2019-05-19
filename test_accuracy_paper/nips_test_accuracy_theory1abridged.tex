@@ -1,0 +1,78 @@
+
+\vspace{-2mm}
+
+\section{Brief Overview of Heavy-Tailed Self-Regularization}
+\label{sxn:theory-review_abridged}
+
+\vspace{-1mm}
+
+Here, we briefly review Martin and Mahoney's Theory of Heavy-Tailed Self-Regularization (HT-SR)~\cite{MM18_TR,MM19_HTSR_ICML}.
+See Appendix~\ref{sxn:theory-review} for more details.
+
+Write the Energy Landscape (or optimization function) for a typical DNN with $L$ layers, with activation functions $h_{l}(\cdot)$, and with $N\times M$ weight matrices $\mathbf{W}_{l}$ and biases $\mathbf{b}_{l}$, as:
+\begin{equation*}
+%PRESQUISH% E_{DNN}=h_{L}(\mathbf{W}_{L}\times h_{L-1}(\mathbf{W}_{L-1}\times h_{L-2}(\cdots)+\mathbf{b}_{L-1})+\mathbf{b}_{L})  .
+E_{DNN} \hspace{-1mm} = \hspace{-1mm} h_{L}(\mathbf{W}_{L}\cdot h_{L-1}(\mathbf{W}_{L-1}\cdot h_{L-2}(\cdots)+\mathbf{b}_{L-1})+\mathbf{b}_{L})  .
+%\label{eqn:dnn_energy}
+\end{equation*}
+%WLOG,
+Typically, this model would be trained on some labeled data $\{d_{i},y_{i}\}\in\mathcal{D}$, using Backprop, by minimizing the loss $\mathcal{L}$.
+For simplicity, we do not indicate the structural details of the layers (e.g., Dense or not, Convolutions or not, Residual/Skip Connections, etc.). 
+%Each layer is defined by, e.g., one or more layer 2D weight matrices $\mathbf{W}_{l}$, and/or the 2D feature maps $\mathbf{W}_{l,i}$ extracted from 2D Convolutional (Conv2D) layers.
+
+In the HT-SR Theory, we analyze the eigenvalue spectrum (the ESD) of the associated correlation matrices~\cite{MM18_TR,MM19_HTSR_ICML}.
+From this, we can characterize the amount and form of correlation, and therefore implicit self-regularizartion, present in the DNN's weight matrices.
+For each layer weight matrix, of size $N \times M$, construct the associated $M\times M$ (uncentered) correlation matrix $\mathbf{X}$. 
+Dropping the $L$ and $l,i$ indices, we have
+$
+\mathbf{X} = \frac{1}{N}\mathbf{W}^{T}\mathbf{W}.
+$
+If we compute the eigenvalue spectrum of $\mathbf{X}$, i.e., $\lambda_i$ such that
+$  % $$
+\mathbf{X}\mathbf{v}_{i}=\lambda_{i}\mathbf{v}_{i} , 
+$  % $$
+then the ESD of eigenvalues, $\rho(\lambda)$, is just a histogram of the eigenvalues.
+Using HT-SR Theory, we can characterize the \emph{correlations} in a weight matrix by examining its ESD, $\rho(\lambda)$.
+It can be well-fit to a power law (PL) distribution, given as
+$
+\rho(\lambda)\sim\lambda^{-\alpha}  ,
+$
+which is (at least) valid within a bounded range of eigenvalues $\lambda\in[\lambda^{min},\lambda^{max}]$.  
+
+In Statistical Physics, Universality 
+arises in systems with very strong correlations, at or near a critical point or phase transition. 
+It is characterized by measuring experimentally certain ``observables'' that display HT behavior, with common---or Universal---PL exponents. 
+More importantly, it indicates that a specific Universal mechanism drives the underlying physical process, e.g., Self Organized Criticality, directed percolation, etc.~\cite{SornetteBook,BouchaudPotters03}. 
+For this reason, we refer to the Universality observed in HT-SR, i.e., in the ESDs of (pre-trtained) DNN weight matrices, as \emph{Heavy-Tailed Mechanistic Universality~(HT-MU)}.
+
+When we observe HT behavior in $\mathbf{W}$, or rather its correlation matrix $\mathbf{X}$, we use HT-RMT as a generative model. 
+We say that we \emph{model} $\mathbf{W}$ \emph{as if} it is a random matrix, $\mathbf{W}^{rand}(\mu)$, drawn from a Universality class of HT-RMT (i.e., VHT, MHT, or WHT, as defined below). 
+%
+To characterize this HT-MU behavior, we use a HT variant of RMT and use HT random matrices to elucidate different Universality classes.
+Let $\mathbf{W}(\mu)$ be an $N \times M$ random matrix with entries chosen i.i.d. from
+$$
+\Probab{ W_{i,j} } \sim \frac{W_{0}^{\mu}}{|W_{i,j}|^{1+\mu}}  ,
+$$
+where $W_{0}$ is the typical order of magnitude of $W_{i,j}$, and where $\mu>0$. 
+There are at least 3 different Universality classes
+of HT random matrices, defined by the range $\mu$ takes on:
+\begin{itemize}
+\item $0<\mu<2$: VHT: Universality class of Very Heavy-Tailed (or L\'evy) matrices;
+\item $2<\mu<4$: MHT: Universality class of Moderately Heavy-Tailed (or Fat-Tailed) matrices;
+\item $4<\mu$: WHT: Universality class of Weakly Heavy-Tailed matrices.
+\end{itemize}
+
+HT-RMT provides more than HT Universality classes.
+It also provides simple relations between the empirical observables, e.g., the PL exponent $\alpha$ and the maximum eigenvalue $\lambda^{max}$ of each $\mathbf{W}$, with the parameter(s) $\mu$ of our generative theory, i.e, of~HT-RMT.   
+As described in Appendix~\ref{sxn:theory-review}, \emph{due to Heavy Tailed Mechanistic Universality (HT-MU)}, we expect 
+$$
+\text{VHT\;\&\;MHT:}\;\;\;\lambda^{max}\sim N^{4/\mu-1}  
+$$
+(where, for simplicity, $Q=1$)  
+to hold for matrices in these HT Universality classes (as evidenced by their ESD properties), e.g., DNN weight matrices $\mathbf{W}$ after training---\emph{even when the matrix is not itself a HT random matrix} and therefore not governed by RMT.
+The $\alpha$ and $\lambda^{max}$ are empirically-measurable quantities---of real or synthetic matrices---while $\mu$ is a parameter of the HT-RMT model. 
+We shall use these Universal HT finite-size relations to derive a simple capacity control metric for our HT-SR Theory, and relate this to the well known Product Norm capacity control metric.
+
+
+
+

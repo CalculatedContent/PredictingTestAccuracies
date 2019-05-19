@@ -1,0 +1,172 @@
+
+\vspace{-2mm}
+
+%\section{Using Heavy-Tailed Universality}
+\section{Heavy-Tailed Mechanistic Universality and Capacity Control Metrics}
+\label{sxn:theory-new}
+
+\vspace{-1mm}
+
+%\charlesX{\bf{Heavy-Tailed Self-Regularization and Capacity Control Metrics}}
+
+%In this section, we will describe our proposed capacity control metric.
+%
+From prior work~\cite{MM18_TR,MM19_HTSR_ICML}, we expect that smaller PL exponents of the ESD imply more regularization and therefore better generalization. 
+Since smaller norms of weight matrices often correspond to better capacity control~\cite{LMBx18_TR,SHNx17_TR,PLMx18_TR,BFT17_TR}, we would like to relate the empirical PL exponent $\alpha$ to the empirical Frobenius norm $\Vert\mathbf{W}\Vert_{F}$.
+At least na\"{\i}vely, this is a challenge, since smaller PL exponents often correspond to larger matrix norms (and thus worse generalization!).
+See Appendices~\ref{sxn:appendix-random-vs-real} and~\ref{sxn:appendix-universality}.
+To resolve this apparent discrepancy, we will exploit HT-MU to propose a Universal DNN complexity metric.
+
+\paragraph{Form of a Proposed Universal DNN Complexity Metric.} 
+
+The PL exponent $\alpha$ is a complexity metric for a single DNN weight matrix, with smaller values corresponding to greater regularization~\cite{MM18_TR,MM19_HTSR_ICML}.
+% The fitted PL  ... AWK
+It describes how well that matrix encodes complex correlations in the training data.
+Thus, a natural class of complexity or capacity metrics to consider for a DNN is to take a \emph{weighted average}%
+\footnote{There are several reasons we don't want an unweighted average: 
+an unweighted average behaves differently for HT random matrices than for well-trained DNN weight matrices, and so it would not be Universal; 
+we want a metric that relates the $\alpha$ of HT-SR Theory with known capacity control metrics such as norms of weight matrices, and including weights permits this flexibility; 
+we want weights to encode information that ``larger'' matrices are somehow more important;
+and unweighted averages, while sometimes providing predictive quality, do not perform as reliably~well. 
+See Appendices~\ref{sxn:appendix-random-vs-real} and~\ref{sxn:appendix-universality} for more details.
+}
+of the PL exponents, $\alpha_{l,i}$, for each layer weight matrix $\mathbf{W}_{l,i}$:
+\begin{equation}
+\hat{\alpha}:=\dfrac{1}{N_L}\sum_{l,i}b_{l,i}\alpha_{l,i}  .
+\label{eqn:alpha_hat_generic}
+\end{equation}
+Here, the smaller $\hat{\alpha}$, the better we expect the DNN to represent training data, and (presumably) the better the DNN will generalize.  % to new data.
+An open question is: what are good weights~$b_{l,i}$?
+
+As we now show, we can extract the weighted average $\hat{\alpha}$ directly from the more familiar Product Norm, by exploiting both HT Universality, and its finite-size effects, arising
+in DNN weight matrices.
+
+
+%%%\paragraph{THEOREM:} \emph{The data dependent VC-like complexity of a Deep Neural Network can be expressed a weighted average the of power law exponents describing the empirical spectral density of layer weight matrices}
+%%
+%%%\charles{\paragraph{PROOF:...}}
+
+
+\paragraph{Product Norm Measures of Complexity.} 
+
+%% XXX. I PUT THIS MOSTLY IN THE INTRO.
+%% \charlesX{NEED TO CLARIFY 
+%% Worst case Bounds vs Average Case for complexity metrics, and REVIEW MORE OF HIDary's work, either here and/or in the Intro}
+%% \michael{Their method works well on toy data for worst-case, and to get it to work they need to modify the loss function in worse-case, but if we consider average case then we can apply it to large realistic DNNs---put these comments here or in intro.}
+
+It has been suggested that the complexity, $\mathcal{C}$, of a DNN can be characterized by the product of the norms of layer weight matrices,
+$$
+\mathcal{C}\sim\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert ,
+$$
+where $\Vert\mathbf{W}\Vert$ is, e.g., the Frobenius norm~\cite{LMBx18_TR, SHNx17_TR,PLMx18_TR}.
+(Here, we can use either $\Vert\mathbf{W}\Vert$ or $\Vert\mathbf{W}\Vert^{2}$, and one can view $\mathcal{C}$ as akin to a data-dependent VC complexity.)
+To that end, we consider a log~complexity
+\begin{eqnarray*}
+\log\mathcal{C} &\sim& \log\bigg[\Vert\mathbf{W}_{1}\Vert\times\Vert\mathbf{W}_{2}\Vert\cdots\Vert\mathbf{W}_{L}\Vert\bigg]  \\
+                &\sim& \bigg[\log\Vert\mathbf{W}_{1}\Vert+\log\Vert\mathbf{W}_{2}\Vert\cdots\log\Vert\mathbf{W}_{L}\Vert\bigg]  ,
+\end{eqnarray*}
+and we define the average log norm of weight matrices (where $N_{L}$ is the number of layers)~as
+\begin{equation}
+\langle\log\Vert\mathbf{W}\Vert\rangle=\dfrac{1}{N_{L}}\sum_{l}\log\Vert\mathbf{W}_{l}\Vert  .
+\label{eqn:av_log_norm}
+\end{equation}
+
+%% \michael{Ques: is the notation for layers or convolutions or what, be consistent with Eqn.~(\ref{eqn:alpha_hat_generic}).}
+%% \charlesX{Need more references to Hidary's work}
+%% MM: A BIT HERE, BUT MOST IS IN INTRO AND CONCLUSION.
+
+
+\paragraph{A Universal, Linear, PL--Norm Relation.} 
+
+We propose a simple linear relation between the (squared) Frobenius norm $\Vert\mathbf{W}\Vert^{2}_{F}$ of $\mathbf{W}$, the PL exponent $\alpha$, and the maximum eigenvalue $\lambda^{max}$ of $\mathbf{X}$ (i.e., the spectral norm $\Vert\mathbf{X}\Vert_{2}=\frac{1}{N}\Vert\mathbf{W}\Vert^{2}_{2}$):  
+\begin{equation}
+\textbf{PL--Norm Relation:} \quad \alpha\log\lambda^{max}\approx\log\Vert\mathbf{W}\Vert^{2}_{F}  .
+\label{eqn:basic_relation}
+\end{equation}
+To our knowledge, this is the first time this PL--Norm relation has been noted in the literature (although prior work has considered norm bounds for HT data~\cite{MN09_TR}).
+A few comments on Eqn.~(\ref{eqn:basic_relation}).
+First, it provides a connection between the PL parameter $\alpha$ of HT-SR Theory and the weight norm $\Vert\mathbf{W}\Vert^{2}_{F}$ of more traditional statistical learning theory.
+Second, it has the form of the well-known Hausdorff dimension~\cite{Sch07}.
+Third, it shows that PL exponents can alternatively be interpreted (up to the $\frac{1}{N}$ scaling) as the Stable Rank in Log-Units:
+$$
+\mbox{Log-Units Stable Rank:} 
+\quad
+\mathcal{R}^{log}_{s}:=\dfrac{\log\Vert\mathbf{W}\Vert^{2}_{F}}{\log\lambda^{max}}  \approx \alpha  .
+$$
+Our justification for proposing Eqn.~(\ref{eqn:basic_relation}) is three-fold.
+%%\charles{GOOD}
+\begin{enumerate}
+\item
+\label{enum:first}
+We derive Eqn.~(\ref{eqn:basic_relation}) in the special case of very small PL exponent, $\alpha \rightarrow 1$ ($\mu\rightarrow 0$), for an $N\times M$ 
+%random 
+matrix $\mathbf{W}^{rand}(\mu)$ (with $N=M$, or $Q=1$).
+See Appendix~\ref{sxn:appendix-derivation-pl-norm-relation}.
+\item
+\label{enum:second}
+For finite-size random matrices $\mathbf{W}^{rand}(\mu)$, the MHT Universality class, $\mu\in(2,4)$, behaves \emph{like} the VHT Universality class, $\mu\in(1,2)$.
+Because of this similarity, we show we can extend Eqn.~(\ref{eqn:basic_relation}), approximately, to larger PL exponents.
+For $N\sim\mathcal{O}(100-1000)$, $\alpha\log\lambda^{max}$ increases nearly linearly with $\log\Vert\mathbf{W}^{rand}(\mu)\Vert^{2}_{F}$ as $\mu$ increases.
+For larger $N$, the relation saturates for large $\mu$. 
+See Appendix~\ref{sxn:appendix-finite-size}.
+\item
+\label{enum:third}
+\emph{As evidence of HT-MU}, we observe empirically that Eqn.~(\ref{eqn:basic_relation}) also applies, approximately, to the real DNN weight matrices $\mathbf{W}$. 
+We see that $\alpha\log\lambda^{max}$ is positively correlated with $\log\Vert\mathbf{W}\Vert^{2}_{F}$ as $\alpha$ increases, and even shows similar saturation effects at large $\alpha$.
+See Appendix~\ref{sxn:appendix-random-vs-real}.
+\end{enumerate}
+
+%%SPACE MOVED TO APPENDIX.%% We will discuss each of these in more detail below.
+
+Finally, based on Eqn.~(\ref{eqn:basic_relation}), we choose the weights in Eqn.~(\ref{eqn:alpha_hat_generic}) to be the log of the corresponding maximum eigenvalues of $\mathbf{X}$.
+That is, for a given $l,i$, we have the weights in Eqn.~(\ref{eqn:alpha_hat_generic})~as
+$$
+b_{l,i} = \lambda_{l,i}^{max}  .
+$$
+Then, we define the complexity metrics for Linear and Convolutional Layers as follows:
+%% $$
+%% \text{Linear Layer:}\;\;\log\Vert\mathbf{W}_{L}\Vert^{2}_{F}\rightarrow\log\lambda^{max}_{L}\alpha_{L}  .
+%% $$
+%% \michael{Need to be consistent with superscripts and subscripts, on $\lambda$, in this par and elsewhere.}
+%% $$
+%% \text{Conv2D Layer:}\;\;\log\Vert\mathbf{W}_{L}\Vert^{2}_{F}\rightarrow \sum_{i=1}^{n_{L}}\log\lambda^{max}_{i,L}\alpha_{L,i}  .
+%% $$
+%% I CHANGED THIS EVERyWHERE %% \nred{Hard to read max..make superscript ?}
+\begin{eqnarray*}
+\text{Linear Layer:} & & \log\Vert\mathbf{W}_{l}\Vert^{2}_{F} 
+%\quad 
+\rightarrow 
+%\quad 
+\alpha_{l}\log\lambda_{l}^{max}  \\
+\text{Conv2D Layer:} & & \log\Vert\mathbf{W}_{l}\Vert^{2}_{F} 
+%\quad 
+\rightarrow 
+%\quad 
+\sum_{i=1}^{n_{l}}\alpha_{l,i} \log\lambda_{l,i}^{max} , 
+\end{eqnarray*}
+where, for Conv2D Layers, we relate the ``norm'' of the 4-index Tensor $\mathbf{W}_{l}$ to the sum of the $n_{l}=c\times d$ terms for each feature map.
+%% So, in the expression for the Product Norm for $\log\mathcal{C}$, we can replace each $\log\Vert\mathbf{W}_{L}\Vert$ term for layer $L$ with these above expressions, and take the average over all $N_{\alpha}$  matrices.  
+This lets us compare the Product Norm to the weighted average of PL exponents as follows:
+\begin{equation}
+2\log\mathcal{C}=\langle\log\Vert\mathbf{W}\Vert^{2}_{F}\rangle 
+%\quad 
+\rightarrow 
+%\quad 
+\hat{\alpha} := \dfrac{1}{N_{L}}\sum_{i,l}\alpha_{i,l}\log \lambda_{l,i}^{max}  .
+\label{eqn:alpha_hat_specific}
+\end{equation}
+%% \michael{We are using subscripts in a slightly confusing way.}
+%%
+%% 
+%% This expression resembles the more familiar Product Norm, but it accounts for finite-size effects that the Product Norm relation over-estimates.
+%% \michael{Ques: is that true.} \charlesX{probably not}
+%% 
+%% We will see that our approach improves on the loose bound provided by the Product Norm, giving a more accurate expression for predicting trends in the average case test accuracy for real-world production-quality DNNs.
+%%
+Given these connections, in Section~\ref{sxn:emp}, we will use $\hat{\alpha}$ to analyze numerous pre-trained DNNs.
+
+
+%% \charlesX{THE NEXT 2 PARAGRAPHICAL SECTIONS EXPAND ON THE ABOVE POINTS. THE FIRST DISCUSSES THE FACT THAT A RANDOM HT MATRIX HAS A DIVERGING NORM, WHEREAS THE CORRELATED MATRICES HAVE SMALLER NORMS.  THIS IS EXPECTED FROM THEORY ALSO (CITE THE CHICAGO GUYS).  
+
+
+
