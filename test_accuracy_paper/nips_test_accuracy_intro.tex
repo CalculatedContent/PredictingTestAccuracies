@@ -1,13 +1,17 @@
-%\vspace{-4mm}
+\vspace{-3mm}
 
 \section{Introduction}
 \label{sxn:intro}
 
+\vspace{-2mm}
+
 We are interested in the following general question.
+\vspace{-2mm}
 \begin{itemize}
 \item
 Given two or more Deep Neural Networks (DNNs) with the same or similar architectures, and trained on the same dataset, but trained with different solvers, parameters, hyper-parameters, regularization, etc., can we predict which DNN will have the best test accuracy, and can we do so without peeking at the test data? 
 \end{itemize}
+\vspace{-1mm}
 
 This question is both theoretical and practical. 
 Theoretically, solving this would help to understand why this class of machine learning (ML) models performs as well as it does in certain classes of applications.
@@ -15,7 +19,7 @@ Practically, there are many motivating examples.
 % 
 Here are two.
 %%SPACE%% several.
-%\vspace{-2mm}
+\vspace{-2mm}
 \begin{itemize}
 \item
 \textbf{Automating architecture search.}
@@ -33,7 +37,7 @@ Here, it would also be very helpful to be able to fine-tune large, pre-trained D
 %%SPACE%% \textbf{Unsupervised Deep Learning.}
 %%SPACE%% \michael{Charles, put in sentences; or remove and ``several'' to ``two'' above.}
 \end{itemize}
-%\vspace{-1mm}
+\vspace{-1mm}
 
 To predict trends in the generalization accuracy of a series of DNN architectures, VC-like theories offer theoretical bounds on the generalization accuracy. 
 Practically, such capacity metrics can guide the
@@ -170,6 +174,7 @@ such norm-based capacity control metrics also correlate well with the average te
 
 There is a tradeoff here: our $\hat{\alpha}$ metric has two parameters, as opposed to the Product Norm capacity control metric, which has one, and it is more expensive to compute, but it does perform better.%
 \footnote{One might wonder whether the $\hat{\alpha}$ metric just a variation of more familiar norm-based metrics.  Although we lack the space to describe it, our $\hat{\alpha}$ metric works more generally on actual DNNs when other norm-based metrics inspired by worst-case bounds fail.  In particular, we can identify counter examples, most notably in compressed DNN models~\cite{CWZZ17_TR}.  For compressed models, we have observed that the average Frobenius Norm increases with decreasing test error, whereas the average $\alpha$ decreases, as expected.}
+Informally, as opposed to looking only at the ``size'' or ``shape'' of a model, e.g., as with a norm-based metric, the parameters $\lambda_{l}^{max}$ and $\alpha_{l}$ take into consideration both the size and the shape of the model.
 
 For both our Universal metric and the Product Norm metric, our empirical results are, to our knowledge, the first time such theoretical capacity metrics have been reported to predict (trends in) the test accuracy for \emph{pre-trained production-level} DNNs.
 In particular, this illustrates the usefulness of these norm-based metrics beyond smaller models such as MNIST, CIFAR10, and CIFAR100. 
