@@ -183,7 +183,7 @@ associate the ``Norm'' of the 4-index Tensor $\mathbf{W}_{l}$ to the sum of the 
 Our Universal metric correlates very well with the reported average test accuracies across many series of pre-trained DNNs.
 See Figures~\ref{fig:bothmodels} and~\ref{fig:alphahats}.
 In Figure~\ref{fig:bothmodels}, we present two complex examples of pre-trained models with similar architectures of differing depths.  
-Figure~\ref{fig:vgg_alphahat} presents the VGG series of networks (VGG11, 13, 16, and 19, with an without Batch Normalization (BN), as available in PyTorch), and 
+Figure~\ref{fig:vgg_alphahat} presents the VGG series of networks (VGG11, 13, 16, and 19, with and without Batch Normalization (BN), as available in PyTorch), and 
 Figure~\ref{fig:resnet_alphahat} presents results for a large set of ResNet architectures, ranging from ResNet10 to ResNet152 (available with OMSR). 
 We generate the $\hat{\alpha}$ metric using the \texttt{WeightWatcher} tool~\cite{weightwatcher_package_justURL}, (hopefully) making these results trivial to reproduce.
 Notice, we do not have access to the (ImageNet) test data, so we 
@@ -288,7 +288,7 @@ In both cases (Frobenius norm results not shown), we observe the opposite.
    \caption{
      Analysis of ResNet20, distilled with Group Regularization, as implemented in the \texttt{distiller} (4D\_regularized\_5Lremoved) pre-trained models.  
      Comparison of individual layer $\mathbf{W}_{l}$ maximum eigenvalues ($\lambda_{max}$, or Spectral Norms) and  
-     Power Law exponent $\alpha$, between baseline (green) and fine-tuned (red)  pre-trained models.   
+     PL exponent $\alpha$, between baseline (green) and fine-tuned (red)  pre-trained models.   
            }
    \label{fig:resnet204D5L}
 \end{figure}

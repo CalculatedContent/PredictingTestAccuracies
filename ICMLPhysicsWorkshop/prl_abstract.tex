@@ -7,7 +7,7 @@ HT-SR indicates that modern DNNs exhibit
 %what we call 
 a
 Heavy-Tailed Mechanistic Universality (HT-MU), meaning the spectral density of layer weight matrices can be fit to a power law, $\rho(\lambda)\sim\lambda^{-\alpha}$, with exponents, $\alpha\in[2,5]$, that lie in common Universality classes from Heavy-Tailed Random Matrix Theory (HT-RMT).
-Empirically, smaller $\alpha$ is correlated with better generalization, with $\alpha\rightarrow 2$ universally across different best-in-class, pretrained DNN architectures.  % that generalize best.
+Empirically, smaller $\alpha$ is correlated with better generalization, with $\alpha\rightarrow 2$ universally across different best-in-class, pre-trained DNN architectures.  % that generalize best.
 %LENGTH% Using these facts, we define an average-case capacity metric, $\hat{\alpha}=\sum\alpha\log\lambda_{max}$, which resembles more familiar worst-case capacity metrics, but that can be applied to pre-trained DNNs to predict trends in the test accuracy.
 We apply this metric to over $50$ different, large-scale pre-trained DNNs, ranging over $15$ different architectures, trained on ImagetNet, but with differing test accuracies. 
 This metric correlates remarkably well with reported trends in test accuracies of these DNNs, looking across each architecture (VGG16/\ldots/VGG19, ResNet10/\ldots/ResNet152, etc.).
